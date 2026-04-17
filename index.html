@@ -1260,20 +1260,35 @@ function updateDots(prefix, val) {
 // ── INIT: render recent members on load ──
 function initAuthScreen() {
 
-  // ── ONE-TIME MIGRATION: existing members keep their PINs ──
-  if (!localStorage.getItem(PRE+'migrated_v2')) {
-    var legacy = {dorcas:'1234',haliyah:'2345',jesulayomi:'3456',juliet:'4567',motolani:'5678',ea:'6789'};
+  // ── ONE-TIME MIGRATION: existing members keep their PINs + get GAS sheets ──
+  if (!localStorage.getItem(PRE+'migrated_v3')) {
+    var legacy = {Dorcas:'1234',Haliyah:'2345',Jesulayomi:'3456',Juliet:'4567',Motolani:'5678',EA:'6789'};
     var reg = getRegistry();
-    Object.keys(legacy).forEach(function(k){ if(!reg[k]) reg[k]=legacy[k]; });
-    // Also store display names for recent
-    var legacyNames = ['Dorcas','Haliyah','Jesulayomi','Juliet','Motolani','EA'];
-    var recent = getRecentMembers();
-    legacyNames.forEach(function(n){
-      if(recent.indexOf(n)===-1) recent.push(n);
+    // Save PINs using normalised keys
+    Object.keys(legacy).forEach(function(name){
+      var key = name.toLowerCase();
+      if (!reg[key]) reg[key] = legacy[name];
     });
-    try { localStorage.setItem(PRE+'recent', JSON.stringify(recent.slice(0,5))); } catch(e){}
     saveRegistry(reg);
-    localStorage.setItem(PRE+'migrated_v2','1');
+    // Add to recent list
+    var legacyNames = Object.keys(legacy);
+    var recent = [];
+    legacyNames.forEach(function(n){ recent.push(n); });
+    try { localStorage.setItem(PRE+'recent', JSON.stringify(recent)); } catch(e){}
+    localStorage.setItem(PRE+'migrated_v3','1');
+    // Register all existing warriors in GAS — creates their personal sheets
+    legacyNames.forEach(function(name) {
+      fetch(URL, {
+        method:'POST', mode:'no-cors',
+        headers:{'Content-Type':'text/plain'},
+        body: JSON.stringify({
+          action:'registerMember',
+          member: name,
+          date:'2026-03-16',
+          joinedAt:'16 Mar 2026'
+        })
+      }).catch(function(){});
+    });
   }
   renderRecentMembers();
   document.getElementById('nameInput').focus();
