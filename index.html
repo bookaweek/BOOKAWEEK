@@ -813,7 +813,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
       <div class="modal-handle"></div>
       <div class="modal-head">
         <div class="modal-title">&#x2705; Log Completed Book</div>
-        <button class="modal-close" onclick="closeCompleteModal()">&#x2715;</button>
+        <button type="button" class="modal-close" onclick="closeCompleteModal()">&#x2715;</button>
       </div>
       <div class="modal-book-chip">
         <div class="modal-book-icon">&#x1F4DA;</div>
@@ -857,7 +857,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
         </div>
         <div class="err-box" id="completeErr" style="margin: 10px 0 0"></div>
       </div>
-      <button class="modal-submit" id="completeSubmit" onclick="submitComplete()">
+      <button type="button" class="modal-submit" id="completeSubmit" onclick="submitComplete()">
         <span id="cIcon">&#x1F4DA;</span>
         <span id="cTxt">Mark as Completed</span>
         <div class="spinner" id="cSpin"></div>
@@ -882,7 +882,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
 // ═══════════════════════════════════════════════
 // BOOKAWEEK — SINGLE CLEAN SCRIPT
 // ═══════════════════════════════════════════════
-const URL = https://script.google.com/macros/s/AKfycbxB4pauu2Kpns6W7Pi6KK1oAROjLmQxOszn86aXMh7Ep2PWb10mkCVnMZ1a7MObSFwU/exec
+const URL = 'https://script.google.com/macros/s/AKfycbzBbVPZrVX5jRDb_dRsgQObJazGNpJS10_WBLGpGxa4YNFvBtrrfNNaarRyui9X_Oa3Tg/exec';
 const PRE = 'baw_';
 let member = null, mode = 'daily', stars = 0, rest = false, lib = [];
 let deferredInstall = null;
@@ -899,6 +899,14 @@ window.onload = function() {
   updateOffline();
   // Show banner if prompt fired before onload
   if (window._installReady) { var b=document.getElementById('install-bar'); if(b) b.style.display='block'; }
+  // Backdrop tap to close completion modal
+  var modalEl = document.getElementById('completeModal');
+  if (modalEl) {
+    modalEl.addEventListener('click', function(e) {
+      if (e.target === this) closeCompleteModal();
+    });
+  }
+
   // iOS Safari — no beforeinstallprompt, show manual instructions
   var isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent.toLowerCase());
   var isInApp = window.navigator.standalone === true;
@@ -1315,7 +1323,7 @@ function renderLib(){
     var statusLabel = done ? '&#x2705; Completed' : (b.s === 'Next Up' ? '&#x1F4CC; Next Up' : '&#x1F4D6; Reading');
     var completeBtn = done
       ? '<button class="bi-complete done" disabled>&#x2705; Done</button>'
-      : '<button class="bi-complete" onclick="openCompleteModal('+i+')">Mark Complete</button>';
+      : '<button type="button" class="bi-complete" onclick="openCompleteModal('+i+')">&#x2714; Mark Complete</button>';
     return '<div class="book-item">'
       + '<div class="bi-num">'+(i+1)+'</div>'
       + '<div class="bi-info">'
@@ -1718,10 +1726,7 @@ function closeCompleteModal() {
   _completeIdx = -1;
 }
 
-// Close modal on backdrop tap
-document.getElementById('completeModal').addEventListener('click', function(e) {
-  if (e.target === this) closeCompleteModal();
-});
+// Close modal on backdrop tap — safe, runs after DOM ready
 
 async function submitComplete() {
   if (_completeIdx < 0) return;
