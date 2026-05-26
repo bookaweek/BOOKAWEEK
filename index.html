@@ -3882,37 +3882,36 @@ function renderShareCard(photoDataUrl) {
     var LX=50, LY=48;
     ctx.save();
 
-    /* ── BRAND ROW (top-left, no separator line) ── */
+    /* ── BRAND ROW — no crossing line, dot separator only ── */
     ctx.textBaseline='top';
     ctx.font='900 28px Georgia,serif';
     ctx.fillStyle=GLD_L;
     ctx.fillText('BOOK',LX,LY);
     var bw=ctx.measureText('BOOK').width;
-    /* dot separator — small, contained, no overflow */
     ctx.fillStyle='rgba(201,162,39,0.55)';
     ctx.beginPath();
-    ctx.arc(LX+bw+10, LY+13, 2.5, 0, Math.PI*2);
+    ctx.arc(LX+bw+10,LY+13,2.5,0,Math.PI*2);
     ctx.fill();
     ctx.font='300 28px Georgia,serif';
     ctx.fillStyle='rgba(255,255,255,0.3)';
     ctx.fillText('AWEEK',LX+bw+20,LY);
 
-    /* Season / date — right-aligned, clear of photo area */
+    /* Season / date right — stays well above photo */
     ctx.textAlign='right';
     ctx.font='700 13px sans-serif';
     ctx.fillStyle='rgba(201,162,39,0.55)';
-    ctx.fillText('SEASON ONE \u00B7 2026', W-50, LY);
+    ctx.fillText('SEASON ONE \u00B7 2026',W-50,LY);
     ctx.font='400 13px sans-serif';
     ctx.fillStyle='rgba(255,255,255,0.2)';
-    ctx.fillText(dayName+' \u00B7 '+dateFmt, W-50, LY+20);
+    ctx.fillText(dayName+' \u00B7 '+dateFmt,W-50,LY+20);
     ctx.textAlign='left';
 
-    /* ── USER PHOTO CIRCLE ──
-       Centre-X = LX + radius (sits flush with left margin)
-       Centre-Y = brand bottom + gap + radius               */
-    var PR=68;
-    var PCX=LX+PR+4;          /* left-aligned, not overlapping name zone */
-    var PCY=LY+48+PR;         /* brand row (28px) + 20px gap + radius    */
+    /* ── PHOTO — left column, side-by-side with name ──
+       PR=60 → photo fits neatly in left col below brand row
+       PCY=LY+32+PR=140 (4px gap from brand bottom=76)       */
+    var PR=60;
+    var PCX=LX+PR+4;          /* 114 — flush left             */
+    var PCY=LY+32+PR;         /* 140 — 4px below brand        */
 
     if(photoDataUrl){
       var _photo=new Image();
@@ -3924,28 +3923,25 @@ function renderShareCard(photoDataUrl) {
         var psc=Math.max((PR*2)/pw,(PR*2)/ph2);
         ctx.drawImage(_photo,PCX-pw*psc/2,PCY-ph2*psc/2,pw*psc,ph2*psc);
         ctx.restore();
-        /* gold ring */
         ctx.strokeStyle='rgba(245,200,66,0.75)';ctx.lineWidth=4;
         ctx.beginPath();ctx.arc(PCX,PCY,PR+4,0,Math.PI*2);ctx.stroke();
-        /* outer halo ring */
         ctx.strokeStyle='rgba(201,162,39,0.18)';ctx.lineWidth=1.5;
         ctx.beginPath();ctx.arc(PCX,PCY,PR+14,0,Math.PI*2);ctx.stroke();
       } else {
-        /* photo not loaded yet — show initials */
         _drawInitialsCircle();
       }
     } else {
       _drawInitialsCircle();
     }
     function _drawInitialsCircle(){
-      var cg=ctx.createRadialGradient(PCX-22,PCY-22,0,PCX,PCY,PR);
+      var cg=ctx.createRadialGradient(PCX-20,PCY-20,0,PCX,PCY,PR);
       cg.addColorStop(0,'rgba(201,162,39,0.22)');
       cg.addColorStop(1,'rgba(10,42,102,0.88)');
       ctx.beginPath();ctx.arc(PCX,PCY,PR,0,Math.PI*2);
       ctx.fillStyle=cg;ctx.fill();
       ctx.strokeStyle='rgba(245,200,66,0.55)';ctx.lineWidth=3;ctx.stroke();
       var ini=getIni(name);
-      ctx.font='700 '+(ini.length>1?'50':'62')+'px Georgia,serif';
+      ctx.font='700 '+(ini.length>1?'46':'58')+'px Georgia,serif';
       ctx.fillStyle=GLD_L;
       ctx.textAlign='center';ctx.textBaseline='middle';
       ctx.shadowColor='rgba(245,200,66,0.45)';ctx.shadowBlur=16;
@@ -3954,39 +3950,45 @@ function renderShareCard(photoDataUrl) {
       ctx.textAlign='left';ctx.textBaseline='top';
     }
 
-    /* ── BOOKWARRIOR BADGE ──
-       Sits below photo circle with a clean gap                */
-    var BY=PCY+PR+22;         /* photo bottom + 22px gap */
+    /* ── BADGE + NAME — RIGHT of photo, vertically centred ──
+       NAME_X=PCX+PR+24=198, BY=PCY-28=112
+       Max name baseline=BY+40+96+10=258, sub=290 — all < 314 ✓ */
+    var NAME_X=PCX+PR+24;     /* 198 — right of photo         */
+    var BY=PCY-28;            /* 112 — near photo top         */
     ctx.textBaseline='top';
-    ctx.font='700 18px sans-serif';
+    ctx.font='700 17px sans-serif';
     var btxt='\u2694\uFE0F  BOOKWARRIOR';
-    var bw2=ctx.measureText(btxt).width+36;
+    var bw2=ctx.measureText(btxt).width+32;
+    /* cap badge width so it doesn't hit progress HUD */
+    var maxBW=W-288-NAME_X-16;
+    if(bw2>maxBW)bw2=maxBW;
     ctx.fillStyle='rgba(0,180,120,0.14)';
-    rr(LX,BY,bw2,40,20);ctx.fill();
+    rr(NAME_X,BY,bw2,38,19);ctx.fill();
     ctx.strokeStyle='rgba(0,200,140,0.35)';ctx.lineWidth=1.5;
-    rr(LX,BY,bw2,40,20);ctx.stroke();
+    rr(NAME_X,BY,bw2,38,19);ctx.stroke();
     ctx.fillStyle='rgba(0,200,140,0.9)';
-    ctx.fillText(btxt,LX+18,BY+11);
+    ctx.fillText(btxt,NAME_X+16,BY+10);
 
-    /* ── FIRST NAME ──
-       Sits below badge. Font size scaled to fit left column.  */
+    /* First name — right of photo, below badge */
     var fnLen=fname.length;
-    var fnSz=fnLen>10?68:fnLen>7?82:fnLen>5?96:108;
+    var fnSz=fnLen>10?66:fnLen>7?80:fnLen>5?92:96;
+    var BADGE_BOTTOM=BY+38+10;   /* 160 */
     ctx.textBaseline='alphabetic';
     ctx.font='900 '+fnSz+'px Georgia,serif';
     ctx.fillStyle=WHITE;
-    ctx.shadowColor='rgba(201,162,39,0.28)';ctx.shadowBlur=28;
+    ctx.shadowColor='rgba(201,162,39,0.28)';ctx.shadowBlur=24;
     var dispN=fname;
-    /* cap width to left column (keeps clear of progress HUD) */
-    while(ctx.measureText(dispN).width>W*0.44&&dispN.length>2)
+    /* cap to the name zone (NAME_X → progress HUD left-8) */
+    var nameZoneW=W-300-NAME_X;
+    while(ctx.measureText(dispN).width>nameZoneW&&dispN.length>2)
       dispN=dispN.slice(0,-1);
-    ctx.fillText(dispN, LX, BY+fnSz+16);
+    ctx.fillText(dispN,NAME_X,BADGE_BOTTOM+fnSz);
     ctx.shadowBlur=0;
 
-    /* subtitle line */
-    ctx.font='300 24px Georgia,serif';
+    /* subtitle */
+    ctx.font='300 22px Georgia,serif';
     ctx.fillStyle='rgba(255,255,255,0.28)';
-    ctx.fillText("Logged Today  \u00B7  S1 '26", LX, BY+fnSz+50);
+    ctx.fillText("Logged Today  \u00B7  S1 '26",NAME_X,BADGE_BOTTOM+fnSz+32);
 
     ctx.restore();
 
