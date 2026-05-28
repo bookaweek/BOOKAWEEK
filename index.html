@@ -3915,12 +3915,10 @@ function renderShareCard(photoDataUrl) {
   while(ctx.measureText(dispN).width>nmMaxW&&dispN.length>2) dispN=dispN.slice(0,-1);
   ctx.fillText(dispN,NX,nmY+fnSz); ctx.shadowBlur=0;
 
-  /* "LOGGED TODAY · SEASON 1 · 2026" */
+  /* BOOKWARRIOR — bold white, below name */
   var sbY=nmY+fnSz+16;
-  ctx.font='600 18px sans-serif'; ctx.fillStyle='rgba(255,255,255,0.5)';
-  ctx.fillText('LOGGED TODAY',NX,sbY);
-  var ltW=ctx.measureText('LOGGED TODAY').width;
-  ctx.fillStyle=GL; ctx.fillText('  \u00B7  SEASON 1  \u00B7  2026',NX+ltW,sbY);
+  ctx.font='700 22px sans-serif'; ctx.fillStyle=WH;
+  ctx.fillText('BOOKWARRIOR',NX,sbY);
   ctx.textBaseline='alphabetic';
 
   /* PROGRESS HUD — top right */
@@ -4084,19 +4082,17 @@ function renderShareCard(photoDataUrl) {
   var gap=14, cW=(W-PAD*2-gap)/2, cH=138;
   var c1x=PAD, c2x=PAD+cW+gap;
 
-  /* LEFT card — always MEMBER */
-  _infoCard(c1x, TY, cW, cH, 'MEMBER', fname, 'Season 1 Warrior');
-
-  /* RIGHT card — depends on mode */
   if(isRest){
-    _infoCard(c2x, TY, cW, cH, 'TYPE', 'Rest Day', 'Recovery \u00B7 Recharge');
-  } else if(bookTitle){
-    /* show book short title */
-    var bkShort=bookTitle.split(' ').slice(0,3).join(' ');
-    if(bookTitle.split(' ').length>3)bkShort+='\u2026';
-    _infoCard(c2x, TY, cW, cH, 'BOOK', bkShort, 'Currently Reading');
+    /* REST: LEFT=MEMBER/name, RIGHT=TYPE/Rest Day */
+    _infoCard(c1x, TY, cW, cH, 'MEMBER', fname, 'Season 1 Warrior');
+    _infoCard(c2x, TY, cW, cH, 'TYPE', 'Rest Day', 'Recovery · Recharge');
   } else {
-    _infoCard(c2x, TY, cW, cH, 'TYPE', 'Reading', 'Session');
+    /* READING: LEFT=BOOK title, RIGHT=PAGES read */
+    var bkShort = bookTitle ? (bookTitle.split(' ').slice(0,3).join(' ')+(bookTitle.split(' ').length>3?'…':'')) : 'No Book';
+    var pagesVal = pagesStat ? String(pagesStat[1]) : (minsStat ? String(minsStat[1]) : '—');
+    var pagesLbl = pagesStat ? 'PAGES READ' : (minsStat ? 'DURATION' : 'SESSION');
+    _infoCard(c1x, TY, cW, cH, 'BOOK', bkShort, 'Currently Reading');
+    _infoCard(c2x, TY, cW, cH, pagesLbl, pagesVal, 'This Session');
   }
 
   function _infoCard(x,y,w,h,label,bigTxt,subTxt){
@@ -4128,9 +4124,10 @@ function renderShareCard(photoDataUrl) {
      ═══════════════════════════════ */
   if(!isRest){
     var statItems=[];
-    if(pagesStat)  statItems.push({l:String(pagesStat[0]).toUpperCase(),  v:String(pagesStat[1])});
+    /* pages already shown in info card — stats row shows duration, chapter, others */
     if(minsStat)   statItems.push({l:String(minsStat[0]).toUpperCase(),   v:String(minsStat[1])});
     if(chapStat)   statItems.push({l:String(chapStat[0]).toUpperCase(),   v:String(chapStat[1])});
+    if(pagesStat && !minsStat) statItems.push({l:String(pagesStat[0]).toUpperCase(), v:String(pagesStat[1])});
     otherStats.slice(0,3-statItems.length).forEach(function(r){
       statItems.push({l:String(r[0]).toUpperCase(),v:String(r[1])});
     });
