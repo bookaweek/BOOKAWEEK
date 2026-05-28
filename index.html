@@ -3748,21 +3748,37 @@ function renderShareCard(photoDataUrl) {
   var stats2 = d.stats || stats || [];
   var title  = String(d.title || 'Session Logged').replace(/[!]/g,'').replace(/\(offline\)/g,'').trim();
   var isRest = title.toLowerCase().indexOf('rest') !== -1;
-  var streak = getStreak();
+  var sk     = getStreak();
   var now    = new Date();
-  var days   = ['SUNDAY','MONDAY','TUESDAY','WEDNESDAY','THURSDAY','FRIDAY','SATURDAY'];
-  var months = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
-  var dayName = days[now.getDay()];
-  var dateLine = dayName + '  \u00B7  ' + now.getDate() + ' ' + months[now.getMonth()] + ' ' + now.getFullYear();
+  var DAYS   = ['SUNDAY','MONDAY','TUESDAY','WEDNESDAY','THURSDAY','FRIDAY','SATURDAY'];
+  var MONTHS = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+  var dateLine = DAYS[now.getDay()] + '  \u00B7  ' + now.getDate() + ' ' + MONTHS[now.getMonth()] + ' ' + now.getFullYear();
 
-  /* ── PALETTE (exact from image) ── */
-  var BG    = '#0A1628';
-  var BG2   = '#0D1E38';
-  var GOLD  = '#C9A227';
-  var GLD_L = '#F2B705';
-  var GLD_D = '#8B6914';
-  var WHITE = '#FFFFFF';
-  var OFF_W = 'rgba(255,255,255,0.85)';
+  /* ── STATS EXTRACTION ── */
+  var bookStat   = null;
+  var pagesStat  = null;
+  var minsStat   = null;
+  var chapStat   = null;
+  var otherStats = [];
+  for (var si=0; si<stats2.length; si++) {
+    var rk = String(stats2[si][0]||'').toLowerCase().trim();
+    var rv = String(stats2[si][1]||'').trim();
+    if (!rv || rv==='0' || rv==='0 min') continue;
+    if (rk==='book')                              bookStat   = stats2[si];
+    else if (rk==='pages'||rk==='page')           pagesStat  = stats2[si];
+    else if (rk==='duration'||rk==='minutes'||rk==='mins'||rk==='min') minsStat = stats2[si];
+    else if (rk==='chapter'||rk==='ch')           chapStat   = stats2[si];
+    else                                          otherStats.push(stats2[si]);
+  }
+  var bookTitle = bookStat ? String(bookStat[1]||'') : '';
+
+  /* ── PALETTE ── */
+  var BG   = '#0A1628';
+  var BG2  = '#0D1E38';
+  var GOLD = '#C9A227';
+  var GL   = '#F2B705';
+  var GD   = '#8B6914';
+  var WH   = '#FFFFFF';
 
   /* ── HELPERS ── */
   function rr(x,y,w,h,r){
@@ -3774,403 +3790,382 @@ function renderShareCard(photoDataUrl) {
     ctx.lineTo(x,y+r);ctx.arcTo(x,y,x+r,y,r);
     ctx.closePath();
   }
-  function wt(text,x,y,maxW,lineH){
+  function wrapCentered(text, x, y, maxW, lineH){
     var words=text.split(' '),line='';
     for(var n=0;n<words.length;n++){
       var test=line+words[n]+' ';
-      if(ctx.measureText(test).width>maxW&&n>0){ctx.fillText(line.trim(),x,y);line=words[n]+' ';y+=lineH;}
-      else line=test;
+      if(ctx.measureText(test).width>maxW&&n>0){
+        ctx.fillText(line.trim(),x,y); line=words[n]+' '; y+=lineH;
+      } else line=test;
     }
     ctx.fillText(line.trim(),x,y);
+    return y;
   }
   function getIni(n){
-    if(!n)return'?';var p=n.trim().split(' ').filter(Boolean);
-    if(!p.length)return'?';if(p.length===1)return p[0].charAt(0).toUpperCase();
+    if(!n)return'?';
+    var p=n.trim().split(' ').filter(Boolean);
+    if(!p.length)return'?';
+    if(p.length===1)return p[0].charAt(0).toUpperCase();
     return(p[0].charAt(0)+p[p.length-1].charAt(0)).toUpperCase();
   }
 
-  /* ═══════════════════════════════════════════════
-     STEP 1 — BACKGROUND: flat deep navy + watermark
-     ═══════════════════════════════════════════════ */
-  ctx.fillStyle = BG;
-  ctx.fillRect(0,0,W,H);
-
-  /* subtle radial glow top-left */
-  var tlg = ctx.createRadialGradient(0,0,0,0,0,W*0.7);
-  tlg.addColorStop(0,'rgba(20,50,120,0.35)');
-  tlg.addColorStop(1,'rgba(10,22,40,0)');
+  /* ═══════════════════════════════
+     1 — BACKGROUND
+     ═══════════════════════════════ */
+  ctx.fillStyle=BG; ctx.fillRect(0,0,W,H);
+  /* subtle top-left glow */
+  var tlg=ctx.createRadialGradient(0,0,0,0,0,W*0.65);
+  tlg.addColorStop(0,'rgba(20,50,120,0.32)'); tlg.addColorStop(1,'rgba(10,22,40,0)');
   ctx.fillStyle=tlg; ctx.fillRect(0,0,W,H);
 
-  /* WATERMARK — open book outline, centre, very subtle */
-  ctx.save();
-  ctx.globalAlpha=0.045;
-  ctx.strokeStyle=WHITE;
-  ctx.lineWidth=18;
-  var BKX=W/2, BKY=480, BKS=280;
-  /* left page */
+  /* WATERMARK book outline — centred ~Y450, very subtle */
+  ctx.save(); ctx.globalAlpha=0.04; ctx.strokeStyle=WH; ctx.lineWidth=22;
+  var BX=W/2, BY=480, BS=300;
   ctx.beginPath();
-  ctx.moveTo(BKX,BKY+BKS*0.15);
-  ctx.bezierCurveTo(BKX-BKS*0.1,BKY-BKS*0.05, BKX-BKS,BKY-BKS*0.12, BKX-BKS,BKY-BKS*0.1);
-  ctx.lineTo(BKX-BKS,BKY+BKS*0.7);
-  ctx.bezierCurveTo(BKX-BKS,BKY+BKS*0.7, BKX-BKS*0.1,BKY+BKS*0.6, BKX,BKY+BKS*0.7);
+  ctx.moveTo(BX,BY+BS*0.12);
+  ctx.bezierCurveTo(BX-BS*0.08,BY-BS*0.06, BX-BS,BY-BS*0.12, BX-BS,BY-BS*0.08);
+  ctx.lineTo(BX-BS,BY+BS*0.72);
+  ctx.bezierCurveTo(BX-BS,BY+BS*0.72, BX-BS*0.08,BY+BS*0.58, BX,BY+BS*0.72);
   ctx.stroke();
-  /* right page */
   ctx.beginPath();
-  ctx.moveTo(BKX,BKY+BKS*0.15);
-  ctx.bezierCurveTo(BKX+BKS*0.1,BKY-BKS*0.05, BKX+BKS,BKY-BKS*0.12, BKX+BKS,BKY-BKS*0.1);
-  ctx.lineTo(BKX+BKS,BKY+BKS*0.7);
-  ctx.bezierCurveTo(BKX+BKS,BKY+BKS*0.7, BKX+BKS*0.1,BKY+BKS*0.6, BKX,BKY+BKS*0.7);
+  ctx.moveTo(BX,BY+BS*0.12);
+  ctx.bezierCurveTo(BX+BS*0.08,BY-BS*0.06, BX+BS,BY-BS*0.12, BX+BS,BY-BS*0.08);
+  ctx.lineTo(BX+BS,BY+BS*0.72);
+  ctx.bezierCurveTo(BX+BS,BY+BS*0.72, BX+BS*0.08,BY+BS*0.58, BX,BY+BS*0.72);
   ctx.stroke();
-  /* spine line */
-  ctx.beginPath();ctx.moveTo(BKX,BKY+BKS*0.15);ctx.lineTo(BKX,BKY+BKS*0.7);ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(BX,BY+BS*0.12); ctx.lineTo(BX,BY+BS*0.72); ctx.stroke();
   ctx.restore();
 
-  /* ═══════════════════════════════════════════════
-     STEP 2 — BORDER: left spine + corner brackets
-     ═══════════════════════════════════════════════ */
-  /* Left gold spine */
-  var spGr=ctx.createLinearGradient(0,0,0,H);
-  spGr.addColorStop(0,GLD_L);spGr.addColorStop(0.5,GOLD);spGr.addColorStop(1,GLD_D);
-  ctx.fillStyle=spGr;ctx.fillRect(0,0,5,H);
+  /* ═══════════════════════════════
+     2 — BORDERS & CORNER BRACKETS
+     ═══════════════════════════════ */
+  /* left gold spine */
+  var spG=ctx.createLinearGradient(0,0,0,H);
+  spG.addColorStop(0,GL); spG.addColorStop(0.5,GOLD); spG.addColorStop(1,GD);
+  ctx.fillStyle=spG; ctx.fillRect(0,0,5,H);
+  /* bottom gold line */
+  var btG=ctx.createLinearGradient(0,0,W,0);
+  btG.addColorStop(0,GL); btG.addColorStop(0.6,GOLD); btG.addColorStop(1,'rgba(139,105,20,0.1)');
+  ctx.fillStyle=btG; ctx.fillRect(0,H-4,W,4);
+  /* corner brackets */
+  ctx.strokeStyle=GL; ctx.lineWidth=3; ctx.lineJoin='miter';
+  var BL=52;
+  ctx.beginPath(); ctx.moveTo(8,BL+8); ctx.lineTo(8,8); ctx.lineTo(BL+8,8); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(W-BL-8,8); ctx.lineTo(W-8,8); ctx.lineTo(W-8,BL+8); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(W-8,H-BL-8); ctx.lineTo(W-8,H-8); ctx.lineTo(W-BL-8,H-8); ctx.stroke();
 
-  /* Bottom gold line */
-  var btGr=ctx.createLinearGradient(0,0,W,0);
-  btGr.addColorStop(0,GLD_L);btGr.addColorStop(0.5,GOLD);btGr.addColorStop(1,'transparent');
-  ctx.fillStyle=btGr;ctx.fillRect(0,H-4,W,4);
-
-  /* Corner bracket decorations — not full-width lines */
-  var BL=50; /* bracket length */
-  ctx.strokeStyle=GLD_L; ctx.lineWidth=3;
-  /* top-left */
-  ctx.beginPath();ctx.moveTo(8,BL+8);ctx.lineTo(8,8);ctx.lineTo(BL+8,8);ctx.stroke();
-  /* top-right */
-  ctx.beginPath();ctx.moveTo(W-BL-8,8);ctx.lineTo(W-8,8);ctx.lineTo(W-8,BL+8);ctx.stroke();
-  /* bottom-right */
-  ctx.beginPath();ctx.moveTo(W-8,H-BL-8);ctx.lineTo(W-8,H-8);ctx.lineTo(W-BL-8,H-8);ctx.stroke();
-
-  /* ═══════════════════════════════════════════════
-     STEP 3 — TOP HEADER
-     ═══════════════════════════════════════════════ */
+  /* ═══════════════════════════════
+     3 — HEADER (photo + name + HUD)
+     ═══════════════════════════════ */
   var PAD=52;
 
-  /* ── PHOTO CIRCLE ── */
-  var PR=58, PCX=PAD+PR, PCY=52+PR;  /* ~(110, 110) */
+  /* PHOTO CIRCLE — top left */
+  var PR=58, PCX=PAD+PR, PCY=52+PR;
+  ctx.save();
   if(photoDataUrl){
-    var _photo=new Image();_photo.src=photoDataUrl;
-    if(_photo.complete&&_photo.naturalWidth>0){
-      ctx.save();
-      ctx.beginPath();ctx.arc(PCX,PCY,PR,0,Math.PI*2);ctx.clip();
-      var pw=_photo.naturalWidth,ph=_photo.naturalHeight;
-      var psc=Math.max((PR*2)/pw,(PR*2)/ph);
-      ctx.drawImage(_photo,PCX-pw*psc/2,PCY-ph*psc/2,pw*psc,ph*psc);
-      ctx.restore();
-    } else { _drawIni(); }
-  } else { _drawIni(); }
-  function _drawIni(){
-    /* dark navy circle with gold ring */
+    var _ph=new Image(); _ph.src=photoDataUrl;
+    if(_ph.complete&&_ph.naturalWidth>0){
+      ctx.beginPath(); ctx.arc(PCX,PCY,PR,0,Math.PI*2); ctx.clip();
+      var iw=_ph.naturalWidth,ih=_ph.naturalHeight,isc=Math.max((PR*2)/iw,(PR*2)/ih);
+      ctx.drawImage(_ph,PCX-iw*isc/2,PCY-ih*isc/2,iw*isc,ih*isc);
+    } else { _ini(); }
+  } else { _ini(); }
+  function _ini(){
     ctx.fillStyle='#1A2F5E';
-    ctx.beginPath();ctx.arc(PCX,PCY,PR,0,Math.PI*2);ctx.fill();
-    ctx.strokeStyle=GLD_L;ctx.lineWidth=2.5;ctx.stroke();
+    ctx.beginPath(); ctx.arc(PCX,PCY,PR,0,Math.PI*2); ctx.fill();
     var ini=getIni(name);
-    ctx.font='700 '+(ini.length>1?'44':'54')+'px Georgia,serif';
-    ctx.fillStyle=GLD_L;ctx.textAlign='center';ctx.textBaseline='middle';
-    ctx.shadowColor='rgba(242,183,5,0.3)';ctx.shadowBlur=10;
-    ctx.fillText(ini,PCX,PCY);ctx.shadowBlur=0;
-    ctx.textAlign='left';ctx.textBaseline='alphabetic';
+    ctx.font='700 '+(ini.length>1?'44':'56')+'px Georgia,serif';
+    ctx.fillStyle=GL; ctx.textAlign='center'; ctx.textBaseline='middle';
+    ctx.shadowColor='rgba(242,183,5,0.35)'; ctx.shadowBlur=12;
+    ctx.fillText(ini,PCX,PCY); ctx.shadowBlur=0;
+    ctx.textAlign='left'; ctx.textBaseline='alphabetic';
   }
-  /* gold ring always on top */
-  ctx.strokeStyle=GLD_L;ctx.lineWidth=2.5;
-  ctx.beginPath();ctx.arc(PCX,PCY,PR+1,0,Math.PI*2);ctx.stroke();
+  ctx.restore();
+  /* gold ring */
+  ctx.strokeStyle=GL; ctx.lineWidth=2.5;
+  ctx.beginPath(); ctx.arc(PCX,PCY,PR+2,0,Math.PI*2); ctx.stroke();
 
-  /* ── NAME BLOCK (right of photo) ── */
-  var NX = PCX+PR+24;   /* ~192 */
-  var NY = PCY-PR;      /* top of photo ~52 */
+  /* NAME BLOCK — right of photo */
+  var NX=PCX+PR+22, NY=PCY-PR+4;
+  ctx.textBaseline='top';
 
   /* "BOOK A WEEK" */
-  ctx.textBaseline='top';
-  ctx.font='800 22px sans-serif';
-  ctx.fillStyle=GLD_L; ctx.fillText('BOOK',NX,NY);
-  var bw=ctx.measureText('BOOK').width;
-  ctx.font='300 22px sans-serif';
-  ctx.fillStyle=WHITE; ctx.fillText(' A ',NX+bw,NY);
-  var aw2=ctx.measureText(' A ').width;
-  ctx.font='800 22px sans-serif';
-  ctx.fillStyle=GLD_L; ctx.fillText('WEEK',NX+bw+aw2,NY);
+  ctx.font='800 21px sans-serif'; ctx.fillStyle=GL; ctx.fillText('BOOK',NX,NY);
+  var bkW=ctx.measureText('BOOK').width;
+  ctx.font='300 21px sans-serif'; ctx.fillStyle=WH; ctx.fillText(' A ',NX+bkW,NY);
+  var aW=ctx.measureText(' A ').width;
+  ctx.font='800 21px sans-serif'; ctx.fillStyle=GL; ctx.fillText('WEEK',NX+bkW+aW,NY);
 
-  /* "⚔ BOOKWARRIOR" chip */
-  var chipY=NY+34;
-  ctx.font='700 18px sans-serif';
-  var chipTxt='\u2694 BOOKWARRIOR';
-  var chipW=ctx.measureText(chipTxt).width+32;
-  ctx.fillStyle='rgba(26,47,94,0.9)';
-  rr(NX,chipY,chipW,34,6);ctx.fill();
-  ctx.strokeStyle=GLD_L;ctx.lineWidth=1.5;
-  rr(NX,chipY,chipW,34,6);ctx.stroke();
-  ctx.fillStyle=GLD_L;ctx.fillText(chipTxt,NX+16,chipY+8);
+  /* "⚔ BOOKWARRIOR" pill chip */
+  var cpY=NY+32;
+  ctx.font='700 17px sans-serif';
+  var cpTx='\u2694 BOOKWARRIOR';
+  var cpW=Math.min(ctx.measureText(cpTx).width+30, W-NX-PAD-10);
+  ctx.fillStyle='rgba(15,30,68,0.95)'; rr(NX,cpY,cpW,33,6); ctx.fill();
+  ctx.strokeStyle=GL; ctx.lineWidth=1.5; rr(NX,cpY,cpW,33,6); ctx.stroke();
+  ctx.fillStyle=GL; ctx.fillText(cpTx,NX+15,cpY+8);
 
-  /* First name — large serif */
-  var nameY=chipY+44;
+  /* First name */
+  var nmY=cpY+43;
   var fnLen=fname.length;
-  var fnSz=fnLen>10?68:fnLen>8?82:fnLen>6?96:108;
-  ctx.font='700 '+fnSz+'px Georgia,serif';
-  ctx.fillStyle=WHITE;
-  ctx.shadowColor='rgba(0,0,0,0.3)';ctx.shadowBlur=8;
-  var dispN=fname;
-  var maxNW=W-NX-PAD-20;
-  while(ctx.measureText(dispN).width>maxNW&&dispN.length>2)dispN=dispN.slice(0,-1);
-  ctx.fillText(dispN,NX,nameY+fnSz);
-  ctx.shadowBlur=0;
+  var fnSz=fnLen>10?64:fnLen>8?78:fnLen>6?92:106;
+  ctx.font='700 '+fnSz+'px Georgia,serif'; ctx.fillStyle=WH;
+  ctx.shadowColor='rgba(0,0,0,0.25)'; ctx.shadowBlur=8;
+  var dispN=fname, nmMaxW=W-NX-PAD-14;
+  while(ctx.measureText(dispN).width>nmMaxW&&dispN.length>2) dispN=dispN.slice(0,-1);
+  ctx.fillText(dispN,NX,nmY+fnSz); ctx.shadowBlur=0;
 
   /* "LOGGED TODAY · SEASON 1 · 2026" */
-  var subY=nameY+fnSz+14;
-  ctx.font='600 19px sans-serif';
-  ctx.fillStyle='rgba(255,255,255,0.55)';
-  ctx.fillText('LOGGED TODAY',NX,subY);
+  var sbY=nmY+fnSz+16;
+  ctx.font='600 18px sans-serif'; ctx.fillStyle='rgba(255,255,255,0.5)';
+  ctx.fillText('LOGGED TODAY',NX,sbY);
   var ltW=ctx.measureText('LOGGED TODAY').width;
-  ctx.fillStyle=GLD_L;ctx.fillText('  \u00B7  SEASON 1  \u00B7  2026',NX+ltW,subY);
+  ctx.fillStyle=GL; ctx.fillText('  \u00B7  SEASON 1  \u00B7  2026',NX+ltW,sbY);
   ctx.textBaseline='alphabetic';
 
-  /* ── PROGRESS HUD (top-right) ── */
-  var HX=W-PAD-230, HY=40, HW=222, HH=240;
+  /* PROGRESS HUD — top right */
+  var HW=224, HH=242, HX=W-PAD-HW, HY=38;
   ctx.save();
-  ctx.fillStyle='rgba(13,30,56,0.95)';
-  rr(HX,HY,HW,HH,14);ctx.fill();
-  ctx.strokeStyle=GLD_L;ctx.lineWidth=1.5;
-  rr(HX,HY,HW,HH,14);ctx.stroke();
-
-  /* "SEASON ONE · 2026" */
-  ctx.font='600 14px sans-serif';ctx.fillStyle='rgba(255,255,255,0.7)';ctx.textAlign='center';
-  ctx.fillText('SEASON ONE  \u00B7  2026',HX+HW/2,HY+22);
-
-  /* "PROGRESS" */
-  ctx.font='800 13px sans-serif';ctx.fillStyle=GLD_L;ctx.letterSpacing='0.15em';
-  ctx.fillText('PROGRESS',HX+HW/2,HY+40);
-
+  ctx.fillStyle='rgba(11,24,52,0.97)'; rr(HX,HY,HW,HH,14); ctx.fill();
+  ctx.strokeStyle=GL; ctx.lineWidth=1.5; rr(HX,HY,HW,HH,14); ctx.stroke();
+  ctx.textAlign='center';
+  /* SEASON ONE · 2026 */
+  ctx.font='600 13px sans-serif'; ctx.fillStyle='rgba(255,255,255,0.65)';
+  ctx.fillText('SEASON ONE  \u00B7  2026',HX+HW/2,HY+20);
+  /* PROGRESS label */
+  ctx.font='800 12px sans-serif'; ctx.fillStyle=GL;
+  ctx.fillText('P R O G R E S S',HX+HW/2,HY+37);
   /* streak number */
-  ctx.font='900 88px Georgia,serif';
-  var sGr=ctx.createLinearGradient(0,HY+40,0,HY+130);
-  sGr.addColorStop(0,GLD_L);sGr.addColorStop(1,GOLD);
-  ctx.fillStyle=sGr;
-  ctx.shadowColor='rgba(242,183,5,0.4)';ctx.shadowBlur=16;
-  ctx.fillText(String(streak),HX+HW/2,HY+128);
-  ctx.shadowBlur=0;
-
-  /* "🔥 DAY STREAK" */
-  ctx.font='600 15px sans-serif';ctx.fillStyle='rgba(255,255,255,0.5)';
-  ctx.fillText('\uD83D\uDD25 DAY STREAK',HX+HW/2,HY+150);
-
-  /* divider inside HUD */
-  ctx.fillStyle='rgba(201,162,39,0.3)';
-  ctx.fillRect(HX+18,HY+162,HW-36,1);
-
-  /* SEASON bar */
+  ctx.font='900 90px Georgia,serif';
+  var skGr=ctx.createLinearGradient(0,HY+38,0,HY+128);
+  skGr.addColorStop(0,GL); skGr.addColorStop(1,GOLD);
+  ctx.fillStyle=skGr; ctx.shadowColor='rgba(242,183,5,0.5)'; ctx.shadowBlur=18;
+  ctx.fillText(String(sk),HX+HW/2,HY+128); ctx.shadowBlur=0;
+  /* DAY STREAK */
+  ctx.font='600 14px sans-serif'; ctx.fillStyle='rgba(255,255,255,0.45)';
+  ctx.fillText('\uD83D\uDD25 DAY STREAK',HX+HW/2,HY+148);
+  /* divider */
+  ctx.fillStyle='rgba(201,162,39,0.28)'; ctx.fillRect(HX+16,HY+160,HW-32,1);
+  /* bars */
   var booksRead=parseInt(localStorage.getItem('baw_booksRead_'+member)||localStorage.getItem('booksRead')||'0')||0;
-  var dayPct=Math.min(Math.round((streak/180)*100),100);
-  _hudBar(HX+18,HY+174,HW-36,'SEASON',dayPct+'%');
-
-  /* BOOKS bar */
-  _hudBar(HX+18,HY+207,HW-36,'BOOKS',booksRead+'/24');
-
-  function _hudBar(x,y,w,lbl,val){
-    ctx.font='700 13px sans-serif';ctx.fillStyle='rgba(255,255,255,0.55)';
-    ctx.textAlign='left';ctx.fillText(lbl,x,y+12);
-    ctx.fillStyle=GLD_L;ctx.textAlign='right';ctx.fillText(val,x+w,y+12);
-    /* track */
+  var dpct=Math.min(Math.round((sk/180)*100),100);
+  _hBar(HX+16,HY+170,HW-32,'SEASON',dpct+'%');
+  _hBar(HX+16,HY+204,HW-32,'BOOKS',booksRead+'/24');
+  function _hBar(x,y,w,lbl,val){
+    ctx.font='700 13px sans-serif'; ctx.textAlign='left';
+    ctx.fillStyle='rgba(255,255,255,0.5)'; ctx.fillText(lbl,x,y+12);
+    ctx.textAlign='right'; ctx.fillStyle=GL; ctx.fillText(val,x+w,y+12);
     ctx.fillStyle='rgba(255,255,255,0.1)';
-    ctx.beginPath();if(ctx.roundRect){ctx.roundRect(x,y+16,w,5,2);}else{ctx.rect(x,y+16,w,5);}ctx.fill();
-    /* fill */
+    if(ctx.roundRect){ctx.beginPath();ctx.roundRect(x,y+16,w,5,2);ctx.fill();}
+    else{ctx.fillRect(x,y+16,w,5);}
     var pct=0;
-    if(val.indexOf('/')!==-1){var pts=val.split('/');pct=Math.round((parseInt(pts[0]||0)/Math.max(parseInt(pts[1]||1),1))*100);}
+    if(val.indexOf('/')!==-1){var p2=val.split('/');pct=Math.round((parseInt(p2[0]||0)/Math.max(parseInt(p2[1]||1),1))*100);}
     else pct=parseFloat(val)||0;
     pct=Math.min(Math.max(pct,0),100);
-    var fw=Math.max(Math.round(w*pct/100),6);
-    var fg=ctx.createLinearGradient(x,0,x+fw,0);
-    fg.addColorStop(0,GLD_D);fg.addColorStop(1,GLD_L);
+    var fw=Math.max(Math.round(w*pct/100),5);
+    var fg=ctx.createLinearGradient(x,0,x+fw,0); fg.addColorStop(0,GD); fg.addColorStop(1,GL);
     ctx.fillStyle=fg;
-    ctx.beginPath();if(ctx.roundRect){ctx.roundRect(x,y+16,fw,5,2);}else{ctx.rect(x,y+16,fw,5);}ctx.fill();
+    if(ctx.roundRect){ctx.beginPath();ctx.roundRect(x,y+16,fw,5,2);ctx.fill();}
+    else{ctx.fillRect(x,y+16,fw,5);}
     ctx.textAlign='left';
   }
   ctx.restore();
 
-  /* ═══════════════════════════════════════════════
-     STEP 4 — DATE ROW with flanking lines
-     ═══════════════════════════════════════════════ */
-  var DRY = Math.max(PCY+PR+28, HY+HH+20);  /* below header */
-  ctx.save();
-  ctx.font='600 20px sans-serif';
-  ctx.fillStyle='rgba(255,255,255,0.7)';
-  ctx.textAlign='center';
+  /* ═══════════════════════════════
+     4 — DATE ROW with flanking lines
+     ═══════════════════════════════ */
+  /* Y = bottom of header content + gap */
+  var headerBottom=Math.max(PCY+PR+16, HY+HH+16);
+  var DRY=headerBottom+18;
+
+  ctx.save(); ctx.textAlign='center';
+  ctx.font='600 19px sans-serif'; ctx.fillStyle='rgba(255,255,255,0.68)';
   var dtW=ctx.measureText(dateLine).width;
   ctx.fillText(dateLine,W/2,DRY+20);
-  /* flanking lines — SHORT, only ~100px each side of text, not full width */
-  var lineY=DRY+12;
-  var lineX1=W/2-dtW/2-24, lineX2=W/2+dtW/2+24;
-  ctx.strokeStyle='rgba(201,162,39,0.55)';ctx.lineWidth=1.5;
-  ctx.beginPath();ctx.moveTo(lineX1-80,lineY);ctx.lineTo(lineX1,lineY);ctx.stroke();
-  ctx.beginPath();ctx.moveTo(lineX2,lineY);ctx.lineTo(lineX2+80,lineY);ctx.stroke();
+  /* short flanking lines only — ~90px each side */
+  var lMid=DRY+12;
+  var lInner=W/2-dtW/2-18, lOuter=W/2+dtW/2+18;
+  ctx.strokeStyle='rgba(201,162,39,0.6)'; ctx.lineWidth=1.5;
+  ctx.beginPath(); ctx.moveTo(lInner-90,lMid); ctx.lineTo(lInner,lMid); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(lOuter,lMid); ctx.lineTo(lOuter+90,lMid); ctx.stroke();
   ctx.restore();
 
-  /* ═══════════════════════════════════════════════
-     STEP 5 — BIG TITLE
-     ═══════════════════════════════════════════════ */
-  var TY = DRY + 52;
-  ctx.save();
-  ctx.textAlign='left';
+  /* ═══════════════════════════════
+     5 — BIG TITLE (left-aligned, stacked)
+     ═══════════════════════════════ */
+  var TY=DRY+44;
+  ctx.save(); ctx.textAlign='left';
 
   if(isRest){
-    /* REST = white, DAY = gold, LOGGED = white — each on own line */
-    var lineH=140, TS=148;
+    /* REST=white / DAY=gold / LOGGED=white — exact match to reference */
+    var TS=148, TLH=152;
     ctx.font='900 '+TS+'px Georgia,serif';
-    /* REST */
-    ctx.fillStyle=WHITE;
-    ctx.shadowColor='rgba(0,0,0,0.4)';ctx.shadowBlur=12;
+    ctx.fillStyle=WH; ctx.shadowColor='rgba(0,0,0,0.35)'; ctx.shadowBlur=10;
     ctx.fillText('REST',PAD,TY+TS);
-    /* DAY */
-    ctx.fillStyle=GLD_L;
-    ctx.shadowColor='rgba(242,183,5,0.3)';ctx.shadowBlur=16;
-    ctx.fillText('DAY',PAD,TY+TS+lineH);
-    /* LOGGED */
-    ctx.fillStyle=WHITE;
-    ctx.shadowColor='rgba(0,0,0,0.4)';ctx.shadowBlur=12;
-    ctx.fillText('LOGGED',PAD,TY+TS+lineH*2);
+    ctx.fillStyle=GL; ctx.shadowColor='rgba(242,183,5,0.4)'; ctx.shadowBlur=18;
+    ctx.fillText('DAY',PAD,TY+TS+TLH);
+    ctx.fillStyle=WH; ctx.shadowColor='rgba(0,0,0,0.35)'; ctx.shadowBlur=10;
+    ctx.fillText('LOGGED',PAD,TY+TS+TLH*2);
     ctx.shadowBlur=0;
-    TY=TY+TS+lineH*2+30;
+    TY=TY+TS+TLH*2+28;
   } else {
-    /* SESSION LOGGED or custom title — multi-word, each word big, gold gradient */
-    var words=title.split(' ');
-    var bigSz=words.length>2?110:words.length>1?130:148;
-    var bigLH=bigSz+12;
-    ctx.font='900 '+bigSz+'px Georgia,serif';
-    var achGr=ctx.createLinearGradient(0,TY,0,TY+bigLH*words.length);
-    achGr.addColorStop(0,GLD_L);achGr.addColorStop(0.5,'rgba(255,255,255,0.95)');achGr.addColorStop(1,GOLD);
-    ctx.fillStyle=achGr;
-    ctx.shadowColor='rgba(242,183,5,0.25)';ctx.shadowBlur=12;
-    words.forEach(function(w,i){
-      ctx.fillStyle=i%2===0?WHITE:GLD_L;
-      ctx.fillText(w,PAD,TY+bigSz+i*bigLH);
+    /* Reading session: title words stacked, alt white/gold */
+    /* e.g. "SESSION LOGGED" → SESSION=white, LOGGED=gold */
+    var tWords=title.toUpperCase().split(' ').filter(Boolean);
+    /* cap at 2 words for clean layout; join remainder */
+    if(tWords.length>2){tWords=[tWords.slice(0,tWords.length-1).join(' '),tWords[tWords.length-1]];}
+    var rTS=tWords.length===1?148:tWords.length===2?138:120;
+    var rLH=rTS+8;
+    ctx.font='900 '+rTS+'px Georgia,serif';
+    /* shrink if first word overflows */
+    while(ctx.measureText(tWords[0]).width>W-PAD*2-20&&rTS>80){rTS--;ctx.font='900 '+rTS+'px Georgia,serif';rLH=rTS+8;}
+    tWords.forEach(function(w,i){
+      ctx.fillStyle=i%2===0?WH:GL;
+      ctx.shadowColor=i%2===0?'rgba(0,0,0,0.35)':'rgba(242,183,5,0.4)';
+      ctx.shadowBlur=i%2===0?10:18;
+      ctx.fillText(w,PAD,TY+rTS+i*rLH);
     });
     ctx.shadowBlur=0;
-    TY=TY+bigSz+bigLH*(words.length-1)+30;
+    TY=TY+rTS+rLH*(tWords.length-1)+28;
   }
 
   /* READ · REFLECT · EXECUTE */
-  ctx.font='600 22px sans-serif';
-  ctx.fillStyle='rgba(255,255,255,0.65)';
   ctx.textAlign='center';
-  ctx.fillText('R E A D   \u00B7   R E F L E C T   \u00B7   E X E C U T E',W/2,TY+30);
+  ctx.font='600 21px sans-serif'; ctx.fillStyle='rgba(255,255,255,0.6)';
+  ctx.fillText('R E A D   \u00B7   R E F L E C T   \u00B7   E X E C U T E',W/2,TY+22);
   ctx.textAlign='left';
-  TY=TY+60;
+  TY+=54;
   ctx.restore();
 
-  /* ═══════════════════════════════════════════════
-     STEP 6 — REST BLOCK or BOOK BLOCK
-     ═══════════════════════════════════════════════ */
+  /* ═══════════════════════════════
+     6 — REST BLOCK or BOOK BLOCK
+     ═══════════════════════════════ */
+  ctx.save();
   if(isRest){
-    /* REST & RECOVERY row with left gold bar */
-    ctx.save();
-    ctx.fillStyle=GLD_L;ctx.fillRect(PAD,TY,4,52);
-    ctx.font='700 22px sans-serif';ctx.textBaseline='top';
-    ctx.fillStyle=GLD_L;ctx.fillText('\uD83E\uDDD8  REST & RECOVERY',PAD+20,TY+8);
-    var rrW=ctx.measureText('\uD83E\uDDD8  REST & RECOVERY').width;
-    ctx.fillStyle='rgba(255,255,255,0.75)';ctx.fillText('  \u2014 DISCIPLINE INCLUDES REST',PAD+20+rrW,TY+8);
-    ctx.textBaseline='alphabetic';ctx.restore();
-    TY+=70;
-  } else {
-    /* Book block */
-    var bookStat=(stats2||[]).find(function(r){return String(r[0]||'').toLowerCase()==='book';});
-    var bookTitle=bookStat?String(bookStat[1]||''):'';
-    if(bookTitle){
-      ctx.save();
-      var si=bookTitle.length>36?bookTitle.lastIndexOf(' ',36):bookTitle.length;
-      if(si<12)si=Math.min(36,bookTitle.length);
-      var bL1=bookTitle.slice(0,si).trim(),bL2=bookTitle.length>si?bookTitle.slice(si).trim():'';
-      if(bL2.length>42)bL2=bL2.slice(0,41)+'\u2026';
-      var BH=bL2?148:116,BW=W-PAD*2;
-      ctx.fillStyle='rgba(13,30,56,0.6)';ctx.strokeStyle='rgba(201,162,39,0.3)';ctx.lineWidth=1;
-      rr(PAD,TY,BW,BH,12);ctx.fill();ctx.stroke();
-      ctx.fillStyle=GLD_L;ctx.fillRect(PAD,TY,4,BH);
-      ctx.font='600 17px sans-serif';ctx.fillStyle='rgba(201,162,39,0.7)';ctx.textBaseline='top';
-      ctx.fillText('\uD83D\uDCD6  NOW READING',PAD+18,TY+14);
-      ctx.font='700 '+(bL2?32:38)+'px Georgia,serif';ctx.fillStyle=WHITE;
-      ctx.fillText(bL1,PAD+18,TY+42);if(bL2)ctx.fillText(bL2,PAD+18,TY+42+38);
-      ctx.textBaseline='alphabetic';ctx.restore();TY+=BH+18;
+    /* gold vertical bar + text */
+    ctx.fillStyle=GL; ctx.fillRect(PAD,TY+2,4,50);
+    ctx.textBaseline='top'; ctx.font='700 22px sans-serif';
+    ctx.fillStyle=GL;
+    ctx.fillText('\uD83E\uDDD8  REST & RECOVERY',PAD+18,TY+8);
+    var rrTW=ctx.measureText('\uD83E\uDDD8  REST & RECOVERY').width;
+    ctx.fillStyle='rgba(255,255,255,0.72)';
+    ctx.fillText('  \u2014 DISCIPLINE INCLUDES REST',PAD+18+rrTW,TY+8);
+    ctx.textBaseline='alphabetic';
+    TY+=64;
+  } else if(bookTitle){
+    /* book block with left gold bar */
+    var bkH=bookTitle.length>40?152:124;
+    ctx.fillStyle='rgba(11,24,52,0.65)'; ctx.strokeStyle='rgba(201,162,39,0.28)'; ctx.lineWidth=1;
+    rr(PAD,TY,W-PAD*2,bkH,12); ctx.fill(); ctx.stroke();
+    ctx.fillStyle=GL; ctx.fillRect(PAD,TY,4,bkH);
+    ctx.textBaseline='top';
+    ctx.font='600 16px sans-serif'; ctx.fillStyle='rgba(201,162,39,0.7)';
+    ctx.fillText('\uD83D\uDCD6  NOW READING',PAD+18,TY+14);
+    var bkSz=bookTitle.length>36?30:bookTitle.length>24?36:42;
+    ctx.font='700 '+bkSz+'px Georgia,serif'; ctx.fillStyle=WH;
+    /* wrap book title */
+    var bkWords=bookTitle.split(' '),bkLine='',bkY=TY+42;
+    for(var bi=0;bi<bkWords.length;bi++){
+      var bkTest=bkLine+bkWords[bi]+' ';
+      if(ctx.measureText(bkTest).width>W-PAD*2-40&&bi>0){
+        ctx.fillText(bkLine.trim(),PAD+18,bkY); bkLine=bkWords[bi]+' '; bkY+=bkSz+4;
+      } else bkLine=bkTest;
     }
+    ctx.fillText(bkLine.trim(),PAD+18,bkY);
+    ctx.textBaseline='alphabetic';
+    TY+=bkH+16;
   }
+  ctx.restore();
 
-  /* ═══════════════════════════════════════════════
-     STEP 7 — INFO CARDS (two side by side)
-     ═══════════════════════════════════════════════ */
-  var cardGap=16, cardW=(W-PAD*2-cardGap)/2, cardH=136;
-  var c1x=PAD, c2x=PAD+cardW+cardGap, cardY=TY;
+  /* ═══════════════════════════════
+     7 — INFO CARDS (two side by side)
+     ═══════════════════════════════ */
+  ctx.save();
+  var gap=14, cW=(W-PAD*2-gap)/2, cH=138;
+  var c1x=PAD, c2x=PAD+cW+gap;
 
-  /* determine card content */
-  var c1label='MEMBER', c1big=fname, c1sub='Season 1 Warrior';
-  var c2label='TYPE', c2big='', c2sub='';
+  /* LEFT card — always MEMBER */
+  _infoCard(c1x, TY, cW, cH, 'MEMBER', fname, 'Season 1 Warrior');
+
+  /* RIGHT card — depends on mode */
   if(isRest){
-    c2big='Rest Day';c2sub='Recovery \u00B7 Recharge';
+    _infoCard(c2x, TY, cW, cH, 'TYPE', 'Rest Day', 'Recovery \u00B7 Recharge');
+  } else if(bookTitle){
+    /* show book short title */
+    var bkShort=bookTitle.split(' ').slice(0,3).join(' ');
+    if(bookTitle.split(' ').length>3)bkShort+='\u2026';
+    _infoCard(c2x, TY, cW, cH, 'BOOK', bkShort, 'Currently Reading');
   } else {
-    var vSt=(stats2||[]).filter(function(r){
-      var v=String(r[1]||'');return v&&v!=='0 min'&&v!=='0'&&String(r[0]||'').toLowerCase()!=='book';
-    });
-    if(vSt.length>0){c2label=String(vSt[0][0]).toUpperCase();c2big=String(vSt[0][1]);c2sub=vSt.length>1?String(vSt[1][0])+': '+String(vSt[1][1]):'';}
-    else{c2big='Session';c2sub='Reading';}
+    _infoCard(c2x, TY, cW, cH, 'TYPE', 'Reading', 'Session');
   }
 
-  function drawInfoCard(x,y,w,h,label,big,sub){
-    ctx.save();
-    ctx.fillStyle='rgba(13,30,56,0.7)';
-    rr(x,y,w,h,12);ctx.fill();
-    ctx.strokeStyle='rgba(201,162,39,0.35)';ctx.lineWidth=1.5;
-    rr(x,y,w,h,12);ctx.stroke();
-    ctx.font='700 14px sans-serif';ctx.fillStyle='rgba(255,255,255,0.4)';
-    ctx.textBaseline='top';ctx.fillText(label,x+18,y+16);
-    ctx.font='700 38px Georgia,serif';ctx.fillStyle=GLD_L;
-    ctx.shadowColor='rgba(242,183,5,0.2)';ctx.shadowBlur=8;
-    /* shrink big text to fit */
-    var bigFont=38;
-    ctx.font='700 '+bigFont+'px Georgia,serif';
-    while(ctx.measureText(big).width>w-36&&bigFont>22){bigFont--;ctx.font='700 '+bigFont+'px Georgia,serif';}
-    ctx.fillText(big,x+18,y+40);ctx.shadowBlur=0;
-    ctx.font='400 18px sans-serif';ctx.fillStyle='rgba(255,255,255,0.55)';
-    ctx.fillText(sub,x+18,y+h-22);
-    ctx.textBaseline='alphabetic';ctx.restore();
+  function _infoCard(x,y,w,h,label,bigTxt,subTxt){
+    ctx.fillStyle='rgba(11,24,52,0.72)';
+    rr(x,y,w,h,12); ctx.fill();
+    ctx.strokeStyle='rgba(201,162,39,0.32)'; ctx.lineWidth=1.5;
+    rr(x,y,w,h,12); ctx.stroke();
+    /* label */
+    ctx.font='700 13px sans-serif'; ctx.fillStyle='rgba(255,255,255,0.38)';
+    ctx.textBaseline='top'; ctx.fillText(label,x+18,y+16);
+    /* big text */
+    var bSz=bigTxt.length>14?32:bigTxt.length>10?36:40;
+    ctx.font='700 '+bSz+'px Georgia,serif'; ctx.fillStyle=GL;
+    /* shrink to fit card width */
+    while(ctx.measureText(bigTxt).width>w-36&&bSz>22){bSz--;ctx.font='700 '+bSz+'px Georgia,serif';}
+    ctx.shadowColor='rgba(242,183,5,0.18)'; ctx.shadowBlur=6;
+    ctx.fillText(bigTxt,x+18,y+42);
+    ctx.shadowBlur=0;
+    /* sub text */
+    ctx.font='400 17px sans-serif'; ctx.fillStyle='rgba(255,255,255,0.52)';
+    ctx.fillText(subTxt,x+18,y+h-22);
+    ctx.textBaseline='alphabetic';
   }
-  drawInfoCard(c1x,cardY,cardW,cardH,c1label,c1big,c1sub);
-  drawInfoCard(c2x,cardY,cardW,cardH,c2label,c2big,c2sub);
-  TY=cardY+cardH+30;
+  ctx.restore();
+  TY+=cH+22;
 
-  /* ═══════════════════════════════════════════════
-     STEP 8 — STAT BLOCKS (for reading sessions)
-     ═══════════════════════════════════════════════ */
+  /* ═══════════════════════════════
+     8 — STATS ROW (reading only)
+     ═══════════════════════════════ */
   if(!isRest){
-    var vSt2=(stats2||[]).filter(function(r){
-      var v=String(r[1]||'');return v&&v!=='0 min'&&v!=='0'&&String(r[0]||'').toLowerCase()!=='book';
-    }).slice(2); /* skip first 2 already used in cards */
-    if(vSt2.length>0){
-      var nSt=Math.min(vSt2.length,3),STAT_H=130,sGap=14;
-      var sW=Math.floor((W-PAD*2-sGap*(nSt-1))/nSt);
-      vSt2.forEach(function(row,idx2){
-        var sx=PAD+idx2*(sW+sGap),sy=TY;
-        ctx.save();
-        ctx.fillStyle='rgba(13,30,56,0.7)';ctx.strokeStyle='rgba(201,162,39,0.3)';ctx.lineWidth=1;
-        rr(sx,sy,sW,STAT_H,12);ctx.fill();ctx.stroke();
-        var val=String(row[1]);
-        var vSz=val.length>7?42:val.length>5?52:val.length>3?64:76;
-        ctx.font='900 '+vSz+'px Georgia,serif';ctx.fillStyle=GLD_L;
-        ctx.textAlign='center';ctx.textBaseline='middle';
-        ctx.fillText(val,sx+sW/2,sy+STAT_H*0.48);
-        ctx.font='700 16px sans-serif';ctx.fillStyle='rgba(255,255,255,0.4)';
+    var statItems=[];
+    if(pagesStat)  statItems.push({l:String(pagesStat[0]).toUpperCase(),  v:String(pagesStat[1])});
+    if(minsStat)   statItems.push({l:String(minsStat[0]).toUpperCase(),   v:String(minsStat[1])});
+    if(chapStat)   statItems.push({l:String(chapStat[0]).toUpperCase(),   v:String(chapStat[1])});
+    otherStats.slice(0,3-statItems.length).forEach(function(r){
+      statItems.push({l:String(r[0]).toUpperCase(),v:String(r[1])});
+    });
+    if(statItems.length>0){
+      ctx.save();
+      var nS=Math.min(statItems.length,3), sH=124, sg=14;
+      var sW=Math.floor((W-PAD*2-sg*(nS-1))/nS);
+      statItems.slice(0,nS).forEach(function(s,i){
+        var sx=PAD+i*(sW+sg),sy=TY;
+        ctx.fillStyle='rgba(11,24,52,0.72)';
+        rr(sx,sy,sW,sH,12); ctx.fill();
+        ctx.strokeStyle='rgba(201,162,39,0.28)'; ctx.lineWidth=1;
+        rr(sx,sy,sW,sH,12); ctx.stroke();
+        /* value */
+        var vSz=s.v.length>7?40:s.v.length>5?50:s.v.length>3?62:76;
+        ctx.font='900 '+vSz+'px Georgia,serif';
+        var vGr=ctx.createLinearGradient(sx,sy+sH*0.25,sx,sy+sH*0.75);
+        vGr.addColorStop(0,GL); vGr.addColorStop(1,GOLD); ctx.fillStyle=vGr;
+        ctx.textAlign='center'; ctx.textBaseline='middle';
+        ctx.shadowColor='rgba(242,183,5,0.35)'; ctx.shadowBlur=12;
+        ctx.fillText(s.v,sx+sW/2,sy+sH*0.48); ctx.shadowBlur=0;
+        /* label */
+        ctx.font='700 15px sans-serif'; ctx.fillStyle='rgba(255,255,255,0.38)';
         ctx.textBaseline='alphabetic';
-        ctx.fillText(String(row[0]).toUpperCase(),sx+sW/2,sy+STAT_H-18);
-        ctx.textAlign='left';ctx.restore();
+        ctx.fillText(s.l,sx+sW/2,sy+sH-16);
+        ctx.textAlign='left';
       });
-      TY+=STAT_H+24;
+      ctx.restore();
+      TY+=sH+22;
     }
   }
 
-  /* ═══════════════════════════════════════════════
-     STEP 9 — QUOTE
-     ═══════════════════════════════════════════════ */
+  /* ═══════════════════════════════
+     9 — QUOTE
+     ═══════════════════════════════ */
   var qList=[
     '"Not all readers are leaders \u2014 but all leaders are readers."',
     '"The person you\u2019ll be in 5 years is in the books you read today."',
@@ -4181,38 +4176,39 @@ function renderShareCard(photoDataUrl) {
     '"Leaders are readers who act on what they read."'
   ];
   ctx.save();
-  ctx.font='italic 26px Georgia,serif';ctx.fillStyle='rgba(255,255,255,0.45)';
+  ctx.font='italic 25px Georgia,serif'; ctx.fillStyle='rgba(255,255,255,0.42)';
   ctx.textAlign='center';
-  wt(qList[now.getDay()%qList.length],W/2,TY+32,W-160,38);
-  ctx.textAlign='left';ctx.restore();
+  wrapCentered(qList[now.getDay()%qList.length],W/2,TY+28,W-160,36);
+  ctx.textAlign='left'; ctx.restore();
 
-  /* ═══════════════════════════════════════════════
-     STEP 10 — CTA STRIP
-     ═══════════════════════════════════════════════ */
-  var CTA_Y=H-196;
+  /* ═══════════════════════════════
+     10 — CTA STRIP (pinned to bottom)
+     ═══════════════════════════════ */
+  var CTA_Y=H-188;
   ctx.save();
-  /* bg fill */
-  var ctaG=ctx.createLinearGradient(0,CTA_Y,0,H);
-  ctaG.addColorStop(0,'rgba(10,22,40,0)');ctaG.addColorStop(0.15,'rgba(10,22,40,0.97)');ctaG.addColorStop(1,'rgba(6,12,26,1)');
-  ctx.fillStyle=ctaG;ctx.fillRect(0,CTA_Y-20,W,H-CTA_Y+20);
+  /* bg */
+  var ctaG=ctx.createLinearGradient(0,CTA_Y-24,0,H);
+  ctaG.addColorStop(0,'rgba(10,22,40,0)'); ctaG.addColorStop(0.18,'rgba(10,22,40,0.98)'); ctaG.addColorStop(1,'rgba(5,10,22,1)');
+  ctx.fillStyle=ctaG; ctx.fillRect(0,CTA_Y-24,W,H-CTA_Y+24);
   ctx.textAlign='center';
-  /* main headline */
-  ctx.font='900 36px Georgia,serif';ctx.fillStyle=GLD_L;
-  ctx.shadowColor='rgba(242,183,5,0.4)';ctx.shadowBlur=14;
-  ctx.fillText('24 BOOKS  \u00B7  6 MONTHS  \u00B7  1 IDENTITY',W/2,CTA_Y+42);ctx.shadowBlur=0;
+  /* headline */
+  ctx.font='900 35px Georgia,serif'; ctx.fillStyle=GL;
+  ctx.shadowColor='rgba(242,183,5,0.45)'; ctx.shadowBlur=14;
+  ctx.fillText('24 BOOKS  \u00B7  6 MONTHS  \u00B7  1 IDENTITY',W/2,CTA_Y+38); ctx.shadowBlur=0;
   /* sub */
-  ctx.font='400 22px sans-serif';ctx.fillStyle='rgba(255,255,255,0.6)';
-  ctx.fillText('Season 1 is LIVE \u2014 Spots are limited.',W/2,CTA_Y+78);
+  ctx.font='400 21px sans-serif'; ctx.fillStyle='rgba(255,255,255,0.58)';
+  ctx.fillText('Season 1 is LIVE \u2014 Spots are limited.',W/2,CTA_Y+72);
   /* link */
-  ctx.font='700 21px sans-serif';ctx.fillStyle=GLD_L;
-  ctx.fillText('\u2192  SELAR.COM/BOOKAWEEKCHALLENGE',W/2,CTA_Y+114);
-  /* hashtags */
-  ctx.font='500 17px sans-serif';ctx.fillStyle='rgba(255,255,255,0.35)';
-  ctx.fillText('#BOOKAWEEK  \u00B7  #BOOKWARRIOR  \u00B7  #READREFLECTEXECUTE',W/2,CTA_Y+150);
-  ctx.textAlign='left';ctx.restore();
+  ctx.font='700 20px sans-serif'; ctx.fillStyle=GL;
+  ctx.fillText('\u2192  SELAR.COM/BOOKAWEEKCHALLENGE',W/2,CTA_Y+106);
+  /* tags */
+  ctx.font='500 16px sans-serif'; ctx.fillStyle='rgba(255,255,255,0.32)';
+  ctx.fillText('#BOOKAWEEK  \u00B7  #BOOKWARRIOR  \u00B7  #READREFLECTEXECUTE',W/2,CTA_Y+144);
+  ctx.textAlign='left'; ctx.restore();
 
   updateShareBlob(document.getElementById('shareCanvas'));
 }
+
 function _roundRect(ctx, x, y, w, h, r) {
   ctx.beginPath();
   ctx.moveTo(x+r,y);
