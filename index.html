@@ -3839,20 +3839,7 @@ function renderShareCard(photoDataUrl) {
   /* ═══════════════════════════════
      2 — BORDERS & CORNER BRACKETS
      ═══════════════════════════════ */
-  /* left gold spine */
-  var spG=ctx.createLinearGradient(0,0,0,H);
-  spG.addColorStop(0,GL); spG.addColorStop(0.5,GOLD); spG.addColorStop(1,GD);
-  ctx.fillStyle=spG; ctx.fillRect(0,0,5,H);
-  /* bottom gold line */
-  var btG=ctx.createLinearGradient(0,0,W,0);
-  btG.addColorStop(0,GL); btG.addColorStop(0.6,GOLD); btG.addColorStop(1,'rgba(139,105,20,0.1)');
-  ctx.fillStyle=btG; ctx.fillRect(0,H-4,W,4);
-  /* corner brackets */
-  ctx.strokeStyle=GL; ctx.lineWidth=3; ctx.lineJoin='miter';
-  var BL=52;
-  ctx.beginPath(); ctx.moveTo(8,BL+8); ctx.lineTo(8,8); ctx.lineTo(BL+8,8); ctx.stroke();
-  ctx.beginPath(); ctx.moveTo(W-BL-8,8); ctx.lineTo(W-8,8); ctx.lineTo(W-8,BL+8); ctx.stroke();
-  ctx.beginPath(); ctx.moveTo(W-8,H-BL-8); ctx.lineTo(W-8,H-8); ctx.lineTo(W-BL-8,H-8); ctx.stroke();
+  /* no border decorations */
 
   /* ═══════════════════════════════
      3 — HEADER (photo + name + HUD)
@@ -3896,17 +3883,8 @@ function renderShareCard(photoDataUrl) {
   var aW=ctx.measureText(' A ').width;
   ctx.font='800 21px sans-serif'; ctx.fillStyle=GL; ctx.fillText('WEEK',NX+bkW+aW,NY);
 
-  /* "⚔ BOOKWARRIOR" pill chip */
-  var cpY=NY+32;
-  ctx.font='700 17px sans-serif';
-  var cpTx='\u2694 BOOKWARRIOR';
-  var cpW=Math.min(ctx.measureText(cpTx).width+30, W-NX-PAD-10);
-  ctx.fillStyle='rgba(15,30,68,0.95)'; rr(NX,cpY,cpW,33,6); ctx.fill();
-  ctx.strokeStyle=GL; ctx.lineWidth=1.5; rr(NX,cpY,cpW,33,6); ctx.stroke();
-  ctx.fillStyle=GL; ctx.fillText(cpTx,NX+15,cpY+8);
-
-  /* First name */
-  var nmY=cpY+43;
+  /* First name — directly below BOOK A WEEK */
+  var nmY=NY+32;
   var fnLen=fname.length;
   var fnSz=fnLen>10?64:fnLen>8?78:fnLen>6?92:106;
   ctx.font='700 '+fnSz+'px Georgia,serif'; ctx.fillStyle=WH;
@@ -3915,10 +3893,8 @@ function renderShareCard(photoDataUrl) {
   while(ctx.measureText(dispN).width>nmMaxW&&dispN.length>2) dispN=dispN.slice(0,-1);
   ctx.fillText(dispN,NX,nmY+fnSz); ctx.shadowBlur=0;
 
-  /* BOOKWARRIOR — bold white, below name */
+  /* nothing below name — clean */
   var sbY=nmY+fnSz+16;
-  ctx.font='700 22px sans-serif'; ctx.fillStyle=WH;
-  ctx.fillText('BOOKWARRIOR',NX,sbY);
   ctx.textBaseline='alphabetic';
 
   /* PROGRESS HUD — top right */
@@ -4124,12 +4100,12 @@ function renderShareCard(photoDataUrl) {
      ═══════════════════════════════ */
   if(!isRest){
     var statItems=[];
-    /* pages already shown in info card — stats row shows duration, chapter, others */
-    if(minsStat)   statItems.push({l:String(minsStat[0]).toUpperCase(),   v:String(minsStat[1])});
-    if(chapStat)   statItems.push({l:String(chapStat[0]).toUpperCase(),   v:String(chapStat[1])});
-    if(pagesStat && !minsStat) statItems.push({l:String(pagesStat[0]).toUpperCase(), v:String(pagesStat[1])});
-    otherStats.slice(0,3-statItems.length).forEach(function(r){
-      statItems.push({l:String(r[0]).toUpperCase(),v:String(r[1])});
+    /* stats row: PAGES | DURATION | CHAPTER — each shown once */
+    if(pagesStat)  statItems.push({l:'PAGES',  v:String(pagesStat[1])});
+    if(minsStat)   statItems.push({l:'DURATION', v:String(minsStat[1])});
+    if(chapStat)   statItems.push({l:'CHAPTER',  v:String(chapStat[1])});
+    otherStats.slice(0, Math.max(0, 3-statItems.length)).forEach(function(r){
+      statItems.push({l:String(r[0]).toUpperCase(), v:String(r[1])});
     });
     if(statItems.length>0){
       ctx.save();
