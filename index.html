@@ -4059,16 +4059,22 @@ function renderShareCard(photoDataUrl) {
   var c1x=PAD, c2x=PAD+cW+gap;
 
   if(isRest){
-    /* REST: LEFT=MEMBER/name, RIGHT=TYPE/Rest Day */
+    /* REST: LEFT=STREAK, RIGHT=TYPE */
     _infoCard(c1x, TY, cW, cH, 'STREAK', String(sk)+' Days', 'Season 1 Warrior');
     _infoCard(c2x, TY, cW, cH, 'TYPE', 'Rest Day', 'Recovery · Recharge');
   } else {
-    /* READING: LEFT=BOOK title, RIGHT=PAGES (never mins — mins go in stats row) */
+    /* READING: LEFT=BOOK title, RIGHT=PAGES READ (always; falls to DURATION if no pages) */
     var bkShort = bookTitle ? (bookTitle.split(' ').slice(0,3).join(' ')+(bookTitle.split(' ').length>3?'…':'')) : 'No Book';
     var rightLbl, rightVal, rightSub;
-    if(pagesStat){ rightLbl='PAGES READ'; rightVal=String(pagesStat[1]); rightSub='This Session'; }
-    else if(chapStat){ rightLbl='CHAPTER'; rightVal=String(chapStat[1]); rightSub='Progress'; }
-    else { rightLbl='STREAK'; rightVal=String(sk)+' days'; rightSub='Keep Going'; }
+    if(pagesStat){
+      rightLbl='PAGES READ'; rightVal=String(pagesStat[1]); rightSub='This Session';
+    } else if(minsStat){
+      rightLbl='DURATION'; rightVal=String(minsStat[1]); rightSub='Time Read';
+    } else if(chapStat){
+      rightLbl='CHAPTER'; rightVal=String(chapStat[1]); rightSub='Progress';
+    } else {
+      rightLbl='STREAK'; rightVal=String(sk)+' Days'; rightSub='Keep Going';
+    }
     _infoCard(c1x, TY, cW, cH, 'BOOK', bkShort, 'Currently Reading');
     _infoCard(c2x, TY, cW, cH, rightLbl, rightVal, rightSub);
   }
@@ -4078,21 +4084,22 @@ function renderShareCard(photoDataUrl) {
     rr(x,y,w,h,12); ctx.fill();
     ctx.strokeStyle='rgba(201,162,39,0.32)'; ctx.lineWidth=1.5;
     rr(x,y,w,h,12); ctx.stroke();
-    /* label */
+    var cx=x+w/2; /* horizontal centre of card */
+    /* label — centred */
     ctx.font='700 13px sans-serif'; ctx.fillStyle='rgba(255,255,255,0.38)';
-    ctx.textBaseline='top'; ctx.fillText(label,x+18,y+16);
-    /* big text */
-    var bSz=bigTxt.length>14?32:bigTxt.length>10?36:40;
+    ctx.textAlign='center'; ctx.textBaseline='top';
+    ctx.fillText(label,cx,y+16);
+    /* big text — centred, shrink to fit */
+    var bSz=bigTxt.length>14?30:bigTxt.length>10?34:38;
     ctx.font='700 '+bSz+'px Georgia,serif'; ctx.fillStyle=GL;
-    /* shrink to fit card width */
-    while(ctx.measureText(bigTxt).width>w-36&&bSz>22){bSz--;ctx.font='700 '+bSz+'px Georgia,serif';}
+    while(ctx.measureText(bigTxt).width>w-24&&bSz>20){bSz--;ctx.font='700 '+bSz+'px Georgia,serif';}
     ctx.shadowColor='rgba(242,183,5,0.18)'; ctx.shadowBlur=6;
-    ctx.fillText(bigTxt,x+18,y+42);
+    ctx.fillText(bigTxt,cx,y+44);
     ctx.shadowBlur=0;
-    /* sub text */
-    ctx.font='400 17px sans-serif'; ctx.fillStyle='rgba(255,255,255,0.52)';
-    ctx.fillText(subTxt,x+18,y+h-22);
-    ctx.textBaseline='alphabetic';
+    /* sub text — centred */
+    ctx.font='400 16px sans-serif'; ctx.fillStyle='rgba(255,255,255,0.48)';
+    ctx.fillText(subTxt,cx,y+h-20);
+    ctx.textAlign='left'; ctx.textBaseline='alphabetic';
   }
   ctx.restore();
   TY+=cH+22;
