@@ -4063,15 +4063,21 @@ function renderShareCard(photoDataUrl) {
     _infoCard(c1x, TY, cW, cH, 'STREAK', String(sk)+' Days', 'Season 1 Warrior');
     _infoCard(c2x, TY, cW, cH, 'TYPE', 'Rest Day', 'Recovery · Recharge');
   } else {
-    /* READING: LEFT=BOOK title, RIGHT=PAGES READ (always; falls to DURATION if no pages) */
+    /* READING: LEFT=BOOK, RIGHT=PAGES if logged, else DURATION, else CHAPTER */
     var bkShort = bookTitle ? (bookTitle.split(' ').slice(0,3).join(' ')+(bookTitle.split(' ').length>3?'…':'')) : 'No Book';
+    /* rightCardUsed tracks which stat is shown in the right card
+       so the stats row below never repeats it */
+    var rightCardUsed = null; /* 'pages' | 'mins' | 'chap' | null */
     var rightLbl, rightVal, rightSub;
     if(pagesStat){
       rightLbl='PAGES READ'; rightVal=String(pagesStat[1]); rightSub='This Session';
+      rightCardUsed='pages';
     } else if(minsStat){
       rightLbl='DURATION'; rightVal=String(minsStat[1]); rightSub='Time Read';
+      rightCardUsed='mins';
     } else if(chapStat){
       rightLbl='CHAPTER'; rightVal=String(chapStat[1]); rightSub='Progress';
+      rightCardUsed='chap';
     } else {
       rightLbl='STREAK'; rightVal=String(sk)+' Days'; rightSub='Keep Going';
     }
@@ -4109,10 +4115,10 @@ function renderShareCard(photoDataUrl) {
      ═══════════════════════════════ */
   if(!isRest){
     var statItems=[];
-    /* stats row: DURATION | CHAPTER | others
-       Pages already in right info card — never pushed here */
-    if(minsStat)  statItems.push({l:'DURATION', v:String(minsStat[1])});
-    if(chapStat)  statItems.push({l:'CHAPTER',  v:String(chapStat[1])});
+    /* stats row: skip whatever was already shown in the right info card */
+    if(minsStat && rightCardUsed!=='mins')  statItems.push({l:'DURATION', v:String(minsStat[1])});
+    if(pagesStat && rightCardUsed!=='pages') statItems.push({l:'PAGES', v:String(pagesStat[1])});
+    if(chapStat && rightCardUsed!=='chap')   statItems.push({l:'CHAPTER', v:String(chapStat[1])});
     otherStats.slice(0, Math.max(0, 3-statItems.length)).forEach(function(r){
       statItems.push({l:String(r[0]).toUpperCase(), v:String(r[1])});
     });
@@ -4562,3 +4568,4 @@ function shareToTwitter() {
 
 </body>
 </html>
+      
