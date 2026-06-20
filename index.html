@@ -1517,397 +1517,151 @@ body::before{
 </footer>
 
 <script>
-// ════════════════════════════════════════════════════════════════
-// BOOKAWEEK STORE — FULL JS v2
-// ════════════════════════════════════════════════════════════════
+// ════════════════════════════════════════════════════
+// BOOKAWEEK STORE — JS (fixed, clean)
+// ════════════════════════════════════════════════════
 
-// ── BOOK CATALOG ──
+// ── CATALOG ──
 var CATALOG = [
-  {
-    id:'psychology-of-money',
-    title:'The Psychology of Money',
-    author:'Morgan Housel',
-    price:5500, originalPrice:7000,
-    category:'Finance',
-    badge:'bestseller',
-    warriors:5, avgDays:11, rating:4.8,
-    insight:'Doing well with money has little to do with how smart you are and everything to do with how you behave.',
-    color1:'#1B2E1B', color2:'#2D4A2D', textColor:'#E8C56A',
-    cover:'https://covers.openlibrary.org/b/isbn/9780857197689-L.jpg',
-    pick:true
-  },
-  {
-    id:'rich-dad-poor-dad',
-    title:'Rich Dad Poor Dad',
-    author:'Robert T. Kiyosaki',
-    price:4500, originalPrice:6000,
-    category:'Finance',
-    badge:'bestseller',
-    warriors:6, avgDays:8, rating:4.6,
-    insight:'The rich don\'t work for money. They make money work for them.',
-    color1:'#2E1B1B', color2:'#4A2D2D', textColor:'#E8A56A',
-    cover:'https://covers.openlibrary.org/b/isbn/9781612680194-L.jpg'
-  },
-  {
-    id:'atomic-habits',
-    title:'Atomic Habits',
-    author:'James Clear',
-    price:5000, originalPrice:6500,
-    category:'Execution',
-    badge:'new',
-    warriors:4, avgDays:9, rating:4.9,
-    insight:'You do not rise to the level of your goals. You fall to the level of your systems.',
-    color1:'#1B1B2E', color2:'#2D2D4A', textColor:'#8AB4E8',
-    cover:'https://covers.openlibrary.org/b/isbn/9780735211292-L.jpg'
-  },
-  {
-    id:'think-grow-rich',
-    title:'Think and Grow Rich',
-    author:'Napoleon Hill',
-    price:3800, originalPrice:5000,
-    category:'Finance',
-    badge:null,
-    warriors:5, avgDays:14, rating:4.5,
-    insight:'Whatever the mind can conceive and believe, it can achieve.',
-    color1:'#2E2A1B', color2:'#4A432D', textColor:'#E8D56A',
-    cover:'https://covers.openlibrary.org/b/isbn/9781585424337-L.jpg'
-  },
-  {
-    id:'start-with-why',
-    title:'Start With Why',
-    author:'Simon Sinek',
-    price:4800, originalPrice:6200,
-    category:'Leadership',
-    badge:'bestseller',
-    warriors:4, avgDays:10, rating:4.7,
-    insight:'People don\'t buy what you do; they buy why you do it.',
-    color1:'#1B2A2E', color2:'#2D424A', textColor:'#6AE8D4',
-    cover:'https://covers.openlibrary.org/b/isbn/9781591846444-L.jpg'
-  },
-  {
-    id:'48-laws',
-    title:'The 48 Laws of Power',
-    author:'Robert Greene',
-    price:6500, originalPrice:8500,
-    category:'Leadership',
-    badge:null,
-    warriors:3, avgDays:21, rating:4.4,
-    insight:'Power is the ability to define reality — and have others accept that definition.',
-    color1:'#2E1B2A', color2:'#4A2D43', textColor:'#E868C8',
-    cover:'https://covers.openlibrary.org/b/isbn/9780140280197-L.jpg'
-  },
-  {
-    id:'deep-work',
-    title:'Deep Work',
-    author:'Cal Newport',
-    price:4200, originalPrice:5500,
-    category:'Execution',
-    badge:'new',
-    warriors:3, avgDays:12, rating:4.8,
-    insight:'The ability to perform deep work is becoming increasingly rare and valuable in our economy.',
-    color1:'#1B2E2A', color2:'#2D4A43', textColor:'#6AE8B4',
-    cover:'https://covers.openlibrary.org/b/isbn/9781455586691-L.jpg'
-  },
-  {
-    id:'mindset',
-    title:'Mindset',
-    author:'Carol S. Dweck',
-    price:4000, originalPrice:5200,
-    category:'Psychology',
-    badge:null,
-    warriors:4, avgDays:11, rating:4.6,
-    insight:'In a growth mindset, challenges are exciting rather than threatening.',
-    color1:'#1B1B2E', color2:'#2D2D4A', textColor:'#B46AE8',
-    cover:'https://covers.openlibrary.org/b/isbn/9780345472328-L.jpg'
-  },
-  {
-    id:'thinking-fast-slow',
-    title:'Thinking, Fast and Slow',
-    author:'Daniel Kahneman',
-    price:5200, originalPrice:7000,
-    category:'Psychology',
-    badge:null,
-    warriors:2, avgDays:18, rating:4.5,
-    insight:'Nothing in life is as important as you think it is when you are thinking about it.',
-    color1:'#2A2E1B', color2:'#434A2D', textColor:'#C8E86A',
-    cover:'https://covers.openlibrary.org/b/isbn/9780374533557-L.jpg'
-  },
-  {
-    id:'outliers',
-    title:'Outliers',
-    author:'Malcolm Gladwell',
-    price:4300, originalPrice:5800,
-    category:'Psychology',
-    badge:null,
-    warriors:3, avgDays:9, rating:4.5,
-    insight:'Practice isn\'t the thing you do once you\'re good. It\'s the thing that makes you good.',
-    color1:'#2E1B1B', color2:'#4A3030', textColor:'#E88A6A',
-    cover:'https://covers.openlibrary.org/b/isbn/9780316017930-L.jpg'
-  },
-  {
-    id:'shoe-dog',
-    title:'Shoe Dog',
-    author:'Phil Knight',
-    price:5800, originalPrice:7500,
-    category:'Biography',
-    badge:null,
-    warriors:2, avgDays:14, rating:4.9,
-    insight:'The cowards never started and the weak died along the way. That leaves us.',
-    color1:'#1B2020', color2:'#2D3535', textColor:'#6AE8E8',
-    cover:'https://covers.openlibrary.org/b/isbn/9781501135910-L.jpg'
-  },
-  {
-    id:'lean-startup',
-    title:'The Lean Startup',
-    author:'Eric Ries',
-    price:4600, originalPrice:6000,
-    category:'Execution',
-    badge:'new',
-    warriors:2, avgDays:13, rating:4.4,
-    insight:'The only way to win is to learn faster than anyone else.',
-    color1:'#1B2E1B', color2:'#2D452D', textColor:'#80E87A',
-    cover:'https://covers.openlibrary.org/b/isbn/9780307887894-L.jpg'
-  },
-  {
-    id:'purpose-driven-life',
-    title:'The Purpose Driven Life',
-    author:'Rick Warren',
-    price:4200, originalPrice:5500,
-    category:'Spiritual',
-    badge:'bestseller',
-    warriors:3, avgDays:14, rating:4.9,
-    insight:'You were made by God and for God — until you understand that, life will never make sense.',
-    color1:'#1A0D2E', color2:'#2E1A4A', textColor:'#C8A8E8',
-    cover:'https://covers.openlibrary.org/b/isbn/9780310335504-L.jpg',
-    reviews:[{warrior:'Jesulayomi',text:'This book answered questions I didn\'t know I had. Read it in 10 days and logged insights every session.',stars:5},{warrior:'Dorcas',text:'Changed how I see my daily work. Everything has meaning now.',stars:5}]
-  },
-  {
-    id:'battlefield-of-the-mind',
-    title:'Battlefield of the Mind',
-    author:'Joyce Meyer',
-    price:3800, originalPrice:5000,
-    category:'Spiritual',
-    badge:null,
-    warriors:2, avgDays:11, rating:4.8,
-    insight:'The mind is the battlefield. What you allow to stay in your thoughts will eventually determine the direction of your life.',
-    color1:'#2E1A0D', color2:'#4A2E1A', textColor:'#E8C8A8',
-    cover:'https://covers.openlibrary.org/b/isbn/9780446691093-L.jpg',
-    reviews:[{warrior:'Juliet',text:'I underlined something on almost every page. Transformed how I handle anxiety and overthinking.',stars:5}]
-  },
-  {
-    id:'redeeming-your-time',
-    title:'Redeeming Your Time',
-    author:'Jordan Raynor',
-    price:4500, originalPrice:5800,
-    category:'Spiritual',
-    badge:'new',
-    warriors:2, avgDays:10, rating:4.7,
-    insight:'Jesus was the most productive person who ever lived. He left no task unfinished and no person unloved.',
-    color1:'#0D1A2E', color2:'#1A2E4A', textColor:'#A8C8E8',
-    cover:'https://covers.openlibrary.org/b/isbn/9780525652083-L.jpg',
-    reviews:[{warrior:'Motolani',text:'A practical and spiritual guide to stewardship of time. Completely reframed how I plan my days.',stars:5}]
-  },
-  {
-    id:'the-daniel-fast',
-    title:'The Power of a Praying Life',
-    author:'Stormie Omartian',
-    price:3500, originalPrice:4800,
-    category:'Spiritual',
-    badge:null,
-    warriors:2, avgDays:13, rating:4.8,
-    insight:'Prayer is not a last resort. It is the first resort of someone who knows where their power comes from.',
-    color1:'#1A2E0D', color2:'#2E4A1A', textColor:'#A8E8C8',
-    cover:'https://covers.openlibrary.org/b/isbn/9780736943345-L.jpg',
-    reviews:[{warrior:'Haliyah',text:'Every chapter felt like it was written specifically for where I am in life. 5 stars without hesitation.',stars:5}]
-  },
-  {
-    id:'good-to-great',
-    title:'Good to Great',
-    author:'Jim Collins',
-    price:5200, originalPrice:7000,
-    category:'Leadership',
-    badge:null,
-    warriors:3, avgDays:16, rating:4.7,
-    insight:'Good is the enemy of great. Most companies settle for good — and that is exactly why so few become great.',
-    color1:'#1A1A2E', color2:'#2E2E4A', textColor:'#E8C56A',
-    cover:'https://covers.openlibrary.org/b/isbn/9780066620992-L.jpg'
-  },
-  {
-    id:'million-dollar-habits',
-    title:'The Millionaire Next Door',
-    author:'Thomas J. Stanley',
-    price:4100, originalPrice:5500,
-    category:'Finance',
-    badge:null,
-    warriors:2, avgDays:11, rating:4.4,
-    insight:'Wealth is not the same as income. Wealth is what you accumulate, not what you spend.',
-    color1:'#2E2A1B', color2:'#4A3F2D', textColor:'#E8D080',
-    cover:'https://covers.openlibrary.org/b/isbn/9781589795471-L.jpg'
-  },
-  {
-    id:'mans-search-for-meaning',
-    title:"Man's Search for Meaning",
-    author:'Viktor E. Frankl',
-    price:3600, originalPrice:5000,
-    category:'Psychology',
-    badge:'pick',
-    warriors:3, avgDays:7, rating:4.9,
-    insight:'Those who have a WHY to live can bear almost any HOW.',
-    color1:'#1C1C1C', color2:'#2D2D2D', textColor:'#E8C56A',
-    cover:'https://covers.openlibrary.org/b/isbn/9780807014271-L.jpg'
-  },
-  {
-    id:'power-of-now',
-    title:'The Power of Now',
-    author:'Eckhart Tolle',
-    price:4000, originalPrice:5500,
-    category:'Spiritual',
-    badge:null,
-    warriors:2, avgDays:14, rating:4.6,
-    insight:'Realize deeply that the present moment is all you ever have.',
-    color1:'#1A2E2E', color2:'#0D3333', textColor:'#A8E8D8',
-    cover:'https://covers.openlibrary.org/b/isbn/9781577314806-L.jpg'
-  }
+  {id:"psychology-of-money",title:"The Psychology of Money",author:"Morgan Housel",price:5500,originalPrice:7000,category:"Finance",badge:"bestseller",warriors:5,avgDays:11,rating:4.8,insight:"Doing well with money has little to do with how smart you are and everything to do with how you behave.",color1:"#1B2E1B",color2:"#2D4A2D",textColor:"#E8C56A",cover:"https://covers.openlibrary.org/b/isbn/9780857197689-L.jpg",pick:true},
+  {id:"rich-dad-poor-dad",title:"Rich Dad Poor Dad",author:"Robert T. Kiyosaki",price:4500,originalPrice:6000,category:"Finance",badge:"bestseller",warriors:6,avgDays:8,rating:4.6,insight:"The rich don't work for money. They make money work for them.",color1:"#2E1B1B",color2:"#4A2D2D",textColor:"#E8A56A",cover:"https://covers.openlibrary.org/b/isbn/9781612680194-L.jpg"},
+  {id:"atomic-habits",title:"Atomic Habits",author:"James Clear",price:5000,originalPrice:6500,category:"Execution",badge:"new",warriors:4,avgDays:9,rating:4.9,insight:"You do not rise to the level of your goals. You fall to the level of your systems.",color1:"#1B1B2E",color2:"#2D2D4A",textColor:"#8AB4E8",cover:"https://covers.openlibrary.org/b/isbn/9780735211292-L.jpg"},
+  {id:"think-grow-rich",title:"Think and Grow Rich",author:"Napoleon Hill",price:3800,originalPrice:5000,category:"Finance",badge:null,warriors:5,avgDays:14,rating:4.5,insight:"Whatever the mind can conceive and believe, it can achieve.",color1:"#2E2A1B",color2:"#4A432D",textColor:"#E8D56A",cover:"https://covers.openlibrary.org/b/isbn/9781585424337-L.jpg"},
+  {id:"start-with-why",title:"Start With Why",author:"Simon Sinek",price:4800,originalPrice:6200,category:"Leadership",badge:"bestseller",warriors:4,avgDays:10,rating:4.7,insight:"People don't buy what you do; they buy why you do it.",color1:"#1B2A2E",color2:"#2D424A",textColor:"#6AE8D4",cover:"https://covers.openlibrary.org/b/isbn/9781591846444-L.jpg"},
+  {id:"48-laws",title:"The 48 Laws of Power",author:"Robert Greene",price:6500,originalPrice:8500,category:"Leadership",badge:null,warriors:3,avgDays:21,rating:4.4,insight:"Power is the ability to define reality and have others accept that definition.",color1:"#2E1B2A",color2:"#4A2D43",textColor:"#E868C8",cover:"https://covers.openlibrary.org/b/isbn/9780140280197-L.jpg"},
+  {id:"deep-work",title:"Deep Work",author:"Cal Newport",price:4200,originalPrice:5500,category:"Execution",badge:"new",warriors:3,avgDays:12,rating:4.8,insight:"The ability to perform deep work is becoming increasingly rare and valuable in our economy.",color1:"#1B2E2A",color2:"#2D4A43",textColor:"#6AE8B4",cover:"https://covers.openlibrary.org/b/isbn/9781455586691-L.jpg"},
+  {id:"mindset",title:"Mindset",author:"Carol S. Dweck",price:4000,originalPrice:5200,category:"Psychology",badge:null,warriors:4,avgDays:11,rating:4.6,insight:"In a growth mindset, challenges are exciting rather than threatening.",color1:"#1B1B2E",color2:"#2D2D4A",textColor:"#B46AE8",cover:"https://covers.openlibrary.org/b/isbn/9780345472328-L.jpg"},
+  {id:"thinking-fast-slow",title:"Thinking, Fast and Slow",author:"Daniel Kahneman",price:5200,originalPrice:7000,category:"Psychology",badge:null,warriors:2,avgDays:18,rating:4.5,insight:"Nothing in life is as important as you think it is when you are thinking about it.",color1:"#2A2E1B",color2:"#434A2D",textColor:"#C8E86A",cover:"https://covers.openlibrary.org/b/isbn/9780374533557-L.jpg"},
+  {id:"outliers",title:"Outliers",author:"Malcolm Gladwell",price:4300,originalPrice:5800,category:"Psychology",badge:null,warriors:3,avgDays:9,rating:4.5,insight:"Practice is the thing that makes you good. 10,000 hours of it.",color1:"#2E1B1B",color2:"#4A3030",textColor:"#E88A6A",cover:"https://covers.openlibrary.org/b/isbn/9780316017930-L.jpg"},
+  {id:"shoe-dog",title:"Shoe Dog",author:"Phil Knight",price:5800,originalPrice:7500,category:"Biography",badge:null,warriors:2,avgDays:14,rating:4.9,insight:"The cowards never started and the weak died along the way. That leaves us.",color1:"#1B2020",color2:"#2D3535",textColor:"#6AE8E8",cover:"https://covers.openlibrary.org/b/isbn/9781501135910-L.jpg"},
+  {id:"lean-startup",title:"The Lean Startup",author:"Eric Ries",price:4600,originalPrice:6000,category:"Execution",badge:"new",warriors:2,avgDays:13,rating:4.4,insight:"The only way to win is to learn faster than anyone else.",color1:"#1B2E1B",color2:"#2D452D",textColor:"#80E87A",cover:"https://covers.openlibrary.org/b/isbn/9780307887894-L.jpg"},
+  {id:"purpose-driven-life",title:"The Purpose Driven Life",author:"Rick Warren",price:4200,originalPrice:5500,category:"Spiritual",badge:"bestseller",warriors:3,avgDays:14,rating:4.9,insight:"You were made by God and for God. Until you understand that, life will never make sense.",color1:"#1A0D2E",color2:"#2E1A4A",textColor:"#C8A8E8",cover:"https://covers.openlibrary.org/b/isbn/9780310335504-L.jpg",reviews:[{warrior:"Jesulayomi",text:"This book answered questions I didn't know I had. Read it in 10 days.",stars:5},{warrior:"Dorcas",text:"Changed how I see my daily work. Everything has meaning now.",stars:5}]},
+  {id:"battlefield-of-the-mind",title:"Battlefield of the Mind",author:"Joyce Meyer",price:3800,originalPrice:5000,category:"Spiritual",badge:null,warriors:2,avgDays:11,rating:4.8,insight:"The mind is the battlefield. What you allow in your thoughts determines the direction of your life.",color1:"#2E1A0D",color2:"#4A2E1A",textColor:"#E8C8A8",cover:"https://covers.openlibrary.org/b/isbn/9780446691093-L.jpg",reviews:[{warrior:"Juliet",text:"I underlined something on almost every page. Transformed how I handle anxiety.",stars:5}]},
+  {id:"redeeming-your-time",title:"Redeeming Your Time",author:"Jordan Raynor",price:4500,originalPrice:5800,category:"Spiritual",badge:"new",warriors:2,avgDays:10,rating:4.7,insight:"Jesus was the most productive person who ever lived. He left no task unfinished.",color1:"#0D1A2E",color2:"#1A2E4A",textColor:"#A8C8E8",cover:"https://covers.openlibrary.org/b/isbn/9780525652083-L.jpg",reviews:[{warrior:"Motolani",text:"A practical and spiritual guide to stewardship of time. Completely reframed how I plan my days.",stars:5}]},
+  {id:"praying-life",title:"The Power of a Praying Life",author:"Stormie Omartian",price:3500,originalPrice:4800,category:"Spiritual",badge:null,warriors:2,avgDays:13,rating:4.8,insight:"Prayer is not a last resort. It is the first resort of someone who knows where their power comes from.",color1:"#1A2E0D",color2:"#2E4A1A",textColor:"#A8E8C8",cover:"https://covers.openlibrary.org/b/isbn/9780736943345-L.jpg",reviews:[{warrior:"Haliyah",text:"Every chapter felt like it was written specifically for where I am in life. 5 stars.",stars:5}]},
+  {id:"good-to-great",title:"Good to Great",author:"Jim Collins",price:5200,originalPrice:7000,category:"Leadership",badge:null,warriors:3,avgDays:16,rating:4.7,insight:"Good is the enemy of great. Most companies settle for good and that is exactly why so few become great.",color1:"#1A1A2E",color2:"#2E2E4A",textColor:"#E8C56A",cover:"https://covers.openlibrary.org/b/isbn/9780066620992-L.jpg"},
+  {id:"millionaire-next-door",title:"The Millionaire Next Door",author:"Thomas J. Stanley",price:4100,originalPrice:5500,category:"Finance",badge:null,warriors:2,avgDays:11,rating:4.4,insight:"Wealth is not the same as income. Wealth is what you accumulate, not what you spend.",color1:"#2E2A1B",color2:"#4A3F2D",textColor:"#E8D080",cover:"https://covers.openlibrary.org/b/isbn/9781589795471-L.jpg"},
+  {id:"mans-search-for-meaning",title:"Man's Search for Meaning",author:"Viktor E. Frankl",price:3600,originalPrice:5000,category:"Psychology",badge:"pick",warriors:3,avgDays:7,rating:4.9,insight:"Those who have a WHY to live can bear almost any HOW.",color1:"#1C1C1C",color2:"#2D2D2D",textColor:"#E8C56A",cover:"https://covers.openlibrary.org/b/isbn/9780807014271-L.jpg"},
+  {id:"power-of-now",title:"The Power of Now",author:"Eckhart Tolle",price:4000,originalPrice:5500,category:"Spiritual",badge:null,warriors:2,avgDays:14,rating:4.6,insight:"Realize deeply that the present moment is all you ever have.",color1:"#1A2E2E",color2:"#0D3333",textColor:"#A8E8D8",cover:"https://covers.openlibrary.org/b/isbn/9781577314806-L.jpg"}
 ];
 
 var cart = [];
 var deliveryFee = 1500;
-var currentFilter = 'All';
+var currentFilter = "All";
+var _searchTerm = "";
 
-// ── ADMIN UNLOCK (tap logo 5x to show admin guide) ──
-var _logoTaps = 0;
-document.addEventListener('DOMContentLoaded', function() {
-  var logo = document.querySelector('.nav-logo img');
-  if (logo) {
-    logo.addEventListener('click', function() {
-      _logoTaps++;
-      if (_logoTaps >= 5) {
-        _logoTaps = 0;
-        var guide = document.getElementById('adminGuide');
-        if (guide) {
-          guide.style.display = guide.style.display === 'none' ? 'block' : 'none';
-          if (guide.style.display === 'block') guide.scrollIntoView({ behavior:'smooth' });
-        }
-      }
-    });
-  }
-});
+// ── ADMIN PASSWORD (change this to your own secret) ──
+var ADMIN_PASSWORD = "bookmaster2026";
 
 // ── SEARCH ──
-var _searchTerm = '';
-
 function searchBooks(term) {
-  _searchTerm = term.trim().toLowerCase();
+  _searchTerm = (term || "").trim().toLowerCase();
+  var clearBtn = document.getElementById("clearSearchBtn");
+  if (clearBtn) clearBtn.style.display = _searchTerm ? "block" : "none";
+  renderBooks(currentFilter);
+}
+
+function clearSearch() {
+  document.getElementById("searchInput").value = "";
+  _searchTerm = "";
+  var clearBtn = document.getElementById("clearSearchBtn");
+  if (clearBtn) clearBtn.style.display = "none";
   renderBooks(currentFilter);
 }
 
 function matchesSearch(book) {
   if (!_searchTerm) return true;
-  return book.title.toLowerCase().includes(_searchTerm)
-      || book.author.toLowerCase().includes(_searchTerm)
-      || book.category.toLowerCase().includes(_searchTerm)
+  return (book.title && book.title.toLowerCase().includes(_searchTerm))
+      || (book.author && book.author.toLowerCase().includes(_searchTerm))
+      || (book.category && book.category.toLowerCase().includes(_searchTerm))
       || (book.insight && book.insight.toLowerCase().includes(_searchTerm));
 }
 
 // ── REQUEST MODAL ──
 function openRequestModal() {
-  document.getElementById('requestModal').classList.add('open');
-  document.body.style.overflow = 'hidden';
-  setTimeout(function(){ document.getElementById('req-title').focus(); }, 300);
+  document.getElementById("requestModal").classList.add("open");
+  document.body.style.overflow = "hidden";
+  setTimeout(function(){ var el = document.getElementById("req-title"); if(el) el.focus(); }, 300);
 }
 function closeRequestModal() {
-  document.getElementById('requestModal').classList.remove('open');
-  document.body.style.overflow = '';
+  document.getElementById("requestModal").classList.remove("open");
+  document.body.style.overflow = "";
 }
 function submitBookRequest() {
-  var title  = document.getElementById('req-title').value.trim();
-  var author = document.getElementById('req-author').value.trim();
-  var name   = document.getElementById('req-name').value.trim();
-  var phone  = document.getElementById('req-phone').value.trim();
-  var why    = document.getElementById('req-why').value.trim();
+  var title  = document.getElementById("req-title").value.trim();
+  var author = document.getElementById("req-author").value.trim();
+  var name   = document.getElementById("req-name").value.trim();
+  var phone  = document.getElementById("req-phone").value.trim();
+  var why    = document.getElementById("req-why").value.trim();
   if (!title || !name || !phone) {
-    alert('Please fill in the book title, your name and WhatsApp number.');
+    alert("Please fill in the book title, your name and WhatsApp number.");
     return;
   }
-  var msg = [
-    '📬 *BOOK REQUEST — BOOKAWEEK STORE*',
-    '',
-    '*Book Requested*',
-    '📖 Title: ' + title,
-    author ? '✍️ Author: ' + author : '',
-    '',
-    '*Customer*',
-    '👤 Name: ' + name,
-    '📱 WhatsApp: ' + phone,
-    why ? '' : '',
-    why ? '💬 Reason: ' + why : '',
-    '',
-    '_Please confirm availability and price via WhatsApp._'
-  ].filter(function(l){ return l !== undefined; }).join('%0A');
-  var waNumber = '2348000000000';
-  window.open('https://wa.me/' + waNumber + '?text=' + msg, '_blank');
+  var lines = [
+    "%F0%9F%93%AC *BOOK REQUEST -- BOOKAWEEK STORE*", "",
+    "*Book Requested*",
+    "%F0%9F%93%96 Title: " + encodeURIComponent(title),
+    author ? "Author: " + encodeURIComponent(author) : "",
+    "", "*Customer*",
+    "Name: " + encodeURIComponent(name),
+    "WhatsApp: " + encodeURIComponent(phone),
+    why ? "Reason: " + encodeURIComponent(why) : ""
+  ].filter(Boolean).join("%0A");
+  var waNumber = "2348000000000";
+  window.open("https://wa.me/" + waNumber + "?text=" + lines, "_blank");
   closeRequestModal();
-  // Clear fields
-  ['req-title','req-author','req-name','req-phone','req-why'].forEach(function(id){
-    document.getElementById(id).value = '';
+  ["req-title","req-author","req-name","req-phone","req-why"].forEach(function(id){
+    var el = document.getElementById(id); if(el) el.value = "";
   });
-  // Show toast
-  showToast('📬 Request sent! We'll confirm within 24 hours.', 'success');
+  showToast("Request sent! We will confirm within 24 hours.", "success");
 }
 
 // ── TOAST ──
 function showToast(msg, type) {
-  var colors = { success:'#22C55E', info:'#C9A84C', error:'#EF4444' };
-  var t = document.createElement('div');
-  t.style.cssText = 'position:fixed;bottom:32px;left:50%;transform:translateX(-50%);background:' +
-    (colors[type]||colors.info) + ';color:#fff;padding:14px 24px;border-radius:100px;' +
-    'font-family:DM Sans,sans-serif;font-size:14px;font-weight:700;' +
-    'box-shadow:0 8px 32px rgba(0,0,0,.4);z-index:9999;max-width:90%;text-align:center;' +
-    'animation:fadeUp .3s ease;white-space:nowrap;';
+  var colors = { success:"#22C55E", info:"#C9A84C", error:"#EF4444" };
+  var t = document.createElement("div");
+  t.style.cssText = "position:fixed;bottom:32px;left:50%;transform:translateX(-50%);background:" +
+    (colors[type]||colors.info) + ";color:#fff;padding:14px 24px;border-radius:100px;" +
+    "font-family:DM Sans,sans-serif;font-size:14px;font-weight:700;" +
+    "box-shadow:0 8px 32px rgba(0,0,0,.4);z-index:9999;max-width:90%;text-align:center;" +
+    "animation:fadeUp .3s ease;white-space:nowrap;";
   t.textContent = msg;
   document.body.appendChild(t);
-  setTimeout(function(){ t.style.opacity='0';t.style.transition='opacity .3s'; }, 3200);
-  setTimeout(function(){ t.remove(); }, 3500);
+  setTimeout(function(){ t.style.opacity="0"; t.style.transition="opacity .3s"; }, 3200);
+  setTimeout(function(){ if(t.parentNode) t.remove(); }, 3500);
 }
 
 // ── REVIEWS TOGGLE ──
 function toggleReviews(id) {
-  var card = document.getElementById('card-' + id);
+  var card = document.getElementById("card-" + id);
   if (!card) return;
-  card.classList.toggle('expanded');
-  var btn = card.querySelector('.view-reviews-btn');
-  var panel = card.querySelector('.reviews-section');
+  card.classList.toggle("expanded");
+  var btn = card.querySelector(".view-reviews-btn");
+  var panel = card.querySelector(".reviews-section");
   if (!btn || !panel) return;
-  var open = card.classList.contains('expanded');
-  btn.innerHTML = open ? '▲ Hide reviews' : '★ Read BookWarrior reviews (' + btn.getAttribute('data-count') + ')';
-  panel.style.display = open ? 'block' : 'none';
+  var open = card.classList.contains("expanded");
+  btn.innerHTML = open ? "Hide reviews" : "Read BookWarrior reviews (" + btn.getAttribute("data-count") + ")";
+  panel.style.display = open ? "block" : "none";
 }
 
 // ── RENDER BOOKS ──
 function renderBooks(filter) {
   var grid = document.getElementById('bookGrid');
   var countEl = document.getElementById('resultsCount');
+  if (!grid) return;
   grid.innerHTML = '';
 
   var books = (filter === 'All' ? CATALOG : CATALOG.filter(function(b){ return b.category === filter; }))
     .filter(matchesSearch);
 
   if (countEl) {
-    if (_searchTerm) {
-      countEl.textContent = books.length + ' result' + (books.length !== 1 ? 's' : '') + ' for "' + _searchTerm + '"';
-    } else { countEl.textContent = ''; }
+    countEl.textContent = _searchTerm
+      ? books.length + ' result' + (books.length !== 1 ? 's' : '') + ' for "' + _searchTerm + '"'
+      : '';
   }
 
   if (books.length === 0) {
-    grid.innerHTML = [
-      '<div class="no-results" style="grid-column:1/-1">',
-        '<span class="nr-icon">🔍</span>',
-        '<div class="nr-title">No books found</div>',
-        '<div class="nr-sub">We don't have <em>' + (_searchTerm||filter) + '</em> yet.<br>',
-        '<button class="btn-ghost" onclick="openRequestModal()" style="margin-top:16px;font-size:13px;padding:10px 20px">',
-        'Request this book →</button></div>',
-      '</div>'
-    ].join('');
+    grid.innerHTML = '<div class="no-results" style="grid-column:1/-1"><span class="nr-icon">&#128269;</span><div class="nr-title">No books found</div><div class="nr-sub">Try a different search or <button class="btn-ghost" onclick="openRequestModal()" style="margin-top:16px;font-size:13px;padding:10px 20px;display:inline">Request a book</button></div></div>';
     return;
   }
 
@@ -1917,90 +1671,76 @@ function renderBooks(filter) {
     card.id = 'card-' + book.id;
     card.setAttribute('data-cat', book.category);
 
+    var badgeLabel = book.badge === 'bestseller' ? 'Bestseller' : book.badge === 'new' ? 'New' : 'Pick';
     var badgeHTML = book.badge
-      ? '<div class="book-card-badge badge-' + book.badge + '">' +
-        (book.badge==='bestseller'?'🔥 Bestseller':book.badge==='new'?'✨ New':'★ Pick') + '</div>'
+      ? '<div class="book-card-badge badge-' + book.badge + '">' + badgeLabel + '</div>'
       : '';
 
     var reviewsHTML = '';
     if (book.reviews && book.reviews.length > 0) {
       var reviewItems = book.reviews.map(function(r) {
         var init = r.warrior ? r.warrior[0].toUpperCase() : '?';
-        var stars = '★'.repeat(r.stars || 5);
-        return [
-          '<div class="review-item">',
-            '<div class="review-header">',
-              '<div class="review-avatar">' + init + '</div>',
-              '<span class="review-warrior">' + r.warrior + '</span>',
-              '<span class="review-stars">' + stars + '</span>',
-            '</div>',
-            '<div class="review-text">"' + r.text + '"</div>',
-          '</div>'
-        ].join('');
+        var stars = '';
+        for (var s = 0; s < (r.stars || 5); s++) stars += '&#9733;';
+        return '<div class="review-item"><div class="review-header"><div class="review-avatar">' + init + '</div><span class="review-warrior">' + r.warrior + '</span><span class="review-stars">' + stars + '</span></div><div class="review-text">&ldquo;' + r.text + '&rdquo;</div></div>';
       }).join('');
-
-      reviewsHTML = [
-        '<button class="view-reviews-btn" data-count="' + book.reviews.length + '"',
-          ' onclick="toggleReviews('' + book.id + '')"',
-          ' style="margin-top:10px">',
-          '★ Read BookWarrior reviews (' + book.reviews.length + ')',
-        '</button>',
-        '<div class="reviews-section" style="display:none">' + reviewItems + '</div>'
-      ].join('');
+      reviewsHTML = '<button class="view-reviews-btn" data-count="' + book.reviews.length + '" onclick="toggleReviews(\'' + book.id + '\')" style="margin-top:10px">Read BookWarrior reviews (' + book.reviews.length + ')</button><div class="reviews-section" style="display:none">' + reviewItems + '</div>';
     }
 
     var coverInner = book.cover
-      ? '<img src="' + book.cover + '" alt="' + book.title + '" style="width:100%;height:240px;object-fit:cover;display:block;transition:transform .4s ease" loading="lazy" onerror="this.style.display=\'none\';this.nextSibling.style.display=\'flex\'">' +
+      ? '<img src="' + book.cover + '" alt="' + book.title.replace(/"/g,"'") + '" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s ease" loading="lazy" onerror="this.style.display=\'none\';this.nextSibling.style.display=\'flex\'">' +
         '<div style="display:none;background:linear-gradient(160deg,' + book.color1 + ',' + book.color2 + ');height:240px;flex-direction:column;align-items:center;justify-content:flex-end;padding:16px 14px"><div style="font-size:9px;letter-spacing:.15em;color:rgba(255,255,255,.35);text-transform:uppercase;margin-bottom:8px">' + book.author + '</div><div style="font-family:Playfair Display,serif;font-size:14px;font-weight:900;color:' + book.textColor + ';text-align:center;line-height:1.2">' + book.title + '</div></div>'
       : '<div style="background:linear-gradient(160deg,' + book.color1 + ',' + book.color2 + ');height:240px;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding:16px 14px"><div style="font-size:9px;letter-spacing:.15em;color:rgba(255,255,255,.35);text-transform:uppercase;margin-bottom:8px">' + book.author + '</div><div style="font-family:Playfair Display,serif;font-size:14px;font-weight:900;color:' + book.textColor + ';text-align:center;line-height:1.2">' + book.title + '</div></div>';
 
-    card.innerHTML = [
-      '<div class="book-card-cover" style="cursor:pointer;overflow:hidden;position:relative" onclick="toggleReviews(\'' + book.id + '\')">',
-        badgeHTML,
-        coverInner,
-      '</div>',
-      '<div class="book-card-body">',
-        '<div class="book-card-cat">' + book.category + '</div>',
-        '<div class="book-card-title">' + book.title + '</div>',
-        '<div class="book-card-author">' + book.author + '</div>',
-        '<div class="book-card-data">',
-          '<div class="bcd-item"><div class="bcd-val">' + book.warriors + '</div><div class="bcd-lbl">Warriors</div></div>',
-          '<div class="bcd-item"><div class="bcd-val">' + book.avgDays + 'd</div><div class="bcd-lbl">Avg Read</div></div>',
-          '<div class="bcd-item"><div class="bcd-val">' + book.rating + '★</div><div class="bcd-lbl">Rating</div></div>',
-        '</div>',
-        '<div class="book-card-insight">"' + book.insight + '"</div>',
-        reviewsHTML,
-        '<div class="book-card-footer" style="margin-top:12px">',
-          '<div>',
-            '<span class="book-price">₦' + book.price.toLocaleString() + '</span>',
-            '<span class="book-price-old"> ₦' + book.originalPrice.toLocaleString() + '</span>',
-          '</div>',
-          '<button class="add-to-cart" id="btn-' + book.id + '"',
-            ' onclick="addToCart('' + book.id + '','' + book.title.replace(/'/g,"\'") + '','' + book.author.replace(/'/g,"\'") + '',' + book.price + ','' + book.color1 + '','' + book.textColor + '')">',
-            '+ Add',
-          '</button>',
-        '</div>',
-      '</div>'
-    ].join('');
+    var coverHTML = '<div style="height:240px;overflow:hidden;position:relative;background:linear-gradient(160deg,' + book.color1 + ',' + book.color2 + ')">' + coverInner + '</div>';
+
+    card.innerHTML =
+      '<div class="book-card-cover" style="cursor:pointer;overflow:hidden;position:relative" onclick="toggleReviews(\'' + book.id + '\')">' +
+        badgeHTML + coverHTML +
+      '</div>' +
+      '<div class="book-card-body">' +
+        '<div class="book-card-cat">' + book.category + '</div>' +
+        '<div class="book-card-title">' + book.title + '</div>' +
+        '<div class="book-card-author">' + book.author + '</div>' +
+        '<div class="book-card-data">' +
+          '<div class="bcd-item"><div class="bcd-val">' + book.warriors + '</div><div class="bcd-lbl">Warriors</div></div>' +
+          '<div class="bcd-item"><div class="bcd-val">' + book.avgDays + 'd</div><div class="bcd-lbl">Avg Read</div></div>' +
+          '<div class="bcd-item"><div class="bcd-val">' + book.rating + '&#9733;</div><div class="bcd-lbl">Rating</div></div>' +
+        '</div>' +
+        '<div class="book-card-insight">&ldquo;' + book.insight + '&rdquo;</div>' +
+        reviewsHTML +
+        '<div class="book-card-footer" style="margin-top:12px">' +
+          '<div><span class="book-price">&#8358;' + book.price.toLocaleString() + '</span><span class="book-price-old"> &#8358;' + book.originalPrice.toLocaleString() + '</span></div>' +
+          '<button class="add-to-cart" id="btn-' + book.id + '">+ Add</button>' +
+        '</div>' +
+      '</div>';
+
+    // Bind add-to-cart safely via closure (avoids all quote issues)
+    (function(b){
+      var btn = card.querySelector('.add-to-cart');
+      if (btn) btn.onclick = function(){ addToCart(b.id, b.title, b.author, b.price, b.color1, b.textColor); };
+    })(book);
 
     grid.appendChild(card);
   });
 }
 
+
 // ── FILTER ──
 function filterBooks(cat) {
   currentFilter = cat;
-  document.querySelectorAll('.filter-btn').forEach(function(btn){
-    btn.classList.toggle('active', btn.textContent.trim() === cat || (cat==='All' && btn.textContent.trim()==='All Books'));
+  document.querySelectorAll(".filter-btn").forEach(function(btn){
+    var txt = btn.textContent.trim();
+    btn.classList.toggle("active", txt === cat || (cat === "All" && txt === "All Books"));
   });
   renderBooks(cat);
-  var storeEl = document.getElementById('store');
-  if (storeEl) storeEl.scrollIntoView({behavior:'smooth', block:'start'});
+  var storeEl = document.getElementById("store");
+  if (storeEl) storeEl.scrollIntoView({behavior:"smooth", block:"start"});
 }
 
 // ── CART ──
 function addToCart(id, title, author, price, color, textColor) {
-  var btn = document.getElementById('btn-' + id);
+  var btn = document.getElementById("btn-" + id);
   var existing = cart.find(function(i){ return i.id === id; });
   if (existing) {
     existing.qty++;
@@ -2009,15 +1749,14 @@ function addToCart(id, title, author, price, color, textColor) {
   }
   updateCartUI();
   if (btn) {
-    btn.classList.add('added');
-    btn.innerHTML = '✓ Added';
+    btn.classList.add("added");
+    btn.innerHTML = "&#10003; Added";
     setTimeout(function(){
-      btn.classList.remove('added');
-      btn.innerHTML = '+ Add';
+      btn.classList.remove("added");
+      btn.innerHTML = "+ Add";
     }, 2000);
   }
-  showToast('📚 ' + title.split(':')[0] + ' added to cart', 'success');
-  // Open cart after brief delay
+  showToast(title.split(":")[0] + " added to cart", "success");
   setTimeout(function(){ openCart(); }, 600);
 }
 
@@ -2045,392 +1784,338 @@ function getCartCount() {
 function updateCartUI() {
   var count = getCartCount();
   var total = getCartTotal();
-
-  // Count badge
-  document.getElementById('cartCount').textContent = count;
-  document.getElementById('cartSubtitle').textContent = count > 0 ? '(' + count + ' item' + (count>1?'s':'') + ')' : '';
-
-  // Cart items
-  var itemsEl = document.getElementById('cartItems');
-  var footEl  = document.getElementById('cartFoot');
-  var totalEl = document.getElementById('cartTotal');
-
+  var countEl = document.getElementById("cartCount");
+  var subtitleEl = document.getElementById("cartSubtitle");
+  var itemsEl = document.getElementById("cartItems");
+  var footEl = document.getElementById("cartFoot");
+  var totalEl = document.getElementById("cartTotal");
+  if (countEl) countEl.textContent = count;
+  if (subtitleEl) subtitleEl.textContent = count > 0 ? "(" + count + " item" + (count > 1 ? "s" : "") + ")" : "";
+  if (!itemsEl) return;
   if (cart.length === 0) {
-    itemsEl.innerHTML = '<div class="cart-empty"><span class="ce-icon">📚</span><div class="ce-text">Your cart is empty.<br>Add books and change your life.</div></div>';
-    footEl.style.display = 'none';
+    itemsEl.innerHTML = '<div class="cart-empty"><span class="ce-icon">&#128218;</span><div class="ce-text">Your cart is empty.<br>Add books and change your life.</div></div>';
+    if (footEl) footEl.style.display = "none";
     return;
   }
-
-  footEl.style.display = 'block';
-  totalEl.textContent = '₦' + total.toLocaleString();
-
+  if (footEl) footEl.style.display = "block";
+  if (totalEl) totalEl.textContent = "&#8358;" + total.toLocaleString();
   itemsEl.innerHTML = cart.map(function(item){
-    return [
-      '<div class="cart-item">',
-        '<div class="ci-cover" style="background:linear-gradient(160deg,' + item.color + ',' + (item.color||'#1B2E1B') + ');display:flex;align-items:flex-end;padding:8px;">',
-          '<div style="font-family:Playfair Display,serif;font-size:9px;font-weight:700;color:' + item.textColor + ';line-height:1.2;">' + item.title.split(':')[0] + '</div>',
-        '</div>',
-        '<div class="ci-info">',
-          '<div class="ci-title">' + item.title + '</div>',
-          '<div class="ci-author">' + item.author + '</div>',
-          '<div class="ci-row">',
-            '<div class="ci-price">₦' + (item.price * item.qty).toLocaleString() + '</div>',
-            '<div style="display:flex;align-items:center;gap:8px">',
-              '<div class="ci-qty">',
-                '<button class="qty-btn" onclick="changeQty('' + item.id + '',-1)">−</button>',
-                '<div class="qty-num">' + item.qty + '</div>',
-                '<button class="qty-btn" onclick="changeQty('' + item.id + '',1)">+</button>',
-              '</div>',
-              '<button class="ci-del" onclick="removeFromCart('' + item.id + '')">🗑</button>',
-            '</div>',
-          '</div>',
-        '</div>',
-      '</div>'
-    ].join('');
+    return '<div class="cart-item">' +
+      '<div class="ci-cover" style="background:linear-gradient(160deg,' + item.color + ',' + item.color + ');display:flex;align-items:flex-end;padding:8px"><div style="font-family:Playfair Display,serif;font-size:9px;font-weight:700;color:' + item.textColor + ';line-height:1.2">' + item.title.split(':')[0] + '</div></div>' +
+      '<div class="ci-info">' +
+        '<div class="ci-title">' + item.title + '</div>' +
+        '<div class="ci-author">' + item.author + '</div>' +
+        '<div class="ci-row">' +
+          '<div class="ci-price">&#8358;' + (item.price * item.qty).toLocaleString() + '</div>' +
+          '<div style="display:flex;align-items:center;gap:8px">' +
+            '<div class="ci-qty">' +
+              '<button class="qty-btn" onclick="changeQty(\'' + item.id + '\',-1)">&#8722;</button>' +
+              '<div class="qty-num">' + item.qty + '</div>' +
+              '<button class="qty-btn" onclick="changeQty(\'' + item.id + '\',1)">+</button>' +
+            '</div>' +
+            '<button class="ci-del" onclick="removeFromCart(\'' + item.id + '\')">&#128465;</button>' +
+          '</div>' +
+        '</div>' +
+      '</div>' +
+    '</div>';
   }).join('');
-
-  // Update order summary in checkout
   updateOrderSummary();
 }
 
 function openCart() {
-  document.getElementById('cartOverlay').classList.add('open');
-  document.getElementById('cartDrawer').classList.add('open');
-  document.body.style.overflow = 'hidden';
+  document.getElementById("cartOverlay").classList.add("open");
+  document.getElementById("cartDrawer").classList.add("open");
+  document.body.style.overflow = "hidden";
 }
-
 function closeCart() {
-  document.getElementById('cartOverlay').classList.remove('open');
-  document.getElementById('cartDrawer').classList.remove('open');
-  document.body.style.overflow = '';
+  document.getElementById("cartOverlay").classList.remove("open");
+  document.getElementById("cartDrawer").classList.remove("open");
+  document.body.style.overflow = "";
 }
 
 // ── CHECKOUT ──
-var deliveryType = 'standard';
+var deliveryType = "standard";
 deliveryFee = 1500;
 
 function selectDelivery(type, fee) {
   deliveryType = type;
-  deliveryFee  = fee;
-  document.getElementById('dopt-standard').classList.toggle('active', type==='standard');
-  document.getElementById('dopt-express').classList.toggle('active', type==='express');
+  deliveryFee = fee;
+  document.getElementById("dopt-standard").classList.toggle("active", type === "standard");
+  document.getElementById("dopt-express").classList.toggle("active", type === "express");
   updateOrderSummary();
 }
 
 function updateOrderSummary() {
-  var sum = document.getElementById('coOrderSum');
+  var sum = document.getElementById("coOrderSum");
   if (!sum) return;
   var subtotal = getCartTotal();
-  var total    = subtotal + deliveryFee;
-  sum.innerHTML = [
-    '<div class="cos-row"><span>Subtotal (' + getCartCount() + ' books)</span><span>₦' + subtotal.toLocaleString() + '</span></div>',
-    '<div class="cos-row"><span>Delivery (' + (deliveryType==='express'?'Same day':'48hrs') + ')</span><span>₦' + deliveryFee.toLocaleString() + '</span></div>',
-    '<div class="cos-row"><span>Total</span><span>₦' + total.toLocaleString() + '</span></div>'
-  ].join('');
+  var total = subtotal + deliveryFee;
+  sum.innerHTML =
+    '<div class="cos-row"><span>Subtotal (' + getCartCount() + ' books)</span><span>&#8358;' + subtotal.toLocaleString() + '</span></div>' +
+    '<div class="cos-row"><span>Delivery (' + (deliveryType === 'express' ? 'Same day' : '48hrs') + ')</span><span>&#8358;' + deliveryFee.toLocaleString() + '</span></div>' +
+    '<div class="cos-row"><span>Total</span><span>&#8358;' + total.toLocaleString() + '</span></div>';
 }
 
 function openCheckout() {
   if (cart.length === 0) return;
   closeCart();
   updateOrderSummary();
-  document.getElementById('checkoutOverlay').classList.add('open');
-  document.getElementById('checkoutBody').style.display = 'block';
-  document.getElementById('orderSuccess').classList.remove('show');
-  document.body.style.overflow = 'hidden';
+  document.getElementById("checkoutOverlay").classList.add("open");
+  document.getElementById("checkoutBody").style.display = "block";
+  document.getElementById("orderSuccess").classList.remove("show");
+  document.body.style.overflow = "hidden";
 }
-
 function closeCheckout() {
-  document.getElementById('checkoutOverlay').classList.remove('open');
-  document.body.style.overflow = '';
+  document.getElementById("checkoutOverlay").classList.remove("open");
+  document.body.style.overflow = "";
 }
 
 function placeOrderWhatsApp() {
-  var name  = document.getElementById('co-name').value.trim();
-  var phone = document.getElementById('co-phone').value.trim();
-  var addr  = document.getElementById('co-addr').value.trim();
-  var state = document.getElementById('co-state').value;
-
+  var name  = document.getElementById("co-name").value.trim();
+  var phone = document.getElementById("co-phone").value.trim();
+  var addr  = document.getElementById("co-addr").value.trim();
+  var state = document.getElementById("co-state").value;
   if (!name || !phone || !addr || !state) {
-    alert('Please fill in all required fields (Name, WhatsApp, Address, State).');
+    alert("Please fill in all required fields (Name, WhatsApp, Address, State).");
     return;
   }
-
   var subtotal = getCartTotal();
-  var total    = subtotal + deliveryFee;
-
+  var total = subtotal + deliveryFee;
   var bookList = cart.map(function(i){
-    return '📖 ' + i.title + ' × ' + i.qty + ' — ₦' + (i.price*i.qty).toLocaleString();
-  }).join('%0A');
-
-  var msg = [
-    '🛒 *NEW BOOKAWEEK ORDER*',
-    '',
-    '*Customer Details*',
-    '👤 Name: ' + name,
-    '📱 WhatsApp: ' + phone,
-    '📍 Address: ' + addr + ', ' + state,
-    '',
-    '*Order Summary*',
-    bookList,
-    '',
-    '📦 Delivery: ' + (deliveryType==='express'?'Express (Same Day)':'Standard (48hrs)') + ' — ₦' + deliveryFee.toLocaleString(),
-    '💰 *Total: ₦' + total.toLocaleString() + '*',
-    '',
-    '_We Read. We Reflect. We Execute._'
-  ].join('%0A');
-
-  // Replace with your actual WhatsApp number
-  var waNumber = '2348000000000';
-  window.open('https://wa.me/' + waNumber + '?text=' + msg, '_blank');
-
-  // Show success
-  document.getElementById('checkoutBody').style.display = 'none';
-  document.getElementById('orderSuccess').classList.add('show');
+    return "* " + i.title + " x " + i.qty + " -- N" + (i.price * i.qty).toLocaleString();
+  }).join("%0A");
+  var msg = "*NEW BOOKAWEEK ORDER*%0A%0A" +
+    "Name: " + encodeURIComponent(name) + "%0A" +
+    "WhatsApp: " + encodeURIComponent(phone) + "%0A" +
+    "Address: " + encodeURIComponent(addr + ", " + state) + "%0A%0A" +
+    "ORDER:%0A" + bookList + "%0A%0A" +
+    "Delivery: " + (deliveryType === "express" ? "Express (Same Day)" : "Standard (48hrs)") + " -- N" + deliveryFee.toLocaleString() + "%0A" +
+    "TOTAL: N" + total.toLocaleString() + "%0A%0A_We Read. We Reflect. We Execute._";
+  window.open("https://wa.me/2348000000000?text=" + msg, "_blank");
+  document.getElementById("checkoutBody").style.display = "none";
+  document.getElementById("orderSuccess").classList.add("show");
   cart = [];
   updateCartUI();
 }
 
 function placeOrderPaystack() {
-  var name  = document.getElementById('co-name').value.trim();
-  var email = document.getElementById('co-email').value.trim();
-  var phone = document.getElementById('co-phone').value.trim();
-  var addr  = document.getElementById('co-addr').value.trim();
-  var state = document.getElementById('co-state').value;
-
+  var name  = document.getElementById("co-name").value.trim();
+  var email = document.getElementById("co-email").value.trim();
+  var phone = document.getElementById("co-phone").value.trim();
+  var addr  = document.getElementById("co-addr").value.trim();
+  var state = document.getElementById("co-state").value;
   if (!name || !phone || !addr || !state) {
-    alert('Please fill in all required fields before paying.');
+    alert("Please fill in all required fields before paying.");
     return;
   }
-
-  if (!email) {
-    email = phone.replace(/[^0-9]/g,'') + '@bookaweek.com';
-  }
-
+  if (!email) email = phone.replace(/[^0-9]/g,"") + "@bookaweek.com";
   var total = getCartTotal() + deliveryFee;
-
-  // Paystack inline — replace PUBLIC_KEY with your actual Paystack public key
-  var handler = PaystackPop ? PaystackPop.setup({
-    key: 'pk_live_YOUR_PAYSTACK_PUBLIC_KEY',
-    email: email,
-    amount: total * 100, // kobo
-    currency: 'NGN',
-    ref: 'BAW-' + Date.now(),
-    metadata: {
-      custom_fields: [
-        {display_name:'Name',variable_name:'name',value:name},
-        {display_name:'Phone',variable_name:'phone',value:phone},
-        {display_name:'Address',variable_name:'address',value:addr+', '+state}
-      ]
-    },
-    callback: function(response) {
-      document.getElementById('checkoutBody').style.display = 'none';
-      document.getElementById('orderSuccess').classList.add('show');
-      cart = [];
-      updateCartUI();
-    },
-    onClose: function() {}
-  }) : null;
-
-  if (handler) handler.openIframe();
-  else alert('Payment system loading. Please try WhatsApp order for now.');
+  if (typeof PaystackPop !== "undefined") {
+    var handler = PaystackPop.setup({
+      key: "pk_live_YOUR_PAYSTACK_PUBLIC_KEY",
+      email: email,
+      amount: total * 100,
+      currency: "NGN",
+      ref: "BAW-" + Date.now(),
+      callback: function() {
+        document.getElementById("checkoutBody").style.display = "none";
+        document.getElementById("orderSuccess").classList.add("show");
+        cart = []; updateCartUI();
+      },
+      onClose: function() {}
+    });
+    handler.openIframe();
+  } else {
+    alert("Payment system loading. Please try WhatsApp order for now.");
+  }
 }
 
-// ── CLEAR SEARCH ──
-function clearSearch() {
-  document.getElementById('searchInput').value = '';
-  _searchTerm = '';
-  document.getElementById('clearSearchBtn').style.display = 'none';
-  renderBooks(currentFilter);
-}
+// ── ADMIN PANEL (password protected) ──
+var _adminUnlocked = false;
 
-// Override searchBooks to show/hide clear button
-var _origSearchBooks = searchBooks;
-searchBooks = function(term) {
-  _searchTerm = term.trim().toLowerCase();
-  var clearBtn = document.getElementById('clearSearchBtn');
-  if (clearBtn) clearBtn.style.display = _searchTerm ? 'block' : 'none';
-  renderBooks(currentFilter);
-};
-
-// ── ADMIN PANEL ──
 function openAdminPanel() {
-  document.getElementById('adminOverlay').style.display = 'block';
-  document.body.style.overflow = 'hidden';
-  switchAdminTab('add');
+  if (!_adminUnlocked) {
+    var pw = prompt("Enter Bookmaster password:");
+    if (!pw || pw !== ADMIN_PASSWORD) {
+      showToast("Incorrect password.", "error");
+      return;
+    }
+    _adminUnlocked = true;
+  }
+  document.getElementById("adminOverlay").style.display = "block";
+  document.body.style.overflow = "hidden";
+  switchAdminTab("add");
 }
+
 function closeAdminPanel() {
-  document.getElementById('adminOverlay').style.display = 'none';
-  document.body.style.overflow = '';
+  document.getElementById("adminOverlay").style.display = "none";
+  document.body.style.overflow = "";
 }
 
 function switchAdminTab(tab) {
-  var isAdd = tab === 'add';
-  document.getElementById('adminTabAdd').style.display = isAdd ? 'block' : 'none';
-  document.getElementById('adminTabManage').style.display = isAdd ? 'none' : 'block';
-  document.getElementById('atab-add').style.cssText = isAdd
-    ? 'flex:1;padding:16px;background:rgba(201,168,76,.08);border:none;border-bottom:2px solid var(--gold);color:var(--gold);font-family:DM Sans,sans-serif;font-size:13px;font-weight:700;cursor:pointer'
-    : 'flex:1;padding:16px;background:none;border:none;border-bottom:2px solid transparent;color:rgba(255,255,255,.4);font-family:DM Sans,sans-serif;font-size:13px;font-weight:700;cursor:pointer';
-  document.getElementById('atab-manage').style.cssText = !isAdd
-    ? 'flex:1;padding:16px;background:rgba(201,168,76,.08);border:none;border-bottom:2px solid var(--gold);color:var(--gold);font-family:DM Sans,sans-serif;font-size:13px;font-weight:700;cursor:pointer'
-    : 'flex:1;padding:16px;background:none;border:none;border-bottom:2px solid transparent;color:rgba(255,255,255,.4);font-family:DM Sans,sans-serif;font-size:13px;font-weight:700;cursor:pointer';
+  var isAdd = tab === "add";
+  document.getElementById("adminTabAdd").style.display = isAdd ? "block" : "none";
+  document.getElementById("adminTabManage").style.display = isAdd ? "none" : "block";
+  var addBtn = document.getElementById("atab-add");
+  var manBtn = document.getElementById("atab-manage");
+  if (addBtn) {
+    addBtn.style.borderBottom = isAdd ? "2px solid var(--gold)" : "2px solid transparent";
+    addBtn.style.color = isAdd ? "var(--gold)" : "rgba(255,255,255,.4)";
+    addBtn.style.background = isAdd ? "rgba(201,168,76,.08)" : "none";
+  }
+  if (manBtn) {
+    manBtn.style.borderBottom = !isAdd ? "2px solid var(--gold)" : "2px solid transparent";
+    manBtn.style.color = !isAdd ? "var(--gold)" : "rgba(255,255,255,.4)";
+    manBtn.style.background = !isAdd ? "rgba(201,168,76,.08)" : "none";
+  }
   if (!isAdd) renderAdminBookList();
 }
 
 function adminShowMsg(msg, type) {
-  var el = document.getElementById('adminFormMsg');
-  el.style.display = 'block';
-  el.style.background = type === 'success' ? 'rgba(34,197,94,.15)' : 'rgba(239,68,68,.15)';
-  el.style.border = '1px solid ' + (type === 'success' ? 'rgba(34,197,94,.3)' : 'rgba(239,68,68,.3)');
-  el.style.color = type === 'success' ? '#22C55E' : '#EF4444';
+  var el = document.getElementById("adminFormMsg");
+  if (!el) return;
+  el.style.display = "block";
+  el.style.background = type === "success" ? "rgba(34,197,94,.15)" : "rgba(239,68,68,.15)";
+  el.style.border = "1px solid " + (type === "success" ? "rgba(34,197,94,.3)" : "rgba(239,68,68,.3)");
+  el.style.color = type === "success" ? "#22C55E" : "#EF4444";
   el.textContent = msg;
-  setTimeout(function(){ el.style.display = 'none'; }, 4000);
+  setTimeout(function(){ el.style.display = "none"; }, 4000);
 }
 
 function adminResetForm() {
-  ['af-title','af-author','af-price','af-origprice','af-cover','af-insight'].forEach(function(id){
-    var el = document.getElementById(id); if(el) el.value = '';
+  ["af-title","af-author","af-price","af-origprice","af-cover","af-insight"].forEach(function(id){
+    var el = document.getElementById(id); if(el) el.value = "";
   });
-  document.getElementById('af-cat').value = '';
-  document.getElementById('af-badge').value = '';
-  document.getElementById('af-rating').value = '';
+  var cat = document.getElementById("af-cat"); if(cat) cat.value = "";
+  var badge = document.getElementById("af-badge"); if(badge) badge.value = "";
+  var rating = document.getElementById("af-rating"); if(rating) rating.value = "";
 }
 
 function adminSaveBook() {
-  var title   = document.getElementById('af-title').value.trim();
-  var author  = document.getElementById('af-author').value.trim();
-  var price   = parseFloat(document.getElementById('af-price').value);
-  var origp   = parseFloat(document.getElementById('af-origprice').value) || price * 1.3;
-  var cat     = document.getElementById('af-cat').value;
-  var badge   = document.getElementById('af-badge').value || null;
-  var rating  = parseFloat(document.getElementById('af-rating').value) || 4.5;
-  var cover   = document.getElementById('af-cover').value.trim();
-  var insight = document.getElementById('af-insight').value.trim();
+  var title   = (document.getElementById("af-title").value || "").trim();
+  var author  = (document.getElementById("af-author").value || "").trim();
+  var price   = parseFloat(document.getElementById("af-price").value);
+  var origp   = parseFloat(document.getElementById("af-origprice").value) || Math.round(price * 1.3);
+  var cat     = document.getElementById("af-cat").value;
+  var badge   = document.getElementById("af-badge").value || null;
+  var rating  = parseFloat(document.getElementById("af-rating").value) || 4.5;
+  var cover   = (document.getElementById("af-cover").value || "").trim();
+  var insight = (document.getElementById("af-insight").value || "").trim();
 
   if (!title || !author || !price || !cat || !insight) {
-    adminShowMsg('Please fill in all required fields.', 'error'); return;
+    adminShowMsg("Please fill in all required fields.", "error"); return;
   }
 
-  var colors = [
-    ['#1B2E1B','#2D4A2D','#E8C56A'],['#2E1B1B','#4A2D2D','#E8A56A'],
-    ['#1B1B2E','#2D2D4A','#8AB4E8'],['#2E1A0D','#4A2E1A','#E8C8A8'],
-    ['#1A0D2E','#2E1A4A','#C8A8E8'],['#1B2A2E','#2D424A','#6AE8D4'],
-    ['#2E2A1B','#4A432D','#E8D56A'],['#0D1A2E','#1A2E4A','#A8C8E8']
+  var palettes = [
+    ["#1B2E1B","#2D4A2D","#E8C56A"],["#2E1B1B","#4A2D2D","#E8A56A"],
+    ["#1B1B2E","#2D2D4A","#8AB4E8"],["#2E1A0D","#4A2E1A","#E8C8A8"],
+    ["#1A0D2E","#2E1A4A","#C8A8E8"],["#1B2A2E","#2D424A","#6AE8D4"]
   ];
-  var c = colors[Math.floor(Math.random() * colors.length)];
-  var id = title.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'') + '-' + Date.now();
+  var c = palettes[Math.floor(Math.random() * palettes.length)];
+  var id = title.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"") + "-" + Date.now();
 
   CATALOG.push({
-    id: id, title: title, author: author,
-    price: price, originalPrice: Math.round(origp),
-    category: cat, badge: badge || null,
-    warriors: Math.floor(Math.random()*4)+1,
-    avgDays: Math.floor(Math.random()*10)+7,
-    rating: rating, insight: insight,
-    color1: c[0], color2: c[1], textColor: c[2],
-    cover: cover || null, reviews: []
+    id:id, title:title, author:author,
+    price:price, originalPrice:origp,
+    category:cat, badge:badge,
+    warriors:Math.floor(Math.random()*4)+1,
+    avgDays:Math.floor(Math.random()*10)+7,
+    rating:rating, insight:insight,
+    color1:c[0], color2:c[1], textColor:c[2],
+    cover:cover||null, reviews:[]
   });
 
   renderBooks(currentFilter);
   adminResetForm();
-  adminShowMsg('✅ "' + title + '" added to the store!', 'success');
-  showToast('📚 ' + title + ' added to store!', 'success');
+  adminShowMsg('"' + title + '" added to the store!', 'success');
+  showToast(title + " added to store!", "success");
 }
 
 function renderAdminBookList() {
-  var list = document.getElementById('adminBookList');
+  var list = document.getElementById("adminBookList");
   if (!list) return;
   if (CATALOG.length === 0) {
-    list.innerHTML = '<div style="text-align:center;color:rgba(255,255,255,.3);padding:40px">No books in catalog yet.</div>';
+    list.innerHTML = '<div style="text-align:center;color:rgba(255,255,255,.3);padding:40px">No books yet.</div>';
     return;
   }
   list.innerHTML = CATALOG.map(function(book) {
-    return [
-      '<div style="display:flex;align-items:center;gap:14px;padding:14px 16px;background:rgba(255,255,255,.04);border:1px solid rgba(201,168,76,.1);border-radius:12px">',
-        '<div style="width:44px;height:56px;border-radius:6px;overflow:hidden;flex-shrink:0;background:linear-gradient(160deg,' + book.color1 + ',' + book.color2 + ')">',
-          book.cover ? '<img src="' + book.cover + '" style="width:100%;height:100%;object-fit:cover" loading="lazy" onerror="this.style.display=\'none\'">' : '',
-        '</div>',
-        '<div style="flex:1;min-width:0">',
-          '<div style="font-family:Playfair Display,serif;font-size:15px;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">' + book.title + '</div>',
-          '<div style="font-size:12px;color:rgba(245,237,216,.4);margin-top:2px">' + book.author + ' · ' + book.category + '</div>',
-          '<div style="font-size:13px;color:var(--gold);font-weight:700;margin-top:4px">₦' + book.price.toLocaleString() + '</div>',
-        '</div>',
-        '<div style="display:flex;gap:8px;flex-shrink:0">',
-          '<button onclick="openEditModal(\'' + book.id + '\')" style="background:rgba(201,168,76,.12);color:var(--gold);border:1px solid rgba(201,168,76,.25);border-radius:8px;padding:8px 14px;font-family:DM Sans,sans-serif;font-size:12px;font-weight:700;cursor:pointer">✏️ Edit</button>',
-          '<button onclick="adminDeleteBook(\'' + book.id + '\')" style="background:rgba(239,68,68,.1);color:#EF4444;border:1px solid rgba(239,68,68,.25);border-radius:8px;padding:8px 14px;font-family:DM Sans,sans-serif;font-size:12px;font-weight:700;cursor:pointer">🗑 Remove</button>',
-        '</div>',
-      '</div>'
-    ].join('');
+    return '<div style="display:flex;align-items:center;gap:14px;padding:14px 16px;background:rgba(255,255,255,.04);border:1px solid rgba(201,168,76,.1);border-radius:12px;margin-bottom:8px">' +
+      '<div style="width:44px;height:56px;border-radius:6px;overflow:hidden;flex-shrink:0;background:linear-gradient(160deg,' + book.color1 + ',' + book.color2 + ')">' +
+        (book.cover ? '<img src="' + book.cover + '" style="width:100%;height:100%;object-fit:cover" loading="lazy" onerror="this.style.display=\'none\'">' : '') +
+      '</div>' +
+      '<div style="flex:1;min-width:0">' +
+        '<div style="font-family:Playfair Display,serif;font-size:14px;font-weight:700;color:#fff;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + book.title + '</div>' +
+        '<div style="font-size:12px;color:rgba(245,237,216,.4);margin-top:2px">' + book.author + ' &middot; ' + book.category + '</div>' +
+        '<div style="font-size:13px;color:var(--gold);font-weight:700;margin-top:4px">&#8358;' + book.price.toLocaleString() + '</div>' +
+      '</div>' +
+      '<div style="display:flex;gap:8px;flex-shrink:0">' +
+        '<button onclick="openEditModal(\'' + book.id + '\')" style="background:rgba(201,168,76,.12);color:var(--gold);border:1px solid rgba(201,168,76,.25);border-radius:8px;padding:8px 14px;font-family:DM Sans,sans-serif;font-size:12px;font-weight:700;cursor:pointer">Edit</button>' +
+        '<button onclick="adminDeleteBook(\'' + book.id + '\')" style="background:rgba(239,68,68,.1);color:#EF4444;border:1px solid rgba(239,68,68,.25);border-radius:8px;padding:8px 14px;font-family:DM Sans,sans-serif;font-size:12px;font-weight:700;cursor:pointer">Remove</button>' +
+      '</div>' +
+    '</div>';
   }).join('');
 }
 
 function adminDeleteBook(id) {
   var book = CATALOG.find(function(b){ return b.id === id; });
   if (!book) return;
-  if (!confirm('Remove "' + book.title + '" from the store? This cannot be undone.')) return;
+  if (!confirm('Remove "' + book.title + '" from the store?')) return;
   CATALOG = CATALOG.filter(function(b){ return b.id !== id; });
   renderBooks(currentFilter);
   renderAdminBookList();
-  showToast('🗑 "' + book.title + '" removed from store.', 'info');
+  showToast('"' + book.title + '" removed.', 'info');
 }
 
 function openEditModal(id) {
   var book = CATALOG.find(function(b){ return b.id === id; });
   if (!book) return;
-  document.getElementById('edit-id').value = book.id;
-  document.getElementById('edit-title').value = book.title;
-  document.getElementById('edit-author').value = book.author;
-  document.getElementById('edit-price').value = book.price;
-  document.getElementById('edit-origprice').value = book.originalPrice || '';
-  document.getElementById('edit-cat').value = book.category;
-  document.getElementById('edit-badge').value = book.badge || '';
-  document.getElementById('edit-rating').value = book.rating || '';
-  document.getElementById('edit-cover').value = book.cover || '';
-  document.getElementById('edit-insight').value = book.insight || '';
-  document.getElementById('editBookOverlay').style.display = 'block';
+  document.getElementById("edit-id").value = book.id;
+  document.getElementById("edit-title").value = book.title;
+  document.getElementById("edit-author").value = book.author;
+  document.getElementById("edit-price").value = book.price;
+  document.getElementById("edit-origprice").value = book.originalPrice || "";
+  document.getElementById("edit-cat").value = book.category;
+  document.getElementById("edit-badge").value = book.badge || "";
+  document.getElementById("edit-rating").value = book.rating || "";
+  document.getElementById("edit-cover").value = book.cover || "";
+  document.getElementById("edit-insight").value = book.insight || "";
+  document.getElementById("editBookOverlay").style.display = "block";
 }
 
 function closeEditModal() {
-  document.getElementById('editBookOverlay').style.display = 'none';
+  document.getElementById("editBookOverlay").style.display = "none";
 }
 
 function adminUpdateBook() {
-  var id      = document.getElementById('edit-id').value;
-  var title   = document.getElementById('edit-title').value.trim();
-  var author  = document.getElementById('edit-author').value.trim();
-  var price   = parseFloat(document.getElementById('edit-price').value);
-  var origp   = parseFloat(document.getElementById('edit-origprice').value) || price * 1.3;
-  var cat     = document.getElementById('edit-cat').value;
-  var badge   = document.getElementById('edit-badge').value || null;
-  var rating  = parseFloat(document.getElementById('edit-rating').value) || 4.5;
-  var cover   = document.getElementById('edit-cover').value.trim();
-  var insight = document.getElementById('edit-insight').value.trim();
+  var id      = document.getElementById("edit-id").value;
+  var title   = (document.getElementById("edit-title").value || "").trim();
+  var author  = (document.getElementById("edit-author").value || "").trim();
+  var price   = parseFloat(document.getElementById("edit-price").value);
+  var origp   = parseFloat(document.getElementById("edit-origprice").value) || Math.round(price * 1.3);
+  var cat     = document.getElementById("edit-cat").value;
+  var badge   = document.getElementById("edit-badge").value || null;
+  var rating  = parseFloat(document.getElementById("edit-rating").value) || 4.5;
+  var cover   = (document.getElementById("edit-cover").value || "").trim();
+  var insight = (document.getElementById("edit-insight").value || "").trim();
 
-  if (!title || !author || !price || !cat) {
-    alert('Please fill in all required fields.'); return;
-  }
+  if (!title || !author || !price || !cat) { alert("Please fill in all required fields."); return; }
 
   var book = CATALOG.find(function(b){ return b.id === id; });
-  if (!book) { alert('Book not found.'); return; }
+  if (!book) { alert("Book not found."); return; }
 
-  book.title = title;
-  book.author = author;
-  book.price = price;
-  book.originalPrice = Math.round(origp);
-  book.category = cat;
-  book.badge = badge;
-  book.rating = rating;
-  book.cover = cover || null;
-  book.insight = insight;
+  book.title = title; book.author = author; book.price = price;
+  book.originalPrice = origp; book.category = cat; book.badge = badge;
+  book.rating = rating; book.cover = cover||null; book.insight = insight;
 
   renderBooks(currentFilter);
   renderAdminBookList();
   closeEditModal();
-  showToast('✅ "' + title + '" updated!', 'success');
+  showToast('"' + title + '" updated!', 'success');
 }
 
 // ── INIT ──
 window.onload = function() {
-  renderBooks('All');
+  renderBooks("All");
 };
 </script>
 <!-- Paystack inline script — add when you have your Paystack account -->
