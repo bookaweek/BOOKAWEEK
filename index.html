@@ -230,7 +230,7 @@ body::before{
 .pain-item::after{content:'◆';font-size:6px;color:var(--gold);margin-left:10px}
 @keyframes scrollLeft{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
-/* ══ BOOKMASTER PICK ══ */
+/* ══ BOOKMENTOR PICK ══ */
 .pick-section{
   background:linear-gradient(135deg,var(--navy2),var(--navy3));
   border:1px solid rgba(201,168,76,.2);
@@ -921,7 +921,7 @@ body::before{
   .section-title{font-size:clamp(24px,6vw,36px)}
   .section-sub{font-size:16px}
 
-  /* BOOKMASTER PICK */
+  /* BOOKMENTOR PICK */
   .pick-inner{grid-template-columns:1fr}
   .pick-cover-col{height:220px}
   .pick-book-visual{padding:24px 20px}
@@ -1202,24 +1202,24 @@ body::before{
     <span class="pain-item">Every book backed by real reader data</span>
     <span class="pain-item">Nationwide delivery across Nigeria</span>
     <span class="pain-item">Order in 60 seconds via WhatsApp</span>
-    <span class="pain-item">Curated by the Bookmaster — not an algorithm</span>
+    <span class="pain-item">Curated by the Bookmentor — not an algorithm</span>
     <span class="pain-item">Every purchase includes accountability access</span>
     <span class="pain-item">Read it or exchange it — we guarantee results</span>
     <span class="pain-item">No more buying books that collect dust</span>
     <span class="pain-item">Every book backed by real reader data</span>
     <span class="pain-item">Nationwide delivery across Nigeria</span>
     <span class="pain-item">Order in 60 seconds via WhatsApp</span>
-    <span class="pain-item">Curated by the Bookmaster — not an algorithm</span>
+    <span class="pain-item">Curated by the Bookmentor — not an algorithm</span>
     <span class="pain-item">Every purchase includes accountability access</span>
     <span class="pain-item">Read it or exchange it — we guarantee results</span>
   </div>
 </div>
 
-<!-- ══ BOOKMASTER'S PICK ══ -->
+<!-- ══ BOOKMENTOR'S PICK ══ -->
 <section class="section">
   <div class="section-inner">
     <div class="section-eyebrow">This Month's Selection</div>
-    <h2 class="section-title">The Bookmaster's Pick</h2>
+    <h2 class="section-title">The Bookmentor's Pick</h2>
     <p class="section-sub" style="margin-bottom:32px">One book. Hand-selected. For one reason: it will change how you think about money.</p>
     <div class="pick-section">
       <div class="pick-inner">
@@ -1227,7 +1227,7 @@ body::before{
           <div class="pick-book-visual">
             <div class="book-spine">
               <div class="book-cover" style="background:linear-gradient(160deg,#1B2E1B 0%,#2D4A2D 40%,#1B2E1B 100%);min-height:300px;">
-                <div class="pick-badge">Bookmaster's Pick</div>
+                <div class="pick-badge">Bookmentor's Pick</div>
                 <div style="text-align:center;padding:20px 0 0;">
                   <div style="font-size:11px;letter-spacing:.2em;color:rgba(255,255,255,.4);text-transform:uppercase;margin-bottom:12px">Morgan Housel</div>
                   <div style="font-family:'Playfair Display',serif;font-size:18px;font-weight:900;color:#E8C56A;line-height:1.2;margin-bottom:8px">The Psychology<br>of Money</div>
@@ -1342,7 +1342,7 @@ body::before{
       <button class="filter-btn" onclick="filterBooks('Execution')">Execution</button>
       <button class="filter-btn" onclick="filterBooks('Biography')">Biography</button>
       <button class="filter-btn" onclick="filterBooks('Spiritual')">Spiritual</button>
-      <button onclick="openAdminPanel()" style="margin-left:auto;background:rgba(201,168,76,.1);color:var(--gold);border:1px solid rgba(201,168,76,.3);border-radius:100px;padding:8px 18px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;cursor:pointer;letter-spacing:.05em;transition:all .25s" title="Bookmaster Admin Panel">⚙️ Admin</button>
+      <button onclick="openAdminPanel()" style="margin-left:auto;background:rgba(201,168,76,.1);color:var(--gold);border:1px solid rgba(201,168,76,.3);border-radius:100px;padding:8px 18px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;cursor:pointer;letter-spacing:.05em;transition:all .25s" title="Bookmentor Admin Panel">⚙️ Admin</button>
     </div>
     <div class="book-grid" id="bookGrid"></div>
     <!-- REQUEST A BOOK STRIP -->
@@ -1356,7 +1356,7 @@ body::before{
 
     <!-- HOW TO ADD BOOKS (visible only to admin) -->
     <div class="admin-section" id="adminGuide" style="display:none">
-      <div class="admin-title">🔧 Bookmaster Admin — Add a New Book</div>
+      <div class="admin-title">🔧 Bookmentor Admin — Add a New Book</div>
       <div class="admin-sub">Adding a book takes 60 seconds. Find the CATALOG array in bookstore.html and add one entry. Here is the exact template:</div>
       <div class="code-block">{
   id: 'unique-book-id',          // no spaces, use hyphens
@@ -1617,7 +1617,7 @@ body::before{
     <!-- Header -->
     <div style="display:flex;align-items:center;justify-content:space-between;padding:24px 28px;border-bottom:1px solid rgba(201,168,76,.15)">
       <div>
-        <div style="font-family:'Playfair Display',serif;font-size:22px;font-weight:900;color:#fff">⚙️ Bookmaster Admin</div>
+        <div style="font-family:'Playfair Display',serif;font-size:22px;font-weight:900;color:#fff">⚙️ Bookmentor Admin</div>
         <div style="font-size:13px;color:rgba(245,237,216,.4);margin-top:4px">Add, edit and remove books from your store</div>
       </div>
       <button onclick="closeAdminPanel()" style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:50%;width:40px;height:40px;color:rgba(255,255,255,.5);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center">×</button>
@@ -1688,7 +1688,11 @@ body::before{
     </div>
     <!-- Manage Books -->
     <div id="adminTabManage" style="display:none;padding:28px">
-      <div id="adminBookList" style="display:flex;flex-direction:column;gap:12px;max-height:520px;overflow-y:auto"></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+        <div style="font-size:13px;color:rgba(245,237,216,.4)" id="adminBookCount"></div>
+        <button onclick="adminResetDefaults()" style="background:rgba(239,68,68,.08);color:#EF4444;border:1px solid rgba(239,68,68,.2);border-radius:8px;padding:7px 14px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer">↺ Reset to defaults</button>
+      </div>
+      <div id="adminBookList" style="display:flex;flex-direction:column;gap:0;max-height:460px;overflow-y:auto"></div>
     </div>
   </div>
 </div>
@@ -1812,7 +1816,7 @@ var currentFilter = "All";
 var _searchTerm = "";
 
 // ── ADMIN PASSWORD (change this to your own secret) ──
-var ADMIN_PASSWORD = "bookmaster2026";
+var ADMIN_PASSWORD = "bookmentor2026";
 
 // ── SEARCH ──
 function searchBooks(term) {
@@ -2203,12 +2207,48 @@ function placeOrderPaystack() {
   }
 }
 
+// ── CATALOG PERSISTENCE (localStorage) ──
+// Only saves CUSTOM books added/edited via admin — not the defaults.
+// This way, admin changes survive page refresh.
+function saveCatalog() {
+  try {
+    // Save the full catalog state (including edits to default books)
+    var toSave = CATALOG.map(function(b) {
+      return {
+        id:b.id, title:b.title, author:b.author,
+        price:b.price, originalPrice:b.originalPrice,
+        category:b.category, badge:b.badge,
+        warriors:b.warriors, avgDays:b.avgDays, rating:b.rating,
+        insight:b.insight, color1:b.color1, color2:b.color2,
+        textColor:b.textColor, cover:b.cover||null,
+        pick:b.pick||false,
+        reviews: b.reviews||[]
+      };
+    });
+    localStorage.setItem('bm_catalog', JSON.stringify(toSave));
+  } catch(e) { /* localStorage unavailable - silent fail */ }
+}
+
+function loadCatalog() {
+  try {
+    var stored = localStorage.getItem('bm_catalog');
+    if (stored) {
+      var parsed = JSON.parse(stored);
+      if (parsed && parsed.length > 0) {
+        CATALOG = parsed;
+        return true;
+      }
+    }
+  } catch(e) {}
+  return false;
+}
+
 // ── ADMIN PANEL (password protected) ──
 var _adminUnlocked = false;
 
 function openAdminPanel() {
   if (!_adminUnlocked) {
-    var pw = prompt("Enter Bookmaster password:");
+    var pw = prompt("Enter Bookmentor password:");
     if (!pw || pw !== ADMIN_PASSWORD) {
       showToast("Incorrect password.", "error");
       return;
@@ -2298,17 +2338,30 @@ function adminSaveBook() {
     cover:cover||null, reviews:[]
   });
 
-  renderBooks(currentFilter);
+  saveCatalog();
   adminResetForm();
   adminShowMsg('"' + title + '" added to the store!', 'success');
   showToast(title + " added to store!", "success");
+  // Always switch to All so new book is immediately visible
+  _searchTerm = "";
+  var si = document.getElementById("searchInput"); if(si) si.value = "";
+  var cb = document.getElementById("clearSearchBtn"); if(cb) cb.style.display = "none";
+  filterBooks("All");
+}
+
+function adminResetDefaults() {
+  if (!confirm('Reset to original catalog? All custom additions and edits will be lost.')) return;
+  try { localStorage.removeItem('bm_catalog'); } catch(e) {}
+  location.reload();
 }
 
 function renderAdminBookList() {
   var list = document.getElementById("adminBookList");
+  var countEl = document.getElementById("adminBookCount");
   if (!list) return;
+  if (countEl) countEl.textContent = CATALOG.length + " book" + (CATALOG.length !== 1 ? "s" : "") + " in store";
   if (CATALOG.length === 0) {
-    list.innerHTML = '<div style="text-align:center;color:rgba(255,255,255,.3);padding:40px">No books yet.</div>';
+    list.innerHTML = '<div style="text-align:center;color:rgba(255,255,255,.3);padding:40px">No books yet. Add one from the Add tab.</div>';
     return;
   }
   list.innerHTML = CATALOG.map(function(book) {
@@ -2323,7 +2376,7 @@ function renderAdminBookList() {
       '</div>' +
       '<div style="display:flex;gap:8px;flex-shrink:0">' +
         '<button onclick="openEditModal(\'' + book.id + '\')" style="background:rgba(201,168,76,.12);color:var(--gold);border:1px solid rgba(201,168,76,.25);border-radius:8px;padding:8px 14px;font-family:DM Sans,sans-serif;font-size:12px;font-weight:700;cursor:pointer">Edit</button>' +
-        '<button onclick="adminDeleteBook(\'' + book.id + '\')" style="background:rgba(239,68,68,.1);color:#EF4444;border:1px solid rgba(239,68,68,.25);border-radius:8px;padding:8px 14px;font-family:DM Sans,sans-serif;font-size:12px;font-weight:700;cursor:pointer">Remove</button>' +
+        '<button onclick="adminDeleteBook(\'' + book.id + '\')" style="background:rgba(239,68,68,.1);color:#EF4444;border:1px solid rgba(239,68,68,.25);border-radius:8px;padding:8px 14px;font-family:DM Sans,sans-serif;font-size:12px;font-weight:700;cursor:pointer">✕</button>' +
       '</div>' +
     '</div>';
   }).join('');
@@ -2334,8 +2387,12 @@ function adminDeleteBook(id) {
   if (!book) return;
   if (!confirm('Remove "' + book.title + '" from the store?')) return;
   CATALOG = CATALOG.filter(function(b){ return b.id !== id; });
-  renderBooks(currentFilter);
+  saveCatalog();
   renderAdminBookList();
+  _searchTerm = "";
+  var si = document.getElementById("searchInput"); if(si) si.value = "";
+  var cb = document.getElementById("clearSearchBtn"); if(cb) cb.style.display = "none";
+  filterBooks("All");
   showToast('"' + book.title + '" removed.', 'info');
 }
 
@@ -2380,9 +2437,14 @@ function adminUpdateBook() {
   book.originalPrice = origp; book.category = cat; book.badge = badge;
   book.rating = rating; book.cover = cover||null; book.insight = insight;
 
-  renderBooks(currentFilter);
+  saveCatalog();
   renderAdminBookList();
   closeEditModal();
+  // Reset search + switch to All so edited book is always visible
+  _searchTerm = "";
+  var si = document.getElementById("searchInput"); if(si) si.value = "";
+  var cb = document.getElementById("clearSearchBtn"); if(cb) cb.style.display = "none";
+  filterBooks("All");
   showToast('"' + title + '" updated!', 'success');
 }
 
@@ -2412,6 +2474,7 @@ function adminUpdateBook() {
 
 // ── INIT ──
 window.onload = function() {
+  loadCatalog(); // restore any admin changes from localStorage
   renderBooks("All");
 };
 </script>
