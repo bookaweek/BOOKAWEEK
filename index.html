@@ -45,6 +45,110 @@ body{
 ::-webkit-scrollbar-track{background:var(--navy)}
 ::-webkit-scrollbar-thumb{background:var(--gold-dark);border-radius:3px}
 
+/* ══ AUTH MODAL ══ */
+.auth-overlay{
+  display:none;position:fixed;inset:0;z-index:800;
+  background:rgba(6,15,32,.96);backdrop-filter:blur(24px);
+  align-items:center;justify-content:center;padding:16px;
+}
+.auth-overlay.open{display:flex}
+.auth-sheet{
+  background:linear-gradient(145deg,#0D1E3A 0%,#142848 50%,#0D1E3A 100%);
+  border:1px solid rgba(201,168,76,.3);border-radius:24px;
+  width:100%;max-width:460px;padding:36px 32px;position:relative;
+  box-shadow:0 24px 80px rgba(0,0,0,.6),0 0 0 1px rgba(201,168,76,.08);
+  animation:sheetIn .35s cubic-bezier(.34,1.56,.64,1);
+}
+@keyframes sheetIn{from{opacity:0;transform:translateY(20px) scale(.97)}to{opacity:1;transform:none}}
+.auth-logo{text-align:center;margin-bottom:28px}
+.auth-logo-img{width:52px;height:52px;border-radius:12px;margin:0 auto 10px;display:block;filter:drop-shadow(0 4px 16px rgba(201,168,76,.5))}
+.auth-brand{font-family:'Playfair Display',serif;font-size:20px;font-weight:900;color:#fff}
+.auth-brand span{color:var(--gold)}
+.auth-tabs{display:flex;background:rgba(255,255,255,.04);border-radius:12px;padding:4px;margin-bottom:28px}
+.auth-tab{flex:1;padding:10px;border:none;background:none;border-radius:9px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:all .2s;color:rgba(255,255,255,.35)}
+.auth-tab.active{background:var(--gold);color:var(--navy)}
+.auth-field{margin-bottom:16px}
+.auth-label{display:block;font-size:11px;font-weight:700;color:var(--gold);letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px}
+.auth-input{
+  width:100%;background:rgba(255,255,255,.05);
+  border:1.5px solid rgba(201,168,76,.18);border-radius:12px;
+  padding:13px 16px;color:#fff;font-family:'DM Sans',sans-serif;font-size:14px;
+  outline:none;transition:border-color .2s,background .2s;
+}
+.auth-input:focus{border-color:var(--gold);background:rgba(201,168,76,.06)}
+.auth-input::placeholder{color:rgba(255,255,255,.2)}
+.auth-input-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.auth-btn{
+  width:100%;background:linear-gradient(135deg,var(--gold2),var(--gold));
+  color:var(--navy);border:none;border-radius:100px;padding:15px;
+  font-family:'DM Sans',sans-serif;font-size:15px;font-weight:900;
+  cursor:pointer;transition:all .25s;margin-top:8px;letter-spacing:.02em;
+}
+.auth-btn:hover{transform:translateY(-1px);box-shadow:0 8px 32px rgba(201,168,76,.4)}
+.auth-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.auth-divider{text-align:center;color:rgba(255,255,255,.2);font-size:12px;margin:16px 0;position:relative}
+.auth-divider::before,.auth-divider::after{content:'';position:absolute;top:50%;width:40%;height:1px;background:rgba(255,255,255,.08)}
+.auth-divider::before{left:0}.auth-divider::after{right:0}
+.auth-msg{padding:12px 16px;border-radius:10px;font-size:13px;font-weight:600;margin-bottom:16px;display:none}
+.auth-msg.success{background:rgba(26,122,60,.2);border:1px solid rgba(26,122,60,.4);color:#4ade80}
+.auth-msg.error{background:rgba(192,57,43,.2);border:1px solid rgba(192,57,43,.4);color:#f87171}
+.auth-close{position:absolute;top:16px;right:16px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:50%;width:36px;height:36px;color:rgba(255,255,255,.4);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.auth-close:hover{color:#fff;background:rgba(255,255,255,.1)}
+.auth-switch{text-align:center;margin-top:20px;font-size:13px;color:rgba(255,255,255,.3)}
+.auth-switch a{color:var(--gold);cursor:pointer;font-weight:700;text-decoration:none}
+.auth-switch a:hover{color:var(--gold2)}
+
+/* ══ USER ACCOUNT BADGE (NAV) ══ */
+.nav-user-btn{
+  display:flex;align-items:center;gap:8px;
+  background:rgba(201,168,76,.1);color:var(--gold);
+  border:1px solid rgba(201,168,76,.25);border-radius:100px;
+  padding:7px 16px 7px 10px;font-family:'DM Sans',sans-serif;
+  font-size:13px;font-weight:700;cursor:pointer;transition:all .2s;
+}
+.nav-user-btn:hover{background:rgba(201,168,76,.18)}
+.nav-user-avatar{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,var(--gold2),var(--gold));color:var(--navy);font-size:11px;font-weight:900;display:flex;align-items:center;justify-content:center}
+
+/* ══ USER DROPDOWN ══ */
+.user-dropdown{
+  position:absolute;top:calc(100% + 8px);right:0;
+  background:#0D1E3A;border:1px solid rgba(201,168,76,.2);
+  border-radius:14px;padding:8px;min-width:200px;
+  box-shadow:0 16px 48px rgba(0,0,0,.5);z-index:300;
+  display:none;
+}
+.user-dropdown.open{display:block;animation:sheetIn .2s ease}
+.ud-header{padding:10px 12px 12px;border-bottom:1px solid rgba(201,168,76,.1);margin-bottom:6px}
+.ud-name{font-family:'Playfair Display',serif;font-size:14px;font-weight:700;color:#fff}
+.ud-email{font-size:11px;color:rgba(245,237,216,.35);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ud-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:9px;cursor:pointer;font-size:13px;font-weight:600;color:rgba(255,255,255,.6);transition:all .2s;border:none;background:none;width:100%;text-align:left}
+.ud-item:hover{background:rgba(201,168,76,.1);color:var(--gold)}
+.ud-item.danger:hover{background:rgba(192,57,43,.1);color:#f87171}
+
+/* ══ CRM DASHBOARD ══ */
+.crm-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px}
+@media(max-width:640px){.crm-stats{grid-template-columns:repeat(2,1fr)}}
+.crm-stat{background:rgba(255,255,255,.04);border:1px solid rgba(201,168,76,.12);border-radius:14px;padding:16px}
+.crm-stat-val{font-family:'Playfair Display',serif;font-size:26px;font-weight:900;color:var(--gold)}
+.crm-stat-label{font-size:11px;color:rgba(245,237,216,.35);margin-top:4px;font-weight:600;letter-spacing:.05em;text-transform:uppercase}
+.crm-table-wrap{overflow-x:auto;border-radius:12px;border:1px solid rgba(201,168,76,.1)}
+.crm-table{width:100%;border-collapse:collapse;font-size:13px}
+.crm-table th{padding:12px 14px;text-align:left;font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:rgba(245,237,216,.35);border-bottom:1px solid rgba(201,168,76,.1);background:rgba(255,255,255,.02);white-space:nowrap}
+.crm-table td{padding:13px 14px;border-bottom:1px solid rgba(255,255,255,.04);vertical-align:middle;color:rgba(245,237,216,.8)}
+.crm-table tr:last-child td{border-bottom:none}
+.crm-table tr:hover td{background:rgba(201,168,76,.04)}
+.crm-badge{display:inline-flex;align-items:center;padding:3px 9px;border-radius:100px;font-size:10px;font-weight:800;letter-spacing:.05em;text-transform:uppercase}
+.crm-badge.active{background:rgba(26,122,60,.2);color:#4ade80;border:1px solid rgba(26,122,60,.3)}
+.crm-badge.pending{background:rgba(201,168,76,.15);color:var(--gold);border:1px solid rgba(201,168,76,.25)}
+.crm-badge.vip{background:rgba(139,75,40,.2);color:#f59e0b;border:1px solid rgba(201,120,30,.3)}
+.crm-search{background:rgba(255,255,255,.05);border:1px solid rgba(201,168,76,.18);border-radius:10px;padding:10px 14px;color:#fff;font-family:'DM Sans',sans-serif;font-size:13px;outline:none;width:100%;margin-bottom:16px}
+.crm-search:focus{border-color:var(--gold)}
+.crm-filter-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.crm-filter-btn{padding:7px 14px;border-radius:100px;font-size:12px;font-weight:700;cursor:pointer;border:1px solid rgba(201,168,76,.2);background:none;color:rgba(255,255,255,.4);transition:all .2s}
+.crm-filter-btn.active{background:var(--gold);color:var(--navy);border-color:var(--gold)}
+.crm-export-btn{padding:8px 16px;border-radius:100px;font-size:12px;font-weight:700;cursor:pointer;background:rgba(26,122,60,.15);color:#4ade80;border:1px solid rgba(26,122,60,.3);transition:all .2s}
+.crm-export-btn:hover{background:rgba(26,122,60,.25)}
+
 /* ══ NOISE TEXTURE OVERLAY ══ */
 body::before{
   content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
@@ -1149,12 +1253,164 @@ body::before{
     <a href="#store" class="nav-link">Store</a>
     <a href="#pathways" class="nav-link">Pathways</a>
     <a href="#why" class="nav-link">Why Us</a>
-    <a href="bookwarriors-login.html" class="nav-link">My Account</a>
   </div>
-  <button class="nav-cart" onclick="openCart()">
-    🛒 Cart <div class="cart-count" id="cartCount">0</div>
-  </button>
+  <div style="display:flex;align-items:center;gap:10px;position:relative">
+    <!-- Guest state -->
+    <button id="navAuthBtn" onclick="openAuthModal('login')" class="nav-user-btn" style="display:flex">
+      <span style="font-size:13px">👤</span> Sign In
+    </button>
+    <!-- Logged-in state -->
+    <div id="navUserWrap" style="display:none;position:relative">
+      <button class="nav-user-btn" onclick="toggleUserDropdown()" id="navUserBtn">
+        <div class="nav-user-avatar" id="navAvatar">JJ</div>
+        <span id="navUserName">Reader</span>
+        <span style="font-size:10px;opacity:.5">▾</span>
+      </button>
+      <div class="user-dropdown" id="userDropdown">
+        <div class="ud-header">
+          <div class="ud-name" id="ddName">—</div>
+          <div class="ud-email" id="ddEmail">—</div>
+        </div>
+        <button class="ud-item" onclick="openMyOrders()">📦 My Orders</button>
+        <button class="ud-item" onclick="openMyProfile()">✏️ Edit Profile</button>
+        <button class="ud-item danger" onclick="logoutUser()">← Sign Out</button>
+      </div>
+    </div>
+    <button class="nav-cart" onclick="openCart()">
+      🛒 Cart <div class="cart-count" id="cartCount">0</div>
+    </button>
+  </div>
 </nav>
+
+<!-- ══ AUTH MODAL ══ -->
+<div class="auth-overlay" id="authOverlay" onclick="if(event.target===this)closeAuthModal()">
+  <div class="auth-sheet">
+    <button class="auth-close" onclick="closeAuthModal()">×</button>
+    <div class="auth-logo">
+      <img src="https://i.imgur.com/EFOzI8H.png" class="auth-logo-img" alt="BookAWeek">
+      <div class="auth-brand">Book<span>AWeek</span> Store</div>
+    </div>
+    <div class="auth-tabs">
+      <button class="auth-tab active" id="tab-login" onclick="switchAuthTab('login')">Sign In</button>
+      <button class="auth-tab" id="tab-register" onclick="switchAuthTab('register')">Create Account</button>
+    </div>
+    <div id="authMsg" class="auth-msg"></div>
+
+    <!-- LOGIN FORM -->
+    <div id="authLoginForm">
+      <div class="auth-field">
+        <label class="auth-label">WhatsApp / Email</label>
+        <input class="auth-input" id="li-identifier" type="text" placeholder="+2348012345678 or email@you.com" autocomplete="username">
+      </div>
+      <div class="auth-field">
+        <label class="auth-label">Password</label>
+        <input class="auth-input" id="li-pass" type="password" placeholder="Your password" autocomplete="current-password">
+      </div>
+      <button class="auth-btn" id="loginBtn" onclick="handleLogin()">Sign In →</button>
+      <div class="auth-switch">New here? <a onclick="switchAuthTab('register')">Create a free account</a></div>
+    </div>
+
+    <!-- REGISTER FORM -->
+    <div id="authRegisterForm" style="display:none">
+      <div class="auth-input-row">
+        <div class="auth-field">
+          <label class="auth-label">First Name *</label>
+          <input class="auth-input" id="reg-fname" type="text" placeholder="First" autocomplete="given-name">
+        </div>
+        <div class="auth-field">
+          <label class="auth-label">Last Name *</label>
+          <input class="auth-input" id="reg-lname" type="text" placeholder="Last" autocomplete="family-name">
+        </div>
+      </div>
+      <div class="auth-field">
+        <label class="auth-label">WhatsApp Number *</label>
+        <input class="auth-input" id="reg-phone" type="tel" placeholder="+234 801 234 5678" autocomplete="tel">
+      </div>
+      <div class="auth-field">
+        <label class="auth-label">Email Address *</label>
+        <input class="auth-input" id="reg-email" type="email" placeholder="you@email.com" autocomplete="email">
+      </div>
+      <div class="auth-input-row">
+        <div class="auth-field">
+          <label class="auth-label">Password *</label>
+          <input class="auth-input" id="reg-pass" type="password" placeholder="Min 6 chars" autocomplete="new-password">
+        </div>
+        <div class="auth-field">
+          <label class="auth-label">Confirm *</label>
+          <input class="auth-input" id="reg-pass2" type="password" placeholder="Repeat" autocomplete="new-password">
+        </div>
+      </div>
+      <div class="auth-field">
+        <label class="auth-label">City / State</label>
+        <input class="auth-input" id="reg-city" type="text" placeholder="e.g. Lagos, Abuja" autocomplete="address-level2">
+      </div>
+      <div class="auth-field" style="margin-top:4px">
+        <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;font-size:12px;color:rgba(245,237,216,.45);line-height:1.5">
+          <input type="checkbox" id="reg-consent" style="margin-top:2px;accent-color:var(--gold)">
+          I agree to receive order updates and BookWarrior content via WhatsApp &amp; email.
+        </label>
+      </div>
+      <button class="auth-btn" id="registerBtn" onclick="handleRegister()">Create Account 🚀</button>
+      <div class="auth-switch">Already have an account? <a onclick="switchAuthTab('login')">Sign in</a></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MY ORDERS MODAL ══ -->
+<div id="myOrdersOverlay" onclick="if(event.target===this)closeMyOrders()" style="display:none;position:fixed;inset:0;background:rgba(6,15,32,.96);backdrop-filter:blur(20px);z-index:700;overflow-y:auto;padding:16px;-webkit-overflow-scrolling:touch">
+  <div style="max-width:680px;margin:0 auto;background:linear-gradient(135deg,#0D1E3A,#142848);border:1px solid rgba(201,168,76,.25);border-radius:20px;overflow:hidden">
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:24px 28px;border-bottom:1px solid rgba(201,168,76,.12)">
+      <div>
+        <div style="font-family:'Playfair Display',serif;font-size:20px;font-weight:900;color:#fff">📦 My Orders</div>
+        <div style="font-size:13px;color:rgba(245,237,216,.35);margin-top:3px" id="myOrdersSubtitle">Your order history</div>
+      </div>
+      <button onclick="closeMyOrders()" style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:50%;width:38px;height:38px;color:rgba(255,255,255,.4);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center">×</button>
+    </div>
+    <div id="myOrdersList" style="padding:24px;min-height:200px">
+      <div style="text-align:center;color:rgba(245,237,216,.25);padding:60px 20px;font-size:14px">
+        📚 No orders yet. Browse the store and grab a book!
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ PROFILE EDIT MODAL ══ -->
+<div id="profileOverlay" onclick="if(event.target===this)closeMyProfile()" style="display:none;position:fixed;inset:0;background:rgba(6,15,32,.96);backdrop-filter:blur(20px);z-index:700;overflow-y:auto;padding:16px">
+  <div style="max-width:480px;margin:0 auto;background:linear-gradient(135deg,#0D1E3A,#142848);border:1px solid rgba(201,168,76,.25);border-radius:20px;padding:28px">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px">
+      <div style="font-family:'Playfair Display',serif;font-size:20px;font-weight:900;color:#fff">✏️ Edit Profile</div>
+      <button onclick="closeMyProfile()" style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:50%;width:38px;height:38px;color:rgba(255,255,255,.4);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center">×</button>
+    </div>
+    <div id="profileMsg" class="auth-msg"></div>
+    <div class="auth-input-row">
+      <div class="auth-field">
+        <label class="auth-label">First Name</label>
+        <input class="auth-input" id="pf-fname" type="text">
+      </div>
+      <div class="auth-field">
+        <label class="auth-label">Last Name</label>
+        <input class="auth-input" id="pf-lname" type="text">
+      </div>
+    </div>
+    <div class="auth-field">
+      <label class="auth-label">WhatsApp Number</label>
+      <input class="auth-input" id="pf-phone" type="tel">
+    </div>
+    <div class="auth-field">
+      <label class="auth-label">Email Address</label>
+      <input class="auth-input" id="pf-email" type="email">
+    </div>
+    <div class="auth-field">
+      <label class="auth-label">City / State</label>
+      <input class="auth-input" id="pf-city" type="text">
+    </div>
+    <div class="auth-field">
+      <label class="auth-label">New Password <span style="color:rgba(255,255,255,.25);font-size:10px">(leave blank to keep current)</span></label>
+      <input class="auth-input" id="pf-pass" type="password" placeholder="New password">
+    </div>
+    <button class="auth-btn" onclick="saveProfile()">Save Changes ✓</button>
+  </div>
+</div>
 
 <!-- ══ HERO ══ -->
 <section class="hero">
@@ -1626,6 +1882,7 @@ body::before{
     <div style="display:flex;border-bottom:1px solid rgba(201,168,76,.12)">
       <button id="atab-add" onclick="switchAdminTab('add')" style="flex:1;padding:16px;background:rgba(201,168,76,.08);border:none;border-bottom:2px solid var(--gold);color:var(--gold);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:all .25s">+ Add New Book</button>
       <button id="atab-manage" onclick="switchAdminTab('manage')" style="flex:1;padding:16px;background:none;border:none;border-bottom:2px solid transparent;color:rgba(255,255,255,.4);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:all .25s">📚 Manage Books</button>
+      <button id="atab-crm" onclick="switchAdminTab('crm')" style="flex:1;padding:16px;background:none;border:none;border-bottom:2px solid transparent;color:rgba(255,255,255,.4);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:all .25s">👥 CRM</button>
     </div>
     <!-- Add Book Form -->
     <div id="adminTabAdd" style="padding:28px">
@@ -1694,10 +1951,68 @@ body::before{
       </div>
       <div id="adminBookList" style="display:flex;flex-direction:column;gap:0;max-height:460px;overflow-y:auto"></div>
     </div>
-  </div>
-</div>
 
-<!-- Edit Book Modal -->
+    <!-- ══ CRM TAB ══ -->
+    <div id="adminTabCrm" style="display:none;padding:28px">
+      <!-- Stats row -->
+      <div class="crm-stats" id="crmStats">
+        <div class="crm-stat"><div class="crm-stat-val" id="crmTotalUsers">0</div><div class="crm-stat-label">Total Members</div></div>
+        <div class="crm-stat"><div class="crm-stat-val" id="crmTotalOrders">0</div><div class="crm-stat-label">Total Orders</div></div>
+        <div class="crm-stat"><div class="crm-stat-val" id="crmRevenue">₦0</div><div class="crm-stat-label">Revenue</div></div>
+        <div class="crm-stat"><div class="crm-stat-val" id="crmVip">0</div><div class="crm-stat-label">VIP (2+ orders)</div></div>
+      </div>
+
+      <!-- Toolbar -->
+      <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:14px">
+        <input class="crm-search" id="crmSearch" placeholder="🔍  Search by name, phone, email..." oninput="renderCrmTable()" style="flex:1;min-width:200px;margin-bottom:0">
+        <button class="crm-export-btn" onclick="exportCrmCSV()">⬇ Export CSV</button>
+        <button onclick="loadCrmFromSheets()" style="padding:8px 16px;border-radius:100px;font-size:12px;font-weight:700;cursor:pointer;background:rgba(13,122,110,.15);color:#2dd4bf;border:1px solid rgba(13,122,110,.3)">↻ Sync Sheets</button>
+      </div>
+      <div class="crm-filter-row" id="crmFilterRow">
+        <button class="crm-filter-btn active" onclick="setCrmFilter('all',this)">All</button>
+        <button class="crm-filter-btn" onclick="setCrmFilter('active',this)">✅ Active</button>
+        <button class="crm-filter-btn" onclick="setCrmFilter('vip',this)">⭐ VIP</button>
+        <button class="crm-filter-btn" onclick="setCrmFilter('pending',this)">⏳ Pending</button>
+        <button class="crm-filter-btn" onclick="setCrmFilter('lagos',this)">📍 Lagos</button>
+      </div>
+
+      <!-- Table -->
+      <div class="crm-table-wrap">
+        <table class="crm-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Name</th>
+              <th>WhatsApp</th>
+              <th>Email</th>
+              <th>City</th>
+              <th>Orders</th>
+              <th>Spent</th>
+              <th>Status</th>
+              <th>Joined</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="crmTableBody">
+            <tr><td colspan="10" style="text-align:center;padding:40px;color:rgba(245,237,216,.2)">No members yet. Registration data will appear here.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div id="crmPagination" style="display:flex;justify-content:center;gap:8px;margin-top:16px"></div>
+
+      <!-- Member Detail Drawer -->
+      <div id="crmMemberDrawer" style="display:none;position:fixed;inset:0;background:rgba(6,15,32,.96);backdrop-filter:blur(20px);z-index:700;overflow-y:auto;padding:16px" onclick="if(event.target===this)closeCrmDrawer()">
+        <div style="max-width:520px;margin:0 auto;background:linear-gradient(135deg,#0D1E3A,#142848);border:1px solid rgba(201,168,76,.25);border-radius:20px;padding:28px">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+            <div style="font-family:'Playfair Display',serif;font-size:18px;font-weight:900;color:#fff">👤 Member Profile</div>
+            <button onclick="closeCrmDrawer()" style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:50%;width:36px;height:36px;color:rgba(255,255,255,.4);cursor:pointer;font-size:16px">×</button>
+          </div>
+          <div id="crmDrawerContent"></div>
+        </div>
+      </div>
+    </div>
+  </div><!-- /.admin inner -->
+</div><!-- /#adminOverlay -->
 <div id="editBookOverlay" onclick="if(event.target===this)closeEditModal()" style="display:none;position:fixed;inset:0;background:rgba(6,15,32,.96);backdrop-filter:blur(20px);z-index:600;overflow-y:auto;padding:16px;-webkit-overflow-scrolling:touch">
   <div style="max-width:640px;margin:0 auto;background:linear-gradient(135deg,#0D1E3A,#142848);border:1px solid rgba(201,168,76,.25);border-radius:20px;padding:28px">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px">
@@ -2141,6 +2456,16 @@ function openCheckout() {
   document.getElementById("checkoutBody").style.display = "block";
   document.getElementById("orderSuccess").classList.remove("show");
   document.body.style.overflow = "hidden";
+  // ── Pre-fill from session ──
+  var s = getSession();
+  if (s) {
+    var nf = document.getElementById("co-name");
+    var pf = document.getElementById("co-phone");
+    var ef = document.getElementById("co-email");
+    if (nf && !nf.value) nf.value = (s.fname||"") + " " + (s.lname||"");
+    if (pf && !pf.value) pf.value = s.phone || "";
+    if (ef && !ef.value) ef.value = s.email || "";
+  }
 }
 function closeCheckout() {
   document.getElementById("checkoutOverlay").classList.remove("open");
@@ -2169,6 +2494,13 @@ function placeOrderWhatsApp() {
     "Delivery: " + (deliveryType === "express" ? "Express (Same Day)" : "Standard (48hrs)") + " -- N" + deliveryFee.toLocaleString() + "%0A" +
     "TOTAL: N" + total.toLocaleString() + "%0A%0A_We Read. We Reflect. We Execute._";
   window.open("https://wa.me/2347037872401?text=" + msg, "_blank");
+
+  // ── LOG ORDER to CRM ──
+  logOrderForUser(
+    cart.map(function(i){ return {title:i.title, qty:i.qty, price:i.price}; }),
+    total, deliveryType, addr, state
+  );
+
   document.getElementById("checkoutBody").style.display = "none";
   document.getElementById("orderSuccess").classList.add("show");
   cart = [];
@@ -2474,9 +2806,847 @@ function adminUpdateBook() {
 
 // ── INIT ──
 window.onload = function() {
-  loadCatalog(); // restore any admin changes from localStorage
+  loadCatalog();
   renderBooks("All");
+  authInit();
 };
+
+// ════════════════════════════════════════════════════════════════
+// ██████╗  ██████╗  ██████╗ ██╗  ██╗ ███╗   ███╗███████╗███╗  ██╗████████╗ ██████╗ ██████╗
+// ██╔══██╗██╔═══██╗██╔═══██╗██║ ██╔╝ ████╗ ████║██╔════╝████╗ ██║╚══██╔══╝██╔═══██╗██╔══██╗
+// ██████╔╝██║   ██║██║   ██║█████╔╝  ██╔████╔██║█████╗  ██╔██╗██║   ██║   ██║   ██║██████╔╝
+// ██╔══██╗██║   ██║██║   ██║██╔═██╗  ██║╚██╔╝██║██╔══╝  ██║╚████║   ██║   ██║   ██║██╔══██╗
+// ██████╔╝╚██████╔╝╚██████╔╝██║  ██╗ ██║ ╚═╝ ██║███████╗██║ ╚███║   ██║   ╚██████╔╝██║  ██║
+//
+// BookMentor Auth + CRM Engine v2.0
+// Backend: Google Apps Script → Google Sheets
+// Session: localStorage
+// ════════════════════════════════════════════════════════════════
+
+// ──────────────────────────────────────────────────
+// 🔧 CONFIGURATION — replace with your deployed GAS URL
+// ──────────────────────────────────────────────────
+var GAS_URL = 'https://script.google.com/macros/s/AKfycbz7lw2yJ1O_XnKMjUxTIIL0NmZjaZfFkyILRaf_U2sTI8dKgB_2vUKyu5gqAw5jf8qm/exec';
+
+// ──────────────────────────────────────────────────
+// 📦 SESSION STORE — localStorage-based
+// ──────────────────────────────────────────────────
+var SESSION_KEY = 'bm_session_v1';
+var USERS_KEY   = 'bm_users_v1';    // local fallback store (array of user objects)
+var ORDERS_KEY  = 'bm_orders_v1';   // local fallback order history
+
+function getUsers() {
+  try { return JSON.parse(localStorage.getItem(USERS_KEY)) || []; } catch(e) { return []; }
+}
+function saveUsers(arr) {
+  try { localStorage.setItem(USERS_KEY, JSON.stringify(arr)); } catch(e) {}
+}
+function getOrders() {
+  try { return JSON.parse(localStorage.getItem(ORDERS_KEY)) || []; } catch(e) { return []; }
+}
+function saveOrders(arr) {
+  try { localStorage.setItem(ORDERS_KEY, JSON.stringify(arr)); } catch(e) {}
+}
+function getSession() {
+  try { return JSON.parse(localStorage.getItem(SESSION_KEY)); } catch(e) { return null; }
+}
+function saveSession(user) {
+  try { localStorage.setItem(SESSION_KEY, JSON.stringify(user)); } catch(e) {}
+}
+function clearSession() {
+  try { localStorage.removeItem(SESSION_KEY); } catch(e) {}
+}
+
+// ──────────────────────────────────────────────────
+// 🚀 GAS BRIDGE — POST via GET (handles CORS redirect)
+// ──────────────────────────────────────────────────
+function gasRequest(payload, onSuccess, onError) {
+  var encoded = encodeURIComponent(JSON.stringify(payload));
+  var url = GAS_URL + '?data=' + encoded;
+  var img = new Image();
+  // Fallback to fetch if GAS URL is configured
+  if (GAS_URL.indexOf('YOUR_DEPLOYMENT') !== -1) {
+    // Demo mode — simulate backend
+    simulateGAS(payload, onSuccess, onError);
+    return;
+  }
+  fetch(url, { method:'GET', mode:'cors' })
+    .then(function(r){ return r.json(); })
+    .then(function(d){ onSuccess(d); })
+    .catch(function(e){ onError(e); });
+}
+
+// Demo/offline simulation (used when GAS URL not yet set)
+function simulateGAS(payload, onSuccess, onError) {
+  var action = payload.action;
+  var users = getUsers();
+  var orders = getOrders();
+
+  if (action === 'register') {
+    var exists = users.find(function(u){
+      return u.email === payload.email || u.phone === payload.phone;
+    });
+    if (exists) { onError({error:'An account with this email or WhatsApp already exists.'}); return; }
+    var newUser = {
+      id: 'u_' + Date.now(),
+      fname: payload.fname,
+      lname: payload.lname,
+      phone: payload.phone,
+      email: payload.email,
+      city: payload.city || '',
+      password: payload.password,
+      status: 'active',
+      joinedAt: new Date().toISOString(),
+      orders: 0,
+      totalSpent: 0,
+      consent: payload.consent,
+      source: 'store'
+    };
+    users.push(newUser);
+    saveUsers(users);
+    onSuccess({success:true, user:stripPassword(newUser)});
+
+  } else if (action === 'login') {
+    var u = users.find(function(u){
+      return (u.email === payload.identifier || u.phone === payload.identifier)
+             && u.password === payload.password;
+    });
+    if (!u) { onError({error:'Incorrect credentials. Check your WhatsApp number or email and password.'}); return; }
+    onSuccess({success:true, user:stripPassword(u)});
+
+  } else if (action === 'update_profile') {
+    var idx = users.findIndex(function(u){ return u.id === payload.id; });
+    if (idx === -1) { onError({error:'User not found.'}); return; }
+    var u2 = users[idx];
+    u2.fname = payload.fname || u2.fname;
+    u2.lname = payload.lname || u2.lname;
+    u2.phone = payload.phone || u2.phone;
+    u2.email = payload.email || u2.email;
+    u2.city  = payload.city  || u2.city;
+    if (payload.password) u2.password = payload.password;
+    users[idx] = u2;
+    saveUsers(users);
+    onSuccess({success:true, user:stripPassword(u2)});
+
+  } else if (action === 'log_order') {
+    var ord = {
+      id: 'ord_' + Date.now(),
+      userId: payload.userId,
+      userName: payload.userName,
+      userPhone: payload.userPhone,
+      books: payload.books,
+      total: payload.total,
+      delivery: payload.delivery,
+      address: payload.address,
+      state: payload.state,
+      status: 'confirmed',
+      createdAt: new Date().toISOString()
+    };
+    orders.push(ord);
+    saveOrders(orders);
+    // Update user order count
+    var uidx = users.findIndex(function(u){ return u.id === payload.userId; });
+    if (uidx !== -1) {
+      users[uidx].orders = (users[uidx].orders || 0) + 1;
+      users[uidx].totalSpent = (users[uidx].totalSpent || 0) + payload.total;
+      if (users[uidx].orders >= 2) users[uidx].status = 'vip';
+      saveUsers(users);
+    }
+    onSuccess({success:true, orderId:ord.id});
+
+  } else if (action === 'get_users') {
+    onSuccess({success:true, users: users.map(stripPassword)});
+
+  } else if (action === 'get_orders') {
+    onSuccess({success:true, orders:orders});
+
+  } else {
+    onError({error:'Unknown action: ' + action});
+  }
+}
+
+function stripPassword(u) {
+  var c = Object.assign({}, u);
+  delete c.password;
+  return c;
+}
+
+// ──────────────────────────────────────────────────
+// 🔐 AUTH MODAL CONTROLS
+// ──────────────────────────────────────────────────
+function openAuthModal(tab) {
+  var el = document.getElementById('authOverlay');
+  el.classList.add('open');
+  switchAuthTab(tab || 'login');
+  clearAuthMsg();
+}
+function closeAuthModal() {
+  document.getElementById('authOverlay').classList.remove('open');
+  clearAuthMsg();
+}
+function switchAuthTab(tab) {
+  var isLogin = (tab === 'login');
+  document.getElementById('authLoginForm').style.display   = isLogin ? '' : 'none';
+  document.getElementById('authRegisterForm').style.display = isLogin ? 'none' : '';
+  document.getElementById('tab-login').className    = 'auth-tab' + (isLogin ? ' active' : '');
+  document.getElementById('tab-register').className = 'auth-tab' + (!isLogin ? ' active' : '');
+  clearAuthMsg();
+}
+function showAuthMsg(msg, type) {
+  var el = document.getElementById('authMsg');
+  el.textContent = msg;
+  el.className = 'auth-msg ' + (type || 'error');
+  el.style.display = 'block';
+}
+function clearAuthMsg() {
+  var el = document.getElementById('authMsg');
+  if (el) { el.style.display = 'none'; el.textContent = ''; }
+}
+
+// ──────────────────────────────────────────────────
+// 📝 REGISTER
+// ──────────────────────────────────────────────────
+function handleRegister() {
+  var fname   = (document.getElementById('reg-fname').value  || '').trim();
+  var lname   = (document.getElementById('reg-lname').value  || '').trim();
+  var phone   = (document.getElementById('reg-phone').value  || '').trim();
+  var email   = (document.getElementById('reg-email').value  || '').trim().toLowerCase();
+  var pass    = (document.getElementById('reg-pass').value   || '');
+  var pass2   = (document.getElementById('reg-pass2').value  || '');
+  var city    = (document.getElementById('reg-city').value   || '').trim();
+  var consent = document.getElementById('reg-consent').checked;
+
+  if (!fname || !lname)     { showAuthMsg('Please enter your full name.'); return; }
+  if (!phone || phone.length < 8) { showAuthMsg('Enter a valid WhatsApp number.'); return; }
+  if (!email || email.indexOf('@') < 0) { showAuthMsg('Enter a valid email address.'); return; }
+  if (pass.length < 6)      { showAuthMsg('Password must be at least 6 characters.'); return; }
+  if (pass !== pass2)       { showAuthMsg('Passwords do not match.'); return; }
+  if (!consent)             { showAuthMsg('Please accept to receive order updates.'); return; }
+
+  var btn = document.getElementById('registerBtn');
+  btn.disabled = true; btn.textContent = 'Creating account…';
+
+  gasRequest({
+    action:'register', fname:fname, lname:lname,
+    phone:phone, email:email, password:pass,
+    city:city, consent:consent
+  }, function(res) {
+    btn.disabled = false; btn.textContent = 'Create Account 🚀';
+    if (res.success) {
+      saveSession(res.user);
+      authApply(res.user);
+      closeAuthModal();
+      showToast('Welcome to BookAWeek, ' + fname + '! 🎉', 'success');
+    } else {
+      showAuthMsg(res.error || 'Registration failed. Try again.');
+    }
+  }, function(err) {
+    btn.disabled = false; btn.textContent = 'Create Account 🚀';
+    showAuthMsg((err && err.error) || 'Network error. Please try again.');
+  });
+}
+
+// ──────────────────────────────────────────────────
+// 🔑 LOGIN
+// ──────────────────────────────────────────────────
+function handleLogin() {
+  var identifier = (document.getElementById('li-identifier').value || '').trim();
+  var pass       = (document.getElementById('li-pass').value || '');
+
+  if (!identifier) { showAuthMsg('Enter your WhatsApp number or email.'); return; }
+  if (!pass)       { showAuthMsg('Enter your password.'); return; }
+
+  var btn = document.getElementById('loginBtn');
+  btn.disabled = true; btn.textContent = 'Signing in…';
+
+  gasRequest({
+    action:'login', identifier:identifier, password:pass
+  }, function(res) {
+    btn.disabled = false; btn.textContent = 'Sign In →';
+    if (res.success) {
+      saveSession(res.user);
+      authApply(res.user);
+      closeAuthModal();
+      showToast('Welcome back, ' + res.user.fname + '! 📚', 'success');
+    } else {
+      showAuthMsg(res.error || 'Login failed.');
+    }
+  }, function(err) {
+    btn.disabled = false; btn.textContent = 'Sign In →';
+    showAuthMsg((err && err.error) || 'Network error. Please try again.');
+  });
+}
+
+// ──────────────────────────────────────────────────
+// 🧠 SESSION — apply to UI
+// ──────────────────────────────────────────────────
+function authApply(user) {
+  var authBtn    = document.getElementById('navAuthBtn');
+  var userWrap   = document.getElementById('navUserWrap');
+  var navAvatar  = document.getElementById('navAvatar');
+  var navName    = document.getElementById('navUserName');
+  var ddName     = document.getElementById('ddName');
+  var ddEmail    = document.getElementById('ddEmail');
+
+  if (!user) {
+    authBtn.style.display  = 'flex';
+    userWrap.style.display = 'none';
+    return;
+  }
+  var fullName = user.fname + ' ' + user.lname;
+  var initials = (user.fname[0] + (user.lname[0] || '')).toUpperCase();
+
+  authBtn.style.display  = 'none';
+  userWrap.style.display = 'block';
+  navAvatar.textContent  = initials;
+  navName.textContent    = user.fname;
+  ddName.textContent     = fullName;
+  ddEmail.textContent    = user.email || user.phone;
+}
+
+function authInit() {
+  var s = getSession();
+  authApply(s || null);
+}
+
+function logoutUser() {
+  clearSession();
+  authApply(null);
+  closeUserDropdown();
+  showToast('You\'ve been signed out.', 'info');
+}
+
+function toggleUserDropdown() {
+  var dd = document.getElementById('userDropdown');
+  dd.classList.toggle('open');
+}
+function closeUserDropdown() {
+  var dd = document.getElementById('userDropdown');
+  if (dd) dd.classList.remove('open');
+}
+// Close dropdown on outside click
+document.addEventListener('click', function(e) {
+  var wrap = document.getElementById('navUserWrap');
+  if (wrap && !wrap.contains(e.target)) closeUserDropdown();
+});
+
+// ──────────────────────────────────────────────────
+// 📦 MY ORDERS
+// ──────────────────────────────────────────────────
+function openMyOrders() {
+  closeUserDropdown();
+  var session = getSession();
+  if (!session) { openAuthModal('login'); return; }
+  var orders = getOrders().filter(function(o){ return o.userId === session.id; });
+  var list = document.getElementById('myOrdersList');
+  var sub  = document.getElementById('myOrdersSubtitle');
+  sub.textContent = orders.length + ' order' + (orders.length !== 1 ? 's' : '');
+  if (orders.length === 0) {
+    list.innerHTML = '<div style="text-align:center;color:rgba(245,237,216,.25);padding:60px 20px;font-size:14px">📚 No orders yet. Browse the store and grab a book!</div>';
+  } else {
+    list.innerHTML = orders.slice().reverse().map(function(o) {
+      var d = new Date(o.createdAt);
+      var books = (o.books || []).map(function(b){ return b.title + ' × ' + b.qty; }).join(', ');
+      return '<div style="padding:16px;background:rgba(255,255,255,.04);border:1px solid rgba(201,168,76,.1);border-radius:14px;margin-bottom:12px">' +
+        '<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap">' +
+          '<div>' +
+            '<div style="font-family:\'Playfair Display\',serif;font-size:14px;font-weight:700;color:#fff;margin-bottom:4px">' + books + '</div>' +
+            '<div style="font-size:12px;color:rgba(245,237,216,.35)">' + (o.address || '') + (o.state ? ', ' + o.state : '') + '</div>' +
+          '</div>' +
+          '<div style="text-align:right;flex-shrink:0">' +
+            '<div style="font-size:16px;font-weight:900;color:var(--gold)">₦' + (o.total||0).toLocaleString() + '</div>' +
+            '<div style="font-size:11px;color:rgba(245,237,216,.3);margin-top:2px">' + d.toLocaleDateString('en-NG',{day:'numeric',month:'short',year:'numeric'}) + '</div>' +
+          '</div>' +
+        '</div>' +
+        '<div style="margin-top:10px;display:flex;gap:8px;align-items:center">' +
+          '<span style="display:inline-flex;padding:3px 10px;border-radius:100px;font-size:10px;font-weight:800;background:rgba(26,122,60,.2);color:#4ade80;border:1px solid rgba(26,122,60,.3)">' + (o.status||'confirmed').toUpperCase() + '</span>' +
+          '<span style="font-size:11px;color:rgba(245,237,216,.25)">Ref: ' + o.id + '</span>' +
+        '</div>' +
+      '</div>';
+    }).join('');
+  }
+  document.getElementById('myOrdersOverlay').style.display = 'block';
+}
+function closeMyOrders() {
+  document.getElementById('myOrdersOverlay').style.display = 'none';
+}
+
+// ──────────────────────────────────────────────────
+// ✏️ PROFILE EDIT
+// ──────────────────────────────────────────────────
+function openMyProfile() {
+  closeUserDropdown();
+  var user = getSession();
+  if (!user) { openAuthModal('login'); return; }
+  document.getElementById('pf-fname').value = user.fname || '';
+  document.getElementById('pf-lname').value = user.lname || '';
+  document.getElementById('pf-phone').value = user.phone || '';
+  document.getElementById('pf-email').value = user.email || '';
+  document.getElementById('pf-city').value  = user.city  || '';
+  document.getElementById('pf-pass').value  = '';
+  document.getElementById('profileOverlay').style.display = 'block';
+}
+function closeMyProfile() {
+  document.getElementById('profileOverlay').style.display = 'none';
+}
+function showProfileMsg(msg, type) {
+  var el = document.getElementById('profileMsg');
+  el.textContent = msg; el.className = 'auth-msg ' + (type||'error'); el.style.display = 'block';
+}
+function saveProfile() {
+  var user  = getSession();
+  if (!user) return;
+  var fname = (document.getElementById('pf-fname').value || '').trim();
+  var lname = (document.getElementById('pf-lname').value || '').trim();
+  var phone = (document.getElementById('pf-phone').value || '').trim();
+  var email = (document.getElementById('pf-email').value || '').trim().toLowerCase();
+  var city  = (document.getElementById('pf-city').value  || '').trim();
+  var pass  = (document.getElementById('pf-pass').value  || '');
+
+  if (!fname || !lname) { showProfileMsg('Name cannot be empty.'); return; }
+  if (pass && pass.length < 6) { showProfileMsg('New password must be at least 6 characters.'); return; }
+
+  var payload = { action:'update_profile', id:user.id, fname:fname, lname:lname, phone:phone, email:email, city:city };
+  if (pass) payload.password = pass;
+
+  gasRequest(payload, function(res) {
+    if (res.success) {
+      saveSession(res.user);
+      authApply(res.user);
+      showProfileMsg('Profile updated! ✓', 'success');
+      showToast('Profile saved!', 'success');
+    } else {
+      showProfileMsg(res.error || 'Update failed.');
+    }
+  }, function(err) {
+    showProfileMsg((err && err.error) || 'Network error.');
+  });
+}
+
+// ──────────────────────────────────────────────────
+// 🛒 ORDER LOGGING — hook into checkout
+// ──────────────────────────────────────────────────
+function logOrderForUser(cartItems, total, delivery, address, state) {
+  var session = getSession();
+  if (!session) return; // guest checkout — no logging
+  gasRequest({
+    action: 'log_order',
+    userId: session.id,
+    userName: session.fname + ' ' + session.lname,
+    userPhone: session.phone,
+    books: cartItems.map(function(i){ return {title:i.title, qty:i.qty, price:i.price}; }),
+    total: total,
+    delivery: delivery,
+    address: address,
+    state: state
+  }, function(res){
+    if (res.success) {
+      // refresh session with updated order count
+      var users = getUsers();
+      var u = users.find(function(u){ return u.id === session.id; });
+      if (u) { var updated = stripPassword(u); saveSession(updated); authApply(updated); }
+    }
+  }, function(){});
+}
+
+// ──────────────────────────────────────────────────
+// 👑 ADMIN AUTH CHECK — only you can access CRM
+// ──────────────────────────────────────────────────
+var ADMIN_PIN = 'BAW2026'; // change this to your secret
+
+function openAdminPanel() {
+  if (_adminUnlocked) {
+    document.getElementById('adminOverlay').style.display = 'block';
+    switchAdminTab('add');
+    renderAdminBookList();
+    return;
+  }
+  var pin = prompt('Enter admin PIN:');
+  if (!pin || pin.trim() !== ADMIN_PIN) {
+    showToast('Incorrect PIN.', 'error'); return;
+  }
+  _adminUnlocked = true;
+  document.getElementById('adminOverlay').style.display = 'block';
+  switchAdminTab('add');
+  renderAdminBookList();
+}
+var _adminUnlocked = false;
+
+// ──────────────────────────────────────────────────
+// 👥 CRM ENGINE
+// ──────────────────────────────────────────────────
+var _crmUsers   = [];
+var _crmFilter  = 'all';
+var _crmPage    = 0;
+var CRM_PER_PAGE = 20;
+
+function switchAdminTab(tab) {
+  var tabs = ['add','manage','crm'];
+  tabs.forEach(function(t) {
+    var btn  = document.getElementById('atab-' + t);
+    var body = document.getElementById('adminTab' + t.charAt(0).toUpperCase() + t.slice(1));
+    var active = (t === tab);
+    if (btn) {
+      btn.style.background   = active ? 'rgba(201,168,76,.08)' : 'none';
+      btn.style.borderBottom = active ? '2px solid var(--gold)' : '2px solid transparent';
+      btn.style.color        = active ? 'var(--gold)' : 'rgba(255,255,255,.4)';
+    }
+    if (body) body.style.display = active ? 'block' : 'none';
+  });
+  if (tab === 'manage') renderAdminBookList();
+  if (tab === 'crm')    loadCrmData();
+}
+
+function loadCrmData() {
+  _crmUsers = getUsers().map(stripPassword);
+  renderCrmStats();
+  renderCrmTable();
+}
+
+function loadCrmFromSheets() {
+  showToast('Syncing from Google Sheets…', 'info');
+  gasRequest({ action:'get_users' }, function(res) {
+    if (res.success && res.users) {
+      _crmUsers = res.users;
+      // merge into local
+      var local = getUsers();
+      res.users.forEach(function(u) {
+        var idx = local.findIndex(function(l){ return l.id === u.id || l.email === u.email; });
+        if (idx === -1) local.push(u); else local[idx] = Object.assign(local[idx], u);
+      });
+      saveUsers(local);
+      renderCrmStats();
+      renderCrmTable();
+      showToast('Synced ' + res.users.length + ' members from Sheets!', 'success');
+    } else {
+      showToast('Sync failed — check GAS URL.', 'error');
+    }
+  }, function(){
+    showToast('Network error on sync.', 'error');
+  });
+}
+
+function renderCrmStats() {
+  var users  = _crmUsers;
+  var orders = getOrders();
+  var total  = users.length;
+  var totalOrders = orders.length;
+  var revenue = orders.reduce(function(s,o){ return s + (o.total||0); }, 0);
+  var vip = users.filter(function(u){ return u.status === 'vip' || u.orders >= 2; }).length;
+
+  var el = function(id, val) { var e = document.getElementById(id); if(e) e.textContent = val; };
+  el('crmTotalUsers',  total);
+  el('crmTotalOrders', totalOrders);
+  el('crmRevenue',     '₦' + revenue.toLocaleString());
+  el('crmVip',         vip);
+}
+
+function setCrmFilter(filter, btn) {
+  _crmFilter = filter;
+  _crmPage   = 0;
+  document.querySelectorAll('.crm-filter-btn').forEach(function(b){ b.classList.remove('active'); });
+  if (btn) btn.classList.add('active');
+  renderCrmTable();
+}
+
+function renderCrmTable() {
+  var search = (document.getElementById('crmSearch') || {}).value || '';
+  search = search.toLowerCase().trim();
+
+  var users = _crmUsers.filter(function(u) {
+    if (search) {
+      var hay = ((u.fname||'') + ' ' + (u.lname||'') + ' ' + (u.phone||'') + ' ' + (u.email||'') + ' ' + (u.city||'')).toLowerCase();
+      if (hay.indexOf(search) === -1) return false;
+    }
+    if (_crmFilter === 'active')  return u.status === 'active';
+    if (_crmFilter === 'vip')     return u.status === 'vip' || (u.orders||0) >= 2;
+    if (_crmFilter === 'pending') return u.status === 'pending';
+    if (_crmFilter === 'lagos')   return (u.city||'').toLowerCase().indexOf('lagos') !== -1;
+    return true;
+  });
+
+  var total = users.length;
+  var start = _crmPage * CRM_PER_PAGE;
+  var page  = users.slice(start, start + CRM_PER_PAGE);
+
+  var body = document.getElementById('crmTableBody');
+  if (!body) return;
+
+  if (page.length === 0) {
+    body.innerHTML = '<tr><td colspan="10" style="text-align:center;padding:40px;color:rgba(245,237,216,.2)">No members match this filter.</td></tr>';
+    document.getElementById('crmPagination').innerHTML = '';
+    return;
+  }
+
+  body.innerHTML = page.map(function(u, i) {
+    var name  = (u.fname||'') + ' ' + (u.lname||'');
+    var phone = u.phone || '—';
+    var email = u.email || '—';
+    var city  = u.city  || '—';
+    var orders = u.orders || 0;
+    var spent  = u.totalSpent || 0;
+    var status = u.status || 'active';
+    var joined = u.joinedAt ? new Date(u.joinedAt).toLocaleDateString('en-NG',{day:'numeric',month:'short',year:'2-digit'}) : '—';
+    var badgeCls = status === 'vip' ? 'vip' : status === 'pending' ? 'pending' : 'active';
+    var badgeLbl = status === 'vip' ? '⭐ VIP' : status === 'pending' ? '⏳ Pending' : '✅ Active';
+    return '<tr>' +
+      '<td style="color:rgba(245,237,216,.3);font-size:12px">' + (start + i + 1) + '</td>' +
+      '<td><div style="font-weight:700;color:#fff;white-space:nowrap">' + name + '</div></td>' +
+      '<td><a href="https://wa.me/' + phone.replace(/\D/g,'') + '" target="_blank" style="color:var(--gold);text-decoration:none;font-size:12px">' + phone + '</a></td>' +
+      '<td style="font-size:12px;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + email + '</td>' +
+      '<td style="font-size:12px">' + city + '</td>' +
+      '<td style="font-weight:700;color:#fff;text-align:center">' + orders + '</td>' +
+      '<td style="color:var(--gold);font-weight:700">₦' + spent.toLocaleString() + '</td>' +
+      '<td><span class="crm-badge ' + badgeCls + '">' + badgeLbl + '</span></td>' +
+      '<td style="font-size:12px;white-space:nowrap">' + joined + '</td>' +
+      '<td><button onclick="openCrmDrawer(\'' + u.id + '\')" style="background:rgba(201,168,76,.1);color:var(--gold);border:1px solid rgba(201,168,76,.2);border-radius:8px;padding:5px 12px;font-family:\'DM Sans\',sans-serif;font-size:11px;font-weight:700;cursor:pointer">View</button></td>' +
+    '</tr>';
+  }).join('');
+
+  // Pagination
+  var totalPages = Math.ceil(total / CRM_PER_PAGE);
+  var pg = document.getElementById('crmPagination');
+  if (totalPages <= 1) { pg.innerHTML = ''; return; }
+  var btns = '';
+  for (var p = 0; p < totalPages; p++) {
+    var isActive = p === _crmPage;
+    btns += '<button onclick="setCrmPage(' + p + ')" style="width:34px;height:34px;border-radius:50%;border:1px solid rgba(201,168,76,' + (isActive?'.5':'.15') + ');background:' + (isActive?'var(--gold)':'none') + ';color:' + (isActive?'var(--navy)':'rgba(255,255,255,.4)') + ';font-family:\'DM Sans\',sans-serif;font-size:12px;font-weight:700;cursor:pointer">' + (p+1) + '</button>';
+  }
+  pg.innerHTML = btns;
+}
+
+function setCrmPage(p) {
+  _crmPage = p;
+  renderCrmTable();
+}
+
+function openCrmDrawer(uid) {
+  var u = _crmUsers.find(function(u){ return u.id === uid; });
+  if (!u) return;
+  var orders = getOrders().filter(function(o){ return o.userId === uid; });
+  var name  = (u.fname||'') + ' ' + (u.lname||'');
+  var initials = ((u.fname||'')[0] + (u.lname||'')[0]).toUpperCase();
+  var joined = u.joinedAt ? new Date(u.joinedAt).toLocaleDateString('en-NG',{day:'numeric',month:'long',year:'numeric'}) : '—';
+
+  var ordersHtml = orders.length === 0
+    ? '<div style="color:rgba(245,237,216,.25);font-size:13px;padding:16px 0">No orders yet.</div>'
+    : orders.map(function(o){
+        var books = (o.books||[]).map(function(b){ return b.title; }).join(', ');
+        return '<div style="padding:12px;background:rgba(255,255,255,.04);border-radius:10px;margin-bottom:8px">' +
+          '<div style="font-size:13px;font-weight:700;color:#fff">' + books + '</div>' +
+          '<div style="display:flex;justify-content:space-between;margin-top:6px">' +
+            '<span style="font-size:12px;color:rgba(245,237,216,.4)">' + new Date(o.createdAt).toLocaleDateString('en-NG') + '</span>' +
+            '<span style="font-size:13px;font-weight:700;color:var(--gold)">₦' + (o.total||0).toLocaleString() + '</span>' +
+          '</div>' +
+        '</div>';
+      }).join('');
+
+  var statusBadge = u.status === 'vip' ? 'crm-badge vip' : 'crm-badge active';
+  var statusLabel = u.status === 'vip' ? '⭐ VIP' : '✅ Active';
+
+  document.getElementById('crmDrawerContent').innerHTML =
+    '<div style="text-align:center;margin-bottom:24px">' +
+      '<div style="width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,var(--gold2),var(--gold));color:var(--navy);font-size:24px;font-weight:900;display:flex;align-items:center;justify-content:center;margin:0 auto 12px">' + initials + '</div>' +
+      '<div style="font-family:\'Playfair Display\',serif;font-size:20px;font-weight:900;color:#fff">' + name + '</div>' +
+      '<span class="' + statusBadge + '" style="margin-top:6px">' + statusLabel + '</span>' +
+    '</div>' +
+    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px">' +
+      '<div style="background:rgba(255,255,255,.04);border-radius:12px;padding:14px">' +
+        '<div style="font-size:10px;color:rgba(245,237,216,.3);text-transform:uppercase;font-weight:700;letter-spacing:.08em;margin-bottom:4px">WhatsApp</div>' +
+        '<a href="https://wa.me/' + (u.phone||'').replace(/\D/g,'') + '" target="_blank" style="color:var(--gold);font-weight:700;font-size:13px;text-decoration:none">' + (u.phone||'—') + ' 📲</a>' +
+      '</div>' +
+      '<div style="background:rgba(255,255,255,.04);border-radius:12px;padding:14px">' +
+        '<div style="font-size:10px;color:rgba(245,237,216,.3);text-transform:uppercase;font-weight:700;letter-spacing:.08em;margin-bottom:4px">Email</div>' +
+        '<div style="font-size:13px;color:rgba(245,237,216,.7)">' + (u.email||'—') + '</div>' +
+      '</div>' +
+      '<div style="background:rgba(255,255,255,.04);border-radius:12px;padding:14px">' +
+        '<div style="font-size:10px;color:rgba(245,237,216,.3);text-transform:uppercase;font-weight:700;letter-spacing:.08em;margin-bottom:4px">City</div>' +
+        '<div style="font-size:13px;color:rgba(245,237,216,.7)">' + (u.city||'—') + '</div>' +
+      '</div>' +
+      '<div style="background:rgba(255,255,255,.04);border-radius:12px;padding:14px">' +
+        '<div style="font-size:10px;color:rgba(245,237,216,.3);text-transform:uppercase;font-weight:700;letter-spacing:.08em;margin-bottom:4px">Member Since</div>' +
+        '<div style="font-size:13px;color:rgba(245,237,216,.7)">' + joined + '</div>' +
+      '</div>' +
+    '</div>' +
+    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:24px">' +
+      '<div style="background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.2);border-radius:12px;padding:16px;text-align:center">' +
+        '<div style="font-family:\'Playfair Display\',serif;font-size:28px;font-weight:900;color:var(--gold)">' + (u.orders||0) + '</div>' +
+        '<div style="font-size:11px;color:rgba(245,237,216,.4);margin-top:2px;text-transform:uppercase;font-weight:700;letter-spacing:.06em">Orders</div>' +
+      '</div>' +
+      '<div style="background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.2);border-radius:12px;padding:16px;text-align:center">' +
+        '<div style="font-family:\'Playfair Display\',serif;font-size:28px;font-weight:900;color:var(--gold)">₦' + (u.totalSpent||0).toLocaleString() + '</div>' +
+        '<div style="font-size:11px;color:rgba(245,237,216,.4);margin-top:2px;text-transform:uppercase;font-weight:700;letter-spacing:.06em">Total Spent</div>' +
+      '</div>' +
+    '</div>' +
+    '<div style="font-size:13px;font-weight:800;color:rgba(245,237,216,.4);letter-spacing:.08em;text-transform:uppercase;margin-bottom:12px">Order History</div>' +
+    ordersHtml +
+    '<div style="display:flex;gap:10px;margin-top:20px">' +
+      '<a href="https://wa.me/' + (u.phone||'').replace(/\D/g,'') + '?text=' + encodeURIComponent('Hi ' + (u.fname||'') + ', thank you for being a BookWarrior! 📚') + '" target="_blank" style="flex:1;background:linear-gradient(135deg,#25D366,#128C7E);color:#fff;border:none;border-radius:100px;padding:12px;font-family:\'DM Sans\',sans-serif;font-size:13px;font-weight:700;cursor:pointer;text-align:center;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:6px">📲 Message on WhatsApp</a>' +
+      '<button onclick="deleteCrmUser(\'' + u.id + '\')" style="background:rgba(239,68,68,.1);color:#EF4444;border:1px solid rgba(239,68,68,.2);border-radius:100px;padding:12px 16px;font-family:\'DM Sans\',sans-serif;font-size:13px;font-weight:700;cursor:pointer">🗑</button>' +
+    '</div>';
+
+  document.getElementById('crmMemberDrawer').style.display = 'block';
+}
+
+function closeCrmDrawer() {
+  document.getElementById('crmMemberDrawer').style.display = 'none';
+}
+
+function deleteCrmUser(uid) {
+  if (!confirm('Remove this member? This cannot be undone.')) return;
+  var users = getUsers().filter(function(u){ return u.id !== uid; });
+  saveUsers(users);
+  _crmUsers = users.map(stripPassword);
+  renderCrmStats();
+  renderCrmTable();
+  closeCrmDrawer();
+  showToast('Member removed.', 'info');
+}
+
+// ──────────────────────────────────────────────────
+// 📤 EXPORT CSV
+// ──────────────────────────────────────────────────
+function exportCrmCSV() {
+  var users = _crmUsers;
+  if (users.length === 0) { showToast('No members to export.', 'info'); return; }
+  var headers = ['ID','First Name','Last Name','WhatsApp','Email','City','Orders','Total Spent (₦)','Status','Joined'];
+  var rows = users.map(function(u) {
+    return [
+      u.id || '',
+      u.fname || '',
+      u.lname || '',
+      u.phone || '',
+      u.email || '',
+      u.city  || '',
+      u.orders || 0,
+      u.totalSpent || 0,
+      u.status || 'active',
+      u.joinedAt ? new Date(u.joinedAt).toLocaleDateString('en-NG') : ''
+    ].map(function(v){ return '"' + String(v).replace(/"/g,'""') + '"'; }).join(',');
+  });
+  var csv = [headers.join(',')].concat(rows).join('\n');
+  var blob = new Blob([csv], {type:'text/csv'});
+  var url  = URL.createObjectURL(blob);
+  var a    = document.createElement('a');
+  a.href   = url;
+  a.download = 'bookaweek_members_' + new Date().toISOString().slice(0,10) + '.csv';
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast('Exported ' + users.length + ' members to CSV!', 'success');
+}
+
+/*
+════════════════════════════════════════════════════════════════════
+ GOOGLE APPS SCRIPT BACKEND — deploy this as a Web App
+ Sheet tabs required:
+   📋 USERS    → auto-created
+   📦 ORDERS   → auto-created
+════════════════════════════════════════════════════════════════════
+
+function doGet(e) {
+  var data = JSON.parse(decodeURIComponent(e.parameter.data || "{}"));
+  var result = handleAction(data);
+  return ContentService
+    .createTextOutput(JSON.stringify(result))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
+function getOrCreateSheet(name, headers) {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sh = ss.getSheetByName(name);
+  if (!sh) {
+    sh = ss.insertSheet(name);
+    sh.appendRow(headers);
+    sh.getRange(1, 1, 1, headers.length).setFontWeight("bold");
+  }
+  return sh;
+}
+
+function handleAction(data) {
+  var action = data.action;
+
+  if (action === "register") {
+    var sh = getOrCreateSheet("📋 USERS", ["ID","First Name","Last Name","WhatsApp","Email","City","Password","Status","Orders","Total Spent","Consent","Source","Joined"]);
+    var rows = sh.getDataRange().getValues();
+    for (var i = 1; i < rows.length; i++) {
+      if (rows[i][4] === data.email || rows[i][3] === data.phone)
+        return {error:"An account with this email or WhatsApp already exists."};
+    }
+    var id = "u_" + Date.now();
+    sh.appendRow([id, data.fname, data.lname, data.phone, data.email, data.city||"", data.password, "active", 0, 0, data.consent, "store", new Date().toISOString()]);
+    return {success:true, user:{id:id, fname:data.fname, lname:data.lname, phone:data.phone, email:data.email, city:data.city||"", status:"active", orders:0, totalSpent:0, joinedAt:new Date().toISOString()}};
+  }
+
+  if (action === "login") {
+    var sh = getOrCreateSheet("📋 USERS", ["ID","First Name","Last Name","WhatsApp","Email","City","Password","Status","Orders","Total Spent","Consent","Source","Joined"]);
+    var rows = sh.getDataRange().getValues();
+    for (var i = 1; i < rows.length; i++) {
+      if ((rows[i][4] === data.identifier || rows[i][3] === data.identifier) && rows[i][6] === data.password) {
+        return {success:true, user:{id:rows[i][0], fname:rows[i][1], lname:rows[i][2], phone:rows[i][3], email:rows[i][4], city:rows[i][5], status:rows[i][7], orders:rows[i][8], totalSpent:rows[i][9], joinedAt:rows[i][12]}};
+      }
+    }
+    return {error:"Incorrect credentials. Check your WhatsApp number or email and password."};
+  }
+
+  if (action === "update_profile") {
+    var sh = getOrCreateSheet("📋 USERS", []);
+    var rows = sh.getDataRange().getValues();
+    for (var i = 1; i < rows.length; i++) {
+      if (rows[i][0] === data.id) {
+        sh.getRange(i+1,2).setValue(data.fname || rows[i][1]);
+        sh.getRange(i+1,3).setValue(data.lname || rows[i][2]);
+        sh.getRange(i+1,4).setValue(data.phone || rows[i][3]);
+        sh.getRange(i+1,5).setValue(data.email || rows[i][4]);
+        sh.getRange(i+1,6).setValue(data.city  || rows[i][5]);
+        if (data.password) sh.getRange(i+1,7).setValue(data.password);
+        return {success:true, user:{id:data.id, fname:data.fname, lname:data.lname, phone:data.phone, email:data.email, city:data.city, status:rows[i][7], orders:rows[i][8], totalSpent:rows[i][9]}};
+      }
+    }
+    return {error:"User not found."};
+  }
+
+  if (action === "log_order") {
+    var sh = getOrCreateSheet("📦 ORDERS", ["Order ID","User ID","User Name","WhatsApp","Books","Total","Delivery","Address","State","Status","Created"]);
+    var id = "ord_" + Date.now();
+    sh.appendRow([id, data.userId, data.userName, data.userPhone, JSON.stringify(data.books), data.total, data.delivery, data.address, data.state, "confirmed", new Date().toISOString()]);
+    // update user stats
+    var ush = getOrCreateSheet("📋 USERS", []);
+    var urows = ush.getDataRange().getValues();
+    for (var i = 1; i < urows.length; i++) {
+      if (urows[i][0] === data.userId) {
+        var newOrders = (urows[i][8]||0) + 1;
+        var newSpent  = (urows[i][9]||0) + data.total;
+        ush.getRange(i+1,9).setValue(newOrders);
+        ush.getRange(i+1,10).setValue(newSpent);
+        if (newOrders >= 2) ush.getRange(i+1,8).setValue("vip");
+        break;
+      }
+    }
+    return {success:true, orderId:id};
+  }
+
+  if (action === "get_users") {
+    var sh = getOrCreateSheet("📋 USERS", []);
+    var rows = sh.getDataRange().getValues();
+    var users = [];
+    for (var i = 1; i < rows.length; i++) {
+      users.push({id:rows[i][0], fname:rows[i][1], lname:rows[i][2], phone:rows[i][3], email:rows[i][4], city:rows[i][5], status:rows[i][7], orders:rows[i][8], totalSpent:rows[i][9], joinedAt:rows[i][12]});
+    }
+    return {success:true, users:users};
+  }
+
+  return {error:"Unknown action: " + action};
+}
+
+════════════════════════════════════════════════════════════════════
+ DEPLOY STEPS:
+ 1. Open script.google.com → New Project → paste above
+ 2. Extensions → Apps Script → Deploy → New Deployment
+ 3. Type: Web App | Execute as: Me | Who has access: Anyone
+ 4. Copy the deployment URL
+ 5. Replace GAS_URL variable at top of this file with your URL
+════════════════════════════════════════════════════════════════════
+*/
 </script>
 <!-- Paystack inline script — add when you have your Paystack account -->
 <!-- <script src="https://js.paystack.co/v1/inline.js"></script> -->
