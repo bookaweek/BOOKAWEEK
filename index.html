@@ -1237,6 +1237,103 @@ body::before{
   }
   .nav{padding-top:env(safe-area-inset-top)}
 }
+
+/* ══ WELCOME SPLASH (First Visit) ══ */
+.welcome-overlay{
+  display:none;position:fixed;inset:0;z-index:900;
+  background:rgba(4,10,22,.98);backdrop-filter:blur(32px);
+  align-items:center;justify-content:center;padding:16px;
+  overflow-y:auto;
+}
+.welcome-overlay.open{display:flex}
+.welcome-sheet{
+  background:linear-gradient(160deg,#0B1F3B 0%,#142040 45%,#091529 100%);
+  border:1px solid rgba(201,168,76,.35);border-radius:28px;
+  width:100%;max-width:500px;padding:0;overflow:hidden;position:relative;
+  box-shadow:0 32px 100px rgba(0,0,0,.8),0 0 0 1px rgba(201,168,76,.1);
+  animation:welcomeIn .5s cubic-bezier(.34,1.4,.64,1);
+}
+@keyframes welcomeIn{from{opacity:0;transform:translateY(32px) scale(.95)}to{opacity:1;transform:none}}
+
+/* Hero banner strip */
+.welcome-hero{
+  background:linear-gradient(135deg,#0B1F3B 0%,#142848 50%,#1a3060 100%);
+  padding:36px 32px 28px;text-align:center;
+  border-bottom:1px solid rgba(201,168,76,.15);
+  position:relative;overflow:hidden;
+}
+.welcome-hero::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(201,168,76,.12) 0%,transparent 70%);
+}
+.welcome-logo{width:64px;height:64px;border-radius:16px;margin:0 auto 14px;display:block;
+  filter:drop-shadow(0 6px 24px rgba(201,168,76,.6));position:relative}
+.welcome-headline{font-family:'Playfair Display',serif;font-size:26px;font-weight:900;
+  color:#fff;line-height:1.2;margin-bottom:8px;position:relative}
+.welcome-headline em{color:var(--gold);font-style:normal}
+.welcome-subline{font-size:13px;color:rgba(245,237,216,.45);line-height:1.6;position:relative;max-width:320px;margin:0 auto}
+
+/* Perks strip */
+.welcome-perks{display:grid;grid-template-columns:repeat(3,1fr);gap:0;
+  border-bottom:1px solid rgba(201,168,76,.1)}
+.welcome-perk{padding:14px 10px;text-align:center;border-right:1px solid rgba(201,168,76,.08)}
+.welcome-perk:last-child{border-right:none}
+.welcome-perk-icon{font-size:20px;margin-bottom:4px}
+.welcome-perk-text{font-size:10px;font-weight:700;color:rgba(245,237,216,.4);
+  text-transform:uppercase;letter-spacing:.05em;line-height:1.3}
+
+/* Body */
+.welcome-body{padding:28px 32px 32px}
+.welcome-body .auth-tabs{margin-bottom:24px}
+
+/* Auth-gate overlay (blocks checkout) */
+.authgate-overlay{
+  display:none;position:fixed;inset:0;z-index:850;
+  background:rgba(4,10,22,.97);backdrop-filter:blur(28px);
+  align-items:center;justify-content:center;padding:16px;
+}
+.authgate-overlay.open{display:flex;animation:fadeIn .3s ease}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.authgate-sheet{
+  background:linear-gradient(145deg,#0D1E3A,#142848);
+  border:1.5px solid rgba(201,168,76,.4);border-radius:24px;
+  width:100%;max-width:440px;padding:36px 32px;
+  box-shadow:0 24px 80px rgba(0,0,0,.7);
+  animation:sheetIn .4s cubic-bezier(.34,1.56,.64,1);
+  text-align:center;
+}
+.authgate-icon{font-size:48px;margin-bottom:16px;display:block}
+.authgate-title{font-family:'Playfair Display',serif;font-size:22px;font-weight:900;
+  color:#fff;margin-bottom:8px}
+.authgate-sub{font-size:14px;color:rgba(245,237,216,.4);line-height:1.6;margin-bottom:28px}
+.authgate-btns{display:flex;flex-direction:column;gap:10px}
+.authgate-btn-primary{background:linear-gradient(135deg,var(--gold2),var(--gold));
+  color:var(--navy);border:none;border-radius:100px;padding:15px 24px;
+  font-family:'DM Sans',sans-serif;font-size:15px;font-weight:900;
+  cursor:pointer;transition:all .25s;width:100%}
+.authgate-btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(201,168,76,.45)}
+.authgate-btn-secondary{background:rgba(201,168,76,.08);color:var(--gold);
+  border:1px solid rgba(201,168,76,.25);border-radius:100px;padding:13px 24px;
+  font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;
+  cursor:pointer;transition:all .25s;width:100%}
+.authgate-btn-secondary:hover{background:rgba(201,168,76,.15)}
+.authgate-trust{margin-top:18px;font-size:11px;color:rgba(245,237,216,.2);line-height:1.8}
+.authgate-trust span{color:rgba(201,168,76,.5)}
+
+/* Add-to-cart auth nudge badge */
+.auth-nudge-bar{
+  display:none;position:fixed;bottom:90px;left:50%;transform:translateX(-50%);
+  background:linear-gradient(135deg,#0D1E3A,#142848);
+  border:1px solid rgba(201,168,76,.35);border-radius:100px;
+  padding:12px 24px;z-index:400;white-space:nowrap;
+  box-shadow:0 8px 32px rgba(0,0,0,.5);
+  font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;color:#fff;
+  animation:nudgeIn .4s cubic-bezier(.34,1.56,.64,1);
+}
+.auth-nudge-bar.show{display:flex;align-items:center;gap:10px}
+@keyframes nudgeIn{from{opacity:0;transform:translateX(-50%) translateY(16px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
+.auth-nudge-bar a{color:var(--gold);cursor:pointer;text-decoration:underline}
+
 </style>
 </head>
 <body>
@@ -1256,8 +1353,8 @@ body::before{
   </div>
   <div style="display:flex;align-items:center;gap:10px;position:relative">
     <!-- Guest state -->
-    <button id="navAuthBtn" onclick="openAuthModal('login')" class="nav-user-btn" style="display:flex">
-      <span style="font-size:13px">👤</span> Sign In
+    <button id="navAuthBtn" onclick="openWelcomeSplash('register')" class="nav-user-btn" style="display:flex">
+      <span style="font-size:13px">👤</span> Join / Sign In
     </button>
     <!-- Logged-in state -->
     <div id="navUserWrap" style="display:none;position:relative">
@@ -2013,6 +2110,129 @@ body::before{
     </div>
   </div><!-- /.admin inner -->
 </div><!-- /#adminOverlay -->
+
+<!-- ══ WELCOME SPLASH (First Visit) ══ -->
+<div class="welcome-overlay" id="welcomeOverlay">
+  <div class="welcome-sheet">
+    <!-- Hero -->
+    <div class="welcome-hero">
+      <img src="https://i.imgur.com/EFOzI8H.png" class="welcome-logo" alt="BookAWeek">
+      <div class="welcome-headline">Welcome to <em>BookAWeek</em> Store</div>
+      <div class="welcome-subline">Nigeria's #1 curated bookstore for serious readers. Join thousands of BookWarriors — create your free account in 60 seconds.</div>
+    </div>
+    <!-- Perks -->
+    <div class="welcome-perks">
+      <div class="welcome-perk">
+        <div class="welcome-perk-icon">📦</div>
+        <div class="welcome-perk-text">Track Every Order</div>
+      </div>
+      <div class="welcome-perk">
+        <div class="welcome-perk-icon">⚡</div>
+        <div class="welcome-perk-text">1-Click Checkout</div>
+      </div>
+      <div class="welcome-perk">
+        <div class="welcome-perk-icon">⭐</div>
+        <div class="welcome-perk-text">VIP Early Access</div>
+      </div>
+    </div>
+    <!-- Auth forms embedded -->
+    <div class="welcome-body">
+      <div class="auth-tabs">
+        <button class="auth-tab active" id="wtab-register" onclick="switchWelcomeTab('register')">Create Account</button>
+        <button class="auth-tab" id="wtab-login" onclick="switchWelcomeTab('login')">Sign In</button>
+      </div>
+      <div id="welcomeAuthMsg" class="auth-msg"></div>
+
+      <!-- REGISTER PANEL -->
+      <div id="welcomeRegPanel">
+        <div class="auth-input-row">
+          <div class="auth-field">
+            <label class="auth-label">First Name *</label>
+            <input class="auth-input" id="wreg-fname" type="text" placeholder="First" autocomplete="given-name">
+          </div>
+          <div class="auth-field">
+            <label class="auth-label">Last Name *</label>
+            <input class="auth-input" id="wreg-lname" type="text" placeholder="Last" autocomplete="family-name">
+          </div>
+        </div>
+        <div class="auth-field">
+          <label class="auth-label">WhatsApp Number *</label>
+          <input class="auth-input" id="wreg-phone" type="tel" placeholder="+234 801 234 5678" autocomplete="tel">
+        </div>
+        <div class="auth-field">
+          <label class="auth-label">Email Address *</label>
+          <input class="auth-input" id="wreg-email" type="email" placeholder="you@email.com" autocomplete="email">
+        </div>
+        <div class="auth-input-row">
+          <div class="auth-field">
+            <label class="auth-label">Password *</label>
+            <input class="auth-input" id="wreg-pass" type="password" placeholder="Min 6 chars" autocomplete="new-password">
+          </div>
+          <div class="auth-field">
+            <label class="auth-label">City</label>
+            <input class="auth-input" id="wreg-city" type="text" placeholder="e.g. Lagos" autocomplete="address-level2">
+          </div>
+        </div>
+        <div class="auth-field" style="margin-top:2px">
+          <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;font-size:12px;color:rgba(245,237,216,.4);line-height:1.5">
+            <input type="checkbox" id="wreg-consent" checked style="margin-top:2px;accent-color:var(--gold)">
+            Receive order updates &amp; BookWarrior content via WhatsApp &amp; email.
+          </label>
+        </div>
+        <button class="auth-btn" id="wRegBtn" onclick="handleWelcomeRegister()">Create Free Account 🚀</button>
+        <div style="text-align:center;margin-top:14px;font-size:12px;color:rgba(245,237,216,.2)">
+          🔒 Secure · No spam · Cancel anytime
+        </div>
+      </div>
+
+      <!-- LOGIN PANEL -->
+      <div id="welcomeLoginPanel" style="display:none">
+        <div class="auth-field">
+          <label class="auth-label">WhatsApp / Email</label>
+          <input class="auth-input" id="wli-identifier" type="text" placeholder="+2348012345678 or email@you.com" autocomplete="username">
+        </div>
+        <div class="auth-field">
+          <label class="auth-label">Password</label>
+          <input class="auth-input" id="wli-pass" type="password" placeholder="Your password" autocomplete="current-password">
+        </div>
+        <button class="auth-btn" id="wLoginBtn" onclick="handleWelcomeLogin()">Sign In →</button>
+        <div style="text-align:center;margin-top:14px;font-size:12px;color:rgba(245,237,216,.2)">
+          🔒 Your account is safe &amp; secure
+        </div>
+      </div>
+
+      <div style="text-align:center;margin-top:16px;font-size:11px;color:rgba(245,237,216,.15);line-height:1.8">
+        By continuing you agree to our Terms of Service.<br>
+        <span style="color:rgba(201,168,76,.3)">BookAWeek — We Read. We Reflect. We Execute.</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ AUTH GATE (Blocks Checkout Until Logged In) ══ -->
+<div class="authgate-overlay" id="authGateOverlay">
+  <div class="authgate-sheet">
+    <span class="authgate-icon">🔐</span>
+    <div class="authgate-title">Sign in to place your order</div>
+    <div class="authgate-sub">
+      Just like Amazon and Jumia — you need a free account to checkout.<br>
+      It takes <strong style="color:var(--gold)">60 seconds</strong> and your cart is saved.
+    </div>
+    <div class="authgate-btns">
+      <button class="authgate-btn-primary" onclick="authGateGoRegister()">Create Free Account 🚀</button>
+      <button class="authgate-btn-secondary" onclick="authGateGoLogin()">I already have an account →</button>
+    </div>
+    <div class="authgate-trust">
+      <span>🔒 Secure</span> &nbsp;·&nbsp; <span>📦 Order Tracking</span> &nbsp;·&nbsp; <span>⭐ VIP Benefits</span><br>
+      No spam. No credit card required to register.
+    </div>
+  </div>
+</div>
+
+<!-- ══ AUTH NUDGE BAR ══ -->
+<div class="auth-nudge-bar" id="authNudgeBar">
+  📚 Added! <a onclick="openWelcomeSplash('register')">Create account</a> to checkout faster
+</div>
 <div id="editBookOverlay" onclick="if(event.target===this)closeEditModal()" style="display:none;position:fixed;inset:0;background:rgba(6,15,32,.96);backdrop-filter:blur(20px);z-index:600;overflow-y:auto;padding:16px;-webkit-overflow-scrolling:touch">
   <div style="max-width:640px;margin:0 auto;background:linear-gradient(135deg,#0D1E3A,#142848);border:1px solid rgba(201,168,76,.25);border-radius:20px;padding:28px">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px">
@@ -2337,6 +2557,7 @@ function addToCart(id, title, author, price, color, textColor) {
     }, 2000);
   }
   showToast(title.split(":")[0] + " added to cart", "success");
+  showAuthNudge();
   setTimeout(function(){ openCart(); }, 600);
 }
 
@@ -2450,22 +2671,29 @@ function updateOrderSummary() {
 
 function openCheckout() {
   if (cart.length === 0) return;
+
+  // ── AUTH GATE: must be logged in to checkout (Amazon/Jumia style) ──
+  var session = getSession();
+  if (!session) {
+    closeCart();
+    openAuthGate();
+    return;
+  }
+
   closeCart();
   updateOrderSummary();
   document.getElementById("checkoutOverlay").classList.add("open");
   document.getElementById("checkoutBody").style.display = "block";
   document.getElementById("orderSuccess").classList.remove("show");
   document.body.style.overflow = "hidden";
+
   // ── Pre-fill from session ──
-  var s = getSession();
-  if (s) {
-    var nf = document.getElementById("co-name");
-    var pf = document.getElementById("co-phone");
-    var ef = document.getElementById("co-email");
-    if (nf && !nf.value) nf.value = (s.fname||"") + " " + (s.lname||"");
-    if (pf && !pf.value) pf.value = s.phone || "";
-    if (ef && !ef.value) ef.value = s.email || "";
-  }
+  var nf = document.getElementById("co-name");
+  var pf = document.getElementById("co-phone");
+  var ef = document.getElementById("co-email");
+  if (nf && !nf.value) nf.value = (session.fname||"") + " " + (session.lname||"");
+  if (pf && !pf.value) pf.value = session.phone || "";
+  if (ef && !ef.value) ef.value = session.email || "";
 }
 function closeCheckout() {
   document.getElementById("checkoutOverlay").classList.remove("open");
@@ -2809,6 +3037,7 @@ window.onload = function() {
   loadCatalog();
   renderBooks("All");
   authInit();
+  firstVisitCheck();
 };
 
 // ════════════════════════════════════════════════════════════════
@@ -3035,8 +3264,10 @@ function handleRegister() {
     if (res.success) {
       saveSession(res.user);
       authApply(res.user);
+      markVisited();
       closeAuthModal();
-      showToast('Welcome to BookAWeek, ' + fname + '! 🎉', 'success');
+      showToast('Welcome to BookAWeek, ' + fname + '! 🎉 Now let\'s get your books 📚', 'success');
+      if (_pendingCheckout) { _pendingCheckout = false; setTimeout(openCheckout, 300); }
     } else {
       showAuthMsg(res.error || 'Registration failed. Try again.');
     }
@@ -3066,8 +3297,10 @@ function handleLogin() {
     if (res.success) {
       saveSession(res.user);
       authApply(res.user);
+      markVisited();
       closeAuthModal();
       showToast('Welcome back, ' + res.user.fname + '! 📚', 'success');
+      if (_pendingCheckout) { _pendingCheckout = false; setTimeout(openCheckout, 300); }
     } else {
       showAuthMsg(res.error || 'Login failed.');
     }
@@ -3109,11 +3342,180 @@ function authInit() {
   authApply(s || null);
 }
 
+// ════════════════════════════════════════════════════════
+// 🎯 FIRST-VISIT SPLASH ENGINE (Amazon/Jumia style)
+// ════════════════════════════════════════════════════════
+var VISITED_KEY = 'bm_visited_v1';
+
+function hasVisited() {
+  try { return !!localStorage.getItem(VISITED_KEY); } catch(e) { return false; }
+}
+function markVisited() {
+  try { localStorage.setItem(VISITED_KEY, '1'); } catch(e) {}
+}
+
+function firstVisitCheck() {
+  var session = getSession();
+  if (session) return; // already logged in — never show splash
+  if (hasVisited()) return; // returning visitor who dismissed — don't re-show
+  // First time on this device — show after 800ms so page renders first
+  setTimeout(function() {
+    openWelcomeSplash('register');
+  }, 800);
+}
+
+function openWelcomeSplash(tab) {
+  var el = document.getElementById('welcomeOverlay');
+  el.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  switchWelcomeTab(tab || 'register');
+  clearWelcomeMsg();
+}
+
+function closeWelcomeSplash() {
+  var el = document.getElementById('welcomeOverlay');
+  el.classList.remove('open');
+  document.body.style.overflow = '';
+  markVisited(); // remember they dismissed so it won't show again this session
+}
+
+function switchWelcomeTab(tab) {
+  var isReg = (tab === 'register');
+  document.getElementById('welcomeRegPanel').style.display   = isReg ? '' : 'none';
+  document.getElementById('welcomeLoginPanel').style.display = isReg ? 'none' : '';
+  document.getElementById('wtab-register').className = 'auth-tab' + (isReg ? ' active' : '');
+  document.getElementById('wtab-login').className    = 'auth-tab' + (!isReg ? ' active' : '');
+  clearWelcomeMsg();
+}
+
+function showWelcomeMsg(msg, type) {
+  var el = document.getElementById('welcomeAuthMsg');
+  el.textContent = msg;
+  el.className = 'auth-msg ' + (type || 'error');
+  el.style.display = 'block';
+}
+function clearWelcomeMsg() {
+  var el = document.getElementById('welcomeAuthMsg');
+  if (el) { el.style.display = 'none'; el.textContent = ''; }
+}
+
+// ── REGISTER from welcome splash ──
+function handleWelcomeRegister() {
+  var fname   = (document.getElementById('wreg-fname').value  || '').trim();
+  var lname   = (document.getElementById('wreg-lname').value  || '').trim();
+  var phone   = (document.getElementById('wreg-phone').value  || '').trim();
+  var email   = (document.getElementById('wreg-email').value  || '').trim().toLowerCase();
+  var pass    = (document.getElementById('wreg-pass').value   || '');
+  var city    = (document.getElementById('wreg-city').value   || '').trim();
+  var consent = document.getElementById('wreg-consent').checked;
+
+  if (!fname || !lname)     { showWelcomeMsg('Please enter your full name.'); return; }
+  if (!phone || phone.length < 8) { showWelcomeMsg('Enter a valid WhatsApp number.'); return; }
+  if (!email || email.indexOf('@') < 0) { showWelcomeMsg('Enter a valid email address.'); return; }
+  if (pass.length < 6)      { showWelcomeMsg('Password must be at least 6 characters.'); return; }
+
+  var btn = document.getElementById('wRegBtn');
+  btn.disabled = true; btn.textContent = 'Creating your account…';
+
+  gasRequest({
+    action:'register', fname:fname, lname:lname,
+    phone:phone, email:email, password:pass,
+    city:city, consent:consent
+  }, function(res) {
+    btn.disabled = false; btn.textContent = 'Create Free Account 🚀';
+    if (res.success) {
+      saveSession(res.user);
+      authApply(res.user);
+      markVisited();
+      closeWelcomeSplash();
+      showToast('Welcome to BookAWeek, ' + fname + '! 🎉 Start shopping 📚', 'success');
+    } else {
+      showWelcomeMsg(res.error || 'Registration failed. Try again.');
+    }
+  }, function(err) {
+    btn.disabled = false; btn.textContent = 'Create Free Account 🚀';
+    showWelcomeMsg((err && err.error) || 'Network error — please try again.');
+  });
+}
+
+// ── LOGIN from welcome splash ──
+function handleWelcomeLogin() {
+  var identifier = (document.getElementById('wli-identifier').value || '').trim();
+  var pass       = (document.getElementById('wli-pass').value || '');
+
+  if (!identifier) { showWelcomeMsg('Enter your WhatsApp number or email.'); return; }
+  if (!pass)       { showWelcomeMsg('Enter your password.'); return; }
+
+  var btn = document.getElementById('wLoginBtn');
+  btn.disabled = true; btn.textContent = 'Signing in…';
+
+  gasRequest({
+    action:'login', identifier:identifier, password:pass
+  }, function(res) {
+    btn.disabled = false; btn.textContent = 'Sign In →';
+    if (res.success) {
+      saveSession(res.user);
+      authApply(res.user);
+      markVisited();
+      closeWelcomeSplash();
+      showToast('Welcome back, ' + res.user.fname + '! 📚', 'success');
+    } else {
+      showWelcomeMsg(res.error || 'Login failed.');
+    }
+  }, function(err) {
+    btn.disabled = false; btn.textContent = 'Sign In →';
+    showWelcomeMsg((err && err.error) || 'Network error — please try again.');
+  });
+}
+
+// ════════════════════════════════════════════════════
+// 🔐 AUTH GATE — Checkout blocked without account
+// ════════════════════════════════════════════════════
+var _pendingCheckout = false;
+
+function openAuthGate() {
+  _pendingCheckout = true;
+  document.getElementById('authGateOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeAuthGate() {
+  document.getElementById('authGateOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+  _pendingCheckout = false;
+}
+
+function authGateGoRegister() {
+  closeAuthGate();
+  // Open the main auth modal in register mode
+  openAuthModal('register');
+  // After login/register, auto-proceed to checkout
+  _pendingCheckout = true;
+}
+function authGateGoLogin() {
+  closeAuthGate();
+  openAuthModal('login');
+  _pendingCheckout = true;
+}
+
+// ── NUDGE BAR (shows on add-to-cart when not logged in) ──
+var _nudgeTimer;
+function showAuthNudge() {
+  var session = getSession();
+  if (session) return; // logged in — no nudge
+  var bar = document.getElementById('authNudgeBar');
+  if (!bar) return;
+  clearTimeout(_nudgeTimer);
+  bar.classList.add('show');
+  _nudgeTimer = setTimeout(function() { bar.classList.remove('show'); }, 4000);
+}
+
 function logoutUser() {
   clearSession();
+  // Clear visited flag so splash shows again on next visit after logout
+  try { localStorage.removeItem(VISITED_KEY); } catch(e) {}
   authApply(null);
   closeUserDropdown();
-  showToast('You\'ve been signed out.', 'info');
+  showToast('You\'ve been signed out. See you next time! 👋', 'info');
 }
 
 function toggleUserDropdown() {
