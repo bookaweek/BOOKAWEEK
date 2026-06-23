@@ -2205,6 +2205,12 @@ body::before{
         By continuing you agree to our Terms of Service.<br>
         <span style="color:rgba(201,168,76,.3)">BookAWeek — We Read. We Reflect. We Execute.</span>
       </div>
+      <!-- SKIP BUTTON -->
+      <div style="text-align:center;margin-top:18px;padding-top:16px;border-top:1px solid rgba(255,255,255,.05)">
+        <button onclick="skipWelcomeSplash()" style="background:none;border:none;color:rgba(245,237,216,.2);font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer;padding:8px 20px;border-radius:100px;transition:all .2s;text-decoration:underline;text-underline-offset:3px" onmouseover="this.style.color='rgba(245,237,216,.5)'" onmouseout="this.style.color='rgba(245,237,216,.2)'">
+          Skip for now — browse as guest
+        </button>
+      </div>
     </div>
   </div>
 </div>
@@ -2558,6 +2564,9 @@ function addToCart(id, title, author, price, color, textColor) {
   }
   showToast(title.split(":")[0] + " added to cart", "success");
   showAuthNudge();
+  saveCartToLocal();
+  var s = getSession();
+  if (s && s.id) syncCartToServer(s.id);
   setTimeout(function(){ openCart(); }, 600);
 }
 
@@ -2733,6 +2742,10 @@ function placeOrderWhatsApp() {
   document.getElementById("orderSuccess").classList.add("show");
   cart = [];
   updateCartUI();
+  clearLocalCart();
+  // Clear server cart after order placed
+  var s = getSession();
+  if (s && s.id) syncCartToServer(s.id);
 }
 
 function placeOrderPaystack() {
@@ -2954,6 +2967,9 @@ function adminDeleteBook(id) {
   var cb = document.getElementById("clearSearchBtn"); if(cb) cb.style.display = "none";
   filterBooks("All");
   showToast('"' + book.title + '" removed.', 'info');
+  saveCartToLocal();
+  var s = getSession();
+  if (s && s.id) syncCartToServer(s.id);
 }
 
 function openEditModal(id) {
@@ -3055,27 +3071,22 @@ window.onload = function() {
 // ──────────────────────────────────────────────────
 // 🔧 CONFIGURATION — replace with your deployed GAS URL
 // ──────────────────────────────────────────────────
+// ════════════════════════════════════════════════════════════
+// 🌐 GOOGLE APPS SCRIPT — Single Source of Truth (cross-device)
+// ════════════════════════════════════════════════════════════
 var GAS_URL = 'https://script.google.com/macros/s/AKfycbz7lw2yJ1O_XnKMjUxTIIL0NmZjaZfFkyILRaf_U2sTI8dKgB_2vUKyu5gqAw5jf8qm/exec';
 
-// ──────────────────────────────────────────────────
-// 📦 SESSION STORE — localStorage-based
-// ──────────────────────────────────────────────────
-var SESSION_KEY = 'bm_session_v1';
-var USERS_KEY   = 'bm_users_v1';    // local fallback store (array of user objects)
-var ORDERS_KEY  = 'bm_orders_v1';   // local fallback order history
+// ════════════════════════════════════════════════════════════
+// 💾 SESSION & LOCAL CACHE
+// All auth data comes from GAS (Google Sheets).
+// localStorage is CACHE ONLY — truth lives on the server.
+// Cart is cached locally but synced to server on login.
+// ════════════════════════════════════════════════════════════
+var SESSION_KEY  = 'bm_session_v2';
+var CART_KEY     = 'bm_cart_v2';
+var ORDERS_KEY   = 'bm_orders_v2';
+var VISITED_CART_KEY = 'bm_cart_synced';
 
-function getUsers() {
-  try { return JSON.parse(localStorage.getItem(USERS_KEY)) || []; } catch(e) { return []; }
-}
-function saveUsers(arr) {
-  try { localStorage.setItem(USERS_KEY, JSON.stringify(arr)); } catch(e) {}
-}
-function getOrders() {
-  try { return JSON.parse(localStorage.getItem(ORDERS_KEY)) || []; } catch(e) { return []; }
-}
-function saveOrders(arr) {
-  try { localStorage.setItem(ORDERS_KEY, JSON.stringify(arr)); } catch(e) {}
-}
 function getSession() {
   try { return JSON.parse(localStorage.getItem(SESSION_KEY)); } catch(e) { return null; }
 }
@@ -3085,119 +3096,153 @@ function saveSession(user) {
 function clearSession() {
   try { localStorage.removeItem(SESSION_KEY); } catch(e) {}
 }
-
-// ──────────────────────────────────────────────────
-// 🚀 GAS BRIDGE — POST via GET (handles CORS redirect)
-// ──────────────────────────────────────────────────
-function gasRequest(payload, onSuccess, onError) {
-  var encoded = encodeURIComponent(JSON.stringify(payload));
-  var url = GAS_URL + '?data=' + encoded;
-  var img = new Image();
-  // Fallback to fetch if GAS URL is configured
-  if (GAS_URL.indexOf('YOUR_DEPLOYMENT') !== -1) {
-    // Demo mode — simulate backend
-    simulateGAS(payload, onSuccess, onError);
-    return;
-  }
-  fetch(url, { method:'GET', mode:'cors' })
-    .then(function(r){ return r.json(); })
-    .then(function(d){ onSuccess(d); })
-    .catch(function(e){ onError(e); });
+// Local order cache (populated from server on login)
+function getCachedOrders() {
+  try { return JSON.parse(localStorage.getItem(ORDERS_KEY)) || []; } catch(e) { return []; }
 }
-
-// Demo/offline simulation (used when GAS URL not yet set)
-function simulateGAS(payload, onSuccess, onError) {
-  var action = payload.action;
-  var users = getUsers();
-  var orders = getOrders();
-
-  if (action === 'register') {
-    var exists = users.find(function(u){
-      return u.email === payload.email || u.phone === payload.phone;
-    });
-    if (exists) { onError({error:'An account with this email or WhatsApp already exists.'}); return; }
-    var newUser = {
-      id: 'u_' + Date.now(),
-      fname: payload.fname,
-      lname: payload.lname,
-      phone: payload.phone,
-      email: payload.email,
-      city: payload.city || '',
-      password: payload.password,
-      status: 'active',
-      joinedAt: new Date().toISOString(),
-      orders: 0,
-      totalSpent: 0,
-      consent: payload.consent,
-      source: 'store'
-    };
-    users.push(newUser);
-    saveUsers(users);
-    onSuccess({success:true, user:stripPassword(newUser)});
-
-  } else if (action === 'login') {
-    var u = users.find(function(u){
-      return (u.email === payload.identifier || u.phone === payload.identifier)
-             && u.password === payload.password;
-    });
-    if (!u) { onError({error:'Incorrect credentials. Check your WhatsApp number or email and password.'}); return; }
-    onSuccess({success:true, user:stripPassword(u)});
-
-  } else if (action === 'update_profile') {
-    var idx = users.findIndex(function(u){ return u.id === payload.id; });
-    if (idx === -1) { onError({error:'User not found.'}); return; }
-    var u2 = users[idx];
-    u2.fname = payload.fname || u2.fname;
-    u2.lname = payload.lname || u2.lname;
-    u2.phone = payload.phone || u2.phone;
-    u2.email = payload.email || u2.email;
-    u2.city  = payload.city  || u2.city;
-    if (payload.password) u2.password = payload.password;
-    users[idx] = u2;
-    saveUsers(users);
-    onSuccess({success:true, user:stripPassword(u2)});
-
-  } else if (action === 'log_order') {
-    var ord = {
-      id: 'ord_' + Date.now(),
-      userId: payload.userId,
-      userName: payload.userName,
-      userPhone: payload.userPhone,
-      books: payload.books,
-      total: payload.total,
-      delivery: payload.delivery,
-      address: payload.address,
-      state: payload.state,
-      status: 'confirmed',
-      createdAt: new Date().toISOString()
-    };
-    orders.push(ord);
-    saveOrders(orders);
-    // Update user order count
-    var uidx = users.findIndex(function(u){ return u.id === payload.userId; });
-    if (uidx !== -1) {
-      users[uidx].orders = (users[uidx].orders || 0) + 1;
-      users[uidx].totalSpent = (users[uidx].totalSpent || 0) + payload.total;
-      if (users[uidx].orders >= 2) users[uidx].status = 'vip';
-      saveUsers(users);
-    }
-    onSuccess({success:true, orderId:ord.id});
-
-  } else if (action === 'get_users') {
-    onSuccess({success:true, users: users.map(stripPassword)});
-
-  } else if (action === 'get_orders') {
-    onSuccess({success:true, orders:orders});
-
-  } else {
-    onError({error:'Unknown action: ' + action});
-  }
+function saveCachedOrders(arr) {
+  try { localStorage.setItem(ORDERS_KEY, JSON.stringify(arr)); } catch(e) {}
 }
 
 function stripPassword(u) {
   var c = Object.assign({}, u);
   delete c.password;
   return c;
+}
+
+// ════════════════════════════════════════════════════════════
+// 🚀 GAS BRIDGE — JSONP (bypasses CORS completely)
+// Uses script tag injection — 100% reliable across all browsers
+// ════════════════════════════════════════════════════════════
+var _gasCallbacks = {};
+var _gasCallbackId = 0;
+
+function gasRequest(payload, onSuccess, onError) {
+  _gasCallbackId++;
+  var cbName = '_gasCb_' + _gasCallbackId;
+
+  // Timeout safety — 15 seconds
+  var timer = setTimeout(function() {
+    if (window[cbName]) {
+      delete window[cbName];
+      var tag = document.getElementById(cbName);
+      if (tag) tag.parentNode.removeChild(tag);
+      onError({ error: 'Request timed out. Please check your connection.' });
+    }
+  }, 15000);
+
+  window[cbName] = function(data) {
+    clearTimeout(timer);
+    delete window[cbName];
+    var tag = document.getElementById(cbName);
+    if (tag) tag.parentNode.removeChild(tag);
+    if (data && data.error) { onError(data); }
+    else { onSuccess(data); }
+  };
+
+  payload.callback = cbName;
+  var encoded = encodeURIComponent(JSON.stringify(payload));
+  var url = GAS_URL + '?data=' + encoded + '&cb=' + cbName;
+
+  var script = document.createElement('script');
+  script.id  = cbName;
+  script.src = url;
+  script.onerror = function() {
+    clearTimeout(timer);
+    delete window[cbName];
+    if (script.parentNode) script.parentNode.removeChild(script);
+    // Fallback: try fetch with no-cors workaround
+    gasRequestFetch(payload, onSuccess, onError);
+  };
+  document.head.appendChild(script);
+}
+
+// Fetch fallback (secondary attempt)
+function gasRequestFetch(payload, onSuccess, onError) {
+  delete payload.callback;
+  var encoded = encodeURIComponent(JSON.stringify(payload));
+  var url = GAS_URL + '?data=' + encoded;
+  fetch(url, { method: 'GET', redirect: 'follow' })
+    .then(function(r) { return r.text(); })
+    .then(function(t) {
+      // GAS sometimes wraps in callback, strip it
+      var json = t.replace(/^[^(]+\(/, '').replace(/\);?\s*$/, '');
+      var data = JSON.parse(json);
+      if (data && data.error) onError(data);
+      else onSuccess(data);
+    })
+    .catch(function(e) {
+      onError({ error: 'Cannot reach server. Please check your internet connection.' });
+    });
+}
+
+// ════════════════════════════════════════════════════════════
+// 🛒 CROSS-DEVICE CART — local + server sync
+// Cart saves locally immediately. On login, merges with
+// server-saved cart so nothing is ever lost.
+// ════════════════════════════════════════════════════════════
+function saveCartToLocal() {
+  try { localStorage.setItem(CART_KEY, JSON.stringify(cart)); } catch(e) {}
+}
+function loadCartFromLocal() {
+  try { return JSON.parse(localStorage.getItem(CART_KEY)) || []; } catch(e) { return []; }
+}
+function clearLocalCart() {
+  try { localStorage.removeItem(CART_KEY); } catch(e) {}
+}
+
+// Push cart to server under user's ID
+function syncCartToServer(userId) {
+  if (!userId) return;
+  gasRequest({
+    action: 'save_cart',
+    userId: userId,
+    cart: cart
+  }, function(res) {
+    // Silent success
+  }, function() {
+    // Silent fail — local is fallback
+  });
+}
+
+// Pull cart from server and merge with local
+function syncCartFromServer(userId, onDone) {
+  if (!userId) { if (onDone) onDone(); return; }
+  gasRequest({
+    action: 'get_cart',
+    userId: userId
+  }, function(res) {
+    if (res && res.cart && res.cart.length > 0) {
+      // Merge server cart with any local items
+      var local = cart.slice();
+      res.cart.forEach(function(serverItem) {
+        var exists = local.find(function(l) { return l.id === serverItem.id; });
+        if (!exists) local.push(serverItem);
+      });
+      cart = local;
+      saveCartToLocal();
+      updateCartUI();
+    }
+    if (onDone) onDone();
+  }, function() {
+    if (onDone) onDone();
+  });
+}
+
+// Pull user's order history from server
+function fetchOrdersFromServer(userId, onDone) {
+  if (!userId) { if (onDone) onDone([]); return; }
+  gasRequest({
+    action: 'get_orders',
+    userId: userId
+  }, function(res) {
+    if (res && res.orders) {
+      saveCachedOrders(res.orders);
+    }
+    if (onDone) onDone(res ? res.orders || [] : []);
+  }, function() {
+    if (onDone) onDone(getCachedOrders());
+  });
 }
 
 // ──────────────────────────────────────────────────
@@ -3266,7 +3311,9 @@ function handleRegister() {
       authApply(res.user);
       markVisited();
       closeAuthModal();
-      showToast('Welcome to BookAWeek, ' + fname + '! 🎉 Now let\'s get your books 📚', 'success');
+      showToast('Welcome to BookAWeek, ' + fname + '! 🎉 Your account is live 📚', 'success');
+      // Save any pre-login cart to server so it's available on all devices
+      if (cart.length > 0) syncCartToServer(res.user.id);
       if (_pendingCheckout) { _pendingCheckout = false; setTimeout(openCheckout, 300); }
     } else {
       showAuthMsg(res.error || 'Registration failed. Try again.');
@@ -3299,8 +3346,11 @@ function handleLogin() {
       authApply(res.user);
       markVisited();
       closeAuthModal();
-      showToast('Welcome back, ' + res.user.fname + '! 📚', 'success');
-      if (_pendingCheckout) { _pendingCheckout = false; setTimeout(openCheckout, 300); }
+      showToast('Welcome back, ' + res.user.fname + '! 📚 Syncing your account…', 'success');
+      // Sync cart from server (cross-device) then proceed
+      syncCartFromServer(res.user.id, function() {
+        if (_pendingCheckout) { _pendingCheckout = false; setTimeout(openCheckout, 300); }
+      });
     } else {
       showAuthMsg(res.error || 'Login failed.');
     }
@@ -3338,8 +3388,18 @@ function authApply(user) {
 }
 
 function authInit() {
+  // Restore local cart first (instant)
+  var localCart = loadCartFromLocal();
+  if (localCart.length > 0) {
+    cart = localCart;
+    updateCartUI();
+  }
   var s = getSession();
   authApply(s || null);
+  // If logged in, silently sync cart + orders from server
+  if (s && s.id) {
+    syncCartFromServer(s.id, null);
+  }
 }
 
 // ════════════════════════════════════════════════════════
@@ -3376,7 +3436,13 @@ function closeWelcomeSplash() {
   var el = document.getElementById('welcomeOverlay');
   el.classList.remove('open');
   document.body.style.overflow = '';
-  markVisited(); // remember they dismissed so it won't show again this session
+  markVisited();
+}
+
+// Skip — browse as guest. Won't show again this session.
+function skipWelcomeSplash() {
+  closeWelcomeSplash();
+  showToast('Browsing as guest — sign up anytime to track orders 📚', 'info');
 }
 
 function switchWelcomeTab(tab) {
@@ -3428,7 +3494,8 @@ function handleWelcomeRegister() {
       authApply(res.user);
       markVisited();
       closeWelcomeSplash();
-      showToast('Welcome to BookAWeek, ' + fname + '! 🎉 Start shopping 📚', 'success');
+      showToast('Welcome to BookAWeek, ' + fname + '! 🎉 Account created — start shopping 📚', 'success');
+      if (cart.length > 0) syncCartToServer(res.user.id);
     } else {
       showWelcomeMsg(res.error || 'Registration failed. Try again.');
     }
@@ -3458,7 +3525,8 @@ function handleWelcomeLogin() {
       authApply(res.user);
       markVisited();
       closeWelcomeSplash();
-      showToast('Welcome back, ' + res.user.fname + '! 📚', 'success');
+      showToast('Welcome back, ' + res.user.fname + '! 📚 Syncing your account…', 'success');
+      syncCartFromServer(res.user.id, null);
     } else {
       showWelcomeMsg(res.error || 'Login failed.');
     }
@@ -3510,12 +3578,16 @@ function showAuthNudge() {
 }
 
 function logoutUser() {
+  // Save cart to server before logout so it restores on next login
+  var s = getSession();
+  if (s && s.id && cart.length > 0) syncCartToServer(s.id);
   clearSession();
   // Clear visited flag so splash shows again on next visit after logout
   try { localStorage.removeItem(VISITED_KEY); } catch(e) {}
+  // Keep local cart so guest can still see it
   authApply(null);
   closeUserDropdown();
-  showToast('You\'ve been signed out. See you next time! 👋', 'info');
+  showToast('Signed out. Your cart is saved for when you return! 👋', 'info');
 }
 
 function toggleUserDropdown() {
@@ -3539,9 +3611,14 @@ function openMyOrders() {
   closeUserDropdown();
   var session = getSession();
   if (!session) { openAuthModal('login'); return; }
-  var orders = getOrders().filter(function(o){ return o.userId === session.id; });
   var list = document.getElementById('myOrdersList');
   var sub  = document.getElementById('myOrdersSubtitle');
+  // Show loading state
+  list.innerHTML = '<div style="text-align:center;color:rgba(245,237,216,.25);padding:60px 20px;font-size:14px">⏳ Loading your orders…</div>';
+  sub.textContent = 'Fetching from server…';
+  document.getElementById('myOrdersOverlay').style.display = 'block';
+  // Fetch live from server
+  fetchOrdersFromServer(session.id, function(orders) {
   sub.textContent = orders.length + ' order' + (orders.length !== 1 ? 's' : '');
   if (orders.length === 0) {
     list.innerHTML = '<div style="text-align:center;color:rgba(245,237,216,.25);padding:60px 20px;font-size:14px">📚 No orders yet. Browse the store and grab a book!</div>';
@@ -3567,7 +3644,7 @@ function openMyOrders() {
       '</div>';
     }).join('');
   }
-  document.getElementById('myOrdersOverlay').style.display = 'block';
+  }); // end fetchOrdersFromServer
 }
 function closeMyOrders() {
   document.getElementById('myOrdersOverlay').style.display = 'none';
@@ -4032,21 +4109,98 @@ function handleAction(data) {
     var rows = sh.getDataRange().getValues();
     var users = [];
     for (var i = 1; i < rows.length; i++) {
+      if (!rows[i][0]) continue;
       users.push({id:rows[i][0], fname:rows[i][1], lname:rows[i][2], phone:rows[i][3], email:rows[i][4], city:rows[i][5], status:rows[i][7], orders:rows[i][8], totalSpent:rows[i][9], joinedAt:rows[i][12]});
     }
     return {success:true, users:users};
   }
 
+  // ── SAVE CART (cross-device) ──
+  if (action === "save_cart") {
+    var sh = getOrCreateSheet("🛒 CARTS", ["User ID","Cart JSON","Updated"]);
+    var rows = sh.getDataRange().getValues();
+    var cartJson = JSON.stringify(data.cart || []);
+    for (var i = 1; i < rows.length; i++) {
+      if (rows[i][0] === data.userId) {
+        sh.getRange(i+1, 2).setValue(cartJson);
+        sh.getRange(i+1, 3).setValue(new Date().toISOString());
+        return {success:true};
+      }
+    }
+    sh.appendRow([data.userId, cartJson, new Date().toISOString()]);
+    return {success:true};
+  }
+
+  // ── GET CART (cross-device restore) ──
+  if (action === "get_cart") {
+    var sh = getOrCreateSheet("🛒 CARTS", ["User ID","Cart JSON","Updated"]);
+    var rows = sh.getDataRange().getValues();
+    for (var i = 1; i < rows.length; i++) {
+      if (rows[i][0] === data.userId) {
+        var cart = [];
+        try { cart = JSON.parse(rows[i][1]); } catch(e) {}
+        return {success:true, cart:cart};
+      }
+    }
+    return {success:true, cart:[]};
+  }
+
+  // ── GET ORDERS BY USER ──
+  if (action === "get_orders") {
+    var sh = getOrCreateSheet("📦 ORDERS", []);
+    var rows = sh.getDataRange().getValues();
+    var orders = [];
+    for (var i = 1; i < rows.length; i++) {
+      if (!rows[i][0]) continue;
+      if (data.userId && rows[i][1] !== data.userId) continue; // filter by user
+      var books = [];
+      try { books = JSON.parse(rows[i][4]); } catch(e) { books = []; }
+      orders.push({
+        id:rows[i][0], userId:rows[i][1], userName:rows[i][2],
+        userPhone:rows[i][3], books:books, total:rows[i][5],
+        delivery:rows[i][6], address:rows[i][7], state:rows[i][8],
+        status:rows[i][9], createdAt:rows[i][10]
+      });
+    }
+    return {success:true, orders:orders};
+  }
+
   return {error:"Unknown action: " + action};
+}
+
+// ── JSONP wrapper — required for cross-device JSONP calls ──
+function doGet(e) {
+  var data = {};
+  try { data = JSON.parse(decodeURIComponent(e.parameter.data || "{}")); } catch(ex) {}
+  var cb = e.parameter.cb || data.callback || null;
+  var result = handleAction(data);
+  var output = JSON.stringify(result);
+  if (cb) {
+    // JSONP response — wraps in callback function call
+    return ContentService
+      .createTextOutput(cb + "(" + output + ");")
+      .setMimeType(ContentService.MimeType.JAVASCRIPT);
+  }
+  return ContentService
+    .createTextOutput(output)
+    .setMimeType(ContentService.MimeType.JSON);
 }
 
 ════════════════════════════════════════════════════════════════════
  DEPLOY STEPS:
  1. Open script.google.com → New Project → paste above
- 2. Extensions → Apps Script → Deploy → New Deployment
- 3. Type: Web App | Execute as: Me | Who has access: Anyone
- 4. Copy the deployment URL
- 5. Replace GAS_URL variable at top of this file with your URL
+ 2. Replace the doGet() function at the top with this updated one
+    (which now supports JSONP for cross-device cross-origin calls)
+ 3. Deploy → New Deployment → Web App
+    Execute as: Me | Who has access: Anyone
+ 4. Copy deployment URL → paste into GAS_URL in index.html
+ 5. Every time you update the script → Deploy → New Deployment
+    (not "Manage deployments" — that's for edits to existing)
+════════════════════════════════════════════════════════════════════
+ NEW SHEETS AUTO-CREATED:
+   📋 USERS   — members
+   📦 ORDERS  — order history
+   🛒 CARTS   — cross-device cart sync (one row per user)
 ════════════════════════════════════════════════════════════════════
 */
 </script>
