@@ -1334,6 +1334,213 @@ body::before{
 @keyframes nudgeIn{from{opacity:0;transform:translateX(-50%) translateY(16px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
 .auth-nudge-bar a{color:var(--gold);cursor:pointer;text-decoration:underline}
 
+
+/* ══ BOOK DETAIL MODAL ══ */
+.book-detail-overlay{
+  display:none;position:fixed;inset:0;z-index:780;
+  background:rgba(4,10,22,.97);backdrop-filter:blur(28px);
+  overflow-y:auto;-webkit-overflow-scrolling:touch;
+  padding:0;
+}
+.book-detail-overlay.open{display:block}
+.book-detail-sheet{
+  max-width:680px;margin:0 auto;
+  background:linear-gradient(160deg,#0B1F3B 0%,#142848 60%,#0B1A30 100%);
+  min-height:100vh;position:relative;
+}
+@media(min-width:700px){
+  .book-detail-overlay{padding:24px 16px 48px}
+  .book-detail-sheet{border-radius:24px;min-height:auto;border:1px solid rgba(201,168,76,.2);
+    box-shadow:0 32px 80px rgba(0,0,0,.7);overflow:hidden}
+}
+
+/* Hero */
+.bd-hero{
+  position:relative;height:280px;overflow:hidden;
+  background:linear-gradient(160deg,var(--c1,#0B1F3B),var(--c2,#142848));
+}
+@media(min-width:700px){.bd-hero{height:320px}}
+.bd-hero-img{width:100%;height:100%;object-fit:cover;display:block;
+  filter:brightness(.7);transition:opacity .4s}
+.bd-hero-gradient{
+  position:absolute;inset:0;
+  background:linear-gradient(to bottom,rgba(0,0,0,.15) 0%,rgba(0,0,0,.6) 70%,rgba(11,31,59,1) 100%);
+}
+.bd-hero-back{
+  position:absolute;top:16px;left:16px;z-index:2;
+  width:40px;height:40px;border-radius:50%;
+  background:rgba(0,0,0,.45);backdrop-filter:blur(12px);
+  border:1px solid rgba(255,255,255,.15);
+  color:#fff;font-size:18px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .2s;-webkit-tap-highlight-color:transparent;
+}
+.bd-hero-back:hover{background:rgba(0,0,0,.65)}
+.bd-hero-badge{
+  position:absolute;top:16px;right:16px;z-index:2;
+  padding:5px 12px;border-radius:100px;font-size:10px;font-weight:800;
+  letter-spacing:.08em;text-transform:uppercase;
+}
+.bd-hero-cover{
+  position:absolute;bottom:-24px;left:24px;z-index:3;
+  width:90px;height:120px;border-radius:10px;overflow:hidden;
+  box-shadow:0 8px 32px rgba(0,0,0,.6);border:2px solid rgba(201,168,76,.3);
+  background:#0B1F3B;
+}
+@media(min-width:700px){.bd-hero-cover{width:110px;height:148px;bottom:-32px}}
+.bd-hero-cover img{width:100%;height:100%;object-fit:cover;display:block}
+
+/* Body */
+.bd-body{padding:40px 24px 32px 136px}
+@media(min-width:700px){.bd-body{padding:52px 32px 32px 164px}}
+@media(max-width:400px){.bd-body{padding:40px 16px 28px 120px}}
+.bd-cat{font-size:10px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:6px}
+.bd-title{font-family:'Playfair Display',serif;font-size:22px;font-weight:900;
+  color:#fff;line-height:1.25;margin-bottom:4px}
+@media(min-width:700px){.bd-title{font-size:26px}}
+.bd-author{font-size:13px;color:rgba(245,237,216,.4);margin-bottom:16px}
+.bd-stats{display:flex;gap:20px;flex-wrap:wrap;margin-bottom:0}
+.bd-stat{text-align:center}
+.bd-stat-val{font-family:'Playfair Display',serif;font-size:18px;font-weight:900;color:var(--gold)}
+.bd-stat-lbl{font-size:10px;color:rgba(245,237,216,.35);font-weight:700;
+  text-transform:uppercase;letter-spacing:.06em;margin-top:1px}
+
+/* Below fold */
+.bd-below{padding:24px 24px 32px}
+@media(min-width:700px){.bd-below{padding:24px 32px 36px}}
+@media(max-width:400px){.bd-below{padding:20px 16px 28px}}
+
+.bd-insight{
+  background:rgba(201,168,76,.07);border-left:3px solid var(--gold);
+  border-radius:0 12px 12px 0;padding:16px 18px;margin-bottom:28px;
+  font-family:'Playfair Display',serif;font-size:15px;font-style:italic;
+  color:rgba(245,237,216,.85);line-height:1.65;
+}
+
+/* Reviews section */
+.bd-reviews-header{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:18px;flex-wrap:wrap;gap:8px;
+}
+.bd-reviews-title{
+  font-family:'Playfair Display',serif;font-size:18px;font-weight:900;color:#fff;
+}
+.bd-reviews-count{
+  font-size:12px;color:rgba(245,237,216,.3);font-weight:600;
+  background:rgba(255,255,255,.05);border-radius:100px;padding:4px 12px;
+}
+.bd-no-reviews{
+  text-align:center;padding:40px 20px;
+  background:rgba(255,255,255,.03);border-radius:16px;
+  border:1px dashed rgba(201,168,76,.15);
+}
+.bd-no-reviews-icon{font-size:36px;margin-bottom:10px}
+.bd-no-reviews-text{font-size:14px;color:rgba(245,237,216,.3);line-height:1.6}
+
+/* Review card */
+.bdr-card{
+  background:rgba(255,255,255,.04);border:1px solid rgba(201,168,76,.1);
+  border-radius:16px;padding:18px 20px;margin-bottom:12px;
+  transition:border-color .2s;
+}
+.bdr-card:hover{border-color:rgba(201,168,76,.22)}
+.bdr-head{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.bdr-avatar{
+  width:40px;height:40px;border-radius:50%;flex-shrink:0;
+  background:linear-gradient(135deg,var(--gold2),var(--gold));
+  color:var(--navy);font-size:15px;font-weight:900;
+  display:flex;align-items:center;justify-content:center;
+}
+.bdr-meta{flex:1;min-width:0}
+.bdr-warrior{font-size:14px;font-weight:800;color:#fff}
+.bdr-role{font-size:11px;color:rgba(201,168,76,.6);font-weight:600;
+  text-transform:uppercase;letter-spacing:.06em;margin-top:1px}
+.bdr-stars{display:flex;gap:2px;margin-left:auto;flex-shrink:0}
+.bdr-star{font-size:14px;color:var(--gold);line-height:1}
+.bdr-star.empty{color:rgba(255,255,255,.15)}
+.bdr-text{
+  font-size:14px;color:rgba(245,237,216,.75);line-height:1.7;
+  font-family:'Georgia',serif;font-style:italic;
+}
+.bdr-text::before{content:'“';color:var(--gold);font-size:20px;
+  font-style:normal;line-height:0;vertical-align:-.3em;margin-right:2px}
+.bdr-text::after{content:'”';color:var(--gold);font-size:20px;
+  font-style:normal;line-height:0;vertical-align:-.3em;margin-left:2px}
+.bdr-date{font-size:11px;color:rgba(245,237,216,.2);margin-top:10px}
+
+/* CTA bar inside detail */
+.bd-cta{
+  position:sticky;bottom:0;left:0;right:0;z-index:10;
+  background:linear-gradient(to top,rgba(11,31,59,1) 70%,rgba(11,31,59,0));
+  padding:20px 24px 28px;
+  display:flex;align-items:center;justify-content:space-between;gap:14px;
+}
+@media(min-width:700px){.bd-cta{padding:20px 32px 28px;border-radius:0 0 24px 24px}}
+.bd-price-wrap{}
+.bd-price-now{font-family:'Playfair Display',serif;font-size:22px;font-weight:900;color:var(--gold)}
+.bd-price-old{font-size:13px;color:rgba(245,237,216,.3);text-decoration:line-through;margin-left:6px}
+.bd-add-btn{
+  flex:1;max-width:200px;
+  background:linear-gradient(135deg,var(--gold2),var(--gold));
+  color:var(--navy);border:none;border-radius:100px;
+  padding:15px 24px;font-family:'DM Sans',sans-serif;
+  font-size:15px;font-weight:900;cursor:pointer;
+  transition:all .25s;-webkit-tap-highlight-color:transparent;
+  white-space:nowrap;
+}
+.bd-add-btn:hover{transform:translateY(-1px);box-shadow:0 8px 28px rgba(201,168,76,.4)}
+.bd-add-btn.added{background:linear-gradient(135deg,#22C55E,#16A34A);color:#fff}
+
+/* Book card clickable upgrade */
+.book-card{cursor:pointer;position:relative}
+.book-card-click-hint{
+  position:absolute;bottom:8px;right:8px;
+  background:rgba(201,168,76,.15);color:var(--gold);
+  border-radius:100px;padding:3px 9px;font-size:10px;font-weight:700;
+  letter-spacing:.04em;pointer-events:none;opacity:0;transition:opacity .2s;
+}
+.book-card:hover .book-card-click-hint{opacity:1}
+
+/* ══ ADMIN REVIEWS EDITOR ══ */
+.rev-editor-card{
+  background:rgba(255,255,255,.04);border:1px solid rgba(201,168,76,.12);
+  border-radius:14px;padding:18px;margin-bottom:10px;position:relative;
+}
+.rev-editor-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+@media(max-width:480px){.rev-editor-row{grid-template-columns:1fr}}
+.rev-editor-input{
+  background:rgba(255,255,255,.05);border:1.5px solid rgba(201,168,76,.15);
+  border-radius:10px;padding:10px 13px;color:#fff;
+  font-family:'DM Sans',sans-serif;font-size:13px;outline:none;width:100%;
+}
+.rev-editor-input:focus{border-color:var(--gold)}
+.rev-editor-label{font-size:10px;font-weight:800;color:var(--gold);
+  letter-spacing:.08em;text-transform:uppercase;margin-bottom:5px;display:block}
+.rev-editor-textarea{
+  background:rgba(255,255,255,.05);border:1.5px solid rgba(201,168,76,.15);
+  border-radius:10px;padding:10px 13px;color:#fff;
+  font-family:'DM Sans',sans-serif;font-size:13px;outline:none;
+  width:100%;resize:vertical;min-height:72px;
+}
+.rev-editor-textarea:focus{border-color:var(--gold)}
+.rev-del-btn{
+  position:absolute;top:12px;right:12px;
+  background:rgba(239,68,68,.1);color:#EF4444;
+  border:1px solid rgba(239,68,68,.2);border-radius:8px;
+  padding:5px 10px;font-size:11px;font-weight:700;cursor:pointer;
+}
+.rev-add-btn{
+  width:100%;background:rgba(201,168,76,.08);color:var(--gold);
+  border:1.5px dashed rgba(201,168,76,.3);border-radius:12px;
+  padding:13px;font-family:'DM Sans',sans-serif;font-size:13px;
+  font-weight:700;cursor:pointer;transition:all .2s;
+}
+.rev-add-btn:hover{background:rgba(201,168,76,.15)}
+.rev-stars-pick{display:flex;gap:6px;align-items:center;margin-top:8px}
+.rev-star-btn{font-size:20px;cursor:pointer;opacity:.3;transition:opacity .15s;background:none;border:none;padding:0}
+.rev-star-btn.active{opacity:1}
+
 </style>
 </head>
 <body>
@@ -2296,10 +2503,82 @@ body::before{
         <textarea id="edit-insight" rows="2" style="background:rgba(255,255,255,.05);border:1px solid rgba(201,168,76,.2);border-radius:10px;padding:11px 13px;color:#fff;font-family:'DM Sans',sans-serif;font-size:14px;outline:none;resize:vertical" onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='rgba(201,168,76,.2)'"></textarea>
       </div>
     </div>
-    <div style="display:flex;gap:12px;margin-top:20px">
-      <button onclick="adminUpdateBook()" style="flex:1;background:linear-gradient(135deg,var(--gold2),var(--gold));color:var(--navy);border:none;border-radius:100px;padding:14px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;cursor:pointer">Save Changes</button>
+    <!-- ══ WARRIOR REVIEWS EDITOR ══ -->
+    <div style="margin-top:24px;padding-top:24px;border-top:1px solid rgba(201,168,76,.12)">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+        <div style="font-family:'Playfair Display',serif;font-size:16px;font-weight:900;color:#fff">📖 BookWarrior Reviews</div>
+        <span style="font-size:11px;color:rgba(245,237,216,.3)">Shown on book detail page</span>
+      </div>
+      <div id="adminReviewsList"></div>
+      <button class="rev-add-btn" onclick="adminAddReviewRow()">+ Add BookWarrior Review</button>
+    </div>
+
+    <div style="display:flex;gap:12px;margin-top:24px">
+      <button onclick="adminUpdateBook()" style="flex:1;background:linear-gradient(135deg,var(--gold2),var(--gold));color:var(--navy);border:none;border-radius:100px;padding:14px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;cursor:pointer">Save Changes ✓</button>
       <button onclick="closeEditModal()" style="background:rgba(255,255,255,.05);color:rgba(255,255,255,.4);border:1px solid rgba(255,255,255,.1);border-radius:100px;padding:14px 22px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer">Cancel</button>
     </div>
+  </div>
+</div>
+
+
+<!-- ══ BOOK DETAIL MODAL ══ -->
+<div class="book-detail-overlay" id="bookDetailOverlay" onclick="handleDetailOverlayClick(event)">
+  <div class="book-detail-sheet" id="bookDetailSheet">
+
+    <!-- Hero -->
+    <div class="bd-hero" id="bdHero">
+      <img class="bd-hero-img" id="bdHeroImg" src="" alt="" onerror="this.style.display='none'">
+      <div class="bd-hero-gradient"></div>
+      <button class="bd-hero-back" onclick="closeBookDetail()" aria-label="Back">←</button>
+      <div class="bd-hero-badge badge-bestseller" id="bdBadge" style="display:none"></div>
+      <div class="bd-hero-cover" id="bdCoverThumb">
+        <img id="bdCoverImg" src="" alt="" onerror="this.style.display='none'">
+      </div>
+    </div>
+
+    <!-- Title / stats block (beside the cover thumb) -->
+    <div class="bd-body">
+      <div class="bd-cat" id="bdCat"></div>
+      <div class="bd-title" id="bdTitle"></div>
+      <div class="bd-author" id="bdAuthor"></div>
+      <div class="bd-stats">
+        <div class="bd-stat">
+          <div class="bd-stat-val" id="bdWarriors"></div>
+          <div class="bd-stat-lbl">Warriors Read</div>
+        </div>
+        <div class="bd-stat">
+          <div class="bd-stat-val" id="bdDays"></div>
+          <div class="bd-stat-lbl">Avg Days</div>
+        </div>
+        <div class="bd-stat">
+          <div class="bd-stat-val" id="bdRating"></div>
+          <div class="bd-stat-lbl">Rating</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Below-fold content -->
+    <div class="bd-below">
+      <!-- Key insight -->
+      <div class="bd-insight" id="bdInsight"></div>
+
+      <!-- Reviews -->
+      <div class="bd-reviews-header">
+        <div class="bd-reviews-title">📖 BookWarrior Reviews</div>
+        <div class="bd-reviews-count" id="bdReviewCount">0 reviews</div>
+      </div>
+      <div id="bdReviewsList"></div>
+    </div>
+
+    <!-- Sticky CTA -->
+    <div class="bd-cta">
+      <div class="bd-price-wrap">
+        <span class="bd-price-now" id="bdPrice"></span>
+        <span class="bd-price-old" id="bdOldPrice"></span>
+      </div>
+      <button class="bd-add-btn" id="bdAddBtn" onclick="bdAddToCart()">+ Add to Cart</button>
+    </div>
+
   </div>
 </div>
 
@@ -2329,25 +2608,25 @@ body::before{
 
 // ── CATALOG ──
 var CATALOG = [
-  {id:"psychology-of-money",title:"The Psychology of Money",author:"Morgan Housel",price:5500,originalPrice:7000,category:"Finance",badge:"bestseller",warriors:5,avgDays:11,rating:4.8,insight:"Doing well with money has little to do with how smart you are and everything to do with how you behave.",color1:"#1B2E1B",color2:"#2D4A2D",textColor:"#E8C56A",cover:"https://covers.openlibrary.org/b/isbn/9780857197689-L.jpg",pick:true},
-  {id:"rich-dad-poor-dad",title:"Rich Dad Poor Dad",author:"Robert T. Kiyosaki",price:4500,originalPrice:6000,category:"Finance",badge:"bestseller",warriors:6,avgDays:8,rating:4.6,insight:"The rich don't work for money. They make money work for them.",color1:"#2E1B1B",color2:"#4A2D2D",textColor:"#E8A56A",cover:"https://covers.openlibrary.org/b/isbn/9781612680194-L.jpg"},
-  {id:"atomic-habits",title:"Atomic Habits",author:"James Clear",price:5000,originalPrice:6500,category:"Execution",badge:"new",warriors:4,avgDays:9,rating:4.9,insight:"You do not rise to the level of your goals. You fall to the level of your systems.",color1:"#1B1B2E",color2:"#2D2D4A",textColor:"#8AB4E8",cover:"https://covers.openlibrary.org/b/isbn/9780735211292-L.jpg"},
-  {id:"think-grow-rich",title:"Think and Grow Rich",author:"Napoleon Hill",price:3800,originalPrice:5000,category:"Finance",badge:null,warriors:5,avgDays:14,rating:4.5,insight:"Whatever the mind can conceive and believe, it can achieve.",color1:"#2E2A1B",color2:"#4A432D",textColor:"#E8D56A",cover:"https://covers.openlibrary.org/b/isbn/9781585424337-L.jpg"},
-  {id:"start-with-why",title:"Start With Why",author:"Simon Sinek",price:4800,originalPrice:6200,category:"Leadership",badge:"bestseller",warriors:4,avgDays:10,rating:4.7,insight:"People don't buy what you do; they buy why you do it.",color1:"#1B2A2E",color2:"#2D424A",textColor:"#6AE8D4",cover:"https://covers.openlibrary.org/b/isbn/9781591846444-L.jpg"},
-  {id:"48-laws",title:"The 48 Laws of Power",author:"Robert Greene",price:6500,originalPrice:8500,category:"Leadership",badge:null,warriors:3,avgDays:21,rating:4.4,insight:"Power is the ability to define reality and have others accept that definition.",color1:"#2E1B2A",color2:"#4A2D43",textColor:"#E868C8",cover:"https://covers.openlibrary.org/b/isbn/9780140280197-L.jpg"},
-  {id:"deep-work",title:"Deep Work",author:"Cal Newport",price:4200,originalPrice:5500,category:"Execution",badge:"new",warriors:3,avgDays:12,rating:4.8,insight:"The ability to perform deep work is becoming increasingly rare and valuable in our economy.",color1:"#1B2E2A",color2:"#2D4A43",textColor:"#6AE8B4",cover:"https://covers.openlibrary.org/b/isbn/9781455586691-L.jpg"},
-  {id:"mindset",title:"Mindset",author:"Carol S. Dweck",price:4000,originalPrice:5200,category:"Psychology",badge:null,warriors:4,avgDays:11,rating:4.6,insight:"In a growth mindset, challenges are exciting rather than threatening.",color1:"#1B1B2E",color2:"#2D2D4A",textColor:"#B46AE8",cover:"https://covers.openlibrary.org/b/isbn/9780345472328-L.jpg"},
-  {id:"thinking-fast-slow",title:"Thinking, Fast and Slow",author:"Daniel Kahneman",price:5200,originalPrice:7000,category:"Psychology",badge:null,warriors:2,avgDays:18,rating:4.5,insight:"Nothing in life is as important as you think it is when you are thinking about it.",color1:"#2A2E1B",color2:"#434A2D",textColor:"#C8E86A",cover:"https://covers.openlibrary.org/b/isbn/9780374533557-L.jpg"},
-  {id:"outliers",title:"Outliers",author:"Malcolm Gladwell",price:4300,originalPrice:5800,category:"Psychology",badge:null,warriors:3,avgDays:9,rating:4.5,insight:"Practice is the thing that makes you good. 10,000 hours of it.",color1:"#2E1B1B",color2:"#4A3030",textColor:"#E88A6A",cover:"https://covers.openlibrary.org/b/isbn/9780316017930-L.jpg"},
-  {id:"shoe-dog",title:"Shoe Dog",author:"Phil Knight",price:5800,originalPrice:7500,category:"Biography",badge:null,warriors:2,avgDays:14,rating:4.9,insight:"The cowards never started and the weak died along the way. That leaves us.",color1:"#1B2020",color2:"#2D3535",textColor:"#6AE8E8",cover:"https://covers.openlibrary.org/b/isbn/9781501135910-L.jpg"},
-  {id:"lean-startup",title:"The Lean Startup",author:"Eric Ries",price:4600,originalPrice:6000,category:"Execution",badge:"new",warriors:2,avgDays:13,rating:4.4,insight:"The only way to win is to learn faster than anyone else.",color1:"#1B2E1B",color2:"#2D452D",textColor:"#80E87A",cover:"https://covers.openlibrary.org/b/isbn/9780307887894-L.jpg"},
+  {id:"psychology-of-money",title:"The Psychology of Money",author:"Morgan Housel",price:5500,originalPrice:7000,category:"Finance",badge:"bestseller",warriors:5,avgDays:11,rating:4.8,insight:"Doing well with money has little to do with how smart you are and everything to do with how you behave.",color1:"#1B2E1B",color2:"#2D4A2D",textColor:"#E8C56A",cover:"https://covers.openlibrary.org/b/isbn/9780857197689-L.jpg",pick:true,reviews:[{"warrior": "Jesulayomi", "text": "This changed how I think about every financial decision I make. Morgan Housel writes with a simplicity that hits deep. The chapter on Tails, You Win alone is worth the entire price.", "stars": 5, "date": "2024-03-15"}, {"warrior": "Dorcas", "text": "I never thought a finance book could make me emotional. This one did. The story of Ronald Read showed me that ordinary behaviour over long time beats extraordinary intelligence every time.", "stars": 5, "date": "2024-03-28"}, {"warrior": "EA", "text": "Every business owner needs this book. Not for investment tips but for the mindset shift around how wealth is built quietly, consistently, and without ego.", "stars": 5, "date": "2024-04-05"}]},
+  {id:"rich-dad-poor-dad",title:"Rich Dad Poor Dad",author:"Robert T. Kiyosaki",price:4500,originalPrice:6000,category:"Finance",badge:"bestseller",warriors:6,avgDays:8,rating:4.6,insight:"The rich don't work for money. They make money work for them.",color1:"#2E1B1B",color2:"#4A2D2D",textColor:"#E8A56A",cover:"https://covers.openlibrary.org/b/isbn/9781612680194-L.jpg",reviews:[{"warrior": "Juliet", "text": "This was the book that moved me from employee thinking to owner thinking. Robert Kiyosaki does not sugarcoat anything. Read this at 23 and it rewired my brain completely.", "stars": 5, "date": "2024-01-10"}, {"warrior": "Motolani", "text": "I read this in 6 days. The concept of assets vs liabilities explained this simply should be taught in secondary school. Game-changing perspective.", "stars": 4, "date": "2024-01-20"}, {"warrior": "Haliyah", "text": "Some parts felt repetitive but the core lesson - make money work for you - is priceless. I have applied the lessons actively since finishing.", "stars": 4, "date": "2024-02-01"}]},
+  {id:"atomic-habits",title:"Atomic Habits",author:"James Clear",price:5000,originalPrice:6500,category:"Execution",badge:"new",warriors:4,avgDays:9,rating:4.9,insight:"You do not rise to the level of your goals. You fall to the level of your systems.",color1:"#1B1B2E",color2:"#2D2D4A",textColor:"#8AB4E8",cover:"https://covers.openlibrary.org/b/isbn/9780735211292-L.jpg",reviews:[{"warrior": "Jesulayomi", "text": "James Clear turned the BookWarriors reading challenge into reality with this book. The 1% better every day philosophy is our foundation. Mandatory reading for every human being alive.", "stars": 5, "date": "2024-02-12"}, {"warrior": "EA", "text": "I had read about habits before but never understood the mechanics this clearly. The habit loop, identity change, environment design - all incredibly practical. My most highlighted book ever.", "stars": 5, "date": "2024-02-25"}, {"warrior": "Motolani", "text": "Finished in 8 days. Started implementing on day 3. My morning routine has never been more consistent. This is not theory - it is an instruction manual for real change.", "stars": 5, "date": "2024-03-08"}]},
+  {id:"think-grow-rich",title:"Think and Grow Rich",author:"Napoleon Hill",price:3800,originalPrice:5000,category:"Finance",badge:null,warriors:5,avgDays:14,rating:4.5,insight:"Whatever the mind can conceive and believe, it can achieve.",color1:"#2E2A1B",color2:"#4A432D",textColor:"#E8D56A",cover:"https://covers.openlibrary.org/b/isbn/9781585424337-L.jpg",reviews:[{"warrior": "Dorcas", "text": "Written in 1937 and still the most relevant book on the psychology of achievement I have ever read. The chapter on the Mastermind hit differently reading it inside BookWarriors.", "stars": 5, "date": "2024-01-05"}, {"warrior": "Juliet", "text": "Napoleon Hill spent decades studying the greatest achievers so we do not have to. The Desire chapter alone reshaped my relationship with my goals. A classic for good reason.", "stars": 4, "date": "2024-01-18"}]},
+  {id:"start-with-why",title:"Start With Why",author:"Simon Sinek",price:4800,originalPrice:6200,category:"Leadership",badge:"bestseller",warriors:4,avgDays:10,rating:4.7,insight:"People don't buy what you do; they buy why you do it.",color1:"#1B2A2E",color2:"#2D424A",textColor:"#6AE8D4",cover:"https://covers.openlibrary.org/b/isbn/9781591846444-L.jpg",reviews:[{"warrior": "EA", "text": "Simon Sinek's Golden Circle is the clearest framework for leadership I have ever encountered. Every brand, every leader, every movement that endures starts with WHY. Could not put it down.", "stars": 5, "date": "2024-03-01"}, {"warrior": "Jesulayomi", "text": "This book explained why BookAWeek exists. Not just to sell books but to build a generation of thinkers. I recommend this to every founder, every manager, every human with a goal.", "stars": 5, "date": "2024-03-14"}]},
+  {id:"48-laws",title:"The 48 Laws of Power",author:"Robert Greene",price:6500,originalPrice:8500,category:"Leadership",badge:null,warriors:3,avgDays:21,rating:4.4,insight:"Power is the ability to define reality and have others accept that definition.",color1:"#2E1B2A",color2:"#4A2D43",textColor:"#E868C8",cover:"https://covers.openlibrary.org/b/isbn/9780140280197-L.jpg",reviews:[{"warrior": "Motolani", "text": "Took me 19 days because I treated each law as a chapter to reflect on. Greene is uncomfortable but necessary. Understanding power dynamics is not optional in a competitive world.", "stars": 5, "date": "2024-04-10"}, {"warrior": "EA", "text": "Not a book you read to become manipulative. A book you read to understand the world as it truly operates. Law 4 - Always say less than necessary - I use daily.", "stars": 4, "date": "2024-04-30"}]},
+  {id:"deep-work",title:"Deep Work",author:"Cal Newport",price:4200,originalPrice:5500,category:"Execution",badge:"new",warriors:3,avgDays:12,rating:4.8,insight:"The ability to perform deep work is becoming increasingly rare and valuable in our economy.",color1:"#1B2E2A",color2:"#2D4A43",textColor:"#6AE8B4",cover:"https://covers.openlibrary.org/b/isbn/9781455586691-L.jpg",reviews:[{"warrior": "Jesulayomi", "text": "Cal Newport diagnosed exactly what is killing productivity in the modern age: distraction disguised as busyness. I deleted social media the day after finishing this book. Best decision of the year.", "stars": 5, "date": "2024-05-03"}, {"warrior": "Dorcas", "text": "This book made me restructure my entire work schedule. I now have 3 deep work blocks daily with zero notifications. My output has tripled. Not exaggerating.", "stars": 5, "date": "2024-05-18"}, {"warrior": "Juliet", "text": "Very dense but every chapter earns its place. The chapter on Embrace Boredom was the hardest and most important lesson. We are addicted to stimulation and it is costing us everything.", "stars": 4, "date": "2024-06-01"}]},
+  {id:"mindset",title:"Mindset",author:"Carol S. Dweck",price:4000,originalPrice:5200,category:"Psychology",badge:null,warriors:4,avgDays:11,rating:4.6,insight:"In a growth mindset, challenges are exciting rather than threatening.",color1:"#1B1B2E",color2:"#2D2D4A",textColor:"#B46AE8",cover:"https://covers.openlibrary.org/b/isbn/9780345472328-L.jpg",reviews:[{"warrior": "Haliyah", "text": "Carol Dweck gave language to something I felt but could not explain. The growth mindset vs fixed mindset distinction applies to parenting, business, relationships - everything. Read it twice.", "stars": 5, "date": "2024-01-22"}, {"warrior": "Juliet", "text": "Psychologically this is one of the most important books of the century. It shows how the story we tell ourselves about our own abilities determines our entire ceiling. Essential.", "stars": 5, "date": "2024-02-07"}]},
+  {id:"thinking-fast-slow",title:"Thinking, Fast and Slow",author:"Daniel Kahneman",price:5200,originalPrice:7000,category:"Psychology",badge:null,warriors:2,avgDays:18,rating:4.5,insight:"Nothing in life is as important as you think it is when you are thinking about it.",color1:"#2A2E1B",color2:"#434A2D",textColor:"#C8E86A",cover:"https://covers.openlibrary.org/b/isbn/9780374533557-L.jpg",reviews:[{"warrior": "Juliet", "text": "Kahneman breaks down two decades of research into the most readable psychology book I have ever encountered. System 1 and System 2 thinking changed how I make every decision.", "stars": 5, "date": "2024-03-20"}, {"warrior": "Dorcas", "text": "Dense and deep - took me 18 days but every page was worth it. I now catch my own cognitive biases in real time. That is priceless.", "stars": 4, "date": "2024-04-08"}]},
+  {id:"outliers",title:"Outliers",author:"Malcolm Gladwell",price:4300,originalPrice:5800,category:"Psychology",badge:null,warriors:3,avgDays:9,rating:4.5,insight:"Practice is the thing that makes you good. 10,000 hours of it.",color1:"#2E1B1B",color2:"#4A3030",textColor:"#E88A6A",cover:"https://covers.openlibrary.org/b/isbn/9780316017930-L.jpg",reviews:[{"warrior": "EA", "text": "Gladwell dismantles the myth of the self-made genius. Success is preparation meeting opportunity meeting community. The 10,000 hours story of the Beatles and Bill Gates will stay with me forever.", "stars": 5, "date": "2024-02-14"}, {"warrior": "Motolani", "text": "Read in 9 days. The chapter on cultural legacy and plane crashes was something I never expected in a book about success. Gladwell is a master storyteller with deep research underneath.", "stars": 4, "date": "2024-02-28"}]},
+  {id:"shoe-dog",title:"Shoe Dog",author:"Phil Knight",price:5800,originalPrice:7500,category:"Biography",badge:null,warriors:2,avgDays:14,rating:4.9,insight:"The cowards never started and the weak died along the way. That leaves us.",color1:"#1B2020",color2:"#2D3535",textColor:"#6AE8E8",cover:"https://covers.openlibrary.org/b/isbn/9781501135910-L.jpg",reviews:[{"warrior": "Jesulayomi", "text": "The most honest memoir from a founder I have ever read. Phil Knight does not pretend he had it all figured out. He was terrified most of the time and kept going anyway. That is the lesson.", "stars": 5, "date": "2024-05-10"}, {"warrior": "EA", "text": "I finished this in 12 days and thought about it for another 12. Nike almost went bankrupt multiple times. What kept it alive was the belief of a handful of people in an idea. Inspiring beyond words.", "stars": 5, "date": "2024-05-25"}]},
+  {id:"lean-startup",title:"The Lean Startup",author:"Eric Ries",price:4600,originalPrice:6000,category:"Execution",badge:"new",warriors:2,avgDays:13,rating:4.4,insight:"The only way to win is to learn faster than anyone else.",color1:"#1B2E1B",color2:"#2D452D",textColor:"#80E87A",cover:"https://covers.openlibrary.org/b/isbn/9780307887894-L.jpg",reviews:[{"warrior": "Motolani", "text": "Eric Ries saved me from building the wrong product for months. The concept of validated learning and the MVP changed how I approach every new idea. Builders must read this.", "stars": 5, "date": "2024-04-15"}, {"warrior": "Jesulayomi", "text": "The Build-Measure-Learn loop sounds simple but most founders never actually practise it. This book shows you how to stop guessing and start testing. Completed it in 12 days.", "stars": 4, "date": "2024-05-02"}]},
   {id:"purpose-driven-life",title:"The Purpose Driven Life",author:"Rick Warren",price:4200,originalPrice:5500,category:"Spiritual",badge:"bestseller",warriors:3,avgDays:14,rating:4.9,insight:"You were made by God and for God. Until you understand that, life will never make sense.",color1:"#1A0D2E",color2:"#2E1A4A",textColor:"#C8A8E8",cover:"https://covers.openlibrary.org/b/isbn/9780310335504-L.jpg",reviews:[{warrior:"Jesulayomi",text:"This book answered questions I didn't know I had. Read it in 10 days.",stars:5},{warrior:"Dorcas",text:"Changed how I see my daily work. Everything has meaning now.",stars:5}]},
   {id:"battlefield-of-the-mind",title:"Battlefield of the Mind",author:"Joyce Meyer",price:3800,originalPrice:5000,category:"Spiritual",badge:null,warriors:2,avgDays:11,rating:4.8,insight:"The mind is the battlefield. What you allow in your thoughts determines the direction of your life.",color1:"#2E1A0D",color2:"#4A2E1A",textColor:"#E8C8A8",cover:"https://covers.openlibrary.org/b/isbn/9780446691093-L.jpg",reviews:[{warrior:"Juliet",text:"I underlined something on almost every page. Transformed how I handle anxiety.",stars:5}]},
   {id:"redeeming-your-time",title:"Redeeming Your Time",author:"Jordan Raynor",price:4500,originalPrice:5800,category:"Spiritual",badge:"new",warriors:2,avgDays:10,rating:4.7,insight:"Jesus was the most productive person who ever lived. He left no task unfinished.",color1:"#0D1A2E",color2:"#1A2E4A",textColor:"#A8C8E8",cover:"https://covers.openlibrary.org/b/isbn/9780525652083-L.jpg",reviews:[{warrior:"Motolani",text:"A practical and spiritual guide to stewardship of time. Completely reframed how I plan my days.",stars:5}]},
   {id:"praying-life",title:"The Power of a Praying Life",author:"Stormie Omartian",price:3500,originalPrice:4800,category:"Spiritual",badge:null,warriors:2,avgDays:13,rating:4.8,insight:"Prayer is not a last resort. It is the first resort of someone who knows where their power comes from.",color1:"#1A2E0D",color2:"#2E4A1A",textColor:"#A8E8C8",cover:"https://covers.openlibrary.org/b/isbn/9780736943345-L.jpg",reviews:[{warrior:"Haliyah",text:"Every chapter felt like it was written specifically for where I am in life. 5 stars.",stars:5}]},
-  {id:"good-to-great",title:"Good to Great",author:"Jim Collins",price:5200,originalPrice:7000,category:"Leadership",badge:null,warriors:3,avgDays:16,rating:4.7,insight:"Good is the enemy of great. Most companies settle for good and that is exactly why so few become great.",color1:"#1A1A2E",color2:"#2E2E4A",textColor:"#E8C56A",cover:"https://covers.openlibrary.org/b/isbn/9780066620992-L.jpg"},
-  {id:"millionaire-next-door",title:"The Millionaire Next Door",author:"Thomas J. Stanley",price:4100,originalPrice:5500,category:"Finance",badge:null,warriors:2,avgDays:11,rating:4.4,insight:"Wealth is not the same as income. Wealth is what you accumulate, not what you spend.",color1:"#2E2A1B",color2:"#4A3F2D",textColor:"#E8D080",cover:"https://covers.openlibrary.org/b/isbn/9781589795471-L.jpg"},
-  {id:"mans-search-for-meaning",title:"Man's Search for Meaning",author:"Viktor E. Frankl",price:3600,originalPrice:5000,category:"Psychology",badge:"pick",warriors:3,avgDays:7,rating:4.9,insight:"Those who have a WHY to live can bear almost any HOW.",color1:"#1C1C1C",color2:"#2D2D2D",textColor:"#E8C56A",cover:"https://covers.openlibrary.org/b/isbn/9780807014271-L.jpg"},
+  {id:"good-to-great",title:"Good to Great",author:"Jim Collins",price:5200,originalPrice:7000,category:"Leadership",badge:null,warriors:3,avgDays:16,rating:4.7,insight:"Good is the enemy of great. Most companies settle for good and that is exactly why so few become great.",color1:"#1A1A2E",color2:"#2E2E4A",textColor:"#E8C56A",cover:"https://covers.openlibrary.org/b/isbn/9780066620992-L.jpg",reviews:[{"warrior": "EA", "text": "Jim Collins and his team studied over 1400 companies to find 11 that made the leap from good to great. The Level 5 Leadership and Hedgehog Concept chapters are worth 10x the book price.", "stars": 5, "date": "2024-03-05"}, {"warrior": "Dorcas", "text": "A research-based approach to leadership that removes all the noise and cuts to what actually drives greatness. Our team should read this together.", "stars": 5, "date": "2024-03-22"}]},
+  {id:"millionaire-next-door",title:"The Millionaire Next Door",author:"Thomas J. Stanley",price:4100,originalPrice:5500,category:"Finance",badge:null,warriors:2,avgDays:11,rating:4.4,insight:"Wealth is not the same as income. Wealth is what you accumulate, not what you spend.",color1:"#2E2A1B",color2:"#4A3F2D",textColor:"#E8D080",cover:"https://covers.openlibrary.org/b/isbn/9781589795471-L.jpg",reviews:[{"warrior": "Dorcas", "text": "The data in this book destroyed every stereotype I had about wealth. Most millionaires live below their means, drive simple cars, and never show off. Frugality is the real secret.", "stars": 4, "date": "2024-04-20"}, {"warrior": "Haliyah", "text": "A grounding read. In a world of flexing and showing off, this book is the antidote. 11 days to finish and a permanent change in how I think about saving vs spending.", "stars": 4, "date": "2024-05-08"}]},
+  {id:"mans-search-for-meaning",title:"Man's Search for Meaning",author:"Viktor E. Frankl",price:3600,originalPrice:5000,category:"Psychology",badge:"pick",warriors:3,avgDays:7,rating:4.9,insight:"Those who have a WHY to live can bear almost any HOW.",color1:"#1C1C1C",color2:"#2D2D2D",textColor:"#E8C56A",cover:"https://covers.openlibrary.org/b/isbn/9780807014271-L.jpg",reviews:[{"warrior": "Juliet", "text": "Viktor Frankl survived Nazi concentration camps and found meaning even there. I finished this in 7 days and cried twice. If he could find purpose in Auschwitz, I have no excuse for despair.", "stars": 5, "date": "2024-01-30"}, {"warrior": "Jesulayomi", "text": "The shortest book in our catalog and the one that hit me hardest. Logotherapy - finding meaning as the primary driver of human existence - is a concept I think about every single day now.", "stars": 5, "date": "2024-02-15"}, {"warrior": "Haliyah", "text": "I have recommended this book to 8 people since reading it. It answers the deepest question every human has: what is the point? And it answers it from a place of profound suffering. Required reading.", "stars": 5, "date": "2024-02-28"}]},
   {id:"power-of-now",title:"The Power of Now",author:"Eckhart Tolle",price:4000,originalPrice:5500,category:"Spiritual",badge:null,warriors:2,avgDays:14,rating:4.6,insight:"Realize deeply that the present moment is all you ever have.",color1:"#1A2E2E",color2:"#0D3333",textColor:"#A8E8D8",cover:"https://covers.openlibrary.org/b/isbn/9781577314806-L.jpg"}
 ];
 
@@ -2500,31 +2779,48 @@ function renderBooks(filter) {
 
     var coverHTML = '<div style="height:240px;overflow:hidden;position:relative;background:linear-gradient(160deg,' + book.color1 + ',' + book.color2 + ')">' + coverInner + '</div>';
 
+    // Review count badge for card
+    var rc = (book.reviews && book.reviews.length) ? book.reviews.length : 0;
+    var avgStars = book.rating || 4.5;
+    var starsFilled = Math.round(avgStars);
+    var starsHtml = [1,2,3,4,5].map(function(s){
+      return '<span style="font-size:11px;color:' + (s <= starsFilled ? 'var(--gold)' : 'rgba(255,255,255,.15)') + '">★</span>';
+    }).join('');
+    var reviewBadge = rc > 0
+      ? '<div style="display:flex;align-items:center;gap:5px;margin-top:8px">' + starsHtml +
+        '<span style="font-size:11px;font-weight:700;color:rgba(245,237,216,.4);margin-left:2px">' + rc + ' warrior review' + (rc !== 1 ? 's' : '') + '</span></div>'
+      : '';
+
     card.innerHTML =
-      '<div class="book-card-cover" style="cursor:pointer;overflow:hidden;position:relative" onclick="toggleReviews(\'' + book.id + '\')">' +
+      '<div class="book-card-cover" style="cursor:pointer;overflow:hidden;position:relative">' +
         badgeHTML + coverHTML +
+        '<div class="book-card-click-hint">Tap to read reviews</div>' +
       '</div>' +
-      '<div class="book-card-body">' +
+      '<div class="book-card-body" style="cursor:default">' +
         '<div class="book-card-cat">' + book.category + '</div>' +
-        '<div class="book-card-title">' + book.title + '</div>' +
+        '<div class="book-card-title" style="cursor:pointer">' + book.title + '</div>' +
         '<div class="book-card-author">' + book.author + '</div>' +
         '<div class="book-card-data">' +
           '<div class="bcd-item"><div class="bcd-val">' + book.warriors + '</div><div class="bcd-lbl">Warriors</div></div>' +
           '<div class="bcd-item"><div class="bcd-val">' + book.avgDays + 'd</div><div class="bcd-lbl">Avg Read</div></div>' +
-          '<div class="bcd-item"><div class="bcd-val">' + book.rating + '&#9733;</div><div class="bcd-lbl">Rating</div></div>' +
+          '<div class="bcd-item"><div class="bcd-val">' + book.rating + '★</div><div class="bcd-lbl">Rating</div></div>' +
         '</div>' +
         '<div class="book-card-insight">&ldquo;' + book.insight + '&rdquo;</div>' +
-        reviewsHTML +
+        reviewBadge +
         '<div class="book-card-footer" style="margin-top:12px">' +
           '<div><span class="book-price">&#8358;' + book.price.toLocaleString() + '</span><span class="book-price-old"> &#8358;' + book.originalPrice.toLocaleString() + '</span></div>' +
           '<button class="add-to-cart" id="btn-' + book.id + '">+ Add</button>' +
         '</div>' +
       '</div>';
 
-    // Bind add-to-cart safely via closure (avoids all quote issues)
+    // Bind events safely via closure
     (function(b){
       var btn = card.querySelector('.add-to-cart');
-      if (btn) btn.onclick = function(){ addToCart(b.id, b.title, b.author, b.price, b.color1, b.textColor); };
+      if (btn) btn.onclick = function(e){ e.stopPropagation(); addToCart(b.id, b.title, b.author, b.price, b.color1, b.textColor); };
+      var cover = card.querySelector('.book-card-cover');
+      if (cover) cover.onclick = function(){ openBookDetail(b.id); };
+      var titleEl = card.querySelector('.book-card-title');
+      if (titleEl) titleEl.onclick = function(){ openBookDetail(b.id); };
     })(book);
 
     grid.appendChild(card);
@@ -2947,9 +3243,15 @@ function renderAdminBookList() {
         '<div style="font-size:12px;color:rgba(245,237,216,.4);margin-top:2px">' + book.author + ' &middot; ' + book.category + '</div>' +
         '<div style="font-size:13px;color:var(--gold);font-weight:700;margin-top:4px">&#8358;' + book.price.toLocaleString() + '</div>' +
       '</div>' +
-      '<div style="display:flex;gap:8px;flex-shrink:0">' +
-        '<button onclick="openEditModal(\'' + book.id + '\')" style="background:rgba(201,168,76,.12);color:var(--gold);border:1px solid rgba(201,168,76,.25);border-radius:8px;padding:8px 14px;font-family:DM Sans,sans-serif;font-size:12px;font-weight:700;cursor:pointer">Edit</button>' +
-        '<button onclick="adminDeleteBook(\'' + book.id + '\')" style="background:rgba(239,68,68,.1);color:#EF4444;border:1px solid rgba(239,68,68,.25);border-radius:8px;padding:8px 14px;font-family:DM Sans,sans-serif;font-size:12px;font-weight:700;cursor:pointer">✕</button>' +
+      '<div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px;flex-shrink:0">' +
+        '<div style="display:flex;gap:6px">' +
+          '<button onclick="openEditModal(\'' + book.id + '\')" style="background:rgba(201,168,76,.12);color:var(--gold);border:1px solid rgba(201,168,76,.25);border-radius:8px;padding:8px 14px;font-family:DM Sans,sans-serif;font-size:12px;font-weight:700;cursor:pointer">✏️ Edit</button>' +
+          '<button onclick="adminDeleteBook(\'' + book.id + '\')" style="background:rgba(239,68,68,.1);color:#EF4444;border:1px solid rgba(239,68,68,.25);border-radius:8px;padding:8px 14px;font-family:DM Sans,sans-serif;font-size:12px;font-weight:700;cursor:pointer">✕</button>' +
+        '</div>' +
+        ((book.reviews && book.reviews.length > 0)
+          ? '<span style="font-size:10px;font-weight:700;color:var(--gold);background:rgba(201,168,76,.1);border-radius:100px;padding:3px 9px;letter-spacing:.04em;white-space:nowrap">⭐ ' + book.reviews.length + ' review' + (book.reviews.length !== 1 ? 's' : '') + '</span>'
+          : '<span style="font-size:10px;color:rgba(245,237,216,.2);padding:3px 9px">No reviews</span>'
+        ) +
       '</div>' +
     '</div>';
   }).join('');
@@ -2985,7 +3287,11 @@ function openEditModal(id) {
   document.getElementById("edit-rating").value = book.rating || "";
   document.getElementById("edit-cover").value = book.cover || "";
   document.getElementById("edit-insight").value = book.insight || "";
+  // Load existing reviews into editor
+  _editingReviews = (book.reviews || []).map(function(r){ return Object.assign({}, r); });
+  renderAdminReviewsList();
   document.getElementById("editBookOverlay").style.display = "block";
+  document.getElementById("editBookOverlay").scrollTop = 0;
 }
 
 function closeEditModal() {
@@ -3013,6 +3319,11 @@ function adminUpdateBook() {
   book.originalPrice = origp; book.category = cat; book.badge = badge;
   book.rating = rating; book.cover = cover||null; book.insight = insight;
 
+  // Save reviews from editor
+  var reviews = getReviewsFromEditor();
+  book.reviews = reviews.length > 0 ? reviews : undefined;
+  _editingReviews = [];
+
   saveCatalog();
   renderAdminBookList();
   closeEditModal();
@@ -3021,9 +3332,255 @@ function adminUpdateBook() {
   var si = document.getElementById("searchInput"); if(si) si.value = "";
   var cb = document.getElementById("clearSearchBtn"); if(cb) cb.style.display = "none";
   filterBooks("All");
-  showToast('"' + title + '" updated!', 'success');
+  var rCount = reviews.length;
+  showToast('"' + title + '" updated' + (rCount > 0 ? ' with ' + rCount + ' review' + (rCount!==1?'s':'') : '') + '! ✓', 'success');
 }
 
+// ════════════════════════════════════════════════════════════════
+// 📖 BOOK DETAIL MODAL — World-class book page with reviews
+// ════════════════════════════════════════════════════════════════
+var _currentDetailId = null;
+
+function openBookDetail(id) {
+  var book = CATALOG.find(function(b){ return b.id === id; });
+  if (!book) return;
+  _currentDetailId = id;
+
+  // ── Hero ──
+  var hero = document.getElementById('bdHero');
+  if (hero) {
+    hero.style.setProperty('--c1', book.color1 || '#0B1F3B');
+    hero.style.setProperty('--c2', book.color2 || '#142848');
+    hero.style.background = 'linear-gradient(160deg,' + (book.color1||'#0B1F3B') + ',' + (book.color2||'#142848') + ')';
+  }
+  var heroImg = document.getElementById('bdHeroImg');
+  if (heroImg) {
+    heroImg.src = book.cover || '';
+    heroImg.alt = book.title;
+    heroImg.style.display = book.cover ? '' : 'none';
+  }
+  var coverImg = document.getElementById('bdCoverImg');
+  var coverThumb = document.getElementById('bdCoverThumb');
+  if (coverImg && coverThumb) {
+    if (book.cover) {
+      coverImg.src = book.cover;
+      coverImg.style.display = '';
+      coverThumb.style.background = 'linear-gradient(160deg,' + (book.color1||'#0B1F3B') + ',' + (book.color2||'#142848') + ')';
+    } else {
+      coverImg.style.display = 'none';
+      coverThumb.style.background = 'linear-gradient(160deg,' + (book.color1||'#0B1F3B') + ',' + (book.color2||'#142848') + ')';
+    }
+  }
+
+  // ── Badge ──
+  var badge = document.getElementById('bdBadge');
+  if (badge) {
+    if (book.badge) {
+      var bLabels = {bestseller:'🔥 Bestseller', new:'✨ New', pick:'★ Pick'};
+      badge.textContent = bLabels[book.badge] || book.badge;
+      badge.className = 'bd-hero-badge badge-' + book.badge;
+      badge.style.display = '';
+    } else {
+      badge.style.display = 'none';
+    }
+  }
+
+  // ── Meta ──
+  _setText('bdCat', book.category);
+  _setText('bdTitle', book.title);
+  _setText('bdAuthor', 'by ' + book.author);
+  _setText('bdWarriors', book.warriors || '—');
+  _setText('bdDays', (book.avgDays || '—') + 'd');
+  _setText('bdRating', (book.rating || '—') + '★');
+  _setText('bdInsight', '\u201c' + book.insight + '\u201d');
+  _setText('bdPrice', '₦' + (book.price || 0).toLocaleString());
+  _setText('bdOldPrice', '₦' + (book.originalPrice || 0).toLocaleString());
+
+  // ── Reviews ──
+  var reviews = book.reviews || [];
+  var rcEl = document.getElementById('bdReviewCount');
+  if (rcEl) rcEl.textContent = reviews.length + ' review' + (reviews.length !== 1 ? 's' : '');
+  renderDetailReviews(reviews);
+
+  // ── Add btn state ──
+  var addBtn = document.getElementById('bdAddBtn');
+  if (addBtn) {
+    var inCart = cart.find(function(c){ return c.id === id; });
+    if (inCart) {
+      addBtn.textContent = '✓ In Cart (' + inCart.qty + ')';
+      addBtn.classList.add('added');
+    } else {
+      addBtn.textContent = '+ Add to Cart';
+      addBtn.classList.remove('added');
+    }
+  }
+
+  // ── Open ──
+  var overlay = document.getElementById('bookDetailOverlay');
+  if (overlay) {
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    overlay.scrollTop = 0;
+  }
+}
+
+function _setText(id, val) {
+  var el = document.getElementById(id);
+  if (el) el.textContent = val;
+}
+
+function closeBookDetail() {
+  var overlay = document.getElementById('bookDetailOverlay');
+  if (overlay) overlay.classList.remove('open');
+  document.body.style.overflow = '';
+  _currentDetailId = null;
+}
+
+function handleDetailOverlayClick(e) {
+  // Only close if clicking the overlay itself (not the sheet)
+  var sheet = document.getElementById('bookDetailSheet');
+  if (sheet && !sheet.contains(e.target)) closeBookDetail();
+}
+
+// ── Render reviews inside detail modal ──
+function renderDetailReviews(reviews) {
+  var container = document.getElementById('bdReviewsList');
+  if (!container) return;
+  if (!reviews || reviews.length === 0) {
+    container.innerHTML =
+      '<div class="bd-no-reviews">' +
+        '<div class="bd-no-reviews-icon">📚</div>' +
+        '<div class="bd-no-reviews-text">No BookWarrior reviews yet for this book.<br>Be the first BookWarrior to read and share your thoughts!</div>' +
+      '</div>';
+    return;
+  }
+
+  var WARRIOR_ROLES = {
+    'Jesulayomi': 'Founder · BookAWeek',
+    'Dorcas':     'BookWarrior · Finance',
+    'Haliyah':    'BookWarrior · Spiritual',
+    'Juliet':     'BookWarrior · Psychology',
+    'Motolani':   'BookWarrior · Execution',
+    'EA':         'BookWarrior · Leadership'
+  };
+
+  container.innerHTML = reviews.map(function(r, idx) {
+    var initials = r.warrior ? r.warrior.slice(0,2).toUpperCase() : '?';
+    var role = WARRIOR_ROLES[r.warrior] || 'BookWarrior';
+    var stars = r.stars || 5;
+    var starsHtml = [1,2,3,4,5].map(function(s){
+      return '<div class="bdr-star' + (s > stars ? ' empty' : '') + '">★</div>';
+    }).join('');
+    var dateStr = r.date ? new Date(r.date).toLocaleDateString('en-NG',{day:'numeric',month:'short',year:'numeric'}) : '';
+    return '<div class="bdr-card">' +
+      '<div class="bdr-head">' +
+        '<div class="bdr-avatar">' + initials + '</div>' +
+        '<div class="bdr-meta">' +
+          '<div class="bdr-warrior">' + (r.warrior || 'BookWarrior') + '</div>' +
+          '<div class="bdr-role">' + role + '</div>' +
+        '</div>' +
+        '<div class="bdr-stars">' + starsHtml + '</div>' +
+      '</div>' +
+      '<div class="bdr-text">' + (r.text || '') + '</div>' +
+      (dateStr ? '<div class="bdr-date">Read ' + dateStr + '</div>' : '') +
+    '</div>';
+  }).join('');
+}
+
+// ── Add to cart from detail page ──
+function bdAddToCart() {
+  if (!_currentDetailId) return;
+  var book = CATALOG.find(function(b){ return b.id === _currentDetailId; });
+  if (!book) return;
+  addToCart(book.id, book.title, book.author, book.price, book.color1, book.textColor);
+  var btn = document.getElementById('bdAddBtn');
+  if (btn) {
+    btn.textContent = '✓ Added to Cart!';
+    btn.classList.add('added');
+    setTimeout(function(){
+      var inCart = cart.find(function(c){ return c.id === _currentDetailId; });
+      btn.textContent = inCart ? '✓ In Cart (' + inCart.qty + ')' : '+ Add to Cart';
+    }, 2000);
+  }
+}
+
+// ── Close detail on back button (mobile) ──
+window.addEventListener('popstate', function(){ closeBookDetail(); });
+
+// ════════════════════════════════════════════════════════════════
+// 🛠️ ADMIN REVIEW EDITOR
+// ════════════════════════════════════════════════════════════════
+var _editingReviews = []; // working copy during edit session
+
+function adminAddReviewRow(review) {
+  var r = review || { warrior: '', text: '', stars: 5, date: new Date().toISOString().slice(0,10) };
+  var idx = _editingReviews.length;
+  _editingReviews.push(r);
+  renderAdminReviewsList();
+}
+
+function adminRemoveReviewRow(idx) {
+  _editingReviews.splice(idx, 1);
+  renderAdminReviewsList();
+}
+
+function renderAdminReviewsList() {
+  var container = document.getElementById('adminReviewsList');
+  if (!container) return;
+  if (_editingReviews.length === 0) {
+    container.innerHTML = '<div style="text-align:center;padding:20px;color:rgba(245,237,216,.25);font-size:13px;margin-bottom:12px">No reviews yet — add one below.</div>';
+    return;
+  }
+  container.innerHTML = _editingReviews.map(function(r, i) {
+    var starsHtml = [1,2,3,4,5].map(function(s){
+      return '<button class="rev-star-btn' + (s <= (r.stars||5) ? ' active' : '') + '" onclick="setReviewStars(' + i + ',' + s + ')" type="button">★</button>';
+    }).join('');
+    return '<div class="rev-editor-card" id="rev-row-' + i + '">' +
+      '<button class="rev-del-btn" onclick="adminRemoveReviewRow(' + i + ')" type="button">✕ Remove</button>' +
+      '<div class="rev-editor-row">' +
+        '<div>' +
+          '<label class="rev-editor-label">BookWarrior Name *</label>' +
+          '<input class="rev-editor-input" id="rev-warrior-' + i + '" type="text" value="' + (r.warrior||'') + '" placeholder="e.g. Jesulayomi" oninput="_syncReview(' + i + ')">' +
+        '</div>' +
+        '<div>' +
+          '<label class="rev-editor-label">Date Read</label>' +
+          '<input class="rev-editor-input" id="rev-date-' + i + '" type="date" value="' + (r.date||'') + '" oninput="_syncReview(' + i + ')">' +
+        '</div>' +
+      '</div>' +
+      '<label class="rev-editor-label">Review Text *</label>' +
+      '<textarea class="rev-editor-textarea" id="rev-text-' + i + '" placeholder="What did this BookWarrior say about the book?" oninput="_syncReview(' + i + ')">' + (r.text||'') + '</textarea>' +
+      '<div class="rev-stars-pick">' +
+        '<span style="font-size:11px;font-weight:700;color:rgba(245,237,216,.35);text-transform:uppercase;letter-spacing:.06em;margin-right:4px">Stars:</span>' +
+        starsHtml +
+        '<span style="font-size:12px;font-weight:700;color:var(--gold);margin-left:4px" id="rev-starval-' + i + '">' + (r.stars||5) + '/5</span>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+}
+
+function _syncReview(idx) {
+  var w = document.getElementById('rev-warrior-' + idx);
+  var t = document.getElementById('rev-text-' + idx);
+  var d = document.getElementById('rev-date-' + idx);
+  if (!_editingReviews[idx]) return;
+  if (w) _editingReviews[idx].warrior = w.value;
+  if (t) _editingReviews[idx].text    = t.value;
+  if (d) _editingReviews[idx].date    = d.value;
+}
+
+function setReviewStars(idx, stars) {
+  if (!_editingReviews[idx]) return;
+  _editingReviews[idx].stars = stars;
+  renderAdminReviewsList();
+}
+
+function getReviewsFromEditor() {
+  // Sync all fields before save
+  _editingReviews.forEach(function(r, i){ _syncReview(i); });
+  return _editingReviews.filter(function(r){ return r.warrior && r.text; });
+}
+
+// ════════════════════════════════════════════════════════════════
 // ── SWIPE DOWN TO CLOSE CART (mobile) ──
 (function(){
   var drawer, startY, dragging;
@@ -3074,7 +3631,7 @@ window.onload = function() {
 // ════════════════════════════════════════════════════════════
 // 🌐 GOOGLE APPS SCRIPT — Single Source of Truth (cross-device)
 // ════════════════════════════════════════════════════════════
-var GAS_URL = 'https://script.google.com/macros/s/AKfycbxgniCaodc1InxcE_fGRhOOicztJk73asB9AqVYyOAxBOWubDThSE5XwA5YuJSzsVfF/exec';
+var GAS_URL = 'https://script.google.com/macros/s/AKfycbz7lw2yJ1O_XnKMjUxTIIL0NmZjaZfFkyILRaf_U2sTI8dKgB_2vUKyu5gqAw5jf8qm/exec';
 
 // ════════════════════════════════════════════════════════════
 // 💾 SESSION & LOCAL CACHE
