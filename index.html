@@ -1007,11 +1007,20 @@ body::before{
 }
 .cos-row{
   display:flex;justify-content:space-between;align-items:center;
-  padding:6px 0;border-bottom:1px solid rgba(255,255,255,.05);
-  font-size:13px;color:rgba(245,237,216,.5);
+  padding:8px 0;border-bottom:1px solid rgba(255,255,255,.05);
+  font-size:12px;color:rgba(240,230,204,.45);
 }
-.cos-row:last-child{border-bottom:none;font-size:16px;font-weight:700;color:var(--white)}
-.cos-row span:last-child{color:var(--gold2)}
+.cos-row:last-child{border-bottom:none}
+.cos-total{
+  padding-top:12px;margin-top:4px;
+  font-size:14px;font-weight:600;color:#fff;
+  border-top:1px solid rgba(255,255,255,.1)!important;
+  border-bottom:none!important;
+}
+.cos-total span:last-child{
+  font-family:'Cormorant Garamond',Georgia,serif;
+  font-size:20px;font-weight:400;color:#fff;
+}
 .whatsapp-btn{
   width:100%;height:56px;
   background:linear-gradient(135deg,#22C55E,#16A34A);
@@ -2056,7 +2065,7 @@ body::before{
       </div>
       <div class="h-stat">
         <div class="h-stat-num">48h</div>
-        <div class="h-stat-lbl">Max Delivery</div>
+        <div class="h-stat-lbl">Typical Delivery</div>
       </div>
       <div class="h-stat">
         <div class="h-stat-num">100%</div>
@@ -2124,7 +2133,7 @@ body::before{
           <div class="pick-price-row">
             <div>
               <div class="pick-price">₦5,500 <span class="pick-price-old">₦7,000</span></div>
-              <div style="font-size:11px;color:rgba(245,237,216,.35);margin-top:4px">Free delivery in Lagos · 48h nationwide</div>
+              <div style="font-size:11px;color:rgba(240,230,204,.3);margin-top:4px">Delivery confirmed via WhatsApp</div>
             </div>
             <button class="btn-primary" onclick="addToCart('psychology-of-money','The Psychology of Money','Morgan Housel',5500,'#1B2E1B','#E8C56A')">
               🛒 Add to Cart
@@ -2388,7 +2397,7 @@ body::before{
       <span class="cs-label">Subtotal</span>
       <span class="cs-val" id="cartTotal">₦0</span>
     </div>
-    <div class="cart-delivery-note">📦 Delivery calculated at checkout · Free in Lagos above ₦10,000</div>
+    <div class="cart-delivery-note">Delivery fee confirmed via WhatsApp after order is placed.</div>
     <button class="checkout-btn" id="checkoutBtn" onclick="openCheckout()">
       Proceed to Checkout →
     </button>
@@ -2437,21 +2446,6 @@ body::before{
         <div class="co-field">
           <label class="co-label">Email (optional)</label>
           <input class="co-input" id="co-email" type="email" placeholder="For receipt" autocomplete="email">
-        </div>
-      </div>
-      <div style="margin-bottom:14px">
-        <label class="co-label">Delivery Method</label>
-        <div class="co-delivery-opts">
-          <div class="delivery-opt active" id="dopt-standard" onclick="selectDelivery('standard',1500)">
-            <div class="do-icon">📦</div>
-            <div class="do-name">Standard</div>
-            <div class="do-price">48hrs · ₦1,500</div>
-          </div>
-          <div class="delivery-opt" id="dopt-express" onclick="selectDelivery('express',3000)">
-            <div class="do-icon">⚡</div>
-            <div class="do-name">Express</div>
-            <div class="do-price">Same day · ₦3,000</div>
-          </div>
         </div>
       </div>
       <div class="co-order-sum" id="coOrderSum"></div>
@@ -3157,7 +3151,7 @@ function renderBooks(filter) {
         '<div class="book-card-insight">&ldquo;' + book.insight + '&rdquo;</div>' +
         reviewBadge +
         '<div class="book-card-footer" style="margin-top:12px">' +
-          '<div><span class="book-price">&#8358;' + book.price.toLocaleString() + '</span><span class="book-price-old"> &#8358;' + book.originalPrice.toLocaleString() + '</span></div>' +
+          '<div><span class="book-price">₦' + book.price.toLocaleString() + '</span><span class="book-price-old"> ₦' + book.originalPrice.toLocaleString() + '</span></div>' +
           '<button class="add-to-cart" id="btn-' + book.id + '">+ Add</button>' +
         '</div>' +
       '</div>';
@@ -3264,7 +3258,7 @@ function updateCartUI() {
     return;
   }
   if (footEl) footEl.style.display = "block";
-  if (totalEl) totalEl.textContent = "&#8358;" + total.toLocaleString();
+  if (totalEl) totalEl.textContent = "\u20A6" + total.toLocaleString();
   itemsEl.innerHTML = cart.map(function(item){
     return '<div class="cart-item">' +
       '<div class="ci-cover" style="background:linear-gradient(160deg,' + item.color + ',' + item.color + ');display:flex;align-items:flex-end;padding:8px"><div style="font-family:Playfair Display,serif;font-size:9px;font-weight:700;color:' + item.textColor + ';line-height:1.2">' + item.title.split(':')[0] + '</div></div>' +
@@ -3272,7 +3266,7 @@ function updateCartUI() {
         '<div class="ci-title">' + item.title + '</div>' +
         '<div class="ci-author">' + item.author + '</div>' +
         '<div class="ci-row">' +
-          '<div class="ci-price">&#8358;' + (item.price * item.qty).toLocaleString() + '</div>' +
+          '<div class="ci-price">\u20A6' + (item.price * item.qty).toLocaleString() + '</div>' +
           '<div style="display:flex;align-items:center;gap:8px">' +
             '<div class="ci-qty">' +
               '<button class="qty-btn" onclick="changeQty(\'' + item.id + '\',-1)">&#8722;</button>' +
@@ -3302,11 +3296,11 @@ function closeCart() {
 
 // ── CHECKOUT ──
 var deliveryType = "standard";
-deliveryFee = 1500;
+var deliveryFee = 0;
 
 function selectDelivery(type, fee) {
   deliveryType = type;
-  deliveryFee = fee;
+  deliveryFee = 0; // delivery fee communicated via WhatsApp after order
   document.getElementById("dopt-standard").classList.toggle("active", type === "standard");
   document.getElementById("dopt-express").classList.toggle("active", type === "express");
   updateOrderSummary();
@@ -3316,11 +3310,10 @@ function updateOrderSummary() {
   var sum = document.getElementById("coOrderSum");
   if (!sum) return;
   var subtotal = getCartTotal();
-  var total = subtotal + deliveryFee;
   sum.innerHTML =
-    '<div class="cos-row"><span>Subtotal (' + getCartCount() + ' books)</span><span>&#8358;' + subtotal.toLocaleString() + '</span></div>' +
-    '<div class="cos-row"><span>Delivery (' + (deliveryType === 'express' ? 'Same day' : '48hrs') + ')</span><span>&#8358;' + deliveryFee.toLocaleString() + '</span></div>' +
-    '<div class="cos-row"><span>Total</span><span>&#8358;' + total.toLocaleString() + '</span></div>';
+    '<div class="cos-row"><span>Subtotal (' + getCartCount() + ' book' + (getCartCount() !== 1 ? 's' : '') + ')</span><span>\u20A6' + subtotal.toLocaleString() + '</span></div>' +
+    '<div class="cos-row" style="opacity:.5;font-size:11px"><span>Delivery fee</span><span>Confirmed via WhatsApp</span></div>' +
+    '<div class="cos-row cos-total"><span>Order Total</span><span>\u20A6' + subtotal.toLocaleString() + '</span></div>';
 }
 
 function openCheckout() {
@@ -3364,7 +3357,7 @@ function placeOrderWhatsApp() {
     return;
   }
   var subtotal = getCartTotal();
-  var total = subtotal + deliveryFee;
+  var total = subtotal;
   var bookList = cart.map(function(i){
     return "* " + i.title + " x " + i.qty + " -- N" + (i.price * i.qty).toLocaleString();
   }).join("%0A");
@@ -3373,11 +3366,10 @@ function placeOrderWhatsApp() {
     "WhatsApp: " + encodeURIComponent(phone) + "%0A" +
     "Address: " + encodeURIComponent(addr + ", " + state) + "%0A%0A" +
     "ORDER:%0A" + bookList + "%0A%0A" +
-    "Delivery: " + (deliveryType === "express" ? "Express (Same Day)" : "Standard (48hrs)") + " -- N" + deliveryFee.toLocaleString() + "%0A" +
-    "TOTAL: N" + total.toLocaleString() + "%0A%0A_We Read. We Reflect. We Execute._";
+    "BOOKS TOTAL: N" + total.toLocaleString() + "%0A" +
+    "_(Delivery fee to be confirmed via WhatsApp)_%0A%0A_We Read. We Reflect. We Execute._";
   window.open("https://wa.me/2347037872401?text=" + msg, "_blank");
 
-  // ── LOG ORDER to CRM ──
   logOrderForUser(
     cart.map(function(i){ return {title:i.title, qty:i.qty, price:i.price}; }),
     total, deliveryType, addr, state
@@ -3590,7 +3582,7 @@ function renderAdminBookList() {
       '<div style="flex:1;min-width:0">' +
         '<div style="font-family:Playfair Display,serif;font-size:14px;font-weight:700;color:#fff;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + book.title + '</div>' +
         '<div style="font-size:12px;color:rgba(245,237,216,.4);margin-top:2px">' + book.author + ' &middot; ' + book.category + '</div>' +
-        '<div style="font-size:13px;color:var(--gold);font-weight:700;margin-top:4px">&#8358;' + book.price.toLocaleString() + '</div>' +
+        '<div style="font-size:13px;color:var(--gold);font-weight:700;margin-top:4px">₦' + book.price.toLocaleString() + '</div>' +
       '</div>' +
       '<div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px;flex-shrink:0">' +
         '<div style="display:flex;gap:6px">' +
