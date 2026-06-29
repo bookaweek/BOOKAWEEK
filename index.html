@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta name="description" content="The only bookstore that guarantees you'll actually read the book.">
-<title>BookAWeek Store — Books That Change You</title>
+<title>BookAWeek Store Books That Change You</title>
 <meta name="theme-color" content="#060F20">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -90,8 +90,8 @@ body{
   color:var(--text-primary);
   overflow-x:hidden;
   min-height:100vh;
-  font-size:14px;
-  line-height:1.5;
+  font-size:15px;
+  line-height:1.6;
   -webkit-font-smoothing:antialiased;
   -moz-osx-font-smoothing:grayscale;
 }
@@ -102,7 +102,7 @@ body{
 
 /* ══ SCROLLBAR ══ */
 ::-webkit-scrollbar{width:6px}
-::-webkit-scrollbar-track{background:var(--navy)}
+::-webkit-scrollbar-track{background:var(--ink)}
 ::-webkit-scrollbar-thumb{background:var(--gold-dark);border-radius:3px}
 
 /* ══ AUTH MODAL ══ */
@@ -124,8 +124,8 @@ body{
 .auth-logo-img{width:44px;height:44px;border-radius:8px;margin:0 auto 10px;display:block;}
 .auth-brand{
   font-family:'Cormorant Garamond',Georgia,serif;
-  font-size:18px;font-weight:400;
-  letter-spacing:.06em;text-transform:uppercase;
+  font-size:20px;font-weight:400;
+  letter-spacing:.05em;text-transform:uppercase;
   color:#fff;
 }
 .auth-brand span{color:var(--brass2)}
@@ -144,15 +144,15 @@ body{
 .auth-tab.active{border-bottom-color:var(--brass);color:#fff;}
 .auth-field{margin-bottom:16px}
 .auth-label{
-  display:block;font-size:10px;font-weight:500;
-  color:rgba(240,230,204,.4);letter-spacing:.12em;text-transform:uppercase;
+  display:block;font-size:11px;font-weight:500;
+  color:rgba(240,230,204,.5);letter-spacing:.1em;text-transform:uppercase;
   margin-bottom:6px;
 }
 .auth-input{
   width:100%;background:rgba(255,255,255,.04);
   border:1px solid rgba(255,255,255,.1);border-radius:4px;
-  padding:12px 14px;color:#fff;
-  font-family:'Inter',system-ui,sans-serif;font-size:14px;
+  padding:13px 16px;color:#fff;
+  font-family:'Inter',system-ui,sans-serif;font-size:15px;
   outline:none;transition:border-color .15s,background .15s;
 }
 .auth-input:focus{border-color:rgba(184,150,62,.5);background:rgba(255,255,255,.06)}
@@ -162,7 +162,7 @@ body{
   width:100%;background:var(--brass2);
   color:#07101E;border:none;border-radius:4px;padding:14px;
   font-family:'Inter',system-ui,sans-serif;
-  font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+  font-size:14px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
   cursor:pointer;transition:background .15s;margin-top:8px;
 }
 .auth-btn:hover{background:var(--brass3)}
@@ -206,51 +206,65 @@ body{
   display:flex;align-items:center;justify-content:center;
   font-size:10px;font-weight:700;color:#07101E;flex-shrink:0;
 }
-  padding:7px 16px 7px 10px;font-family:'Inter',system-ui,sans-serif;
-  font-size:13px;font-weight:700;cursor:pointer;transition:all .2s;
-}
-.nav-user-btn:hover{background:rgba(201,168,76,.18)}
-.nav-user-avatar{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,var(--gold2),var(--gold));color:var(--navy);font-size:11px;font-weight:900;display:flex;align-items:center;justify-content:center}
+
 
 /* ══ USER DROPDOWN ══ */
 .user-dropdown{
   position:absolute;top:calc(100% + 8px);right:0;
-  background:#0D1E3A;border:1px solid rgba(201,168,76,.2);
-  border-radius:14px;padding:8px;min-width:200px;
-  box-shadow:0 16px 48px rgba(0,0,0,.5);z-index:300;
+  background:var(--ink2);border:1px solid rgba(255,255,255,.08);
+  border-radius:6px;padding:6px;min-width:190px;
+  box-shadow:0 12px 40px rgba(0,0,0,.6);z-index:300;
   display:none;
 }
-.user-dropdown.open{display:block;animation:sheetIn .2s ease}
-.ud-header{padding:10px 12px 12px;border-bottom:1px solid rgba(201,168,76,.1);margin-bottom:6px}
-.ud-name{font-family:'Cormorant Garamond',Georgia,serif;font-size:14px;font-weight:700;color:#fff}
-.ud-email{font-size:11px;color:rgba(245,237,216,.35);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.ud-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:9px;cursor:pointer;font-size:13px;font-weight:600;color:rgba(255,255,255,.6);transition:all .2s;border:none;background:none;width:100%;text-align:left}
-.ud-item:hover{background:rgba(201,168,76,.1);color:var(--gold)}
-.ud-item.danger:hover{background:rgba(192,57,43,.1);color:#f87171}
+.user-dropdown.open{display:block;animation:sheetIn .15s ease}
+.ud-header{padding:10px 12px 12px;border-bottom:1px solid rgba(255,255,255,.06);margin-bottom:4px}
+.ud-name{font-family:'Cormorant Garamond',Georgia,serif;font-size:15px;font-weight:400;color:#fff;letter-spacing:.01em}
+.ud-email{font-size:11px;color:rgba(240,230,204,.3);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ud-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:3px;cursor:pointer;font-size:12px;font-weight:400;letter-spacing:.02em;color:rgba(255,255,255,.55);transition:all .15s;border:none;background:none;width:100%;text-align:left}
+.ud-item:hover{background:rgba(255,255,255,.05);color:#fff}
+.ud-item.danger:hover{background:rgba(180,30,30,.1);color:#f87171}
 
 /* ══ CRM DASHBOARD ══ */
-.crm-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px}
+.crm-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;margin-bottom:28px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.06)}
 @media(max-width:640px){.crm-stats{grid-template-columns:repeat(2,1fr)}}
-.crm-stat{background:rgba(255,255,255,.04);border:1px solid rgba(201,168,76,.12);border-radius:14px;padding:16px}
-.crm-stat-val{font-family:'Cormorant Garamond',Georgia,serif;font-size:26px;font-weight:900;color:var(--gold)}
-.crm-stat-label{font-size:11px;color:rgba(245,237,216,.35);margin-top:4px;font-weight:600;letter-spacing:.05em;text-transform:uppercase}
-.crm-table-wrap{overflow-x:auto;border-radius:12px;border:1px solid rgba(201,168,76,.1)}
+.crm-stat{background:var(--ink2);padding:20px 18px}
+.crm-stat-val{font-family:'Cormorant Garamond',Georgia,serif;font-size:32px;font-weight:400;color:#fff}
+.crm-stat-label{font-size:10px;color:rgba(240,230,204,.35);margin-top:4px;font-weight:500;letter-spacing:.1em;text-transform:uppercase}
+.crm-table-wrap{overflow-x:auto;border:1px solid rgba(255,255,255,.06)}
 .crm-table{width:100%;border-collapse:collapse;font-size:13px}
-.crm-table th{padding:12px 14px;text-align:left;font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:rgba(245,237,216,.35);border-bottom:1px solid rgba(201,168,76,.1);background:rgba(255,255,255,.02);white-space:nowrap}
-.crm-table td{padding:13px 14px;border-bottom:1px solid rgba(255,255,255,.04);vertical-align:middle;color:rgba(245,237,216,.8)}
+.crm-table th{padding:12px 14px;text-align:left;font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:rgba(240,230,204,.3);border-bottom:1px solid rgba(255,255,255,.06);background:var(--ink);white-space:nowrap}
+.crm-table td{padding:13px 14px;border-bottom:1px solid rgba(255,255,255,.04);vertical-align:middle;color:rgba(240,230,204,.75)}
 .crm-table tr:last-child td{border-bottom:none}
-.crm-table tr:hover td{background:rgba(201,168,76,.04)}
-.crm-badge{display:inline-flex;align-items:center;padding:3px 9px;border-radius:100px;font-size:10px;font-weight:800;letter-spacing:.05em;text-transform:uppercase}
-.crm-badge.active{background:rgba(26,122,60,.2);color:#4ade80;border:1px solid rgba(26,122,60,.3)}
-.crm-badge.pending{background:rgba(201,168,76,.15);color:var(--gold);border:1px solid rgba(201,168,76,.25)}
+.crm-table tr:hover td{background:rgba(255,255,255,.03)}
+.crm-badge{display:inline-flex;align-items:center;padding:3px 8px;border-radius:2px;font-size:9px;font-weight:600;letter-spacing:.08em;text-transform:uppercase}
+.crm-badge.active{background:rgba(26,107,60,.15);color:#4ade80;border:1px solid rgba(26,107,60,.25)}
+.crm-badge.pending{background:rgba(184,150,62,.1);color:var(--brass2);border:1px solid rgba(184,150,62,.2)}
 .crm-badge.vip{background:rgba(139,75,40,.2);color:#f59e0b;border:1px solid rgba(201,120,30,.3)}
-.crm-search{background:rgba(255,255,255,.05);border:1px solid rgba(201,168,76,.18);border-radius:10px;padding:10px 14px;color:#fff;font-family:'Inter',system-ui,sans-serif;font-size:13px;outline:none;width:100%;margin-bottom:16px}
-.crm-search:focus{border-color:var(--gold)}
-.crm-filter-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
-.crm-filter-btn{padding:7px 14px;border-radius:100px;font-size:12px;font-weight:700;cursor:pointer;border:1px solid rgba(201,168,76,.2);background:none;color:rgba(255,255,255,.4);transition:all .2s}
-.crm-filter-btn.active{background:var(--gold);color:var(--navy);border-color:var(--gold)}
-.crm-export-btn{padding:8px 16px;border-radius:100px;font-size:12px;font-weight:700;cursor:pointer;background:rgba(26,122,60,.15);color:#4ade80;border:1px solid rgba(26,122,60,.3);transition:all .2s}
-.crm-export-btn:hover{background:rgba(26,122,60,.25)}
+.crm-search{
+  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);
+  border-radius:4px;padding:10px 14px;color:#fff;
+  font-family:'Inter',system-ui,sans-serif;font-size:13px;
+  outline:none;width:100%;margin-bottom:0;box-sizing:border-box;
+  transition:border-color .15s;
+}
+.crm-search:focus{border-color:rgba(184,150,62,.4)}
+.crm-filter-row{display:flex;gap:0;flex-wrap:nowrap;overflow-x:auto;margin-bottom:16px;border-bottom:1px solid rgba(255,255,255,.06)}
+.crm-filter-btn{
+  padding:10px 18px;border:none;border-bottom:2px solid transparent;
+  background:none;color:rgba(240,230,204,.35);
+  font-family:'Inter',system-ui,sans-serif;font-size:11px;font-weight:500;
+  letter-spacing:.08em;text-transform:uppercase;cursor:pointer;
+  transition:color .15s,border-color .15s;white-space:nowrap;margin-bottom:-1px;
+}
+.crm-filter-btn:hover{color:rgba(240,230,204,.7)}
+.crm-filter-btn.active{border-bottom-color:var(--brass);color:#fff}
+.crm-export-btn{
+  padding:8px 16px;border-radius:4px;font-size:11px;font-weight:500;
+  letter-spacing:.08em;text-transform:uppercase;cursor:pointer;
+  background:rgba(26,107,60,.1);color:#4ade80;
+  border:1px solid rgba(26,107,60,.25);transition:all .15s;white-space:nowrap;
+}
+.crm-export-btn:hover{background:rgba(26,107,60,.2)}
 
 /* ══ NOISE TEXTURE OVERLAY ══ */
 body::before{
@@ -291,7 +305,7 @@ body::before{
 }
 .nav-link{
   color:rgba(255,255,255,.45);text-decoration:none;
-  font-size:12px;font-weight:500;letter-spacing:.08em;
+  font-size:12px;font-weight:500;letter-spacing:.06em;
   text-transform:uppercase;
   transition:color .15s ease;
   white-space:nowrap;
@@ -308,7 +322,7 @@ body::before{
   border:1px solid rgba(255,255,255,.12);
   border-radius:6px;padding:7px 14px;
   font-family:'Inter',system-ui,sans-serif;
-  font-size:12px;font-weight:500;letter-spacing:.04em;
+  font-size:13px;font-weight:600;letter-spacing:.03em;
   cursor:pointer;-webkit-tap-highlight-color:transparent;
   transition:all .15s ease;
   position:relative;
@@ -322,7 +336,7 @@ body::before{
   display:inline-flex;align-items:center;justify-content:center;
   min-width:18px;height:18px;padding:0 4px;
   background:var(--brass);color:#07101E;
-  border-radius:4px;font-size:10px;font-weight:700;
+  border-radius:3px;font-size:10px;font-weight:700;
 }
 
 /* ══ HERO ══ */
@@ -362,7 +376,7 @@ body::before{
 .hero-eyebrow{
   display:inline-flex;align-items:center;gap:12px;
   font-family:'Inter',system-ui,sans-serif;
-  font-size:10px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;
+  font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;
   color:var(--brass2);
   margin-bottom:28px;
   animation:fadeUp .6s .1s both;
@@ -377,9 +391,9 @@ body::before{
 }
 .hero-headline{
   font-family:'Cormorant Garamond',Georgia,serif;
-  font-size:clamp(42px,7.5vw,96px);
+  font-size:clamp(44px,7.5vw,88px);
   font-weight:300;
-  line-height:.95;
+  line-height:1.0;
   color:#fff;
   margin:0 auto 24px;
   animation:fadeUp .6s .2s both;
@@ -390,17 +404,13 @@ body::before{
   font-style:italic;
   color:var(--brass2);
 }
-.hero-headline .gold{
-  background:linear-gradient(135deg,var(--gold3) 0%,var(--gold) 40%,var(--gold-dark) 80%);
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-  display:block;
-}
+
 .hero-sub{
   font-family:'Inter',system-ui,sans-serif;
-  font-size:clamp(15px,1.8vw,18px);
+  font-size:clamp(16px,1.8vw,19px);
   font-weight:400;
-  color:rgba(240,230,204,.5);
-  max-width:500px;margin:0 auto 36px;
+  color:rgba(240,230,204,.55);
+  max-width:520px;margin:0 auto 36px;
   line-height:1.75;
   animation:fadeUp .6s .3s both;
 }
@@ -414,9 +424,9 @@ body::before{
   background:var(--brass2);
   color:#07101E;border:none;
   border-radius:4px;
-  padding:14px 28px;
+  padding:15px 32px;
   font-family:'Inter',system-ui,sans-serif;
-  font-size:13px;font-weight:600;letter-spacing:.06em;
+  font-size:15px;font-weight:600;letter-spacing:.04em;
   text-transform:uppercase;
   cursor:pointer;-webkit-tap-highlight-color:transparent;
   transition:background .15s ease,transform .12s ease;
@@ -430,9 +440,9 @@ body::before{
   color:rgba(255,255,255,.7);
   background:transparent;
   border-radius:4px;
-  padding:13px 26px;
+  padding:14px 30px;
   font-family:'Inter',system-ui,sans-serif;
-  font-size:13px;font-weight:500;letter-spacing:.06em;
+  font-size:15px;font-weight:500;letter-spacing:.04em;
   text-transform:uppercase;
   cursor:pointer;
   -webkit-tap-highlight-color:transparent;
@@ -461,15 +471,15 @@ body::before{
 .h-stat:last-child{border-right:none}
 .h-stat-num{
   font-family:'Cormorant Garamond',Georgia,serif;
-  font-size:32px;font-weight:500;
+  font-size:28px;font-weight:500;
   color:#fff;line-height:1;
   letter-spacing:-.01em;
 }
 .h-stat-lbl{
-  font-size:10px;font-weight:400;
-  color:rgba(240,230,204,.35);
+  font-size:10px;font-weight:500;
+  color:rgba(240,230,204,.4);
   letter-spacing:.1em;text-transform:uppercase;
-  margin-top:5px;
+  margin-top:4px;
 }
 
 /* Scroll indicator */
@@ -488,7 +498,7 @@ body::before{
   padding:0 var(--gutter);
 }
 .section-eyebrow{
-  font-size:10px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;
+  font-size:11px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;
   color:var(--brass);margin-bottom:16px;
   display:flex;align-items:center;gap:14px;
 }
@@ -498,22 +508,22 @@ body::before{
 }
 .section-title{
   font-family:'Cormorant Garamond',Georgia,serif;
-  font-size:clamp(28px,4vw,52px);font-weight:400;
+  font-size:clamp(30px,4vw,52px);font-weight:400;
   color:#fff;line-height:1.05;margin-bottom:14px;
   letter-spacing:-.01em;
 }
 .section-title em{font-style:italic;color:var(--brass2)}
 .section-sub{
   font-family:'Inter',system-ui,sans-serif;
-  font-size:clamp(13px,1.6vw,15px);font-weight:400;
-  color:rgba(240,230,204,.42);line-height:1.7;
+  font-size:clamp(14px,1.6vw,16px);font-weight:400;
+  color:rgba(240,230,204,.48);line-height:1.7;
   max-width:480px;
 }
 
 /* ══ DIVIDER ══ */
 .divider{
   height:1px;
-  background:linear-gradient(to right,transparent,rgba(201,168,76,.25),transparent);
+  background:rgba(255,255,255,.05);
   margin:0;
 }
 
@@ -541,24 +551,30 @@ body::before{
 
 /* ══ BOOKMENTOR PICK ══ */
 .pick-section{
-  background:var(--ink3);
-  border-top:1px solid rgba(255,255,255,.06);
-  border-bottom:1px solid rgba(255,255,255,.06);
+  background:var(--ink2);
+  border:1px solid rgba(184,150,62,.2);
+  border-radius:8px;
   overflow:hidden;
   margin-bottom:0;
 }
 .pick-inner{
-  display:grid;grid-template-columns:360px 1fr;
-  align-items:stretch;min-height:440px;
+  display:grid;grid-template-columns:380px 1fr;
+  align-items:stretch;min-height:460px;
 }
 .pick-cover-col{
   position:relative;overflow:hidden;
-  background:var(--ink4);
+  background:linear-gradient(160deg,#0A1A0A 0%,#162B16 50%,#0A1A0A 100%);
+  display:flex;align-items:center;justify-content:center;
+}
+.pick-cover-col::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 80% 80% at 50% 50%,rgba(184,150,62,.08) 0%,transparent 70%);
 }
 .pick-book-visual{
   width:100%;height:100%;
   display:flex;align-items:center;justify-content:center;
   padding:48px 36px;
+  position:relative;z-index:1;
 }
 .book-spine{
   width:200px;
@@ -582,46 +598,57 @@ body::before{
 .pick-badge{
   position:absolute;top:16px;left:0;
   background:var(--brass);color:#07101E;
-  font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
+  font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
   padding:5px 12px;border-radius:0 2px 2px 0;
 }
 .pick-content{
   padding:52px 48px;display:flex;flex-direction:column;justify-content:center;
+  border-left:1px solid rgba(184,150,62,.12);
 }
 .pick-label{
   display:flex;align-items:center;gap:12px;
-  font-size:10px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;
+  font-size:11px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;
   color:var(--brass);margin-bottom:20px;
 }
 .pick-label::before{content:'';width:24px;height:1px;background:var(--brass);opacity:.6}
 .pick-title{
   font-family:'Cormorant Garamond',Georgia,serif;
-  font-size:clamp(24px,3vw,42px);font-weight:400;
-  color:#fff;line-height:1.0;margin-bottom:8px;
+  font-size:clamp(28px,3vw,46px);font-weight:400;
+  color:#fff;line-height:1.0;margin-bottom:10px;
 }
 .pick-author{
-  font-size:13px;font-weight:400;color:rgba(240,230,204,.4);margin-bottom:24px;
+  font-size:15px;font-weight:400;color:rgba(240,230,204,.45);margin-bottom:28px;
 }
 .pick-warrior-data{
-  display:flex;gap:16px;flex-wrap:wrap;margin-bottom:24px;
+  display:flex;gap:0;flex-wrap:nowrap;margin-bottom:28px;
+  border:1px solid rgba(255,255,255,.07);border-radius:6px;overflow:hidden;
 }
 .pwd{
-  background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.25);
-  border-radius:8px;padding:8px 14px;
-  font-size:12px;color:rgba(245,237,216,.7);
+  flex:1;padding:14px 16px;text-align:center;
+  border-right:1px solid rgba(255,255,255,.07);
 }
-.pwd strong{color:var(--gold2);display:block;font-size:18px;font-family:'Cormorant Garamond',Georgia,serif;font-weight:900;}
+.pwd:last-child{border-right:none}
+.pwd strong{
+  color:#fff;display:block;
+  font-size:20px;font-family:'Cormorant Garamond',Georgia,serif;font-weight:500;
+  margin-bottom:3px;
+}
+.pwd span,.pwd small{
+  font-size:10px;color:rgba(240,230,204,.35);
+  text-transform:uppercase;letter-spacing:.1em;
+}
 .pick-insight{
   font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;
-  font-size:17px;color:rgba(245,237,216,.6);
-  line-height:1.7;border-left:2px solid rgba(201,168,76,.4);
-  padding-left:16px;margin-bottom:28px;
+  font-size:18px;color:rgba(240,230,204,.6);
+  line-height:1.7;border-left:2px solid rgba(184,150,62,.4);
+  padding-left:18px;margin-bottom:32px;
 }
 .pick-price-row{display:flex;align-items:center;gap:20px;flex-wrap:wrap}
 .pick-price{
-  font-family:'Cormorant Garamond',Georgia,serif;font-size:28px;font-weight:900;color:var(--gold2);
+  font-family:'Cormorant Garamond',Georgia,serif;
+  font-size:30px;font-weight:400;color:#fff;
 }
-.pick-price-old{font-size:14px;color:rgba(245,237,216,.3);text-decoration:line-through}
+.pick-price-old{font-size:15px;color:rgba(240,230,204,.25);text-decoration:line-through;margin-left:6px}
 
 /* ══ FILTERS ══ */
 .filter-bar{
@@ -640,7 +667,7 @@ body::before{
   background:transparent;
   color:rgba(240,230,204,.4);
   font-family:'Inter',system-ui,sans-serif;
-  font-size:11px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;
+  font-size:12px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;
   cursor:pointer;-webkit-tap-highlight-color:transparent;
   transition:color .15s ease,border-color .15s ease;
   white-space:nowrap;flex-shrink:0;
@@ -694,27 +721,27 @@ body::before{
 }
 .book-card-badge{
   position:absolute;top:14px;left:14px;z-index:2;
-  font-size:9px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;
+  font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
   padding:5px 10px;border-radius:2px;
 }
-.badge-bestseller{background:var(--brass);color:#07101E;}
-.badge-new{background:#1a6b3c;color:#fff;}
-.badge-pick{background:rgba(255,255,255,.12);color:#fff;backdrop-filter:blur(8px);}
+.badge-bestseller,.badge-new,.badge-pick,.badge-warrior{
+  background:var(--brass);color:#07101E;
+}
 .book-card-body{padding:16px 18px 0}
 .book-card-cat{
-  font-size:9px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;
+  font-size:10px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;
   color:var(--brass);margin-bottom:7px;
 }
 .book-card-title{
   font-family:'Cormorant Garamond',Georgia,serif;
-  font-size:17px;font-weight:500;
+  font-size:18px;font-weight:500;
   color:#fff;line-height:1.25;margin-bottom:4px;
   display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
 }
 .book-card-author{
-  font-size:11px;font-weight:400;
-  color:rgba(240,230,204,.4);
-  margin-bottom:14px;letter-spacing:.01em;
+  font-size:12px;font-weight:400;
+  color:rgba(240,230,204,.45);
+  margin-bottom:14px;
 }
 .book-card-data{
   display:flex;gap:0;margin-bottom:14px;
@@ -728,15 +755,15 @@ body::before{
 .bcd-item:last-child{border-right:none}
 .bcd-val{
   font-family:'Cormorant Garamond',Georgia,serif;
-  font-size:16px;font-weight:500;color:#fff;letter-spacing:-.01em;display:block;
+  font-size:17px;font-weight:500;color:#fff;letter-spacing:-.01em;display:block;
 }
 .bcd-lbl{
-  font-size:9px;font-weight:400;color:rgba(240,230,204,.3);
+  font-size:9px;font-weight:500;color:rgba(240,230,204,.38);
   text-transform:uppercase;letter-spacing:.1em;margin-top:2px;display:block;
 }
 .book-card-insight{
   font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;
-  font-size:13.5px;color:rgba(240,230,204,.42);line-height:1.6;
+  font-size:14px;color:rgba(240,230,204,.52);line-height:1.6;
   margin-bottom:14px;
   display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
 }
@@ -747,11 +774,11 @@ body::before{
 }
 .book-price{
   font-family:'Cormorant Garamond',Georgia,serif;
-  font-size:20px;font-weight:500;color:#fff;
+  font-size:21px;font-weight:500;color:#fff;
   letter-spacing:-.01em;
 }
 .book-price-old{
-  font-size:12px;color:rgba(240,230,204,.25);
+  font-size:13px;color:rgba(240,230,204,.3);
   text-decoration:line-through;margin-left:4px;
   font-family:'Inter',system-ui,sans-serif;
 }
@@ -762,7 +789,7 @@ body::before{
   border:1px solid rgba(255,255,255,.15);
   border-radius:3px;
   font-family:'Inter',system-ui,sans-serif;
-  font-size:10px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;
+  font-size:11px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;
   cursor:pointer;-webkit-tap-highlight-color:transparent;
   transition:all .15s ease;
   white-space:nowrap;flex-shrink:0;
@@ -798,11 +825,11 @@ body::before{
 }
 .why-title{
   font-family:'Cormorant Garamond',Georgia,serif;
-  font-size:19px;font-weight:500;
-  color:#fff;margin-bottom:8px;
+  font-size:20px;font-weight:500;
+  color:#fff;margin-bottom:10px;
 }
 .why-text{
-  font-size:13px;color:rgba(240,230,204,.4);line-height:1.75;
+  font-size:15px;color:rgba(240,230,204,.5);line-height:1.7;
   font-weight:400;
 }
 
@@ -812,7 +839,7 @@ body::before{
   margin-top:36px;
 }
 .pathway-card{
-  border-radius:var(--r-lg);padding:24px 20px;
+  border-radius:6px;padding:24px 20px;
   position:relative;overflow:hidden;cursor:pointer;
   transition:transform .2s ease, box-shadow .2s ease;
   min-height:172px;
@@ -833,11 +860,11 @@ body::before{
 .pc-4{background:linear-gradient(145deg,#2A270C 0%,#46421A 100%)}
 .pathway-icon{font-size:30px;margin-bottom:10px;display:block;position:relative;z-index:1}
 .pathway-title{
-  font-family:'Cormorant Garamond',Georgia,serif;font-size:17px;font-weight:700;
+  font-family:'Cormorant Garamond',Georgia,serif;font-size:19px;font-weight:500;
   color:#fff;margin-bottom:3px;position:relative;z-index:1;
   letter-spacing:-.01em;
 }
-.pathway-count{font-size:11px;color:rgba(255,255,255,.45);position:relative;z-index:1}
+.pathway-count{font-size:12px;color:rgba(255,255,255,.45);position:relative;z-index:1}
 .pathway-arrow{
   position:absolute;top:18px;right:18px;font-size:18px;
   color:rgba(255,255,255,.2);
@@ -866,7 +893,7 @@ body::before{
 }
 .cart-title{
   font-family:'Cormorant Garamond',Georgia,serif;
-  font-size:16px;font-weight:400;
+  font-size:14px;font-weight:500;
   letter-spacing:.1em;text-transform:uppercase;
   color:#fff;
 }
@@ -896,12 +923,12 @@ body::before{
   box-shadow:-3px 0 0 rgba(0,0,0,.2),4px 6px 16px rgba(0,0,0,.4);
 }
 .ci-info{flex:1;min-width:0}
-.ci-title{font-size:14px;font-weight:500;color:#fff;margin-bottom:2px;}
-.ci-author{font-size:11px;color:rgba(240,230,204,.35);margin-bottom:10px;font-weight:400}
+.ci-title{font-size:15px;font-weight:500;color:#fff;margin-bottom:3px;}
+.ci-author{font-size:12px;color:rgba(240,230,204,.4);margin-bottom:10px;font-weight:400}
 .ci-row{display:flex;align-items:center;justify-content:space-between}
 .ci-price{
   font-family:'Cormorant Garamond',Georgia,serif;
-  font-size:16px;font-weight:400;color:#fff;
+  font-size:17px;font-weight:500;color:#fff;
 }
 .ci-qty{display:flex;align-items:center;gap:8px}
 .qty-btn{
@@ -928,13 +955,13 @@ body::before{
   display:flex;justify-content:space-between;align-items:center;
   margin-bottom:8px;
 }
-.cs-label{font-size:11px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:rgba(240,230,204,.35)}
+.cs-label{font-size:12px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:rgba(240,230,204,.45)}
 .cs-val{
   font-family:'Cormorant Garamond',Georgia,serif;
-  font-size:22px;font-weight:400;color:#fff;
+  font-size:24px;font-weight:400;color:#fff;
 }
 .cart-delivery-note{
-  font-size:11px;color:rgba(240,230,204,.3);
+  font-size:12px;color:rgba(240,230,204,.4);
   margin-bottom:16px;padding:10px 14px;
   background:rgba(255,255,255,.03);border-radius:4px;
   border:1px solid rgba(255,255,255,.07);
@@ -944,7 +971,7 @@ body::before{
   background:var(--brass2);
   color:#07101E;border:none;border-radius:4px;
   font-family:'Inter',system-ui,sans-serif;
-  font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+  font-size:14px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
   cursor:pointer;-webkit-tap-highlight-color:transparent;
   transition:background .15s ease,transform .12s ease;
   display:flex;align-items:center;justify-content:center;gap:10px;
@@ -960,89 +987,91 @@ body::before{
 }
 .checkout-overlay.open{display:flex;animation:fadeIn .3s ease}
 .checkout-sheet{
-  background:var(--navy2);width:100%;max-width:560px;
-  border-radius:24px 24px 0 0;
-  border-top:1px solid rgba(201,168,76,.2);
+  background:var(--ink2);width:100%;max-width:560px;
+  border-radius:4px 12px 0 0;
+  border-top:1px solid rgba(255,255,255,.07);
   max-height:92vh;overflow-y:auto;
-  animation:slideUp .35s cubic-bezier(.4,0,.2,1);
+  animation:slideUp .3s cubic-bezier(.25,.1,.25,1);
 }
 @keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
-.co-handle{width:40px;height:4px;background:rgba(255,255,255,.15);border-radius:2px;margin:14px auto 0}
+.co-handle{display:none}
 .co-head{padding:16px 24px 0}
-.co-title{font-family:'Cormorant Garamond',Georgia,serif;font-size:22px;font-weight:700;color:var(--white)}
+.co-title{font-family:'Cormorant Garamond',Georgia,serif;font-size:24px;font-weight:500;color:#fff}
 .co-sub{font-size:13px;color:rgba(245,237,216,.4);margin-top:4px}
 .co-body{padding:20px 24px 32px}
 .co-field{margin-bottom:14px}
-.co-label{font-size:12px;font-weight:600;color:rgba(245,237,216,.6);margin-bottom:7px;display:block;letter-spacing:.04em}
+.co-label{font-size:13px;font-weight:600;color:rgba(240,230,204,.65);margin-bottom:7px;display:block;letter-spacing:.04em}
 .co-input{
-  width:100%;padding:14px 16px;
-  background:rgba(255,255,255,.06);
-  border:1.5px solid rgba(255,255,255,.1);
-  border-radius:12px;
+  width:100%;padding:13px 16px;
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:4px;
   font-family:'Inter',system-ui,sans-serif;font-size:15px;
-  color:var(--white);outline:none;
+  color:#fff;outline:none;
   -webkit-appearance:none;
-  transition:border-color var(--trans);
+  transition:border-color .15s,background .15s;
   box-sizing:border-box;
 }
-.co-input:focus{border-color:rgba(201,168,76,.6);background:rgba(201,168,76,.04)}
-.co-input::placeholder{color:rgba(245,237,216,.2)}
+.co-input:focus{border-color:rgba(184,150,62,.5);background:rgba(255,255,255,.05)}
+.co-input::placeholder{color:rgba(240,230,204,.2)}
 .co-two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .co-delivery-opts{
   display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;
 }
 .delivery-opt{
-  border:1.5px solid rgba(255,255,255,.1);border-radius:12px;padding:14px;
+  border:1.5px solid rgba(255,255,255,.1);border-radius:4px;padding:14px;
   cursor:pointer;-webkit-tap-highlight-color:transparent;
   transition:all var(--trans);text-align:center;
 }
 .delivery-opt.active{border-color:var(--gold);background:rgba(201,168,76,.08)}
 .do-icon{font-size:20px;margin-bottom:6px}
-.do-name{font-size:13px;font-weight:700;color:var(--white)}
+.do-name{font-size:13px;font-weight:700;color:#fff}
 .do-price{font-size:11px;color:rgba(245,237,216,.4);margin-top:3px}
 .co-order-sum{
-  background:rgba(255,255,255,.04);border-radius:14px;
-  border:1px solid rgba(255,255,255,.07);
-  padding:16px;margin-bottom:20px;
+  background:rgba(255,255,255,.03);
+  border:1px solid rgba(255,255,255,.06);
+  border-radius:4px;
+  padding:14px 16px;margin-bottom:20px;
 }
 .cos-row{
   display:flex;justify-content:space-between;align-items:center;
   padding:8px 0;border-bottom:1px solid rgba(255,255,255,.05);
-  font-size:12px;color:rgba(240,230,204,.45);
+  font-size:14px;color:rgba(240,230,204,.55);
 }
 .cos-row:last-child{border-bottom:none}
 .cos-total{
   padding-top:12px;margin-top:4px;
-  font-size:14px;font-weight:600;color:#fff;
+  font-size:15px;font-weight:600;color:#fff;
   border-top:1px solid rgba(255,255,255,.1)!important;
   border-bottom:none!important;
 }
 .cos-total span:last-child{
   font-family:'Cormorant Garamond',Georgia,serif;
-  font-size:20px;font-weight:400;color:#fff;
+  font-size:22px;font-weight:400;color:#fff;
 }
 .whatsapp-btn{
-  width:100%;height:56px;
-  background:linear-gradient(135deg,#22C55E,#16A34A);
-  color:#fff;border:none;border-radius:100px;
-  font-family:'Inter',system-ui,sans-serif;font-size:16px;font-weight:700;
+  width:100%;height:52px;
+  background:#1a6b3c;
+  color:#fff;border:none;border-radius:4px;
+  font-family:'Inter',system-ui,sans-serif;
+  font-size:14px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;
   cursor:pointer;-webkit-tap-highlight-color:transparent;
   display:flex;align-items:center;justify-content:center;gap:10px;
-  box-shadow:0 6px 24px rgba(34,197,94,.35);
-  transition:all var(--trans);margin-bottom:12px;
+  transition:background .15s ease,transform .12s ease;margin-bottom:12px;
 }
-.whatsapp-btn:hover{transform:translateY(-2px);box-shadow:0 10px 32px rgba(34,197,94,.5)}
+.whatsapp-btn:hover{background:#1f8048;transform:translateY(-1px)}
 .co-or{text-align:center;font-size:12px;color:rgba(245,237,216,.2);margin:12px 0}
 .paystack-btn{
-  width:100%;height:50px;
-  background:rgba(201,168,76,.1);border:1.5px solid rgba(201,168,76,.3);
-  color:var(--gold2);border-radius:100px;
-  font-family:'Inter',system-ui,sans-serif;font-size:14px;font-weight:700;
+  width:100%;height:48px;
+  background:none;border:1px solid rgba(255,255,255,.12);
+  color:rgba(255,255,255,.55);border-radius:4px;
+  font-family:'Inter',system-ui,sans-serif;font-size:13px;font-weight:500;
+  letter-spacing:.04em;
   cursor:pointer;-webkit-tap-highlight-color:transparent;
   display:flex;align-items:center;justify-content:center;gap:8px;
-  transition:all var(--trans);
+  transition:all .15s;
 }
-.paystack-btn:hover{background:rgba(201,168,76,.18)}
+.paystack-btn:hover{border-color:rgba(255,255,255,.25);color:rgba(255,255,255,.8)}
 .co-trust{
   display:flex;align-items:center;justify-content:center;gap:16px;
   margin-top:16px;flex-wrap:wrap;
@@ -1055,7 +1084,7 @@ body::before{
 }
 .order-success.show{display:block;animation:fadeIn .4s ease}
 .os-icon{font-size:64px;margin-bottom:16px;animation:popIn .6s cubic-bezier(.34,1.56,.64,1)}
-.os-title{font-family:'Cormorant Garamond',Georgia,serif;font-size:26px;font-weight:900;color:var(--white);margin-bottom:8px}
+.os-title{font-family:'Cormorant Garamond',Georgia,serif;font-size:26px;font-weight:400;letter-spacing:.02em;color:#fff;margin-bottom:8px}
 .os-sub{font-size:14px;color:rgba(245,237,216,.5);line-height:1.7;max-width:320px;margin:0 auto 24px}
 
 /* ══ FOOTER ══ */
@@ -1086,12 +1115,12 @@ body::before{
 }
 .footer-link{
   color:rgba(240,230,204,.25);text-decoration:none;
-  font-size:11px;font-weight:400;letter-spacing:.1em;text-transform:uppercase;
+  font-size:12px;font-weight:400;letter-spacing:.08em;text-transform:uppercase;
   transition:color .15s ease;
 }
 .footer-link:hover{color:rgba(240,230,204,.6)}
 .footer-copy{
-  font-size:11px;color:rgba(240,230,204,.15);
+  font-size:12px;color:rgba(240,230,204,.2);
   text-align:right;
 }
 
@@ -1151,14 +1180,14 @@ body::before{
 }
 .no-results{text-align:center;padding:60px 24px;color:rgba(245,237,216,.3)}
 .no-results .nr-icon{font-size:48px;display:block;margin-bottom:12px}
-.no-results .nr-title{font-family:'Cormorant Garamond',Georgia,serif;font-size:20px;color:var(--white);margin-bottom:8px}
+.no-results .nr-title{font-family:'Cormorant Garamond',Georgia,serif;font-size:20px;color:#fff;margin-bottom:8px}
 .no-results .nr-sub{font-size:14px;line-height:1.6}
 
 /* ══ BOOK REQUEST ══ */
 .request-strip {
-  background: linear-gradient(135deg, rgba(201,168,76,.1), rgba(201,168,76,.04));
-  border: 1px solid rgba(201,168,76,.2);
-  border-radius: var(--radius-xl);
+  background: var(--ink2);
+  border: 1px solid rgba(255,255,255,.07);
+  border-radius: 6px;
   padding: 28px 32px;
   display: flex;
   align-items: center;
@@ -1167,8 +1196,8 @@ body::before{
   margin-top: 40px;
 }
 .rs-text { flex: 1; min-width: 200px; }
-.rs-title { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: var(--white); margin-bottom: 6px; }
-.rs-sub { font-size: 14px; color: rgba(245,237,216,.5); line-height: 1.6; }
+.rs-title { font-family: 'Cormorant Garamond',Georgia,serif; font-size: 20px; font-weight: 400; color: #fff; margin-bottom: 6px; letter-spacing:.01em; }
+.rs-sub { font-size: 14px; color: rgba(240,230,204,.42); line-height: 1.6; }
 
 /* Request modal */
 .modal-overlay {
@@ -1182,35 +1211,35 @@ body::before{
 }
 .modal-overlay.open { display: flex; animation: fadeIn .25s ease; }
 .modal-sheet {
-  background: var(--navy2);
+  background: var(--ink2);
   width: 100%; max-width: 520px;
-  border-radius: 24px 24px 0 0;
-  border-top: 1px solid rgba(201,168,76,.2);
+  border-radius: 10px 10px 0 0;
+  border-top: 1px solid rgba(255,255,255,.07);
   padding: 0 0 32px;
   max-height: 90vh;
   overflow-y: auto;
 }
-.modal-handle { width: 40px; height: 4px; background: rgba(255,255,255,.15); border-radius: 2px; margin: 14px auto 0; }
-.modal-head { padding: 18px 24px 0; }
-.modal-title { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: var(--white); margin-bottom: 4px; }
-.modal-sub { font-size: 13px; color: rgba(245,237,216,.4); margin-bottom: 20px; }
+.modal-handle { display:none; }
+.modal-head { padding: 24px 24px 0; }
+.modal-title { font-family: 'Cormorant Garamond',Georgia,serif; font-size: 22px; font-weight: 400; letter-spacing:.02em; color: #fff; margin-bottom: 4px; }
+.modal-sub { font-size: 13px; color: rgba(240,230,204,.38); margin-bottom: 20px; }
 .modal-body { padding: 0 24px 0; }
 .modal-field { margin-bottom: 14px; }
-.modal-label { display: block; font-size: 12px; font-weight: 600; color: rgba(245,237,216,.6); margin-bottom: 7px; letter-spacing: .04em; }
+.modal-label { display: block; font-size: 11px; font-weight: 500; color: rgba(240,230,204,.45); margin-bottom: 6px; letter-spacing: .1em; text-transform:uppercase; }
 .modal-input {
-  width: 100%; padding: 14px 16px;
-  background: rgba(255,255,255,.06);
-  border: 1.5px solid rgba(255,255,255,.1);
-  border-radius: 12px;
-  font-family: 'DM Sans', sans-serif; font-size: 15px;
-  color: var(--white); outline: none;
+  width: 100%; padding: 13px 16px;
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 4px;
+  font-family: 'Inter',system-ui,sans-serif; font-size: 15px;
+  color: #fff; outline: none;
   -webkit-appearance: none;
-  transition: border-color var(--trans);
+  transition: border-color .15s;
   box-sizing: border-box;
 }
-.modal-input:focus { border-color: rgba(201,168,76,.6); }
-.modal-input::placeholder { color: rgba(245,237,216,.2); }
-.modal-textarea { min-height: 90px; resize: none; padding: 14px 16px; line-height: 1.55; }
+.modal-input:focus { border-color: rgba(184,150,62,.45); }
+.modal-input::placeholder { color: rgba(255,255,255,.18); }
+.modal-textarea { min-height: 90px; resize: none; padding: 13px 16px; line-height: 1.55; }
 
 /* ══ REVIEWS ══ */
 .reviews-section {
@@ -1228,21 +1257,22 @@ body::before{
 .review-header { display: flex; align-items: center; gap: 8px; margin-bottom: 5px; }
 .review-avatar {
   width: 24px; height: 24px;
-  background: var(--navy3);
-  border-radius: 6px;
+  background: var(--ink3);
+  border-radius: 3px;
+  border: 1px solid rgba(255,255,255,.08);
   display: flex; align-items: center; justify-content: center;
-  font-size: 10px; font-weight: 900; color: var(--gold);
+  font-size: 10px; font-weight: 600; color: var(--brass);
   flex-shrink: 0;
 }
-.review-warrior { font-size: 12px; font-weight: 700; color: rgba(245,237,216,.7); }
-.review-stars { font-size: 11px; color: var(--gold); margin-left: auto; }
-.review-text { font-family: 'EB Garamond', serif; font-style: italic; font-size: 13px; color: rgba(245,237,216,.5); line-height: 1.6; }
+.review-warrior { font-size: 12px; font-weight: 500; color: rgba(240,230,204,.6); }
+.review-stars { font-size: 11px; color: var(--brass); margin-left: auto; }
+.review-text { font-family: 'Cormorant Garamond',Georgia,serif; font-style: italic; font-size: 14px; color: rgba(240,230,204,.5); line-height: 1.6; }
 .view-reviews-btn {
   width: 100%;
   background: none;
   border: none;
   color: rgba(201,168,76,.6);
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Inter',system-ui,sans-serif;
   font-size: 12px; font-weight: 600;
   cursor: pointer;
   padding: 8px 0 2px;
@@ -1260,7 +1290,7 @@ body::before{
   padding: 32px;
   margin-top: 40px;
 }
-.admin-title { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: var(--white); margin-bottom: 8px; }
+.admin-title { font-family: 'Cormorant Garamond',Georgia,serif; font-size: 20px; font-weight: 400; color: #fff; margin-bottom: 8px; letter-spacing:.02em; }
 .admin-sub { font-size: 14px; color: rgba(245,237,216,.4); margin-bottom: 24px; line-height: 1.7; }
 .admin-steps { display: flex; flex-direction: column; gap: 14px; }
 .admin-step {
@@ -1317,14 +1347,14 @@ body::before{
   .nav-logo img{width:30px;height:30px}
   .nav-brand{font-size:14px}
   .nav-user-btn span:not(.nav-user-avatar){display:none}
-  .nav-user-btn{padding:6px 10px;border-radius:100px}
+  .nav-user-btn{padding:6px 10px;border-radius:4px}
   .nav-cart{padding:7px 14px;font-size:12px;gap:6px}
   .cart-count{width:16px;height:16px;font-size:9px}
 
   /* HERO — tight & punchy */
   .hero{min-height:85vh;padding:72px 18px 52px}
   .hero-eyebrow{font-size:10px;padding:6px 14px;margin-bottom:20px}
-  .hero-headline{font-size:clamp(30px,9vw,48px);margin-bottom:18px}
+  .hero-headline{font-size:clamp(32px,9vw,52px);margin-bottom:18px}
   .hero-sub{font-size:clamp(15px,4vw,18px);margin-bottom:32px}
   .hero-cta-row{gap:10px;flex-direction:column;align-items:center}
   .btn-primary{width:100%;max-width:320px;justify-content:center;padding:16px 24px;font-size:15px}
@@ -1368,13 +1398,13 @@ body::before{
   .search-icon{right:14px;font-size:17px}
   .search-btn{
     width:100%;
-    border-radius:12px!important;
+    border-radius:4px!important;
     height:48px;
     font-size:15px;
   }
   .clear-btn{
     width:100%;
-    border-radius:12px!important;
+    border-radius:4px!important;
     height:44px;
     font-size:13px;
   }
@@ -1411,11 +1441,11 @@ body::before{
     grid-template-columns:repeat(2,1fr);
     gap:12px;
   }
-  .book-card{border-radius:14px}
+  .book-card{border-radius:6px}
   .book-card-cover{height:170px}
   .book-card-body{padding:12px}
   .book-card-cat{font-size:9px;margin-bottom:5px}
-  .book-card-title{font-size:13px;line-height:1.25;margin-bottom:3px}
+  .book-card-title{font-size:16px;line-height:1.25;margin-bottom:3px}
   .book-card-author{font-size:11px;margin-bottom:10px}
   .book-card-data{margin-bottom:10px}
   .bcd-item{padding:6px 4px}
@@ -1429,7 +1459,7 @@ body::before{
     height:34px;
     font-size:11px;
     padding:0 12px;
-    border-radius:100px;
+    border-radius:4px;
     flex-shrink:0;
   }
   .book-card-badge{font-size:9px;padding:3px 8px;top:8px;right:8px}
@@ -1462,7 +1492,7 @@ body::before{
     right:0;left:0;bottom:0;top:auto;
     border-left:none;
     border-top:1px solid rgba(201,168,76,.2);
-    border-radius:24px 24px 0 0;
+    border-radius:8px 24px 0 0;
     transform:translateY(100%);
     max-height:92vh;
   }
@@ -1472,11 +1502,11 @@ body::before{
   .cart-items{padding:8px 16px 100px} /* bottom padding so last item not hidden by checkout button */
   .cart-foot{
     position:sticky;bottom:0;
-    background:var(--navy2);
+    background:var(--ink2);
     padding:14px 16px;
     border-top:1px solid rgba(255,255,255,.08);
   }
-  .checkout-btn{height:52px;font-size:16px;border-radius:16px}
+  .checkout-btn{height:52px;font-size:16px;border-radius:6px}
   .cart-item{gap:10px;padding:12px 0}
   .ci-cover{width:44px;min-width:44px;height:58px}
   .ci-title{font-size:13px;margin-bottom:2px}
@@ -1485,22 +1515,22 @@ body::before{
   .qty-num{font-size:14px;min-width:20px}
 
   /* CHECKOUT SHEET — bottom sheet, full width */
-  .checkout-sheet{max-width:100%;border-radius:20px 20px 0 0}
+  .checkout-sheet{max-width:100%;border-radius:8px 20px 0 0}
   .co-body{padding:16px 18px 28px}
   .co-two{grid-template-columns:1fr}
   .co-input{font-size:16px} /* prevent iOS zoom */
   .co-delivery-opts{grid-template-columns:1fr 1fr}
 
   /* MODALS — bottom sheet */
-  .modal-sheet{max-width:100%;border-radius:20px 20px 0 0}
+  .modal-sheet{max-width:100%;border-radius:8px 20px 0 0}
   .modal-input{font-size:16px}
   .modal-textarea{font-size:16px}
 
   /* ADMIN PANEL — single col on mobile */
-  #adminOverlay > div{border-radius:16px}
+  #adminOverlay > div{border-radius:6px}
   #adminOverlay [style*="grid-template-columns:1fr 1fr"]{display:block!important}
   #adminOverlay [style*="grid-template-columns:1fr 1fr"] > div{margin-bottom:12px}
-  #editBookOverlay > div{border-radius:16px;padding:20px 16px}
+  #editBookOverlay > div{border-radius:6px;padding:20px 16px}
   #editBookOverlay [style*="grid-template-columns:1fr 1fr"]{display:block!important}
   #editBookOverlay [style*="grid-template-columns:1fr 1fr"] > div{margin-bottom:12px}
   #adminOverlay input,#adminOverlay select,#adminOverlay textarea,
@@ -1583,7 +1613,7 @@ body::before{
   content:'';position:absolute;inset:0;
   background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(201,168,76,.12) 0%,transparent 70%);
 }
-.welcome-logo{width:64px;height:64px;border-radius:16px;margin:0 auto 14px;display:block;
+.welcome-logo{width:64px;height:64px;border-radius:6px;margin:0 auto 14px;display:block;
   filter:drop-shadow(0 6px 24px rgba(201,168,76,.6));position:relative}
 .welcome-headline{font-family:'Cormorant Garamond',Georgia,serif;font-size:26px;font-weight:900;
   color:#fff;line-height:1.2;margin-bottom:8px;position:relative}
@@ -1613,24 +1643,24 @@ body::before{
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 .authgate-sheet{
   background:linear-gradient(145deg,#0D1E3A,#142848);
-  border:1.5px solid rgba(201,168,76,.4);border-radius:24px;
+  border:1.5px solid rgba(201,168,76,.4);border-radius:8px;
   width:100%;max-width:440px;padding:36px 32px;
   box-shadow:0 24px 80px rgba(0,0,0,.7);
   animation:sheetIn .4s cubic-bezier(.34,1.56,.64,1);
   text-align:center;
 }
 .authgate-icon{font-size:48px;margin-bottom:16px;display:block}
-.authgate-title{font-family:'Cormorant Garamond',Georgia,serif;font-size:22px;font-weight:900;
+.authgate-title{font-family:'Cormorant Garamond',Georgia,serif;font-size:24px;font-weight:600;
   color:#fff;margin-bottom:8px}
 .authgate-sub{font-size:14px;color:rgba(245,237,216,.4);line-height:1.6;margin-bottom:28px}
 .authgate-btns{display:flex;flex-direction:column;gap:10px}
-.authgate-btn-primary{background:linear-gradient(135deg,var(--gold2),var(--gold));
-  color:var(--navy);border:none;border-radius:100px;padding:15px 24px;
+.authgate-btn-primary{background:var(--brass2);
+  color:var(--navy);border:none;border-radius:4px;padding:15px 24px;
   font-family:'Inter',system-ui,sans-serif;font-size:15px;font-weight:900;
   cursor:pointer;transition:all .25s;width:100%}
 .authgate-btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(201,168,76,.45)}
-.authgate-btn-secondary{background:rgba(201,168,76,.08);color:var(--gold);
-  border:1px solid rgba(201,168,76,.25);border-radius:100px;padding:13px 24px;
+.authgate-btn-secondary{background:rgba(255,255,255,.04);color:rgba(240,230,204,.6);
+  border:1px solid rgba(255,255,255,.08);border-radius:4px;padding:13px 24px;
   font-family:'Inter',system-ui,sans-serif;font-size:14px;font-weight:700;
   cursor:pointer;transition:all .25s;width:100%}
 .authgate-btn-secondary:hover{background:rgba(201,168,76,.15)}
@@ -1641,7 +1671,7 @@ body::before{
 .auth-nudge-bar{
   display:none;position:fixed;bottom:90px;left:50%;transform:translateX(-50%);
   background:linear-gradient(135deg,#0D1E3A,#142848);
-  border:1px solid rgba(201,168,76,.35);border-radius:100px;
+  border:1px solid rgba(201,168,76,.35);border-radius:4px;
   padding:12px 24px;z-index:400;white-space:nowrap;
   box-shadow:0 8px 32px rgba(0,0,0,.5);
   font-family:'Inter',system-ui,sans-serif;font-size:13px;font-weight:700;color:#fff;
@@ -1667,7 +1697,7 @@ body::before{
 }
 @media(min-width:700px){
   .book-detail-overlay{padding:24px 16px 48px}
-  .book-detail-sheet{border-radius:24px;min-height:auto;border:1px solid rgba(201,168,76,.2);
+  .book-detail-sheet{border-radius:8px;min-height:auto;border:1px solid rgba(255,255,255,.07);
     box-shadow:0 32px 80px rgba(0,0,0,.7);overflow:hidden}
 }
 
@@ -1695,7 +1725,7 @@ body::before{
 .bd-hero-back:hover{background:rgba(0,0,0,.65)}
 .bd-hero-badge{
   position:absolute;top:16px;right:16px;z-index:2;
-  padding:6px 14px;border-radius:100px;font-size:10px;font-weight:800;
+  padding:6px 14px;border-radius:4px;font-size:10px;font-weight:800;
   letter-spacing:.08em;text-transform:uppercase;
   backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
   box-shadow:0 2px 16px rgba(0,0,0,.4);
@@ -1703,7 +1733,7 @@ body::before{
 .bd-hero-cover{
   position:absolute;bottom:-24px;left:24px;z-index:3;
   width:90px;height:120px;border-radius:10px;overflow:hidden;
-  box-shadow:0 8px 32px rgba(0,0,0,.6);border:2px solid rgba(201,168,76,.3);
+  box-shadow:0 8px 32px rgba(0,0,0,.6);border:1px solid rgba(255,255,255,.08);
   background:#0B1F3B;
 }
 @media(min-width:700px){.bd-hero-cover{width:110px;height:148px;bottom:-32px}}
@@ -1731,7 +1761,7 @@ body::before{
 @media(max-width:400px){.bd-below{padding:20px 16px 28px}}
 
 .bd-insight{
-  background:rgba(201,168,76,.07);border-left:3px solid var(--gold);
+  background:rgba(184,150,62,.07);border-left:3px solid var(--brass);
   border-radius:0 12px 12px 0;padding:16px 18px;margin-bottom:28px;
   font-family:'Cormorant Garamond',Georgia,serif;font-size:15px;font-style:italic;
   color:rgba(245,237,216,.85);line-height:1.65;
@@ -1747,11 +1777,11 @@ body::before{
 }
 .bd-reviews-count{
   font-size:12px;color:rgba(245,237,216,.3);font-weight:600;
-  background:rgba(255,255,255,.05);border-radius:100px;padding:4px 12px;
+  background:rgba(255,255,255,.05);border-radius:4px;padding:4px 12px;
 }
 .bd-no-reviews{
   text-align:center;padding:40px 20px;
-  background:rgba(255,255,255,.03);border-radius:16px;
+  background:rgba(255,255,255,.03);border-radius:6px;
   border:1px dashed rgba(201,168,76,.15);
 }
 .bd-no-reviews-icon{font-size:36px;margin-bottom:10px}
@@ -1760,14 +1790,14 @@ body::before{
 /* Review card */
 .bdr-card{
   background:rgba(255,255,255,.04);border:1px solid rgba(201,168,76,.1);
-  border-radius:16px;padding:18px 20px;margin-bottom:12px;
+  border-radius:6px;padding:18px 20px;margin-bottom:12px;
   transition:border-color .2s;
 }
 .bdr-card:hover{border-color:rgba(201,168,76,.22)}
 .bdr-head{display:flex;align-items:center;gap:12px;margin-bottom:12px}
 .bdr-avatar{
   width:40px;height:40px;border-radius:50%;flex-shrink:0;
-  background:linear-gradient(135deg,var(--gold2),var(--gold));
+  background:var(--brass2);
   color:var(--navy);font-size:15px;font-weight:900;
   display:flex;align-items:center;justify-content:center;
 }
@@ -1779,7 +1809,7 @@ body::before{
 .bdr-star{font-size:14px;color:var(--gold);line-height:1}
 .bdr-star.empty{color:rgba(255,255,255,.15)}
 .bdr-text{
-  font-size:14px;color:rgba(245,237,216,.75);line-height:1.7;
+  font-size:15px;color:rgba(240,230,204,.75);line-height:1.7;
   font-family:'Georgia',serif;font-style:italic;
 }
 .bdr-text::before{content:'“';color:var(--gold);font-size:20px;
@@ -1801,8 +1831,8 @@ body::before{
 .bd-price-old{font-size:13px;color:rgba(245,237,216,.3);text-decoration:line-through;margin-left:6px}
 .bd-add-btn{
   flex:1;max-width:200px;
-  background:linear-gradient(135deg,var(--gold2),var(--gold));
-  color:var(--navy);border:none;border-radius:100px;
+  background:var(--brass2);
+  color:var(--navy);border:none;border-radius:4px;
   padding:15px 24px;font-family:'Inter',system-ui,sans-serif;
   font-size:15px;font-weight:900;cursor:pointer;
   transition:all .25s;-webkit-tap-highlight-color:transparent;
@@ -1828,7 +1858,7 @@ body::before{
 /* ══ ADMIN REVIEWS EDITOR ══ */
 .rev-editor-card{
   background:rgba(255,255,255,.04);border:1px solid rgba(201,168,76,.12);
-  border-radius:14px;padding:18px;margin-bottom:10px;position:relative;
+  border-radius:6px;padding:18px;margin-bottom:10px;position:relative;
 }
 .rev-editor-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
 @media(max-width:480px){.rev-editor-row{grid-template-columns:1fr}}
@@ -1854,8 +1884,8 @@ body::before{
   padding:5px 10px;font-size:11px;font-weight:700;cursor:pointer;
 }
 .rev-add-btn{
-  width:100%;background:rgba(201,168,76,.08);color:var(--gold);
-  border:1.5px dashed rgba(201,168,76,.3);border-radius:12px;
+  width:100%;background:rgba(255,255,255,.04);color:rgba(240,230,204,.6);
+  border:1.5px dashed rgba(255,255,255,.15);border-radius:4px;
   padding:13px;font-family:'Inter',system-ui,sans-serif;font-size:13px;
   font-weight:700;cursor:pointer;transition:all .2s;
 }
@@ -1878,7 +1908,9 @@ body::before{
   </a>
   <div class="nav-links">
     <a href="#store" class="nav-link">Store</a>
-    <a href="#pathways" class="nav-link">Pathways</a>
+    <a href="#bookmentor-pick" class="nav-link">Pick</a>
+    <a href="#warrior-reads" class="nav-link" style="color:var(--brass2)">Warrior Reads</a>
+    <a href="#pathways" class="nav-link">Collections</a>
     <a href="#why" class="nav-link">Why Us</a>
   </div>
   <div style="display:flex;align-items:center;gap:10px;position:relative">
@@ -1895,8 +1927,8 @@ body::before{
       </button>
       <div class="user-dropdown" id="userDropdown">
         <div class="ud-header">
-          <div class="ud-name" id="ddName">—</div>
-          <div class="ud-email" id="ddEmail">—</div>
+          <div class="ud-name" id="ddName"></div>
+          <div class="ud-email" id="ddEmail"></div>
         </div>
         <button class="ud-item" onclick="openMyOrders()">📦 My Orders</button>
         <button class="ud-item" onclick="openMyProfile()">✏️ Edit Profile</button>
@@ -1985,7 +2017,7 @@ body::before{
 
 <!-- ══ MY ORDERS MODAL ══ -->
 <div id="myOrdersOverlay" onclick="if(event.target===this)closeMyOrders()" style="display:none;position:fixed;inset:0;background:rgba(6,15,32,.96);backdrop-filter:blur(20px);z-index:700;overflow-y:auto;padding:16px;-webkit-overflow-scrolling:touch">
-  <div style="max-width:680px;margin:0 auto;background:linear-gradient(135deg,#0D1E3A,#142848);border:1px solid rgba(201,168,76,.25);border-radius:20px;overflow:hidden">
+  <div style="max-width:680px;margin:0 auto;background:linear-gradient(135deg,#0D1E3A,#142848);border:1px solid rgba(255,255,255,.08);border-radius:8px;overflow:hidden">
     <div style="display:flex;align-items:center;justify-content:space-between;padding:24px 28px;border-bottom:1px solid rgba(201,168,76,.12)">
       <div>
         <div style="font-family:'Cormorant Garamond',Georgia,serif;font-size:20px;font-weight:900;color:#fff">📦 My Orders</div>
@@ -2003,7 +2035,7 @@ body::before{
 
 <!-- ══ PROFILE EDIT MODAL ══ -->
 <div id="profileOverlay" onclick="if(event.target===this)closeMyProfile()" style="display:none;position:fixed;inset:0;background:rgba(6,15,32,.96);backdrop-filter:blur(20px);z-index:700;overflow-y:auto;padding:16px">
-  <div style="max-width:480px;margin:0 auto;background:linear-gradient(135deg,#0D1E3A,#142848);border:1px solid rgba(201,168,76,.25);border-radius:20px;padding:28px">
+  <div style="max-width:480px;margin:0 auto;background:linear-gradient(135deg,#0D1E3A,#142848);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:28px">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px">
       <div style="font-family:'Cormorant Garamond',Georgia,serif;font-size:20px;font-weight:900;color:#fff">✏️ Edit Profile</div>
       <button onclick="closeMyProfile()" style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:50%;width:38px;height:38px;color:rgba(255,255,255,.4);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center">×</button>
@@ -2042,22 +2074,26 @@ body::before{
 <!-- ══ HERO ══ -->
 <section class="hero">
   <div class="hero-inner">
-    <div class="hero-eyebrow">BookAWeek · Nigeria's Reading Movement</div>
     <h1 class="hero-headline">
-      Books that build<br><strong>BookWarriors</strong>
+      Books for People<br>Who Actually <strong>Read.</strong>
     </h1>
     <p class="hero-sub">
-      Every title here has been read, reviewed and recommended
-      by real readers. Not an algorithm. Delivered across Nigeria.
+      A curated bookstore by BookAWeek. With a special section
+      of titles read, logged and reviewed by real BookWarriors.
+      Delivered across Nigeria.
     </p>
     <div class="hero-cta-row">
       <a href="#store" class="btn-primary">Shop the Collection</a>
-      <a href="#why" class="btn-ghost">Why We're Different</a>
+      <a href="#warrior-reads" class="btn-ghost">Warrior Reads</a>
     </div>
     <div class="hero-stats">
       <div class="h-stat">
+        <div class="h-stat-num">50+</div>
+        <div class="h-stat-lbl">Titles Available</div>
+      </div>
+      <div class="h-stat">
         <div class="h-stat-num">15+</div>
-        <div class="h-stat-lbl">Curated Titles</div>
+        <div class="h-stat-lbl">Warrior Reviewed</div>
       </div>
       <div class="h-stat">
         <div class="h-stat-num">6</div>
@@ -2065,11 +2101,7 @@ body::before{
       </div>
       <div class="h-stat">
         <div class="h-stat-num">48h</div>
-        <div class="h-stat-lbl">Typical Delivery</div>
-      </div>
-      <div class="h-stat">
-        <div class="h-stat-num">100%</div>
-        <div class="h-stat-lbl">Read-Verified</div>
+        <div class="h-stat-lbl">Nationwide Delivery</div>
       </div>
     </div>
   </div>
@@ -2078,29 +2110,27 @@ body::before{
 <!-- ══ PAIN POINTS STRIP ══ -->
 <div class="pain-strip">
   <div class="pain-track" id="painTrack">
-    <span class="pain-item">No more buying books that collect dust</span>
-    <span class="pain-item">Every book backed by real reader data</span>
+    <span class="pain-item">Curated books for serious readers</span>
+    <span class="pain-item">Select titles read and reviewed by BookWarriors</span>
     <span class="pain-item">Nationwide delivery across Nigeria</span>
     <span class="pain-item">Order in 60 seconds via WhatsApp</span>
-    <span class="pain-item">Curated by the Bookmentor — not an algorithm</span>
-    <span class="pain-item">Every purchase includes accountability access</span>
-    <span class="pain-item">Read it or exchange it — we guarantee results</span>
-    <span class="pain-item">No more buying books that collect dust</span>
-    <span class="pain-item">Every book backed by real reader data</span>
+    <span class="pain-item">Real Warrior reviews. Not algorithm rankings.</span>
+    <span class="pain-item">The BookAWeek reading community store</span>
+    <span class="pain-item">Curated books for serious readers</span>
+    <span class="pain-item">Select titles read and reviewed by BookWarriors</span>
     <span class="pain-item">Nationwide delivery across Nigeria</span>
     <span class="pain-item">Order in 60 seconds via WhatsApp</span>
-    <span class="pain-item">Curated by the Bookmentor — not an algorithm</span>
-    <span class="pain-item">Every purchase includes accountability access</span>
-    <span class="pain-item">Read it or exchange it — we guarantee results</span>
+    <span class="pain-item">Real Warrior reviews. Not algorithm rankings.</span>
+    <span class="pain-item">The BookAWeek reading community store</span>
   </div>
 </div>
 
 <!-- ══ BOOKMENTOR'S PICK ══ -->
-<section class="section">
+<section class="section" id="bookmentor-pick">
   <div class="section-inner">
-    <div class="section-eyebrow">This Month's Selection</div>
-    <h2 class="section-title">The Bookmentor's Pick</h2>
-    <p class="section-sub" style="margin-bottom:32px">One book. Hand-selected. For one reason: it will change how you think about money.</p>
+    <div class="section-eyebrow">BookMentor's Pick</div>
+    <h2 class="section-title">The Book of the Month</h2>
+    <p class="section-sub" style="margin-bottom:32px">Hand-selected by the BookMentor. One book. One reason. This month it is this.</p>
     <div class="pick-section">
       <div class="pick-inner">
         <div class="pick-cover-col">
@@ -2119,16 +2149,16 @@ body::before{
           </div>
         </div>
         <div class="pick-content">
-          <div class="pick-label">May 2026 Selection</div>
+          <div class="pick-label">Warrior Pick · June 2026</div>
           <h3 class="pick-title">The Psychology of Money</h3>
           <p class="pick-author">Morgan Housel</p>
           <div class="pick-warrior-data">
-            <div class="pwd"><strong id="pick-warriors">5</strong>Warriors read it</div>
-            <div class="pwd"><strong>11</strong>Avg days to finish</div>
-            <div class="pwd"><strong>4.8★</strong>Warrior rating</div>
+            <div class="pwd"><strong id="pick-warriors">5</strong><span>Warriors read it</span></div>
+            <div class="pwd"><strong>11</strong><span>Avg days to finish</span></div>
+            <div class="pwd"><strong>4.8★</strong><span>Warrior rating</span></div>
           </div>
           <div class="pick-insight">
-            "Doing well with money has little to do with how smart you are. It's about how you behave — and behaviour is hard to teach."
+            "Doing well with money has little to do with how smart you are. It's about how you behave and behaviour is hard to teach."
           </div>
           <div class="pick-price-row">
             <div>
@@ -2150,9 +2180,9 @@ body::before{
 <!-- ══ READING PATHWAYS ══ -->
 <section class="section" id="pathways">
   <div class="section-inner">
-    <div class="section-eyebrow">Curated Collections</div>
-    <h2 class="section-title">Shop by Transformation</h2>
-    <p class="section-sub">Don't shop by genre. Shop by who you want to become.</p>
+    <div class="section-eyebrow">Browse by Goal</div>
+    <h2 class="section-title">Shop by Who You're Becoming</h2>
+    <p class="section-sub">Every BookWarrior reads with intention. Find the shelf that matches yours.</p>
     <div class="pathway-grid">
       <div class="pathway-card pc-1" onclick="filterBooks('Leadership')">
         <div class="pathway-arrow">↗</div>
@@ -2194,9 +2224,9 @@ body::before{
 <section class="section" id="store">
   <div class="section-inner">
     <div class="section-eyebrow">The Collection</div>
-    <h2 class="section-title">Every Book, Proven.</h2>
+    <h2 class="section-title">The Full Catalogue</h2>
     <p class="section-sub" style="margin-bottom:32px">
-      Each title has been read, logged and reviewed by BookWarriors. Numbers don't lie.
+      Books for every kind of reader. Look for the <strong style="color:var(--brass2);font-weight:600">Warrior Reviewed</strong> badge those have been read and reviewed by a BookWarrior.
     </p>
     <!-- SEARCH BAR -->
     <div class="search-wrap">
@@ -2222,7 +2252,7 @@ body::before{
       <button class="filter-btn" onclick="filterBooks('Execution')">Execution</button>
       <button class="filter-btn" onclick="filterBooks('Biography')">Biography</button>
       <button class="filter-btn" onclick="filterBooks('Spiritual')">Spiritual</button>
-      <button onclick="openAdminPanel()" style="margin-left:auto;background:rgba(201,168,76,.1);color:var(--gold);border:1px solid rgba(201,168,76,.3);border-radius:100px;padding:8px 18px;font-family:'Inter',system-ui,sans-serif;font-size:12px;font-weight:700;cursor:pointer;letter-spacing:.05em;transition:all .25s" title="Bookmentor Admin Panel">⚙️ Admin</button>
+      <button onclick="openAdminPanel()" style="margin-left:auto;background:none;color:rgba(240,230,204,.4);border:1px solid rgba(255,255,255,.1);border-radius:4px;padding:7px 16px;font-family:'Inter',system-ui,sans-serif;font-size:11px;font-weight:500;cursor:pointer;letter-spacing:.08em;text-transform:uppercase;transition:all .15s" title="Bookmentor Admin Panel">Admin</button>
     </div>
     <div class="book-grid" id="bookGrid"></div>
     <!-- REQUEST A BOOK STRIP -->
@@ -2236,7 +2266,7 @@ body::before{
 
     <!-- HOW TO ADD BOOKS (visible only to admin) -->
     <div class="admin-section" id="adminGuide" style="display:none">
-      <div class="admin-title">🔧 Bookmentor Admin — Add a New Book</div>
+      <div class="admin-title">🔧 Bookmentor Admin Add a New Book</div>
       <div class="admin-sub">Adding a book takes 60 seconds. Find the CATALOG array in bookstore.html and add one entry. Here is the exact template:</div>
       <div class="code-block">{
   id: 'unique-book-id',          // no spaces, use hyphens
@@ -2263,7 +2293,7 @@ body::before{
           <div class="as-num">1</div>
           <div class="as-text">
             <div class="as-title">Open bookstore.html in any editor</div>
-            <div class="as-desc">Find the line that says <code style="color:var(--gold)">var CATALOG = [</code> — this is where all book data lives.</div>
+            <div class="as-desc">Find the line that says <code style="color:var(--gold)">var CATALOG = [</code> this is where all book data lives.</div>
           </div>
         </div>
         <div class="admin-step">
@@ -2283,7 +2313,7 @@ body::before{
         <div class="admin-step">
           <div class="as-num">4</div>
           <div class="as-text">
-            <div class="as-title">Upload to GitHub — live in 60 seconds</div>
+            <div class="as-title">Upload to GitHub live in 60 seconds</div>
             <div class="as-desc">Drag the updated bookstore.html to your GitHub repo. The store updates immediately. No server, no database, no deployment pipeline.</div>
           </div>
         </div>
@@ -2339,43 +2369,82 @@ body::before{
 <section class="section" id="why">
   <div class="section-inner">
     <div class="section-eyebrow">Why BookAWeek Store</div>
-    <h2 class="section-title">Every Pain Point.<br>Turned Into Your Profit.</h2>
+    <h2 class="section-title">A Bookstore with<br>Real Reader Credentials.</h2>
     <div class="why-grid">
       <div class="why-card">
-        <span class="why-icon">🎯</span>
-        <div class="why-title">Curation Over Volume</div>
-        <div class="why-text">Amazon has 40 million books. We have 24. Every one of ours has been read and logged by real BookWarriors. We don't guess what's good. We know.</div>
+        <span class="why-icon">📚</span>
+        <div class="why-title">Curated, Not Random</div>
+        <div class="why-text">Every book in this store was chosen with intention. For growth, for wealth, for discipline, for mindset. Not because it trended. Because it matters.</div>
+      </div>
+      <div class="why-card">
+        <span class="why-icon">⭐</span>
+        <div class="why-title">The Warrior Review Credential</div>
+        <div class="why-text">Select titles carry the Warrior Reviewed badge meaning a BookWarrior read it cover to cover, logged it, and left a real review. That's a different kind of recommendation.</div>
       </div>
       <div class="why-card">
         <span class="why-icon">📊</span>
-        <div class="why-title">Real Reader Data</div>
-        <div class="why-text">Every book shows actual stats from BookWarriors — hours logged, average completion days, insight count. Not star ratings from strangers. Accountability data.</div>
+        <div class="why-title">Real Data Behind the Badge</div>
+        <div class="why-text">Warrior Reviewed books show actual reader stats who read it, how long it took, and what insight they pulled. Not star ratings from strangers.</div>
       </div>
       <div class="why-card">
-        <span class="why-icon">🔥</span>
-        <div class="why-title">Built-In Accountability</div>
-        <div class="why-text">Every purchase auto-enrolls you in a reading accountability cohort. You don't just get the book. You get the system that guarantees you'll finish it.</div>
-      </div>
-      <div class="why-card">
-        <span class="why-icon">🚀</span>
+        <span class="why-icon">⚡</span>
         <div class="why-title">Order in 60 Seconds</div>
-        <div class="why-text">Name. Address. WhatsApp. Done. No accounts. No payment forms. No friction. Your order confirmation arrives on WhatsApp in under a minute.</div>
+        <div class="why-text">Name. Address. WhatsApp. Done. No accounts required, no payment forms, no friction. Your order confirmation lands on WhatsApp in under a minute.</div>
       </div>
       <div class="why-card">
         <span class="why-icon">📦</span>
         <div class="why-title">Nationwide Delivery</div>
-        <div class="why-text">Same-day delivery in Lagos. 48 hours anywhere in Nigeria. We ship to your door — not to a pickup point three streets away from where you need it.</div>
+        <div class="why-text">Delivered across Nigeria. Delivery details confirmed directly via WhatsApp after your order personal, not automated.</div>
       </div>
       <div class="why-card">
         <span class="why-icon">🔄</span>
-        <div class="why-title">The Read Guarantee</div>
-        <div class="why-text">Read it, log it in the app. If after 30 days of logging you feel it didn't transform your thinking — exchange it. No questions. That's how confident we are.</div>
+        <div class="why-title">The Warrior Guarantee</div>
+        <div class="why-text">For Warrior Reviewed titles: log your reading in the BookAWeek app. If after 30 days of real engagement the book did not shift your thinking, exchange it.</div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ══ CART DRAWER ══ -->
+<!-- ══ WARRIOR READS SECTION ══ -->
+<section class="section" id="warrior-reads" style="background:var(--ink3);border-top:1px solid rgba(255,255,255,.06);border-bottom:1px solid rgba(255,255,255,.06)">
+  <div class="section-inner">
+    <div class="section-eyebrow">BookWarrior Reviews</div>
+    <h2 class="section-title">Read. Logged. <em>Reviewed.</em></h2>
+    <p class="section-sub">These titles have been read cover to cover by a BookWarrior and left with a real review. Not a rating. When you see this badge on a book you are not guessing. You are buying from lived experience.</p>
+
+    <div style="margin-top:40px;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.06);">
+      <div style="background:var(--ink2);padding:28px 24px;display:flex;align-items:flex-start;gap:16px;">
+        <div style="font-size:28px;flex-shrink:0">📖</div>
+        <div>
+          <div style="font-family:'Cormorant Garamond',Georgia,serif;font-size:18px;font-weight:500;color:#fff;margin-bottom:6px">Actually Read</div>
+          <div style="font-size:14px;color:rgba(240,230,204,.45);line-height:1.65">Cover to cover. Not summarised. Not skimmed. Finished before the review was written.</div>
+        </div>
+      </div>
+      <div style="background:var(--ink2);padding:28px 24px;display:flex;align-items:flex-start;gap:16px;">
+        <div style="font-size:28px;flex-shrink:0">✍🏾</div>
+        <div>
+          <div style="font-family:'Cormorant Garamond',Georgia,serif;font-size:18px;font-weight:500;color:#fff;margin-bottom:6px">Personally Reviewed</div>
+          <div style="font-size:14px;color:rgba(240,230,204,.45);line-height:1.65">Each BookWarrior shares what they pulled from it. Real insight, not a plot summary.</div>
+        </div>
+      </div>
+      <div style="background:var(--ink2);padding:28px 24px;display:flex;align-items:flex-start;gap:16px;">
+        <div style="font-size:28px;flex-shrink:0">📊</div>
+        <div>
+          <div style="font-family:'Cormorant Garamond',Georgia,serif;font-size:18px;font-weight:500;color:#fff;margin-bottom:6px">Data Logged</div>
+          <div style="font-size:14px;color:rgba(240,230,204,.45);line-height:1.65">Reading time, completion stats and insights. All tracked in the BookAWeek app.</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:24px;padding:20px 24px;background:rgba(184,150,62,.08);border:1px solid rgba(184,150,62,.2);border-radius:4px;display:flex;align-items:center;gap:16px">
+      <div style="background:var(--brass);color:#07101E;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:5px 10px;border-radius:2px;flex-shrink:0">Warrior Reviewed</div>
+      <div style="font-size:14px;color:rgba(240,230,204,.6);line-height:1.6">Look for this badge on book cards throughout the store. It means a BookWarrior finished it, logged it and left a real review inside the book detail.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ WHY SECTION ══ -->
+
 <div class="cart-overlay" id="cartOverlay" onclick="closeCart()"></div>
 <div class="cart-drawer" id="cartDrawer">
   <!-- Mobile pull handle -->
@@ -2428,7 +2497,7 @@ body::before{
       <div class="co-two">
         <div class="co-field">
           <label class="co-label">State *</label>
-          <select class="co-input" id="co-state" style="color:var(--white);cursor:pointer">
+          <select class="co-input" id="co-state" style="color:#fff;cursor:pointer">
             <option value="" style="background:#0D1E3A">Select state</option>
             <option value="Lagos" style="background:#0D1E3A">Lagos</option>
             <option value="Abuja" style="background:#0D1E3A">Abuja (FCT)</option>
@@ -2453,7 +2522,7 @@ body::before{
         <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
         Order via WhatsApp
       </button>
-      <div class="co-or">— or pay with card —</div>
+      <div class="co-or"> or pay with card </div>
       <button class="paystack-btn" onclick="placeOrderPaystack()">
         💳 Pay with Card / Bank Transfer
       </button>
@@ -2477,45 +2546,45 @@ body::before{
 </div>
 
 <!-- ══ ADMIN PANEL MODAL ══ -->
-<div id="adminOverlay" onclick="if(event.target===this)closeAdminPanel()" style="display:none;position:fixed;inset:0;background:rgba(6,15,32,.92);backdrop-filter:blur(16px);z-index:500;overflow-y:auto;padding:16px;-webkit-overflow-scrolling:touch">
-  <div style="max-width:860px;margin:0 auto;background:linear-gradient(135deg,#0D1E3A,#142848);border:1px solid rgba(201,168,76,.25);border-radius:20px;overflow:hidden">
+<div id="adminOverlay" onclick="if(event.target===this)closeAdminPanel()" style="display:none;position:fixed;inset:0;background:rgba(4,10,20,.95);backdrop-filter:blur(20px);z-index:600;overflow-y:auto;padding:20px;-webkit-overflow-scrolling:touch">
+  <div style="max-width:900px;margin:0 auto;background:var(--ink2);border:1px solid rgba(255,255,255,.08);border-radius:8px;overflow:hidden">
     <!-- Header -->
-    <div style="display:flex;align-items:center;justify-content:space-between;padding:24px 28px;border-bottom:1px solid rgba(201,168,76,.15)">
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:24px 28px;border-bottom:1px solid rgba(255,255,255,.07)">
       <div>
-        <div style="font-family:'Cormorant Garamond',Georgia,serif;font-size:22px;font-weight:900;color:#fff">⚙️ Bookmentor Admin</div>
-        <div style="font-size:13px;color:rgba(245,237,216,.4);margin-top:4px">Add, edit and remove books from your store</div>
+        <div style="font-family:'Cormorant Garamond',Georgia,serif;font-size:22px;font-weight:400;letter-spacing:.03em;color:#fff">Bookmentor Admin</div>
+        <div style="font-size:12px;color:rgba(240,230,204,.35);margin-top:4px;letter-spacing:.05em">Manage books, orders and members</div>
       </div>
-      <button onclick="closeAdminPanel()" style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:50%;width:40px;height:40px;color:rgba(255,255,255,.5);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center">×</button>
+      <button onclick="closeAdminPanel()" style="background:none;border:1px solid rgba(255,255,255,.1);border-radius:4px;width:36px;height:36px;color:rgba(255,255,255,.4);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s" onmouseover="this.style.borderColor='rgba(255,255,255,.3)';this.style.color='#fff'" onmouseout="this.style.borderColor='rgba(255,255,255,.1)';this.style.color='rgba(255,255,255,.4)'">×</button>
     </div>
     <!-- Tab Bar -->
-    <div style="display:flex;border-bottom:1px solid rgba(201,168,76,.12)">
-      <button id="atab-add" onclick="switchAdminTab('add')" style="flex:1;padding:16px;background:rgba(201,168,76,.08);border:none;border-bottom:2px solid var(--gold);color:var(--gold);font-family:'Inter',system-ui,sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:all .25s">+ Add New Book</button>
-      <button id="atab-manage" onclick="switchAdminTab('manage')" style="flex:1;padding:16px;background:none;border:none;border-bottom:2px solid transparent;color:rgba(255,255,255,.4);font-family:'Inter',system-ui,sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:all .25s">📚 Manage Books</button>
-      <button id="atab-crm" onclick="switchAdminTab('crm')" style="flex:1;padding:16px;background:none;border:none;border-bottom:2px solid transparent;color:rgba(255,255,255,.4);font-family:'Inter',system-ui,sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:all .25s">👥 CRM</button>
+    <div style="display:flex;border-bottom:1px solid rgba(255,255,255,.07)">
+      <button id="atab-add" onclick="switchAdminTab('add')" style="flex:1;padding:15px;background:none;border:none;border-bottom:2px solid var(--brass);color:#fff;font-family:'Inter',system-ui,sans-serif;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:all .15s">Add Book</button>
+      <button id="atab-manage" onclick="switchAdminTab('manage')" style="flex:1;padding:15px;background:none;border:none;border-bottom:2px solid transparent;color:rgba(255,255,255,.35);font-family:'Inter',system-ui,sans-serif;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:all .15s">Manage Books</button>
+      <button id="atab-crm" onclick="switchAdminTab('crm')" style="flex:1;padding:15px;background:none;border:none;border-bottom:2px solid transparent;color:rgba(255,255,255,.35);font-family:'Inter',system-ui,sans-serif;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:all .15s">Members CRM</button>
     </div>
     <!-- Add Book Form -->
     <div id="adminTabAdd" style="padding:28px">
-      <div id="adminFormMsg" style="display:none;padding:12px 18px;border-radius:10px;margin-bottom:20px;font-size:14px;font-weight:600"></div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+      <div id="adminFormMsg" style="display:none;padding:12px 16px;border-radius:4px;margin-bottom:20px;font-size:13px;font-weight:500"></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:4px">
         <div style="display:flex;flex-direction:column;gap:6px">
-          <label style="font-size:12px;font-weight:700;color:var(--gold);letter-spacing:.08em;text-transform:uppercase">Book Title *</label>
-          <input id="af-title" type="text" placeholder="e.g. The Alchemist" style="background:rgba(255,255,255,.05);border:1px solid rgba(201,168,76,.2);border-radius:10px;padding:12px 14px;color:#fff;font-family:'Inter',system-ui,sans-serif;font-size:14px;outline:none;transition:border-color .25s" onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='rgba(201,168,76,.2)'">
+          <label style="font-size:11px;font-weight:500;color:rgba(240,230,204,.5);letter-spacing:.1em;text-transform:uppercase">Book Title *</label>
+          <input id="af-title" type="text" placeholder="e.g. The Alchemist" style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:4px;padding:12px 14px;color:#fff;font-family:'Inter',system-ui,sans-serif;font-size:14px;outline:none;transition:border-color .15s;width:100%;box-sizing:border-box" onfocus="this.style.borderColor='rgba(184,150,62,.5)'" onblur="this.style.borderColor='rgba(255,255,255,.1)'">
         </div>
         <div style="display:flex;flex-direction:column;gap:6px">
-          <label style="font-size:12px;font-weight:700;color:var(--gold);letter-spacing:.08em;text-transform:uppercase">Author *</label>
-          <input id="af-author" type="text" placeholder="e.g. Paulo Coelho" style="background:rgba(255,255,255,.05);border:1px solid rgba(201,168,76,.2);border-radius:10px;padding:12px 14px;color:#fff;font-family:'Inter',system-ui,sans-serif;font-size:14px;outline:none;transition:border-color .25s" onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='rgba(201,168,76,.2)'">
+          <label style="font-size:11px;font-weight:500;color:rgba(240,230,204,.5);letter-spacing:.1em;text-transform:uppercase">Author *</label>
+          <input id="af-author" type="text" placeholder="e.g. Paulo Coelho" style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:4px;padding:12px 14px;color:#fff;font-family:'Inter',system-ui,sans-serif;font-size:14px;outline:none;transition:border-color .15s;width:100%;box-sizing:border-box" onfocus="this.style.borderColor='rgba(184,150,62,.5)'" onblur="this.style.borderColor='rgba(255,255,255,.1)'">
         </div>
         <div style="display:flex;flex-direction:column;gap:6px">
-          <label style="font-size:12px;font-weight:700;color:var(--gold);letter-spacing:.08em;text-transform:uppercase">Price (₦) *</label>
-          <input id="af-price" type="number" placeholder="e.g. 4500" style="background:rgba(255,255,255,.05);border:1px solid rgba(201,168,76,.2);border-radius:10px;padding:12px 14px;color:#fff;font-family:'Inter',system-ui,sans-serif;font-size:14px;outline:none;transition:border-color .25s" onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='rgba(201,168,76,.2)'">
+          <label style="font-size:11px;font-weight:500;color:rgba(240,230,204,.5);letter-spacing:.1em;text-transform:uppercase">Price (₦) *</label>
+          <input id="af-price" type="number" placeholder="e.g. 4500" style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:4px;padding:12px 14px;color:#fff;font-family:'Inter',system-ui,sans-serif;font-size:14px;outline:none;transition:border-color .15s;width:100%;box-sizing:border-box" onfocus="this.style.borderColor='rgba(184,150,62,.5)'" onblur="this.style.borderColor='rgba(255,255,255,.1)'">
         </div>
         <div style="display:flex;flex-direction:column;gap:6px">
-          <label style="font-size:12px;font-weight:700;color:var(--gold);letter-spacing:.08em;text-transform:uppercase">Original Price (₦)</label>
-          <input id="af-origprice" type="number" placeholder="e.g. 6000" style="background:rgba(255,255,255,.05);border:1px solid rgba(201,168,76,.2);border-radius:10px;padding:12px 14px;color:#fff;font-family:'Inter',system-ui,sans-serif;font-size:14px;outline:none;transition:border-color .25s" onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='rgba(201,168,76,.2)'">
+          <label style="font-size:11px;font-weight:500;color:rgba(240,230,204,.5);letter-spacing:.1em;text-transform:uppercase">Original Price (₦)</label>
+          <input id="af-origprice" type="number" placeholder="e.g. 6000" style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:4px;padding:12px 14px;color:#fff;font-family:'Inter',system-ui,sans-serif;font-size:14px;outline:none;transition:border-color .15s;width:100%;box-sizing:border-box" onfocus="this.style.borderColor='rgba(184,150,62,.5)'" onblur="this.style.borderColor='rgba(255,255,255,.1)'">
         </div>
         <div style="display:flex;flex-direction:column;gap:6px">
-          <label style="font-size:12px;font-weight:700;color:var(--gold);letter-spacing:.08em;text-transform:uppercase">Category *</label>
-          <select id="af-cat" style="background:#0D1E3A;border:1px solid rgba(201,168,76,.2);border-radius:10px;padding:12px 14px;color:#fff;font-family:'Inter',system-ui,sans-serif;font-size:14px;outline:none;cursor:pointer">
+          <label style="font-size:11px;font-weight:500;color:rgba(240,230,204,.5);letter-spacing:.1em;text-transform:uppercase">Category *</label>
+          <select id="af-cat" style="background:#0D1E3A;border:1px solid rgba(255,255,255,.07);border-radius:10px;padding:12px 14px;color:#fff;font-family:'Inter',system-ui,sans-serif;font-size:14px;outline:none;cursor:pointer">
             <option value="">Select category</option>
             <option value="Finance">Finance</option>
             <option value="Leadership">Leadership</option>
@@ -2526,37 +2595,37 @@ body::before{
           </select>
         </div>
         <div style="display:flex;flex-direction:column;gap:6px">
-          <label style="font-size:12px;font-weight:700;color:var(--gold);letter-spacing:.08em;text-transform:uppercase">Badge</label>
-          <select id="af-badge" style="background:#0D1E3A;border:1px solid rgba(201,168,76,.2);border-radius:10px;padding:12px 14px;color:#fff;font-family:'Inter',system-ui,sans-serif;font-size:14px;outline:none;cursor:pointer">
+          <label style="font-size:11px;font-weight:500;color:rgba(240,230,204,.5);letter-spacing:.1em;text-transform:uppercase">Badge</label>
+          <select id="af-badge" style="background:#0D1E3A;border:1px solid rgba(255,255,255,.07);border-radius:10px;padding:12px 14px;color:#fff;font-family:'Inter',system-ui,sans-serif;font-size:14px;outline:none;cursor:pointer">
             <option value="">None</option>
-            <option value="bestseller">🔥 Bestseller</option>
+            <option value="bestseller">Warrior Reviewed</option>
             <option value="new">✨ New</option>
-            <option value="pick">★ Pick</option>
+            <option value="pick">Bookmentor's Pick</option>
           </select>
         </div>
         <div style="display:flex;flex-direction:column;gap:6px">
-          <label style="font-size:12px;font-weight:700;color:var(--gold);letter-spacing:.08em;text-transform:uppercase">Rating (0–5)</label>
-          <input id="af-rating" type="number" min="0" max="5" step="0.1" placeholder="e.g. 4.7" style="background:rgba(255,255,255,.05);border:1px solid rgba(201,168,76,.2);border-radius:10px;padding:12px 14px;color:#fff;font-family:'Inter',system-ui,sans-serif;font-size:14px;outline:none;transition:border-color .25s" onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='rgba(201,168,76,.2)'">
+          <label style="font-size:11px;font-weight:500;color:rgba(240,230,204,.5);letter-spacing:.1em;text-transform:uppercase">Rating (0–5)</label>
+          <input id="af-rating" type="number" min="0" max="5" step="0.1" placeholder="e.g. 4.7" style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:4px;padding:12px 14px;color:#fff;font-family:'Inter',system-ui,sans-serif;font-size:14px;outline:none;transition:border-color .15s;width:100%;box-sizing:border-box" onfocus="this.style.borderColor='rgba(184,150,62,.5)'" onblur="this.style.borderColor='rgba(255,255,255,.1)'">
         </div>
         <div style="display:flex;flex-direction:column;gap:6px">
-          <label style="font-size:12px;font-weight:700;color:var(--gold);letter-spacing:.08em;text-transform:uppercase">Cover Image URL</label>
-          <input id="af-cover" type="url" placeholder="https://... (OpenLibrary, Amazon, etc)" style="background:rgba(255,255,255,.05);border:1px solid rgba(201,168,76,.2);border-radius:10px;padding:12px 14px;color:#fff;font-family:'Inter',system-ui,sans-serif;font-size:14px;outline:none;transition:border-color .25s" onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='rgba(201,168,76,.2)'">
+          <label style="font-size:11px;font-weight:500;color:rgba(240,230,204,.5);letter-spacing:.1em;text-transform:uppercase">Cover Image URL</label>
+          <input id="af-cover" type="url" placeholder="https://... (OpenLibrary, Amazon, etc)" style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:4px;padding:12px 14px;color:#fff;font-family:'Inter',system-ui,sans-serif;font-size:14px;outline:none;transition:border-color .15s;width:100%;box-sizing:border-box" onfocus="this.style.borderColor='rgba(184,150,62,.5)'" onblur="this.style.borderColor='rgba(255,255,255,.1)'">
         </div>
         <div style="display:flex;flex-direction:column;gap:6px;grid-column:1/-1">
-          <label style="font-size:12px;font-weight:700;color:var(--gold);letter-spacing:.08em;text-transform:uppercase">Key Insight / Quote *</label>
-          <textarea id="af-insight" rows="2" placeholder="The most memorable line from this book..." style="background:rgba(255,255,255,.05);border:1px solid rgba(201,168,76,.2);border-radius:10px;padding:12px 14px;color:#fff;font-family:'Inter',system-ui,sans-serif;font-size:14px;outline:none;resize:vertical;transition:border-color .25s" onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='rgba(201,168,76,.2)'"></textarea>
+          <label style="font-size:11px;font-weight:500;color:rgba(240,230,204,.5);letter-spacing:.1em;text-transform:uppercase">Key Insight / Quote *</label>
+          <textarea id="af-insight" rows="2" placeholder="The most memorable line from this book..." style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:4px;padding:12px 14px;color:#fff;font-family:'Inter',system-ui,sans-serif;font-size:14px;outline:none;resize:vertical;transition:border-color .15s;width:100%;box-sizing:border-box" onfocus="this.style.borderColor='rgba(184,150,62,.5)'" onblur="this.style.borderColor='rgba(255,255,255,.1)'"></textarea>
         </div>
       </div>
       <div style="display:flex;gap:12px;margin-top:24px">
-        <button onclick="adminSaveBook()" style="flex:1;background:linear-gradient(135deg,var(--gold2),var(--gold));color:var(--navy);border:none;border-radius:100px;padding:15px;font-family:'Inter',system-ui,sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:all .25s" onmouseover="this.style.transform='translateY(-1px)'" onmouseout="this.style.transform=''">+ Add Book to Store</button>
-        <button onclick="adminResetForm()" style="background:rgba(255,255,255,.05);color:rgba(255,255,255,.4);border:1px solid rgba(255,255,255,.1);border-radius:100px;padding:15px 24px;font-family:'Inter',system-ui,sans-serif;font-size:14px;font-weight:600;cursor:pointer">Reset</button>
+        <button onclick="adminSaveBook()" style="flex:1;background:var(--brass2);color:#07101E;border:none;border-radius:4px;padding:14px;font-family:'Inter',system-ui,sans-serif;font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:background .15s">+ Add Book to Store</button>
+        <button onclick="adminResetForm()" style="background:none;color:rgba(255,255,255,.3);border:1px solid rgba(255,255,255,.1);border-radius:4px;padding:14px 20px;font-family:'Inter',system-ui,sans-serif;font-size:13px;font-weight:500;cursor:pointer;letter-spacing:.05em">Reset</button>
       </div>
     </div>
     <!-- Manage Books -->
     <div id="adminTabManage" style="display:none;padding:28px">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
         <div style="font-size:13px;color:rgba(245,237,216,.4)" id="adminBookCount"></div>
-        <button onclick="adminResetDefaults()" style="background:rgba(239,68,68,.08);color:#EF4444;border:1px solid rgba(239,68,68,.2);border-radius:8px;padding:7px 14px;font-family:'Inter',system-ui,sans-serif;font-size:12px;font-weight:600;cursor:pointer">↺ Reset to defaults</button>
+        <button onclick="adminResetDefaults()" style="background:none;color:rgba(239,68,68,.6);border:1px solid rgba(239,68,68,.2);border-radius:4px;padding:7px 14px;font-family:'Inter',system-ui,sans-serif;font-size:11px;font-weight:500;letter-spacing:.06em;cursor:pointer">Reset to defaults</button>
       </div>
       <div id="adminBookList" style="display:flex;flex-direction:column;gap:0;max-height:460px;overflow-y:auto"></div>
     </div>
@@ -2573,12 +2642,12 @@ body::before{
 
       <!-- Toolbar -->
       <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:14px">
-        <input class="crm-search" id="crmSearch" placeholder="🔍  Search by name, phone, email..." oninput="renderCrmTable()" style="flex:1;min-width:200px;margin-bottom:0">
+        <input class="crm-search" id="crmSearch" placeholder="Search by name, phone or email..." oninput="renderCrmTable()" style="flex:1;min-width:200px;margin-bottom:0">
         <button class="crm-export-btn" onclick="exportCrmCSV()">⬇ Export CSV</button>
-        <button onclick="loadCrmFromSheets()" style="padding:8px 16px;border-radius:100px;font-size:12px;font-weight:700;cursor:pointer;background:rgba(13,122,110,.15);color:#2dd4bf;border:1px solid rgba(13,122,110,.3)">↻ Sync Sheets</button>
+        <button onclick="loadCrmFromSheets()" style="padding:8px 16px;border-radius:4px;font-size:11px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;background:rgba(255,255,255,.04);color:rgba(240,230,204,.5);border:1px solid rgba(255,255,255,.1)">Sync Sheets</button>
       </div>
       <div class="crm-filter-row" id="crmFilterRow">
-        <button class="crm-filter-btn active" onclick="setCrmFilter('all',this)">All</button>
+        <button class="crm-filter-btn active" onclick="setCrmFilter('all',this)">All Members</button>
         <button class="crm-filter-btn" onclick="setCrmFilter('active',this)">✅ Active</button>
         <button class="crm-filter-btn" onclick="setCrmFilter('vip',this)">⭐ VIP</button>
         <button class="crm-filter-btn" onclick="setCrmFilter('pending',this)">⏳ Pending</button>
@@ -2610,11 +2679,11 @@ body::before{
       <div id="crmPagination" style="display:flex;justify-content:center;gap:8px;margin-top:16px"></div>
 
       <!-- Member Detail Drawer -->
-      <div id="crmMemberDrawer" style="display:none;position:fixed;inset:0;background:rgba(6,15,32,.96);backdrop-filter:blur(20px);z-index:700;overflow-y:auto;padding:16px" onclick="if(event.target===this)closeCrmDrawer()">
-        <div style="max-width:520px;margin:0 auto;background:linear-gradient(135deg,#0D1E3A,#142848);border:1px solid rgba(201,168,76,.25);border-radius:20px;padding:28px">
+      <div id="crmMemberDrawer" style="display:none;position:fixed;inset:0;background:rgba(4,10,20,.97);backdrop-filter:blur(20px);z-index:700;overflow-y:auto;padding:20px" onclick="if(event.target===this)closeCrmDrawer()">
+        <div style="max-width:520px;margin:0 auto;background:var(--ink2);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:28px">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
-            <div style="font-family:'Cormorant Garamond',Georgia,serif;font-size:18px;font-weight:900;color:#fff">👤 Member Profile</div>
-            <button onclick="closeCrmDrawer()" style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:50%;width:36px;height:36px;color:rgba(255,255,255,.4);cursor:pointer;font-size:16px">×</button>
+            <div style="font-family:'Cormorant Garamond',Georgia,serif;font-size:18px;font-weight:400;letter-spacing:.03em;color:#fff">Member Profile</div>
+            <button onclick="closeCrmDrawer()" style="background:none;border:1px solid rgba(255,255,255,.1);border-radius:4px;width:32px;height:32px;color:rgba(255,255,255,.4);cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center">×</button>
           </div>
           <div id="crmDrawerContent"></div>
         </div>
@@ -2630,7 +2699,7 @@ body::before{
     <div class="welcome-hero">
       <img src="https://i.imgur.com/EFOzI8H.png" class="welcome-logo" alt="BookAWeek">
       <div class="welcome-headline">Welcome to <em>BookAWeek</em> Store</div>
-      <div class="welcome-subline">Nigeria's #1 curated bookstore for serious readers. Join thousands of BookWarriors — create your free account in 60 seconds.</div>
+      <div class="welcome-subline">Nigeria's #1 curated bookstore for serious readers. Join thousands of BookWarriors create your free account in 60 seconds.</div>
     </div>
     <!-- Perks -->
     <div class="welcome-perks">
@@ -2715,12 +2784,12 @@ body::before{
 
       <div style="text-align:center;margin-top:16px;font-size:11px;color:rgba(245,237,216,.15);line-height:1.8">
         By continuing you agree to our Terms of Service.<br>
-        <span style="color:rgba(201,168,76,.3)">BookAWeek — We Read. We Reflect. We Execute.</span>
+        <span style="color:rgba(240,230,204,.25)">BookAWeek · We Read. We Reflect. We Execute.</span>
       </div>
       <!-- SKIP BUTTON -->
       <div style="text-align:center;margin-top:18px;padding-top:16px;border-top:1px solid rgba(255,255,255,.05)">
-        <button onclick="skipWelcomeSplash()" style="background:none;border:none;color:rgba(245,237,216,.2);font-family:'Inter',system-ui,sans-serif;font-size:12px;cursor:pointer;padding:8px 20px;border-radius:100px;transition:all .2s;text-decoration:underline;text-underline-offset:3px" onmouseover="this.style.color='rgba(245,237,216,.5)'" onmouseout="this.style.color='rgba(245,237,216,.2)'">
-          Skip for now — browse as guest
+        <button onclick="skipWelcomeSplash()" style="background:none;border:none;color:rgba(245,237,216,.2);font-family:'Inter',system-ui,sans-serif;font-size:12px;cursor:pointer;padding:8px 20px;border-radius:4px;transition:all .2s;text-decoration:underline;text-underline-offset:3px" onmouseover="this.style.color='rgba(245,237,216,.5)'" onmouseout="this.style.color='rgba(245,237,216,.2)'">
+          Skip for now browse as guest
         </button>
       </div>
     </div>
@@ -2733,7 +2802,7 @@ body::before{
     <span class="authgate-icon">🔐</span>
     <div class="authgate-title">Sign in to place your order</div>
     <div class="authgate-sub">
-      Just like Amazon and Jumia — you need a free account to checkout.<br>
+      Just like Amazon and Jumia you need a free account to checkout.<br>
       It takes <strong style="color:var(--gold)">60 seconds</strong> and your cart is saved.
     </div>
     <div class="authgate-btns">
@@ -2752,7 +2821,7 @@ body::before{
   📚 Added! <a onclick="openWelcomeSplash('register')">Create account</a> to checkout faster
 </div>
 <div id="editBookOverlay" onclick="if(event.target===this)closeEditModal()" style="display:none;position:fixed;inset:0;background:rgba(6,15,32,.96);backdrop-filter:blur(20px);z-index:600;overflow-y:auto;padding:16px;-webkit-overflow-scrolling:touch">
-  <div style="max-width:640px;margin:0 auto;background:linear-gradient(135deg,#0D1E3A,#142848);border:1px solid rgba(201,168,76,.25);border-radius:20px;padding:28px">
+  <div style="max-width:640px;margin:0 auto;background:linear-gradient(135deg,#0D1E3A,#142848);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:28px">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px">
       <div style="font-family:'Cormorant Garamond',Georgia,serif;font-size:20px;font-weight:900;color:#fff">✏️ Edit Book</div>
       <button onclick="closeEditModal()" style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:50%;width:36px;height:36px;color:rgba(255,255,255,.5);font-size:18px;cursor:pointer">×</button>
@@ -2761,23 +2830,23 @@ body::before{
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
       <div style="display:flex;flex-direction:column;gap:5px">
         <label style="font-size:11px;font-weight:700;color:var(--gold);letter-spacing:.08em;text-transform:uppercase">Title *</label>
-        <input id="edit-title" type="text" style="background:rgba(255,255,255,.05);border:1px solid rgba(201,168,76,.2);border-radius:10px;padding:11px 13px;color:#fff;font-family:'Inter',system-ui,sans-serif;font-size:14px;outline:none" onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='rgba(201,168,76,.2)'">
+        <input id="edit-title" type="text" style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.07);border-radius:10px;padding:11px 13px;color:#fff;font-family:'Inter',system-ui,sans-serif;font-size:14px;outline:none" onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='rgba(201,168,76,.2)'">
       </div>
       <div style="display:flex;flex-direction:column;gap:5px">
         <label style="font-size:11px;font-weight:700;color:var(--gold);letter-spacing:.08em;text-transform:uppercase">Author *</label>
-        <input id="edit-author" type="text" style="background:rgba(255,255,255,.05);border:1px solid rgba(201,168,76,.2);border-radius:10px;padding:11px 13px;color:#fff;font-family:'Inter',system-ui,sans-serif;font-size:14px;outline:none" onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='rgba(201,168,76,.2)'">
+        <input id="edit-author" type="text" style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.07);border-radius:10px;padding:11px 13px;color:#fff;font-family:'Inter',system-ui,sans-serif;font-size:14px;outline:none" onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='rgba(201,168,76,.2)'">
       </div>
       <div style="display:flex;flex-direction:column;gap:5px">
         <label style="font-size:11px;font-weight:700;color:var(--gold);letter-spacing:.08em;text-transform:uppercase">Price (₦) *</label>
-        <input id="edit-price" type="number" style="background:rgba(255,255,255,.05);border:1px solid rgba(201,168,76,.2);border-radius:10px;padding:11px 13px;color:#fff;font-family:'Inter',system-ui,sans-serif;font-size:14px;outline:none" onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='rgba(201,168,76,.2)'">
+        <input id="edit-price" type="number" style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.07);border-radius:10px;padding:11px 13px;color:#fff;font-family:'Inter',system-ui,sans-serif;font-size:14px;outline:none" onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='rgba(201,168,76,.2)'">
       </div>
       <div style="display:flex;flex-direction:column;gap:5px">
         <label style="font-size:11px;font-weight:700;color:var(--gold);letter-spacing:.08em;text-transform:uppercase">Original Price (₦)</label>
-        <input id="edit-origprice" type="number" style="background:rgba(255,255,255,.05);border:1px solid rgba(201,168,76,.2);border-radius:10px;padding:11px 13px;color:#fff;font-family:'Inter',system-ui,sans-serif;font-size:14px;outline:none" onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='rgba(201,168,76,.2)'">
+        <input id="edit-origprice" type="number" style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.07);border-radius:10px;padding:11px 13px;color:#fff;font-family:'Inter',system-ui,sans-serif;font-size:14px;outline:none" onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='rgba(201,168,76,.2)'">
       </div>
       <div style="display:flex;flex-direction:column;gap:5px">
         <label style="font-size:11px;font-weight:700;color:var(--gold);letter-spacing:.08em;text-transform:uppercase">Category *</label>
-        <select id="edit-cat" style="background:#0D1E3A;border:1px solid rgba(201,168,76,.2);border-radius:10px;padding:11px 13px;color:#fff;font-family:'Inter',system-ui,sans-serif;font-size:14px;outline:none;cursor:pointer">
+        <select id="edit-cat" style="background:#0D1E3A;border:1px solid rgba(255,255,255,.07);border-radius:10px;padding:11px 13px;color:#fff;font-family:'Inter',system-ui,sans-serif;font-size:14px;outline:none;cursor:pointer">
           <option value="Finance">Finance</option>
           <option value="Leadership">Leadership</option>
           <option value="Psychology">Psychology</option>
@@ -2788,24 +2857,24 @@ body::before{
       </div>
       <div style="display:flex;flex-direction:column;gap:5px">
         <label style="font-size:11px;font-weight:700;color:var(--gold);letter-spacing:.08em;text-transform:uppercase">Badge</label>
-        <select id="edit-badge" style="background:#0D1E3A;border:1px solid rgba(201,168,76,.2);border-radius:10px;padding:11px 13px;color:#fff;font-family:'Inter',system-ui,sans-serif;font-size:14px;outline:none;cursor:pointer">
+        <select id="edit-badge" style="background:#0D1E3A;border:1px solid rgba(255,255,255,.07);border-radius:10px;padding:11px 13px;color:#fff;font-family:'Inter',system-ui,sans-serif;font-size:14px;outline:none;cursor:pointer">
           <option value="">None</option>
-          <option value="bestseller">🔥 Bestseller</option>
+          <option value="bestseller">Warrior Reviewed</option>
           <option value="new">✨ New</option>
-          <option value="pick">★ Pick</option>
+          <option value="pick">Bookmentor's Pick</option>
         </select>
       </div>
       <div style="display:flex;flex-direction:column;gap:5px">
         <label style="font-size:11px;font-weight:700;color:var(--gold);letter-spacing:.08em;text-transform:uppercase">Rating</label>
-        <input id="edit-rating" type="number" min="0" max="5" step="0.1" style="background:rgba(255,255,255,.05);border:1px solid rgba(201,168,76,.2);border-radius:10px;padding:11px 13px;color:#fff;font-family:'Inter',system-ui,sans-serif;font-size:14px;outline:none" onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='rgba(201,168,76,.2)'">
+        <input id="edit-rating" type="number" min="0" max="5" step="0.1" style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.07);border-radius:10px;padding:11px 13px;color:#fff;font-family:'Inter',system-ui,sans-serif;font-size:14px;outline:none" onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='rgba(201,168,76,.2)'">
       </div>
       <div style="display:flex;flex-direction:column;gap:5px">
         <label style="font-size:11px;font-weight:700;color:var(--gold);letter-spacing:.08em;text-transform:uppercase">Cover Image URL</label>
-        <input id="edit-cover" type="url" style="background:rgba(255,255,255,.05);border:1px solid rgba(201,168,76,.2);border-radius:10px;padding:11px 13px;color:#fff;font-family:'Inter',system-ui,sans-serif;font-size:14px;outline:none" onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='rgba(201,168,76,.2)'">
+        <input id="edit-cover" type="url" style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.07);border-radius:10px;padding:11px 13px;color:#fff;font-family:'Inter',system-ui,sans-serif;font-size:14px;outline:none" onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='rgba(201,168,76,.2)'">
       </div>
       <div style="display:flex;flex-direction:column;gap:5px;grid-column:1/-1">
         <label style="font-size:11px;font-weight:700;color:var(--gold);letter-spacing:.08em;text-transform:uppercase">Key Insight</label>
-        <textarea id="edit-insight" rows="2" style="background:rgba(255,255,255,.05);border:1px solid rgba(201,168,76,.2);border-radius:10px;padding:11px 13px;color:#fff;font-family:'Inter',system-ui,sans-serif;font-size:14px;outline:none;resize:vertical" onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='rgba(201,168,76,.2)'"></textarea>
+        <textarea id="edit-insight" rows="2" style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.07);border-radius:10px;padding:11px 13px;color:#fff;font-family:'Inter',system-ui,sans-serif;font-size:14px;outline:none;resize:vertical" onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='rgba(201,168,76,.2)'"></textarea>
       </div>
     </div>
     <!-- ══ WARRIOR REVIEWS EDITOR ══ -->
@@ -2819,8 +2888,8 @@ body::before{
     </div>
 
     <div style="display:flex;gap:12px;margin-top:24px">
-      <button onclick="adminUpdateBook()" style="flex:1;background:linear-gradient(135deg,var(--gold2),var(--gold));color:var(--navy);border:none;border-radius:100px;padding:14px;font-family:'Inter',system-ui,sans-serif;font-size:14px;font-weight:700;cursor:pointer">Save Changes ✓</button>
-      <button onclick="closeEditModal()" style="background:rgba(255,255,255,.05);color:rgba(255,255,255,.4);border:1px solid rgba(255,255,255,.1);border-radius:100px;padding:14px 22px;font-family:'Inter',system-ui,sans-serif;font-size:13px;cursor:pointer">Cancel</button>
+      <button onclick="adminUpdateBook()" style="flex:1;background:var(--brass2);color:var(--navy);border:none;border-radius:4px;padding:14px;font-family:'Inter',system-ui,sans-serif;font-size:14px;font-weight:700;cursor:pointer">Save Changes ✓</button>
+      <button onclick="closeEditModal()" style="background:rgba(255,255,255,.05);color:rgba(255,255,255,.4);border:1px solid rgba(255,255,255,.1);border-radius:4px;padding:14px 22px;font-family:'Inter',system-ui,sans-serif;font-size:13px;cursor:pointer">Cancel</button>
     </div>
   </div>
 </div>
@@ -2888,7 +2957,7 @@ body::before{
 </div>
 
 <!-- ══ MOBILE FAB CART ══ -->
-<button id="mobileFab" onclick="openCart()" style="display:none;position:fixed;bottom:24px;right:20px;z-index:450;width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,var(--gold2),var(--gold));border:none;box-shadow:0 6px 24px rgba(201,168,76,.5);cursor:pointer;-webkit-tap-highlight-color:transparent;align-items:center;justify-content:center;flex-direction:column;gap:2px;transition:transform .2s ease">
+<button id="mobileFab" onclick="openCart()" style="display:none;position:fixed;bottom:24px;right:20px;z-index:450;width:60px;height:60px;border-radius:50%;background:var(--brass2);border:none;box-shadow:0 6px 24px rgba(201,168,76,.5);cursor:pointer;-webkit-tap-highlight-color:transparent;align-items:center;justify-content:center;flex-direction:column;gap:2px;transition:transform .2s ease">
   <span style="font-size:22px;line-height:1">🛒</span>
   <span id="fabCount" style="font-size:10px;font-weight:900;color:var(--navy);line-height:1;display:none"></span>
 </button>
@@ -2898,7 +2967,7 @@ body::before{
   <div class="footer-inner">
     <div>
       <div class="footer-logo">Book<span>AWeek</span></div>
-      <div class="footer-tagline">We Read. We Reflect. We Execute.</div>
+      <div class="footer-tagline">The BookAWeek Community Store.</div>
     </div>
     <div class="footer-links">
       <a href="index.html" class="footer-link">Home</a>
@@ -3019,7 +3088,7 @@ function showToast(msg, type) {
   var t = document.createElement('div');
   t.id = 'baw-toast';
   var bg = 'rgba(8,20,44,.97)';
-  var border = 'rgba(201,168,76,.3)';
+  var border = 'rgba(255,255,255,.1)';
   var color = '#fff';
   if (type === 'success') { border = 'rgba(34,197,94,.4)'; color = '#86efac'; }
   if (type === 'error')   { border = 'rgba(239,68,68,.45)'; color = '#fca5a5'; }
@@ -3030,7 +3099,7 @@ function showToast(msg, type) {
     'background:' + bg,
     'color:' + color,
     'padding:11px 22px',
-    'border-radius:100px',
+    'border-radius:4px',
     'border:1px solid ' + border,
     'font-family:Inter,system-ui,sans-serif',
     'font-size:13px','font-weight:700',
@@ -3098,7 +3167,7 @@ function renderBooks(filter) {
     card.id = 'card-' + book.id;
     card.setAttribute('data-cat', book.category);
 
-    var BADGE_LABELS = {bestseller:'🔥 Bestseller', new:'✨ New Arrival', pick:'⭐ Staff Pick'};
+    var BADGE_LABELS = {bestseller:'Warrior Reviewed', new:'Warrior Reviewed', pick:'Warrior Reviewed', warrior:'Warrior Reviewed'};
     var badgeLabel = BADGE_LABELS[book.badge] || book.badge;
     var badgeHTML = book.badge
       ? '<div class="book-card-badge badge-' + book.badge + '">' + badgeLabel + '</div>'
@@ -3575,7 +3644,7 @@ function renderAdminBookList() {
     return;
   }
   list.innerHTML = CATALOG.map(function(book) {
-    return '<div style="display:flex;align-items:center;gap:14px;padding:14px 16px;background:rgba(255,255,255,.04);border:1px solid rgba(201,168,76,.1);border-radius:12px;margin-bottom:8px">' +
+    return '<div style="display:flex;align-items:center;gap:14px;padding:14px 16px;background:rgba(255,255,255,.04);border:1px solid rgba(201,168,76,.1);border-radius:4px;margin-bottom:8px">' +
       '<div style="width:44px;height:56px;border-radius:6px;overflow:hidden;flex-shrink:0;background:linear-gradient(160deg,' + book.color1 + ',' + book.color2 + ')">' +
         (book.cover ? '<img src="' + book.cover + '" style="width:100%;height:100%;object-fit:cover" loading="lazy" onerror="this.style.display=\'none\'">' : '') +
       '</div>' +
@@ -3586,11 +3655,11 @@ function renderAdminBookList() {
       '</div>' +
       '<div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px;flex-shrink:0">' +
         '<div style="display:flex;gap:6px">' +
-          '<button onclick="openEditModal(\'' + book.id + '\')" style="background:rgba(201,168,76,.12);color:var(--gold);border:1px solid rgba(201,168,76,.25);border-radius:8px;padding:8px 14px;font-family:Inter,system-ui,sans-serif;font-size:12px;font-weight:700;cursor:pointer">✏️ Edit</button>' +
+          '<button onclick="openEditModal(\'' + book.id + '\')" style="background:rgba(201,168,76,.12);color:var(--gold);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:8px 14px;font-family:Inter,system-ui,sans-serif;font-size:12px;font-weight:700;cursor:pointer">✏️ Edit</button>' +
           '<button onclick="adminDeleteBook(\'' + book.id + '\')" style="background:rgba(239,68,68,.1);color:#EF4444;border:1px solid rgba(239,68,68,.25);border-radius:8px;padding:8px 14px;font-family:Inter,system-ui,sans-serif;font-size:12px;font-weight:700;cursor:pointer">✕</button>' +
         '</div>' +
         ((book.reviews && book.reviews.length > 0)
-          ? '<span style="font-size:10px;font-weight:700;color:var(--gold);background:rgba(201,168,76,.1);border-radius:100px;padding:3px 9px;letter-spacing:.04em;white-space:nowrap">⭐ ' + book.reviews.length + ' review' + (book.reviews.length !== 1 ? 's' : '') + '</span>'
+          ? '<span style="font-size:10px;font-weight:700;color:var(--gold);background:rgba(201,168,76,.1);border-radius:4px;padding:3px 9px;letter-spacing:.04em;white-space:nowrap">⭐ ' + book.reviews.length + ' review' + (book.reviews.length !== 1 ? 's' : '') + '</span>'
           : '<span style="font-size:10px;color:rgba(245,237,216,.2);padding:3px 9px">No reviews</span>'
         ) +
       '</div>' +
@@ -3717,7 +3786,7 @@ function openBookDetail(id) {
   var badge = document.getElementById('bdBadge');
   if (badge) {
     if (book.badge) {
-      var bLabels = {bestseller:'🔥 Bestseller', new:'✨ New', pick:'★ Pick'};
+      var bLabels = {bestseller:'Warrior Reviewed', new:'✨ New', pick:'★ Pick'};
       badge.textContent = bLabels[book.badge] || book.badge;
       badge.className = 'bd-hero-badge badge-' + book.badge;
       badge.style.display = '';
@@ -4524,7 +4593,7 @@ function openMyOrders() {
     list.innerHTML = orders.slice().reverse().map(function(o) {
       var d = new Date(o.createdAt);
       var books = (o.books || []).map(function(b){ return b.title + ' × ' + b.qty; }).join(', ');
-      return '<div style="padding:16px;background:rgba(255,255,255,.04);border:1px solid rgba(201,168,76,.1);border-radius:14px;margin-bottom:12px">' +
+      return '<div style="padding:16px;background:rgba(255,255,255,.04);border:1px solid rgba(201,168,76,.1);border-radius:6px;margin-bottom:12px">' +
         '<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap">' +
           '<div>' +
             '<div style="font-family:\'Playfair Display\',serif;font-size:14px;font-weight:700;color:#fff;margin-bottom:4px">' + books + '</div>' +
@@ -4536,7 +4605,7 @@ function openMyOrders() {
           '</div>' +
         '</div>' +
         '<div style="margin-top:10px;display:flex;gap:8px;align-items:center">' +
-          '<span style="display:inline-flex;padding:3px 10px;border-radius:100px;font-size:10px;font-weight:800;background:rgba(26,122,60,.2);color:#4ade80;border:1px solid rgba(26,122,60,.3)">' + (o.status||'confirmed').toUpperCase() + '</span>' +
+          '<span style="display:inline-flex;padding:3px 10px;border-radius:4px;font-size:10px;font-weight:800;background:rgba(26,122,60,.2);color:#4ade80;border:1px solid rgba(26,122,60,.3)">' + (o.status||'confirmed').toUpperCase() + '</span>' +
           '<span style="font-size:11px;color:rgba(245,237,216,.25)">Ref: ' + o.id + '</span>' +
         '</div>' +
       '</div>';
@@ -4776,7 +4845,7 @@ function renderCrmTable() {
       '<td style="color:var(--gold);font-weight:700">₦' + spent.toLocaleString() + '</td>' +
       '<td><span class="crm-badge ' + badgeCls + '">' + badgeLbl + '</span></td>' +
       '<td style="font-size:12px;white-space:nowrap">' + joined + '</td>' +
-      '<td><button onclick="openCrmDrawer(\'' + u.id + '\')" style="background:rgba(201,168,76,.1);color:var(--gold);border:1px solid rgba(201,168,76,.2);border-radius:8px;padding:5px 12px;font-family:\'DM Sans\',sans-serif;font-size:11px;font-weight:700;cursor:pointer">View</button></td>' +
+      '<td><button onclick="openCrmDrawer(\'' + u.id + '\')" style="background:rgba(255,255,255,.04);color:rgba(240,230,204,.6);border:1px solid rgba(255,255,255,.07);border-radius:8px;padding:5px 12px;font-family:\'DM Sans\',sans-serif;font-size:11px;font-weight:700;cursor:pointer">View</button></td>' +
     '</tr>';
   }).join('');
 
@@ -4823,34 +4892,34 @@ function openCrmDrawer(uid) {
 
   document.getElementById('crmDrawerContent').innerHTML =
     '<div style="text-align:center;margin-bottom:24px">' +
-      '<div style="width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,var(--gold2),var(--gold));color:var(--navy);font-size:24px;font-weight:900;display:flex;align-items:center;justify-content:center;margin:0 auto 12px">' + initials + '</div>' +
+      '<div style="width:64px;height:64px;border-radius:50%;background:var(--brass2);color:var(--navy);font-size:24px;font-weight:900;display:flex;align-items:center;justify-content:center;margin:0 auto 12px">' + initials + '</div>' +
       '<div style="font-family:\'Playfair Display\',serif;font-size:20px;font-weight:900;color:#fff">' + name + '</div>' +
       '<span class="' + statusBadge + '" style="margin-top:6px">' + statusLabel + '</span>' +
     '</div>' +
     '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px">' +
-      '<div style="background:rgba(255,255,255,.04);border-radius:12px;padding:14px">' +
+      '<div style="background:rgba(255,255,255,.04);border-radius:4px;padding:14px">' +
         '<div style="font-size:10px;color:rgba(245,237,216,.3);text-transform:uppercase;font-weight:700;letter-spacing:.08em;margin-bottom:4px">WhatsApp</div>' +
         '<a href="https://wa.me/' + (u.phone||'').replace(/\D/g,'') + '" target="_blank" style="color:var(--gold);font-weight:700;font-size:13px;text-decoration:none">' + (u.phone||'—') + ' 📲</a>' +
       '</div>' +
-      '<div style="background:rgba(255,255,255,.04);border-radius:12px;padding:14px">' +
+      '<div style="background:rgba(255,255,255,.04);border-radius:4px;padding:14px">' +
         '<div style="font-size:10px;color:rgba(245,237,216,.3);text-transform:uppercase;font-weight:700;letter-spacing:.08em;margin-bottom:4px">Email</div>' +
         '<div style="font-size:13px;color:rgba(245,237,216,.7)">' + (u.email||'—') + '</div>' +
       '</div>' +
-      '<div style="background:rgba(255,255,255,.04);border-radius:12px;padding:14px">' +
+      '<div style="background:rgba(255,255,255,.04);border-radius:4px;padding:14px">' +
         '<div style="font-size:10px;color:rgba(245,237,216,.3);text-transform:uppercase;font-weight:700;letter-spacing:.08em;margin-bottom:4px">City</div>' +
         '<div style="font-size:13px;color:rgba(245,237,216,.7)">' + (u.city||'—') + '</div>' +
       '</div>' +
-      '<div style="background:rgba(255,255,255,.04);border-radius:12px;padding:14px">' +
+      '<div style="background:rgba(255,255,255,.04);border-radius:4px;padding:14px">' +
         '<div style="font-size:10px;color:rgba(245,237,216,.3);text-transform:uppercase;font-weight:700;letter-spacing:.08em;margin-bottom:4px">Member Since</div>' +
         '<div style="font-size:13px;color:rgba(245,237,216,.7)">' + joined + '</div>' +
       '</div>' +
     '</div>' +
     '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:24px">' +
-      '<div style="background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.2);border-radius:12px;padding:16px;text-align:center">' +
+      '<div style="background:rgba(201,168,76,.08);border:1px solid rgba(255,255,255,.07);border-radius:4px;padding:16px;text-align:center">' +
         '<div style="font-family:\'Playfair Display\',serif;font-size:28px;font-weight:900;color:var(--gold)">' + (u.orders||0) + '</div>' +
         '<div style="font-size:11px;color:rgba(245,237,216,.4);margin-top:2px;text-transform:uppercase;font-weight:700;letter-spacing:.06em">Orders</div>' +
       '</div>' +
-      '<div style="background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.2);border-radius:12px;padding:16px;text-align:center">' +
+      '<div style="background:rgba(201,168,76,.08);border:1px solid rgba(255,255,255,.07);border-radius:4px;padding:16px;text-align:center">' +
         '<div style="font-family:\'Playfair Display\',serif;font-size:28px;font-weight:900;color:var(--gold)">₦' + (u.totalSpent||0).toLocaleString() + '</div>' +
         '<div style="font-size:11px;color:rgba(245,237,216,.4);margin-top:2px;text-transform:uppercase;font-weight:700;letter-spacing:.06em">Total Spent</div>' +
       '</div>' +
@@ -4858,8 +4927,8 @@ function openCrmDrawer(uid) {
     '<div style="font-size:13px;font-weight:800;color:rgba(245,237,216,.4);letter-spacing:.08em;text-transform:uppercase;margin-bottom:12px">Order History</div>' +
     ordersHtml +
     '<div style="display:flex;gap:10px;margin-top:20px">' +
-      '<a href="https://wa.me/' + (u.phone||'').replace(/\D/g,'') + '?text=' + encodeURIComponent('Hi ' + (u.fname||'') + ', thank you for being a BookWarrior! 📚') + '" target="_blank" style="flex:1;background:linear-gradient(135deg,#25D366,#128C7E);color:#fff;border:none;border-radius:100px;padding:12px;font-family:\'DM Sans\',sans-serif;font-size:13px;font-weight:700;cursor:pointer;text-align:center;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:6px">📲 Message on WhatsApp</a>' +
-      '<button onclick="deleteCrmUser(\'' + u.id + '\')" style="background:rgba(239,68,68,.1);color:#EF4444;border:1px solid rgba(239,68,68,.2);border-radius:100px;padding:12px 16px;font-family:\'DM Sans\',sans-serif;font-size:13px;font-weight:700;cursor:pointer">🗑</button>' +
+      '<a href="https://wa.me/' + (u.phone||'').replace(/\D/g,'') + '?text=' + encodeURIComponent('Hi ' + (u.fname||'') + ', thank you for being a BookWarrior! 📚') + '" target="_blank" style="flex:1;background:linear-gradient(135deg,#25D366,#128C7E);color:#fff;border:none;border-radius:4px;padding:12px;font-family:\'DM Sans\',sans-serif;font-size:13px;font-weight:700;cursor:pointer;text-align:center;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:6px">📲 Message on WhatsApp</a>' +
+      '<button onclick="deleteCrmUser(\'' + u.id + '\')" style="background:rgba(239,68,68,.1);color:#EF4444;border:1px solid rgba(239,68,68,.2);border-radius:4px;padding:12px 16px;font-family:\'DM Sans\',sans-serif;font-size:13px;font-weight:700;cursor:pointer">🗑</button>' +
     '</div>';
 
   document.getElementById('crmMemberDrawer').style.display = 'block';
@@ -5102,7 +5171,7 @@ function doGet(e) {
 ════════════════════════════════════════════════════════════════════
 */
 </script>
-<!-- Paystack inline script — add when you have your Paystack account -->
+<!-- Paystack inline script add when you have your Paystack account -->
 <!-- <script src="https://js.paystack.co/v1/inline.js"></script> -->
 </body>
 </html>
