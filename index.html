@@ -2139,34 +2139,38 @@ body::before{
               <div class="book-cover" style="background:linear-gradient(160deg,#1B2E1B 0%,#2D4A2D 40%,#1B2E1B 100%);min-height:300px;">
                 <div class="pick-badge">Bookmentor's Pick</div>
                 <div style="text-align:center;padding:20px 0 0;">
-                  <div style="font-size:11px;letter-spacing:.2em;color:rgba(255,255,255,.4);text-transform:uppercase;margin-bottom:12px">Morgan Housel</div>
-                  <div style="font-family:'Cormorant Garamond',Georgia,serif;font-size:18px;font-weight:900;color:#E8C56A;line-height:1.2;margin-bottom:8px">The Psychology<br>of Money</div>
+                  <div style="font-size:11px;letter-spacing:.2em;color:rgba(255,255,255,.4);text-transform:uppercase;margin-bottom:12px" id="pickCoverAuthor">Morgan Housel</div>
+                  <div style="font-family:'Cormorant Garamond',Georgia,serif;font-size:18px;font-weight:900;color:#E8C56A;line-height:1.2;margin-bottom:8px" id="pickCoverTitle">The Psychology<br>of Money</div>
                   <div style="width:40px;height:2px;background:#E8C56A;margin:0 auto 12px"></div>
-                  <div style="font-size:10px;color:rgba(255,255,255,.4);letter-spacing:.1em">TIMELESS LESSONS</div>
+                  <div style="font-size:10px;color:rgba(255,255,255,.4);letter-spacing:.1em">BOOKMENTOR PICK</div>
                 </div>
               </div>
             </div>
           </div>
         </div>
         <div class="pick-content">
-          <div class="pick-label">Warrior Pick · June 2026</div>
-          <h3 class="pick-title">The Psychology of Money</h3>
-          <p class="pick-author">Morgan Housel</p>
+          <div class="pick-label" id="pickMonthEl">Warrior Pick · June 2026</div>
+          <h3 class="pick-title" id="pickTitleEl">The Psychology of Money</h3>
+          <p class="pick-author" id="pickAuthorEl">Morgan Housel</p>
           <div class="pick-warrior-data">
-            <div class="pwd"><strong id="pick-warriors">5</strong><span>Warriors read it</span></div>
-            <div class="pwd"><strong>11</strong><span>Avg days to finish</span></div>
-            <div class="pwd"><strong>4.8★</strong><span>Warrior rating</span></div>
+            <div class="pwd"><strong id="pickWarriorsEl">5</strong><span>Warriors read it</span></div>
+            <div class="pwd"><strong id="pickDaysEl">11</strong><span>Avg days to finish</span></div>
+            <div class="pwd"><strong id="pickRatingEl">4.8★</strong><span>Warrior rating</span></div>
           </div>
-          <div class="pick-insight">
+          <div class="pick-insight" id="pickInsightEl">
             "Doing well with money has little to do with how smart you are. It's about how you behave and behaviour is hard to teach."
           </div>
           <div class="pick-price-row">
             <div>
-              <div class="pick-price">₦5,500 <span class="pick-price-old">₦7,000</span></div>
+              <div class="pick-price"><span id="pickPriceEl">₦5,500</span> <span class="pick-price-old" id="pickOrigPriceEl">₦7,000</span></div>
               <div style="font-size:11px;color:rgba(240,230,204,.3);margin-top:4px">Delivery confirmed via WhatsApp</div>
             </div>
-            <button class="btn-primary" onclick="addToCart('psychology-of-money','The Psychology of Money','Morgan Housel',5500,'#1B2E1B','#E8C56A')">
-              🛒 Add to Cart
+            <button id="pickAddToCartBtn" class="btn-primary"
+              data-title="The Psychology of Money"
+              data-author="Morgan Housel"
+              data-price="5500"
+              onclick="addToCart('psychology-of-money',this.getAttribute('data-title'),this.getAttribute('data-author'),parseFloat(this.getAttribute('data-price')),'#1B2E1B','#E8C56A')">
+              Add to Cart
             </button>
           </div>
         </div>
@@ -2560,6 +2564,7 @@ body::before{
     <div style="display:flex;border-bottom:1px solid rgba(255,255,255,.07)">
       <button id="atab-add" onclick="switchAdminTab('add')" style="flex:1;padding:15px;background:none;border:none;border-bottom:2px solid var(--brass);color:#fff;font-family:'Inter',system-ui,sans-serif;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:all .15s">Add Book</button>
       <button id="atab-manage" onclick="switchAdminTab('manage')" style="flex:1;padding:15px;background:none;border:none;border-bottom:2px solid transparent;color:rgba(255,255,255,.35);font-family:'Inter',system-ui,sans-serif;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:all .15s">Manage Books</button>
+      <button id="atab-pick" onclick="switchAdminTab('pick')" style="flex:1;padding:15px;background:none;border:none;border-bottom:2px solid transparent;color:rgba(255,255,255,.35);font-family:'Inter',system-ui,sans-serif;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:all .15s">Book of Month</button>
       <button id="atab-crm" onclick="switchAdminTab('crm')" style="flex:1;padding:15px;background:none;border:none;border-bottom:2px solid transparent;color:rgba(255,255,255,.35);font-family:'Inter',system-ui,sans-serif;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:all .15s">Members CRM</button>
     </div>
     <!-- Add Book Form -->
@@ -2628,6 +2633,86 @@ body::before{
         <button onclick="adminResetDefaults()" style="background:none;color:rgba(239,68,68,.6);border:1px solid rgba(239,68,68,.2);border-radius:4px;padding:7px 14px;font-family:'Inter',system-ui,sans-serif;font-size:11px;font-weight:500;letter-spacing:.06em;cursor:pointer">Reset to defaults</button>
       </div>
       <div id="adminBookList" style="display:flex;flex-direction:column;gap:0;max-height:460px;overflow-y:auto"></div>
+    </div>
+
+    <!-- ══ BOOKMENTOR'S PICK TAB ══ -->
+    <div id="adminTabPick" style="display:none;padding:28px">
+      <div style="margin-bottom:24px;padding-bottom:20px;border-bottom:1px solid rgba(255,255,255,.06)">
+        <div style="font-family:'Cormorant Garamond',Georgia,serif;font-size:20px;font-weight:400;color:#fff;margin-bottom:6px">BookMentor's Pick</div>
+        <div style="font-size:13px;color:rgba(240,230,204,.38);line-height:1.6">Update the featured Book of the Month shown on the homepage. Changes are saved instantly — no code needed.</div>
+      </div>
+
+      <div id="pickFormMsg" style="display:none;padding:11px 14px;border-radius:4px;margin-bottom:20px;font-size:13px;font-weight:500"></div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px">
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <label style="font-size:11px;font-weight:500;color:rgba(240,230,204,.5);letter-spacing:.1em;text-transform:uppercase">Book Title *</label>
+          <input id="pick-input-title" type="text" placeholder="e.g. The Psychology of Money" style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:4px;padding:12px 14px;color:#fff;font-family:'Inter',system-ui,sans-serif;font-size:14px;outline:none;width:100%;box-sizing:border-box;transition:border-color .15s" onfocus="this.style.borderColor='rgba(184,150,62,.5)'" onblur="this.style.borderColor='rgba(255,255,255,.1)'">
+        </div>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <label style="font-size:11px;font-weight:500;color:rgba(240,230,204,.5);letter-spacing:.1em;text-transform:uppercase">Author *</label>
+          <input id="pick-input-author" type="text" placeholder="e.g. Morgan Housel" style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:4px;padding:12px 14px;color:#fff;font-family:'Inter',system-ui,sans-serif;font-size:14px;outline:none;width:100%;box-sizing:border-box;transition:border-color .15s" onfocus="this.style.borderColor='rgba(184,150,62,.5)'" onblur="this.style.borderColor='rgba(255,255,255,.1)'">
+        </div>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <label style="font-size:11px;font-weight:500;color:rgba(240,230,204,.5);letter-spacing:.1em;text-transform:uppercase">Price (₦) *</label>
+          <input id="pick-input-price" type="number" placeholder="e.g. 5500" style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:4px;padding:12px 14px;color:#fff;font-family:'Inter',system-ui,sans-serif;font-size:14px;outline:none;width:100%;box-sizing:border-box;transition:border-color .15s" onfocus="this.style.borderColor='rgba(184,150,62,.5)'" onblur="this.style.borderColor='rgba(255,255,255,.1)'">
+        </div>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <label style="font-size:11px;font-weight:500;color:rgba(240,230,204,.5);letter-spacing:.1em;text-transform:uppercase">Original Price (₦)</label>
+          <input id="pick-input-origprice" type="number" placeholder="e.g. 7000" style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:4px;padding:12px 14px;color:#fff;font-family:'Inter',system-ui,sans-serif;font-size:14px;outline:none;width:100%;box-sizing:border-box;transition:border-color .15s" onfocus="this.style.borderColor='rgba(184,150,62,.5)'" onblur="this.style.borderColor='rgba(255,255,255,.1)'">
+        </div>
+        <div style="display:flex;flex-direction:column;gap:6px;grid-column:1/-1">
+          <label style="font-size:11px;font-weight:500;color:rgba(240,230,204,.5);letter-spacing:.1em;text-transform:uppercase">Cover Image URL</label>
+          <input id="pick-input-cover" type="url" placeholder="https://covers.openlibrary.org/... or any image URL" style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:4px;padding:12px 14px;color:#fff;font-family:'Inter',system-ui,sans-serif;font-size:14px;outline:none;width:100%;box-sizing:border-box;transition:border-color .15s" onfocus="this.style.borderColor='rgba(184,150,62,.5)'" onblur="this.style.borderColor='rgba(255,255,255,.1)'">
+        </div>
+        <div style="display:flex;flex-direction:column;gap:6px;grid-column:1/-1">
+          <label style="font-size:11px;font-weight:500;color:rgba(240,230,204,.5);letter-spacing:.1em;text-transform:uppercase">Key Insight / Pull Quote *</label>
+          <textarea id="pick-input-insight" rows="2" placeholder="The most powerful idea from this book..." style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:4px;padding:12px 14px;color:#fff;font-family:'Inter',system-ui,sans-serif;font-size:14px;outline:none;resize:vertical;width:100%;box-sizing:border-box;transition:border-color .15s" onfocus="this.style.borderColor='rgba(184,150,62,.5)'" onblur="this.style.borderColor='rgba(255,255,255,.1)'"></textarea>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <label style="font-size:11px;font-weight:500;color:rgba(240,230,204,.5);letter-spacing:.1em;text-transform:uppercase">Warriors Who Read It</label>
+          <input id="pick-input-warriors" type="number" min="1" max="6" placeholder="e.g. 5" style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:4px;padding:12px 14px;color:#fff;font-family:'Inter',system-ui,sans-serif;font-size:14px;outline:none;width:100%;box-sizing:border-box;transition:border-color .15s" onfocus="this.style.borderColor='rgba(184,150,62,.5)'" onblur="this.style.borderColor='rgba(255,255,255,.1)'">
+        </div>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <label style="font-size:11px;font-weight:500;color:rgba(240,230,204,.5);letter-spacing:.1em;text-transform:uppercase">Avg Days to Finish</label>
+          <input id="pick-input-days" type="number" min="1" placeholder="e.g. 11" style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:4px;padding:12px 14px;color:#fff;font-family:'Inter',system-ui,sans-serif;font-size:14px;outline:none;width:100%;box-sizing:border-box;transition:border-color .15s" onfocus="this.style.borderColor='rgba(184,150,62,.5)'" onblur="this.style.borderColor='rgba(255,255,255,.1)'">
+        </div>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <label style="font-size:11px;font-weight:500;color:rgba(240,230,204,.5);letter-spacing:.1em;text-transform:uppercase">Warrior Rating (e.g. 4.8)</label>
+          <input id="pick-input-rating" type="number" min="0" max="5" step="0.1" placeholder="e.g. 4.8" style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:4px;padding:12px 14px;color:#fff;font-family:'Inter',system-ui,sans-serif;font-size:14px;outline:none;width:100%;box-sizing:border-box;transition:border-color .15s" onfocus="this.style.borderColor='rgba(184,150,62,.5)'" onblur="this.style.borderColor='rgba(255,255,255,.1)'">
+        </div>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <label style="font-size:11px;font-weight:500;color:rgba(240,230,204,.5);letter-spacing:.1em;text-transform:uppercase">Month Label</label>
+          <input id="pick-input-month" type="text" placeholder="e.g. June 2026" style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:4px;padding:12px 14px;color:#fff;font-family:'Inter',system-ui,sans-serif;font-size:14px;outline:none;width:100%;box-sizing:border-box;transition:border-color .15s" onfocus="this.style.borderColor='rgba(184,150,62,.5)'" onblur="this.style.borderColor='rgba(255,255,255,.1)'">
+        </div>
+      </div>
+
+      <div style="display:flex;gap:12px;margin-top:8px">
+        <button onclick="savePickAdmin()" style="flex:1;background:var(--brass2);color:#07101E;border:none;border-radius:4px;padding:14px;font-family:'Inter',system-ui,sans-serif;font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:background .15s" onmouseover="this.style.background='var(--brass3)'" onmouseout="this.style.background='var(--brass2)'">Save Book of the Month</button>
+        <button onclick="loadPickAdmin()" style="background:none;color:rgba(255,255,255,.4);border:1px solid rgba(255,255,255,.1);border-radius:4px;padding:14px 20px;font-family:'Inter',system-ui,sans-serif;font-size:13px;font-weight:500;cursor:pointer;letter-spacing:.05em;white-space:nowrap" title="Reload current pick values">Reload Current</button>
+      </div>
+
+      <!-- Live preview -->
+      <div style="margin-top:28px;padding-top:24px;border-top:1px solid rgba(255,255,255,.06)">
+        <div style="font-size:11px;font-weight:500;color:rgba(240,230,204,.35);letter-spacing:.1em;text-transform:uppercase;margin-bottom:14px">Live Preview</div>
+        <div id="pickPreview" style="background:var(--ink3);border:1px solid rgba(255,255,255,.07);border-radius:6px;padding:20px;display:flex;gap:20px;align-items:flex-start">
+          <div id="pickPreviewCover" style="width:70px;flex-shrink:0;border-radius:2px 6px 6px 2px;overflow:hidden;box-shadow:-4px 0 0 rgba(0,0,0,.3),6px 8px 20px rgba(0,0,0,.5)">
+            <div style="width:70px;height:100px;background:var(--ink4);display:flex;align-items:center;justify-content:center;font-size:20px">📚</div>
+          </div>
+          <div style="flex:1;min-width:0">
+            <div style="font-size:10px;color:var(--brass);letter-spacing:.14em;text-transform:uppercase;margin-bottom:6px">Warrior Pick · <span id="pvMonth">June 2026</span></div>
+            <div id="pvTitle" style="font-family:'Cormorant Garamond',Georgia,serif;font-size:22px;font-weight:400;color:#fff;margin-bottom:3px">The Psychology of Money</div>
+            <div id="pvAuthor" style="font-size:13px;color:rgba(240,230,204,.4);margin-bottom:12px">Morgan Housel</div>
+            <div style="display:flex;gap:16px;margin-bottom:12px">
+              <span style="font-size:12px;color:rgba(240,230,204,.45)"><span id="pvWarriors" style="color:#fff;font-family:'Cormorant Garamond',Georgia,serif;font-size:16px">5</span> warriors</span>
+              <span style="font-size:12px;color:rgba(240,230,204,.45)"><span id="pvDays" style="color:#fff;font-family:'Cormorant Garamond',Georgia,serif;font-size:16px">11</span> avg days</span>
+              <span style="font-size:12px;color:rgba(240,230,204,.45)"><span id="pvRating" style="color:#fff;font-family:'Cormorant Garamond',Georgia,serif;font-size:16px">4.8★</span></span>
+            </div>
+            <div id="pvInsight" style="font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:14px;color:rgba(240,230,204,.5);border-left:2px solid rgba(184,150,62,.3);padding-left:12px;line-height:1.6">Getting wealthy and staying wealthy are two different skills.</div>
+            <div style="margin-top:12px"><span id="pvPrice" style="font-family:'Cormorant Garamond',Georgia,serif;font-size:22px;font-weight:400;color:#fff">₦5,500</span></div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- ══ CRM TAB ══ -->
@@ -3545,23 +3630,175 @@ function closeAdminPanel() {
 }
 
 function switchAdminTab(tab) {
-  var isAdd = tab === "add";
-  document.getElementById("adminTabAdd").style.display = isAdd ? "block" : "none";
-  document.getElementById("adminTabManage").style.display = isAdd ? "none" : "block";
-  var addBtn = document.getElementById("atab-add");
-  var manBtn = document.getElementById("atab-manage");
-  if (addBtn) {
-    addBtn.style.borderBottom = isAdd ? "2px solid var(--gold)" : "2px solid transparent";
-    addBtn.style.color = isAdd ? "var(--gold)" : "rgba(255,255,255,.4)";
-    addBtn.style.background = isAdd ? "rgba(201,168,76,.08)" : "none";
+  var tabs = ['add','manage','pick','crm'];
+  tabs.forEach(function(t) {
+    var btn = document.getElementById('atab-' + t);
+    var panel = document.getElementById('adminTab' + t.charAt(0).toUpperCase() + t.slice(1));
+    if (btn) {
+      btn.style.borderBottom = '2px solid transparent';
+      btn.style.color = 'rgba(255,255,255,.35)';
+      btn.style.background = 'none';
+    }
+    if (panel) panel.style.display = 'none';
+  });
+  var activeBtn = document.getElementById('atab-' + tab);
+  var activePanel = document.getElementById('adminTab' + tab.charAt(0).toUpperCase() + tab.slice(1));
+  if (activeBtn) {
+    activeBtn.style.borderBottom = '2px solid var(--brass)';
+    activeBtn.style.color = '#fff';
+    activeBtn.style.background = 'none';
   }
-  if (manBtn) {
-    manBtn.style.borderBottom = !isAdd ? "2px solid var(--gold)" : "2px solid transparent";
-    manBtn.style.color = !isAdd ? "var(--gold)" : "rgba(255,255,255,.4)";
-    manBtn.style.background = !isAdd ? "rgba(201,168,76,.08)" : "none";
-  }
-  if (!isAdd) renderAdminBookList();
+  if (activePanel) activePanel.style.display = 'block';
+  if (tab === 'manage') renderAdminBookList();
+  if (tab === 'crm') renderCrmTable();
+  if (tab === 'pick') loadPickAdmin();
 }
+
+// ── PICK ADMIN — save / load / preview ──
+var PICK_STORAGE_KEY = 'bm_pick_v1';
+
+function getPickData() {
+  try {
+    var saved = localStorage.getItem(PICK_STORAGE_KEY);
+    if (saved) return JSON.parse(saved);
+  } catch(e) {}
+  return {
+    title: 'The Psychology of Money',
+    author: 'Morgan Housel',
+    price: 5500,
+    origPrice: 7000,
+    cover: '',
+    insight: 'Getting wealthy and staying wealthy are two different skills.',
+    warriors: 5,
+    days: 11,
+    rating: 4.8,
+    month: 'June 2026'
+  };
+}
+
+function loadPickAdmin() {
+  var d = getPickData();
+  var set = function(id, val) { var el = document.getElementById(id); if(el) el.value = val || ''; };
+  set('pick-input-title',    d.title);
+  set('pick-input-author',   d.author);
+  set('pick-input-price',    d.price);
+  set('pick-input-origprice',d.origPrice || '');
+  set('pick-input-cover',    d.cover || '');
+  set('pick-input-insight',  d.insight);
+  set('pick-input-warriors', d.warriors);
+  set('pick-input-days',     d.days);
+  set('pick-input-rating',   d.rating);
+  set('pick-input-month',    d.month || 'June 2026');
+  updatePickPreview();
+  // Live preview on type
+  ['pick-input-title','pick-input-author','pick-input-price','pick-input-insight','pick-input-warriors','pick-input-days','pick-input-rating','pick-input-month','pick-input-cover'].forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el) el.oninput = updatePickPreview;
+  });
+}
+
+function updatePickPreview() {
+  var g = function(id) { var el = document.getElementById(id); return el ? el.value.trim() : ''; };
+  var title = g('pick-input-title') || 'Book Title';
+  var author = g('pick-input-author') || 'Author';
+  var price = g('pick-input-price') ? '\u20A6' + parseInt(g('pick-input-price')).toLocaleString() : '';
+  var insight = g('pick-input-insight') || 'Key insight will appear here...';
+  var warriors = g('pick-input-warriors') || '0';
+  var days = g('pick-input-days') || '0';
+  var rating = g('pick-input-rating') ? g('pick-input-rating') + '\u2605' : '0\u2605';
+  var month = g('pick-input-month') || 'Month Year';
+  var cover = g('pick-input-cover');
+
+  var setText = function(id, val) { var el = document.getElementById(id); if(el) el.textContent = val; };
+  setText('pvTitle', title);
+  setText('pvAuthor', author);
+  setText('pvPrice', price);
+  setText('pvInsight', insight);
+  setText('pvWarriors', warriors);
+  setText('pvDays', days);
+  setText('pvRating', rating);
+  setText('pvMonth', month);
+
+  if (cover) {
+    var coverEl = document.getElementById('pickPreviewCover');
+    if (coverEl) coverEl.innerHTML = '<img src="' + cover + '" style="width:70px;display:block;border-radius:2px 6px 6px 2px" onerror="this.style.display=\'none\'">';
+  }
+}
+
+function savePickAdmin() {
+  var g = function(id) { var el = document.getElementById(id); return el ? el.value.trim() : ''; };
+  var title = g('pick-input-title');
+  var author = g('pick-input-author');
+  var price = parseFloat(g('pick-input-price'));
+  var insight = g('pick-input-insight');
+
+  if (!title || !author || !price || !insight) {
+    pickShowMsg('Title, author, price and insight are required.', 'error'); return;
+  }
+
+  var data = {
+    title:    title,
+    author:   author,
+    price:    price,
+    origPrice: parseFloat(g('pick-input-origprice')) || Math.round(price * 1.3),
+    cover:    g('pick-input-cover'),
+    insight:  insight,
+    warriors: parseInt(g('pick-input-warriors')) || 5,
+    days:     parseInt(g('pick-input-days')) || 11,
+    rating:   parseFloat(g('pick-input-rating')) || 4.8,
+    month:    g('pick-input-month') || 'June 2026'
+  };
+
+  localStorage.setItem(PICK_STORAGE_KEY, JSON.stringify(data));
+  applyPickToPage(data);
+  pickShowMsg('Book of the Month updated successfully!', 'success');
+}
+
+function applyPickToPage(d) {
+  var setText = function(id, val) { var el = document.getElementById(id); if(el) el.textContent = val; };
+  var setHTML = function(id, val) { var el = document.getElementById(id); if(el) el.innerHTML = val; };
+  var setAttr = function(sel, attr, val) { var el = document.querySelector(sel); if(el) el[attr] = val; };
+
+  setText('pickTitleEl',   d.title);
+  setText('pickAuthorEl',  d.author);
+  setText('pickInsightEl', d.insight);
+  setText('pickPriceEl',   '\u20A6' + d.price.toLocaleString());
+  setText('pickOrigPriceEl', d.origPrice ? '\u20A6' + d.origPrice.toLocaleString() : '');
+  setText('pickWarriorsEl', d.warriors);
+  setText('pickDaysEl',    d.days);
+  setText('pickRatingEl',  d.rating + '\u2605');
+  setText('pickMonthEl',   'Warrior Pick \u00B7 ' + d.month);
+
+  if (d.cover) {
+    var img = document.getElementById('pickCoverImg');
+    if (img) img.src = d.cover;
+  }
+
+  // Update pick add-to-cart data
+  var pickBtn = document.getElementById('pickAddToCartBtn');
+  if (pickBtn) {
+    pickBtn.setAttribute('data-title', d.title);
+    pickBtn.setAttribute('data-author', d.author);
+    pickBtn.setAttribute('data-price', d.price);
+  }
+}
+
+function pickShowMsg(msg, type) {
+  var el = document.getElementById('pickFormMsg');
+  if (!el) return;
+  el.style.display = 'block';
+  el.style.background = type === 'success' ? 'rgba(26,107,60,.15)' : 'rgba(180,30,30,.15)';
+  el.style.border = '1px solid ' + (type === 'success' ? 'rgba(26,107,60,.3)' : 'rgba(180,30,30,.3)');
+  el.style.color = type === 'success' ? '#4ade80' : '#f87171';
+  el.textContent = msg;
+  setTimeout(function(){ el.style.display = 'none'; }, 4000);
+}
+
+// Load pick on page startup
+(function() {
+  var d = getPickData();
+  if (d) applyPickToPage(d);
+})();
 
 function adminShowMsg(msg, type) {
   var el = document.getElementById("adminFormMsg");
@@ -4725,23 +4962,6 @@ var _crmUsers   = [];
 var _crmFilter  = 'all';
 var _crmPage    = 0;
 var CRM_PER_PAGE = 20;
-
-function switchAdminTab(tab) {
-  var tabs = ['add','manage','crm'];
-  tabs.forEach(function(t) {
-    var btn  = document.getElementById('atab-' + t);
-    var body = document.getElementById('adminTab' + t.charAt(0).toUpperCase() + t.slice(1));
-    var active = (t === tab);
-    if (btn) {
-      btn.style.background   = active ? 'rgba(201,168,76,.08)' : 'none';
-      btn.style.borderBottom = active ? '2px solid var(--gold)' : '2px solid transparent';
-      btn.style.color        = active ? 'var(--gold)' : 'rgba(255,255,255,.4)';
-    }
-    if (body) body.style.display = active ? 'block' : 'none';
-  });
-  if (tab === 'manage') renderAdminBookList();
-  if (tab === 'crm')    loadCrmData();
-}
 
 function loadCrmData() {
   _crmUsers = getUsers().map(stripPassword);
