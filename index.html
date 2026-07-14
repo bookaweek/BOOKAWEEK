@@ -4509,7 +4509,7 @@ function handleRegister() {
     phone:phone, email:email, password:pass,
     city:city, consent:consent
   }, function(res) {
-    btn.disabled = false; btn.textContent = 'Create Account 🚀';
+    btn.disabled = false; btn.textContent = 'Create Account';
     if (res.success) {
       saveSession(res.user);
       authApply(res.user);
@@ -4523,8 +4523,9 @@ function handleRegister() {
       showAuthMsg(res.error || 'Registration failed. Try again.');
     }
   }, function(err) {
-    btn.disabled = false; btn.textContent = 'Create Account 🚀';
-    showAuthMsg((err && err.error) || 'Network error. Please try again.');
+    btn.disabled = false; btn.textContent = 'Create Account';
+    var msg = (err && err.error) || 'Could not connect. Please check your internet and try again.';
+    showAuthMsg(msg);
   });
 }
 
@@ -5234,9 +5235,19 @@ function handleAction(data) {
   if (action === "register") {
     var sh = getOrCreateSheet("📋 USERS", ["ID","First Name","Last Name","WhatsApp","Email","City","Password","Status","Orders","Total Spent","Consent","Source","Joined"]);
     var rows = sh.getDataRange().getValues();
+    var incomingEmail = (data.email || "").toString().trim().toLowerCase();
+    var incomingPhone = (data.phone || "").toString().trim().replace(/\s+/g, "");
     for (var i = 1; i < rows.length; i++) {
-      if (rows[i][4] === data.email || rows[i][3] === data.phone)
-        return {error:"An account with this email or WhatsApp already exists."};
+      var rowEmail = (rows[i][4] || "").toString().trim().toLowerCase();
+      var rowPhone = (rows[i][3] || "").toString().trim().replace(/\s+/g, "");
+      // Skip blank rows or rows with no real data
+      if (!rowEmail && !rowPhone) continue;
+      if (rows[i][0] === "" || rows[i][0] === null) continue;
+      // Only flag duplicate if both email AND phone match, or if email matches a real account
+      if (rowEmail && incomingEmail && rowEmail === incomingEmail)
+        return {error: "An account with this email already exists. Please sign in instead."};
+      if (rowPhone && incomingPhone && rowPhone === incomingPhone)
+        return {error: "An account with this WhatsApp number already exists. Please sign in instead."};
     }
     var id = "u_" + Date.now();
     sh.appendRow([id, data.fname, data.lname, data.phone, data.email, data.city||"", data.password, "active", 0, 0, data.consent, "store", new Date().toISOString()]);
