@@ -4278,7 +4278,7 @@ window.onload = function() {
 // ════════════════════════════════════════════════════════════
 // 🌐 GOOGLE APPS SCRIPT — Single Source of Truth (cross-device)
 // ════════════════════════════════════════════════════════════
-var GAS_URL = 'https://script.google.com/macros/s/AKfycbzLe8tZaglLquCRAGCDDKE6z_1ZVAh0PkAX9oNfPIPneRDxSyonkwqj-GfZ4-vSFTy8/exec';
+var GAS_URL = 'https://script.google.com/macros/s/AKfycbz7lw2yJ1O_XnKMjUxTIIL0NmZjaZfFkyILRaf_U2sTI8dKgB_2vUKyu5gqAw5jf8qm/exec';
 
 // ════════════════════════════════════════════════════════════
 // 💾 SESSION & LOCAL CACHE
@@ -4315,69 +4315,49 @@ function stripPassword(u) {
 }
 
 // ════════════════════════════════════════════════════════════
-// 🚀 GAS BRIDGE — JSONP (bypasses CORS completely)
-// Uses script tag injection — 100% reliable across all browsers
+// 🚀 GAS BRIDGE — JSONP only (script tag injection)
+// GAS deployed as Web App returns: callbackName({...})
+// This bypasses CORS completely on all browsers/devices
 // ════════════════════════════════════════════════════════════
-var _gasCallbacks = {};
 var _gasCallbackId = 0;
 
 function gasRequest(payload, onSuccess, onError) {
   _gasCallbackId++;
-  var cbName = '_gasCb_' + _gasCallbackId;
+  var cbName = '__gasCb' + _gasCallbackId;
 
-  // Timeout safety — 15 seconds
+  // 20 second timeout
   var timer = setTimeout(function() {
-    if (window[cbName]) {
-      delete window[cbName];
-      var tag = document.getElementById(cbName);
-      if (tag) tag.parentNode.removeChild(tag);
-      onError({ error: 'Request timed out. Please check your connection.' });
-    }
-  }, 15000);
+    cleanup();
+    onError({ error: 'Request timed out. Check your internet connection and try again.' });
+  }, 20000);
+
+  function cleanup() {
+    clearTimeout(timer);
+    try { delete window[cbName]; } catch(e) {}
+    var tag = document.getElementById(cbName);
+    if (tag && tag.parentNode) tag.parentNode.removeChild(tag);
+  }
 
   window[cbName] = function(data) {
-    clearTimeout(timer);
-    delete window[cbName];
-    var tag = document.getElementById(cbName);
-    if (tag) tag.parentNode.removeChild(tag);
-    if (data && data.error) { onError(data); }
-    else { onSuccess(data); }
+    cleanup();
+    if (data && data.error) onError(data);
+    else onSuccess(data || {});
   };
 
-  payload.callback = cbName;
-  var encoded = encodeURIComponent(JSON.stringify(payload));
-  var url = GAS_URL + '?data=' + encoded + '&cb=' + cbName;
+  // Build JSONP URL — GAS reads ?data= and ?cb= params
+  var p = JSON.parse(JSON.stringify(payload)); // clone
+  p.callback = cbName;
+  var url = GAS_URL + '?cb=' + cbName + '&data=' + encodeURIComponent(JSON.stringify(p));
 
   var script = document.createElement('script');
-  script.id  = cbName;
+  script.id = cbName;
   script.src = url;
   script.onerror = function() {
-    clearTimeout(timer);
-    delete window[cbName];
-    if (script.parentNode) script.parentNode.removeChild(script);
-    // Fallback: try fetch with no-cors workaround
-    gasRequestFetch(payload, onSuccess, onError);
+    cleanup();
+    // Script load error — most likely the GAS URL is wrong or not deployed
+    onError({ error: 'Could not reach BookAWeek server. Make sure you are connected to the internet. If the problem continues, contact support.' });
   };
   document.head.appendChild(script);
-}
-
-// Fetch fallback (secondary attempt)
-function gasRequestFetch(payload, onSuccess, onError) {
-  delete payload.callback;
-  var encoded = encodeURIComponent(JSON.stringify(payload));
-  var url = GAS_URL + '?data=' + encoded;
-  fetch(url, { method: 'GET', redirect: 'follow' })
-    .then(function(r) { return r.text(); })
-    .then(function(t) {
-      // GAS sometimes wraps in callback, strip it
-      var json = t.replace(/^[^(]+\(/, '').replace(/\);?\s*$/, '');
-      var data = JSON.parse(json);
-      if (data && data.error) onError(data);
-      else onSuccess(data);
-    })
-    .catch(function(e) {
-      onError({ error: 'Cannot reach server. Please check your internet connection.' });
-    });
 }
 
 // ════════════════════════════════════════════════════════════
@@ -5210,14 +5190,6 @@ function exportCrmCSV() {
    📦 ORDERS   → auto-created
 ════════════════════════════════════════════════════════════════════
 
-function doGet(e) {
-  var data = JSON.parse(decodeURIComponent(e.parameter.data || "{}"));
-  var result = handleAction(data);
-  return ContentService
-    .createTextOutput(JSON.stringify(result))
-    .setMimeType(ContentService.MimeType.JSON);
-}
-
 function getOrCreateSheet(name, headers) {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
   var sh = ss.getSheetByName(name);
@@ -5370,15 +5342,16 @@ function handleAction(data) {
 function doGet(e) {
   var data = {};
   try { data = JSON.parse(decodeURIComponent(e.parameter.data || "{}")); } catch(ex) {}
-  var cb = e.parameter.cb || data.callback || null;
+  var cb = e.parameter.cb || e.parameter.callback || data.callback || null;
   var result = handleAction(data);
   var output = JSON.stringify(result);
   if (cb) {
-    // JSONP response — wraps in callback function call
+    // JSONP — browser executes this as a script
     return ContentService
       .createTextOutput(cb + "(" + output + ");")
       .setMimeType(ContentService.MimeType.JAVASCRIPT);
   }
+  // Plain JSON fallback
   return ContentService
     .createTextOutput(output)
     .setMimeType(ContentService.MimeType.JSON);
