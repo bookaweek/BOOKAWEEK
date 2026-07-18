@@ -3271,8 +3271,8 @@ function renderBooks(filter) {
 
     var coverInner = book.cover
       ? '<img src="' + book.cover + '" alt="' + book.title.replace(/"/g,"'") + '" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s ease" loading="lazy" onerror="this.style.display=\'none\';this.nextSibling.style.display=\'flex\'">' +
-        '<div style="display:none;background:linear-gradient(160deg,' + book.color1 + ',' + book.color2 + ');height:240px;flex-direction:column;align-items:center;justify-content:flex-end;padding:16px 14px"><div style="font-size:9px;letter-spacing:.15em;color:rgba(255,255,255,.35);text-transform:uppercase;margin-bottom:8px">' + book.author + '</div><div style="font-family:Playfair Display,serif;font-size:14px;font-weight:900;color:' + book.textColor + ';text-align:center;line-height:1.2">' + book.title + '</div></div>'
-      : '<div style="background:linear-gradient(160deg,' + book.color1 + ',' + book.color2 + ');height:240px;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding:16px 14px"><div style="font-size:9px;letter-spacing:.15em;color:rgba(255,255,255,.35);text-transform:uppercase;margin-bottom:8px">' + book.author + '</div><div style="font-family:Playfair Display,serif;font-size:14px;font-weight:900;color:' + book.textColor + ';text-align:center;line-height:1.2">' + book.title + '</div></div>';
+        '<div style="display:none;background:linear-gradient(160deg,' + book.color1 + ',' + book.color2 + ');height:240px;flex-direction:column;align-items:center;justify-content:flex-end;padding:16px 14px"><div style="font-size:9px;letter-spacing:.15em;color:rgba(255,255,255,.35);text-transform:uppercase;margin-bottom:8px">' + book.author + '</div><div style="font-family:Cormorant Garamond,Georgia,serif;font-size:14px;font-weight:900;color:' + book.textColor + ';text-align:center;line-height:1.2">' + book.title + '</div></div>'
+      : '<div style="background:linear-gradient(160deg,' + book.color1 + ',' + book.color2 + ');height:240px;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding:16px 14px"><div style="font-size:9px;letter-spacing:.15em;color:rgba(255,255,255,.35);text-transform:uppercase;margin-bottom:8px">' + book.author + '</div><div style="font-family:Cormorant Garamond,Georgia,serif;font-size:14px;font-weight:900;color:' + book.textColor + ';text-align:center;line-height:1.2">' + book.title + '</div></div>';
 
     var coverHTML = '<div style="height:240px;overflow:hidden;position:relative;background:linear-gradient(160deg,' + book.color1 + ',' + book.color2 + ')">' + coverInner + '</div>';
 
@@ -3415,7 +3415,7 @@ function updateCartUI() {
   if (totalEl) totalEl.textContent = "\u20A6" + total.toLocaleString();
   itemsEl.innerHTML = cart.map(function(item){
     return '<div class="cart-item">' +
-      '<div class="ci-cover" style="background:linear-gradient(160deg,' + item.color + ',' + item.color + ');display:flex;align-items:flex-end;padding:8px"><div style="font-family:Playfair Display,serif;font-size:9px;font-weight:700;color:' + item.textColor + ';line-height:1.2">' + item.title.split(':')[0] + '</div></div>' +
+      '<div class="ci-cover" style="background:linear-gradient(160deg,' + item.color + ',' + item.color + ');display:flex;align-items:flex-end;padding:8px"><div style="font-family:Cormorant Garamond,Georgia,serif;font-size:9px;font-weight:700;color:' + item.textColor + ';line-height:1.2">' + item.title.split(':')[0] + '</div></div>' +
       '<div class="ci-info">' +
         '<div class="ci-title">' + item.title + '</div>' +
         '<div class="ci-author">' + item.author + '</div>' +
@@ -3650,7 +3650,7 @@ function switchAdminTab(tab) {
   }
   if (activePanel) activePanel.style.display = 'block';
   if (tab === 'manage') renderAdminBookList();
-  if (tab === 'crm') renderCrmTable();
+  if (tab === 'crm') loadCrmData();
   if (tab === 'pick') loadPickAdmin();
 }
 
@@ -3886,7 +3886,7 @@ function renderAdminBookList() {
         (book.cover ? '<img src="' + book.cover + '" style="width:100%;height:100%;object-fit:cover" loading="lazy" onerror="this.style.display=\'none\'">' : '') +
       '</div>' +
       '<div style="flex:1;min-width:0">' +
-        '<div style="font-family:Playfair Display,serif;font-size:14px;font-weight:700;color:#fff;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + book.title + '</div>' +
+        '<div style="font-family:Cormorant Garamond,Georgia,serif;font-size:14px;font-weight:700;color:#fff;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + book.title + '</div>' +
         '<div style="font-size:12px;color:rgba(245,237,216,.4);margin-top:2px">' + book.author + ' &middot; ' + book.category + '</div>' +
         '<div style="font-size:13px;color:var(--gold);font-weight:700;margin-top:4px">₦' + book.price.toLocaleString() + '</div>' +
       '</div>' +
@@ -4278,7 +4278,34 @@ window.onload = function() {
 // ════════════════════════════════════════════════════════════
 // 🌐 GOOGLE APPS SCRIPT — Single Source of Truth (cross-device)
 // ════════════════════════════════════════════════════════════
-var GAS_URL = 'https://script.google.com/macros/s/AKfycbwz8LsXGX4b3_f8jAluQB8KMFbwAm6hzAP0fGDYjdiPV4vXc9ejPkvXB6MqvCoC_AoF/exec';
+// ── PASTE YOUR NEW GAS URL HERE AFTER REDEPLOYING ──
+var GAS_URL = 'https://script.google.com/macros/s/AKfycbz7lw2yJ1O_XnKMjUxTIIL0NmZjaZfFkyILRaf_U2sTI8dKgB_2vUKyu5gqAw5jf8qm/exec';
+
+// Run this in browser console to test: testGASConnection()
+function testGASConnection() {
+  console.log('Testing GAS connection to:', GAS_URL);
+  var url = GAS_URL + '?data=' + encodeURIComponent(JSON.stringify({action:'login',identifier:'test@test.com',password:'test'}));
+  fetch(url, {method:'GET', redirect:'follow'})
+    .then(function(r) {
+      console.log('Status:', r.status, r.statusText);
+      return r.text();
+    })
+    .then(function(t) {
+      console.log('Raw response:', t.substring(0, 200));
+      try {
+        var j = JSON.parse(t);
+        console.log('Parsed JSON:', j);
+        showToast('GAS connected! Got: ' + JSON.stringify(j).substring(0,60), 'success');
+      } catch(e) {
+        console.log('Not JSON — may need new deployment');
+        showToast('GAS responded but not JSON. Redeploy the script.', 'info');
+      }
+    })
+    .catch(function(e) {
+      console.error('Fetch failed:', e);
+      showToast('Fetch failed: ' + e.message, 'error');
+    });
+}
 
 // ════════════════════════════════════════════════════════════
 // 💾 SESSION & LOCAL CACHE
@@ -4315,20 +4342,48 @@ function stripPassword(u) {
 }
 
 // ════════════════════════════════════════════════════════════
-// 🚀 GAS BRIDGE — JSONP only (script tag injection)
-// GAS deployed as Web App returns: callbackName({...})
-// This bypasses CORS completely on all browsers/devices
+// 🚀 GAS BRIDGE
+// GAS Web Apps support CORS — we use fetch as primary,
+// JSONP script injection as fallback for older browsers
 // ════════════════════════════════════════════════════════════
 var _gasCallbackId = 0;
 
 function gasRequest(payload, onSuccess, onError) {
+  // ── PRIMARY: fetch with redirect follow (GAS redirects to its CDN) ──
+  var encoded = encodeURIComponent(JSON.stringify(payload));
+  var url = GAS_URL + '?data=' + encoded;
+
+  fetch(url, {
+    method: 'GET',
+    redirect: 'follow'
+  })
+  .then(function(r) {
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    return r.text();
+  })
+  .then(function(text) {
+    // Strip any JSONP wrapper if present
+    var clean = text.trim();
+    if (clean.charAt(0) !== '{' && clean.charAt(0) !== '[') {
+      clean = clean.replace(/^[^(]*\(/, '').replace(/\);\s*$/, '');
+    }
+    var data = JSON.parse(clean);
+    if (data && data.error) onError(data);
+    else onSuccess(data || {});
+  })
+  .catch(function() {
+    // ── FALLBACK: JSONP script injection ──
+    gasRequestJSONP(payload, onSuccess, onError);
+  });
+}
+
+function gasRequestJSONP(payload, onSuccess, onError) {
   _gasCallbackId++;
   var cbName = '__gasCb' + _gasCallbackId;
 
-  // 20 second timeout
   var timer = setTimeout(function() {
     cleanup();
-    onError({ error: 'Request timed out. Check your internet connection and try again.' });
+    onError({ error: 'Request timed out. Please try again.' });
   }, 20000);
 
   function cleanup() {
@@ -4344,8 +4399,7 @@ function gasRequest(payload, onSuccess, onError) {
     else onSuccess(data || {});
   };
 
-  // Build JSONP URL — GAS reads ?data= and ?cb= params
-  var p = JSON.parse(JSON.stringify(payload)); // clone
+  var p = JSON.parse(JSON.stringify(payload));
   p.callback = cbName;
   var url = GAS_URL + '?cb=' + cbName + '&data=' + encodeURIComponent(JSON.stringify(p));
 
@@ -4354,8 +4408,7 @@ function gasRequest(payload, onSuccess, onError) {
   script.src = url;
   script.onerror = function() {
     cleanup();
-    // Script load error — most likely the GAS URL is wrong or not deployed
-    onError({ error: 'Could not reach BookAWeek server. Make sure you are connected to the internet. If the problem continues, contact support.' });
+    onError({ error: 'Could not connect to server. Please check your internet and try again.' });
   };
   document.head.appendChild(script);
 }
@@ -4814,7 +4867,7 @@ function openMyOrders() {
       return '<div style="padding:16px;background:rgba(255,255,255,.04);border:1px solid rgba(201,168,76,.1);border-radius:6px;margin-bottom:12px">' +
         '<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap">' +
           '<div>' +
-            '<div style="font-family:\'Playfair Display\',serif;font-size:14px;font-weight:700;color:#fff;margin-bottom:4px">' + books + '</div>' +
+            '<div style="font-family:\'Cormorant Garamond\',Georgia,serif;font-size:14px;font-weight:700;color:#fff;margin-bottom:4px">' + books + '</div>' +
             '<div style="font-size:12px;color:rgba(245,237,216,.35)">' + (o.address || '') + (o.state ? ', ' + o.state : '') + '</div>' +
           '</div>' +
           '<div style="text-align:right;flex-shrink:0">' +
@@ -4906,7 +4959,7 @@ function logOrderForUser(cartItems, total, delivery, address, state) {
   }, function(res){
     if (res.success) {
       // refresh session with updated order count
-      var users = getUsers();
+      var users = [];
       var u = users.find(function(u){ return u.id === session.id; });
       if (u) { var updated = stripPassword(u); saveSession(updated); authApply(updated); }
     }
@@ -4944,44 +4997,49 @@ var _crmFilter  = 'all';
 var _crmPage    = 0;
 var CRM_PER_PAGE = 20;
 
+// ── Pull members from GAS every time CRM tab opens ──
 function loadCrmData() {
-  _crmUsers = getUsers().map(stripPassword);
+  // Show loading state immediately
+  var tbody = document.getElementById('crmTbody');
+  if (tbody) tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:32px;color:rgba(240,230,204,.3);font-size:13px">Loading members from Google Sheets…</td></tr>';
+
+  gasRequest({ action: 'get_users' }, function(res) {
+    if (res && res.success && Array.isArray(res.users)) {
+      _crmUsers = res.users;
+      renderCrmStats();
+      renderCrmTable();
+      showToast(_crmUsers.length + ' members loaded', 'success');
+    } else {
+      showCrmError(res && res.error ? res.error : 'No data returned from server.');
+    }
+  }, function(err) {
+    showCrmError((err && err.error) || 'Could not reach server. Check your GAS URL and redeploy.');
+  });
+
+  // Also update stats from local orders cache while waiting
   renderCrmStats();
-  renderCrmTable();
+}
+
+function showCrmError(msg) {
+  var tbody = document.getElementById('crmTbody');
+  if (tbody) tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:32px;color:#f87171;font-size:13px">' + msg + '</td></tr>';
+  showToast(msg, 'error');
 }
 
 function loadCrmFromSheets() {
   showToast('Syncing from Google Sheets…', 'info');
-  gasRequest({ action:'get_users' }, function(res) {
-    if (res.success && res.users) {
-      _crmUsers = res.users;
-      // merge into local
-      var local = getUsers();
-      res.users.forEach(function(u) {
-        var idx = local.findIndex(function(l){ return l.id === u.id || l.email === u.email; });
-        if (idx === -1) local.push(u); else local[idx] = Object.assign(local[idx], u);
-      });
-      saveUsers(local);
-      renderCrmStats();
-      renderCrmTable();
-      showToast('Synced ' + res.users.length + ' members from Sheets!', 'success');
-    } else {
-      showToast('Sync failed — check GAS URL.', 'error');
-    }
-  }, function(){
-    showToast('Network error on sync.', 'error');
-  });
+  loadCrmData();
 }
 
 function renderCrmStats() {
-  var users  = _crmUsers;
-  var orders = getOrders();
-  var total  = users.length;
+  var users   = _crmUsers;
+  var orders  = getCachedOrders();
+  var total   = users.length;
   var totalOrders = orders.length;
-  var revenue = orders.reduce(function(s,o){ return s + (o.total||0); }, 0);
-  var vip = users.filter(function(u){ return u.status === 'vip' || u.orders >= 2; }).length;
+  var revenue = orders.reduce(function(s, o) { return s + (parseFloat(o.total) || 0); }, 0);
+  var vip     = users.filter(function(u) { return u.status === 'vip' || (parseInt(u.orders) || 0) >= 2; }).length;
 
-  var el = function(id, val) { var e = document.getElementById(id); if(e) e.textContent = val; };
+  var el = function(id, val) { var e = document.getElementById(id); if (e) e.textContent = val; };
   el('crmTotalUsers',  total);
   el('crmTotalOrders', totalOrders);
   el('crmRevenue',     '₦' + revenue.toLocaleString());
@@ -5046,7 +5104,7 @@ function renderCrmTable() {
       '<td style="color:var(--gold);font-weight:700">₦' + spent.toLocaleString() + '</td>' +
       '<td><span class="crm-badge ' + badgeCls + '">' + badgeLbl + '</span></td>' +
       '<td style="font-size:12px;white-space:nowrap">' + joined + '</td>' +
-      '<td><button onclick="openCrmDrawer(\'' + u.id + '\')" style="background:rgba(255,255,255,.04);color:rgba(240,230,204,.6);border:1px solid rgba(255,255,255,.07);border-radius:8px;padding:5px 12px;font-family:\'DM Sans\',sans-serif;font-size:11px;font-weight:700;cursor:pointer">View</button></td>' +
+      '<td><button onclick="openCrmDrawer(\'' + u.id + '\')" style="background:rgba(255,255,255,.04);color:rgba(240,230,204,.6);border:1px solid rgba(255,255,255,.07);border-radius:8px;padding:5px 12px;font-family:\'Inter\',system-ui,sans-serif;font-size:11px;font-weight:700;cursor:pointer">View</button></td>' +
     '</tr>';
   }).join('');
 
@@ -5057,7 +5115,7 @@ function renderCrmTable() {
   var btns = '';
   for (var p = 0; p < totalPages; p++) {
     var isActive = p === _crmPage;
-    btns += '<button onclick="setCrmPage(' + p + ')" style="width:34px;height:34px;border-radius:50%;border:1px solid rgba(201,168,76,' + (isActive?'.5':'.15') + ');background:' + (isActive?'var(--gold)':'none') + ';color:' + (isActive?'var(--navy)':'rgba(255,255,255,.4)') + ';font-family:\'DM Sans\',sans-serif;font-size:12px;font-weight:700;cursor:pointer">' + (p+1) + '</button>';
+    btns += '<button onclick="setCrmPage(' + p + ')" style="width:34px;height:34px;border-radius:50%;border:1px solid rgba(201,168,76,' + (isActive?'.5':'.15') + ');background:' + (isActive?'var(--gold)':'none') + ';color:' + (isActive?'var(--navy)':'rgba(255,255,255,.4)') + ';font-family:\'Inter\',system-ui,sans-serif;font-size:12px;font-weight:700;cursor:pointer">' + (p+1) + '</button>';
   }
   pg.innerHTML = btns;
 }
@@ -5067,69 +5125,129 @@ function setCrmPage(p) {
   renderCrmTable();
 }
 
+function renderCrmTable() {
+  var search = ((document.getElementById('crmSearch') || {}).value || '').toLowerCase().trim();
+  var filtered = _crmUsers.filter(function(u) {
+    if (_crmFilter === 'vip')     return u.status === 'vip' || parseInt(u.orders||0) >= 2;
+    if (_crmFilter === 'active')  return u.status === 'active';
+    if (_crmFilter === 'pending') return u.status === 'pending';
+    if (_crmFilter === 'lagos')   return (u.city||'').toLowerCase().indexOf('lagos') !== -1;
+    return true;
+  }).filter(function(u) {
+    if (!search) return true;
+    var hay = ((u.fname||'') + ' ' + (u.lname||'') + ' ' + (u.phone||'') + ' ' + (u.email||'') + ' ' + (u.city||'')).toLowerCase();
+    return hay.indexOf(search) !== -1;
+  });
+
+  var total = filtered.length;
+  var start = _crmPage * CRM_PER_PAGE;
+  var page  = filtered.slice(start, start + CRM_PER_PAGE);
+
+  // use crmTbody OR crmTableBody — whichever exists
+  var body = document.getElementById('crmTbody') || document.getElementById('crmTableBody');
+  if (!body) return;
+
+  if (page.length === 0) {
+    body.innerHTML = '<tr><td colspan="10" style="text-align:center;padding:40px;color:rgba(240,230,204,.25);font-size:13px">' +
+      (_crmUsers.length === 0 ? 'No members yet. Members appear here after they register.' : 'No members match this filter.') +
+      '</td></tr>';
+    var pgEl = document.getElementById('crmPagination');
+    if (pgEl) pgEl.innerHTML = '';
+    return;
+  }
+
+  body.innerHTML = page.map(function(u, i) {
+    var name   = ((u.fname||'') + ' ' + (u.lname||'')).trim() || 'Unknown';
+    var phone  = u.phone  || '';
+    var email  = u.email  || '';
+    var city   = u.city   || '';
+    var orders = parseInt(u.orders)    || 0;
+    var spent  = parseFloat(u.totalSpent) || 0;
+    var status = u.status || 'active';
+    var joined = u.joinedAt ? new Date(u.joinedAt).toLocaleDateString('en-NG', {day:'numeric', month:'short', year:'2-digit'}) : '';
+    var badgeCls = status === 'vip' ? 'vip' : status === 'pending' ? 'pending' : 'active';
+    var badgeLbl = status === 'vip' ? 'VIP' : status === 'pending' ? 'Pending' : 'Active';
+    return '<tr>' +
+      '<td style="color:rgba(240,230,204,.25);font-size:12px">' + (start + i + 1) + '</td>' +
+      '<td><div style="font-weight:500;color:#fff;white-space:nowrap">' + name + '</div></td>' +
+      '<td><a href="https://wa.me/' + phone.replace(/\D/g,'') + '" target="_blank" style="color:var(--brass2);text-decoration:none;font-size:12px">' + (phone||'—') + '</a></td>' +
+      '<td style="font-size:12px;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:rgba(240,230,204,.55)">' + (email||'—') + '</td>' +
+      '<td style="font-size:12px;color:rgba(240,230,204,.55)">' + (city||'—') + '</td>' +
+      '<td style="font-weight:500;color:#fff;text-align:center">' + orders + '</td>' +
+      '<td style="color:var(--brass2);font-weight:500">₦' + spent.toLocaleString() + '</td>' +
+      '<td><span class="crm-badge ' + badgeCls + '">' + badgeLbl + '</span></td>' +
+      '<td style="font-size:11px;color:rgba(240,230,204,.35);white-space:nowrap">' + joined + '</td>' +
+      '<td><button onclick="openCrmDrawer(\'' + u.id + '\')" style="background:rgba(255,255,255,.04);color:rgba(240,230,204,.6);border:1px solid rgba(255,255,255,.08);border-radius:3px;padding:5px 12px;font-family:\'Inter\',system-ui,sans-serif;font-size:11px;font-weight:500;cursor:pointer">View</button></td>' +
+    '</tr>';
+  }).join('');
+
+  // Pagination
+  var totalPages = Math.ceil(total / CRM_PER_PAGE);
+  var pg = document.getElementById('crmPagination');
+  if (!pg) return;
+  if (totalPages <= 1) { pg.innerHTML = ''; return; }
+  var btns = '';
+  for (var p = 0; p < totalPages; p++) {
+    var isActive = p === _crmPage;
+    btns += '<button onclick="setCrmPage(' + p + ')" style="min-width:32px;height:32px;padding:0 8px;border-radius:3px;border:1px solid rgba(255,255,255,' + (isActive ? '.2' : '.08') + ');background:' + (isActive ? 'var(--brass)' : 'none') + ';color:' + (isActive ? '#07101E' : 'rgba(255,255,255,.4)') + ';font-family:\'Inter\',system-ui,sans-serif;font-size:12px;font-weight:500;cursor:pointer;margin:0 2px">' + (p + 1) + '</button>';
+  }
+  pg.innerHTML = '<div style="display:flex;align-items:center;gap:4px;margin-top:16px;justify-content:center">' + btns + '</div>';
+}
+
 function openCrmDrawer(uid) {
-  var u = _crmUsers.find(function(u){ return u.id === uid; });
+  var u = _crmUsers.find(function(u) { return u.id === uid; });
   if (!u) return;
-  var orders = getOrders().filter(function(o){ return o.userId === uid; });
-  var name  = (u.fname||'') + ' ' + (u.lname||'');
-  var initials = ((u.fname||'')[0] + (u.lname||'')[0]).toUpperCase();
-  var joined = u.joinedAt ? new Date(u.joinedAt).toLocaleDateString('en-NG',{day:'numeric',month:'long',year:'numeric'}) : '—';
+  var name    = ((u.fname||'') + ' ' + (u.lname||'')).trim() || 'Unknown';
+  var initials = (((u.fname||'')[0]||'') + ((u.lname||'')[0]||'')).toUpperCase() || '?';
+  var joined  = u.joinedAt ? new Date(u.joinedAt).toLocaleDateString('en-NG', {day:'numeric', month:'long', year:'numeric'}) : 'Unknown';
+  var status  = u.status || 'active';
+  var badgeCls = status === 'vip' ? 'vip' : 'active';
+  var badgeLbl = status === 'vip' ? 'VIP Member' : 'Active Member';
+  var waLink  = 'https://wa.me/' + (u.phone||'').replace(/\D/g,'') + '?text=' + encodeURIComponent('Hi ' + (u.fname||'') + ', thank you for being a BookWarrior! 📚');
 
-  var ordersHtml = orders.length === 0
-    ? '<div style="color:rgba(245,237,216,.25);font-size:13px;padding:16px 0">No orders yet.</div>'
-    : orders.map(function(o){
-        var books = (o.books||[]).map(function(b){ return b.title; }).join(', ');
-        return '<div style="padding:12px;background:rgba(255,255,255,.04);border-radius:10px;margin-bottom:8px">' +
-          '<div style="font-size:13px;font-weight:700;color:#fff">' + books + '</div>' +
-          '<div style="display:flex;justify-content:space-between;margin-top:6px">' +
-            '<span style="font-size:12px;color:rgba(245,237,216,.4)">' + new Date(o.createdAt).toLocaleDateString('en-NG') + '</span>' +
-            '<span style="font-size:13px;font-weight:700;color:var(--gold)">₦' + (o.total||0).toLocaleString() + '</span>' +
-          '</div>' +
-        '</div>';
-      }).join('');
+  var content = document.getElementById('crmDrawerContent');
+  if (!content) return;
 
-  var statusBadge = u.status === 'vip' ? 'crm-badge vip' : 'crm-badge active';
-  var statusLabel = u.status === 'vip' ? '⭐ VIP' : '✅ Active';
-
-  document.getElementById('crmDrawerContent').innerHTML =
-    '<div style="text-align:center;margin-bottom:24px">' +
-      '<div style="width:64px;height:64px;border-radius:50%;background:var(--brass2);color:var(--navy);font-size:24px;font-weight:900;display:flex;align-items:center;justify-content:center;margin:0 auto 12px">' + initials + '</div>' +
-      '<div style="font-family:\'Playfair Display\',serif;font-size:20px;font-weight:900;color:#fff">' + name + '</div>' +
-      '<span class="' + statusBadge + '" style="margin-top:6px">' + statusLabel + '</span>' +
+  content.innerHTML =
+    '<div style="text-align:center;margin-bottom:24px;padding-bottom:20px;border-bottom:1px solid rgba(255,255,255,.06)">' +
+      '<div style="width:56px;height:56px;border-radius:50%;background:var(--brass);color:#07101E;font-size:20px;font-weight:700;display:flex;align-items:center;justify-content:center;margin:0 auto 10px">' + initials + '</div>' +
+      '<div style="font-family:\'Cormorant Garamond\',Georgia,serif;font-size:20px;font-weight:400;color:#fff;margin-bottom:6px">' + name + '</div>' +
+      '<span class="crm-badge ' + badgeCls + '">' + badgeLbl + '</span>' +
     '</div>' +
-    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px">' +
-      '<div style="background:rgba(255,255,255,.04);border-radius:4px;padding:14px">' +
-        '<div style="font-size:10px;color:rgba(245,237,216,.3);text-transform:uppercase;font-weight:700;letter-spacing:.08em;margin-bottom:4px">WhatsApp</div>' +
-        '<a href="https://wa.me/' + (u.phone||'').replace(/\D/g,'') + '" target="_blank" style="color:var(--gold);font-weight:700;font-size:13px;text-decoration:none">' + (u.phone||'—') + ' 📲</a>' +
+
+    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:20px">' +
+      '<div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:4px;padding:12px">' +
+        '<div style="font-size:10px;color:rgba(240,230,204,.3);text-transform:uppercase;font-weight:500;letter-spacing:.1em;margin-bottom:5px">WhatsApp</div>' +
+        '<a href="https://wa.me/' + (u.phone||'').replace(/\D/g,'') + '" target="_blank" style="color:var(--brass2);font-size:13px;text-decoration:none">' + (u.phone||'—') + '</a>' +
       '</div>' +
-      '<div style="background:rgba(255,255,255,.04);border-radius:4px;padding:14px">' +
-        '<div style="font-size:10px;color:rgba(245,237,216,.3);text-transform:uppercase;font-weight:700;letter-spacing:.08em;margin-bottom:4px">Email</div>' +
-        '<div style="font-size:13px;color:rgba(245,237,216,.7)">' + (u.email||'—') + '</div>' +
+      '<div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:4px;padding:12px">' +
+        '<div style="font-size:10px;color:rgba(240,230,204,.3);text-transform:uppercase;font-weight:500;letter-spacing:.1em;margin-bottom:5px">Email</div>' +
+        '<div style="font-size:13px;color:rgba(240,230,204,.65);word-break:break-all">' + (u.email||'—') + '</div>' +
       '</div>' +
-      '<div style="background:rgba(255,255,255,.04);border-radius:4px;padding:14px">' +
-        '<div style="font-size:10px;color:rgba(245,237,216,.3);text-transform:uppercase;font-weight:700;letter-spacing:.08em;margin-bottom:4px">City</div>' +
-        '<div style="font-size:13px;color:rgba(245,237,216,.7)">' + (u.city||'—') + '</div>' +
+      '<div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:4px;padding:12px">' +
+        '<div style="font-size:10px;color:rgba(240,230,204,.3);text-transform:uppercase;font-weight:500;letter-spacing:.1em;margin-bottom:5px">City</div>' +
+        '<div style="font-size:13px;color:rgba(240,230,204,.65)">' + (u.city||'—') + '</div>' +
       '</div>' +
-      '<div style="background:rgba(255,255,255,.04);border-radius:4px;padding:14px">' +
-        '<div style="font-size:10px;color:rgba(245,237,216,.3);text-transform:uppercase;font-weight:700;letter-spacing:.08em;margin-bottom:4px">Member Since</div>' +
-        '<div style="font-size:13px;color:rgba(245,237,216,.7)">' + joined + '</div>' +
+      '<div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:4px;padding:12px">' +
+        '<div style="font-size:10px;color:rgba(240,230,204,.3);text-transform:uppercase;font-weight:500;letter-spacing:.1em;margin-bottom:5px">Joined</div>' +
+        '<div style="font-size:13px;color:rgba(240,230,204,.65)">' + joined + '</div>' +
       '</div>' +
     '</div>' +
-    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:24px">' +
-      '<div style="background:rgba(201,168,76,.08);border:1px solid rgba(255,255,255,.07);border-radius:4px;padding:16px;text-align:center">' +
-        '<div style="font-family:\'Playfair Display\',serif;font-size:28px;font-weight:900;color:var(--gold)">' + (u.orders||0) + '</div>' +
-        '<div style="font-size:11px;color:rgba(245,237,216,.4);margin-top:2px;text-transform:uppercase;font-weight:700;letter-spacing:.06em">Orders</div>' +
+
+    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:24px">' +
+      '<div style="background:var(--ink3);border:1px solid rgba(255,255,255,.07);border-radius:4px;padding:16px;text-align:center">' +
+        '<div style="font-family:\'Cormorant Garamond\',Georgia,serif;font-size:30px;font-weight:400;color:#fff">' + (parseInt(u.orders)||0) + '</div>' +
+        '<div style="font-size:10px;color:rgba(240,230,204,.35);margin-top:3px;text-transform:uppercase;letter-spacing:.1em">Orders</div>' +
       '</div>' +
-      '<div style="background:rgba(201,168,76,.08);border:1px solid rgba(255,255,255,.07);border-radius:4px;padding:16px;text-align:center">' +
-        '<div style="font-family:\'Playfair Display\',serif;font-size:28px;font-weight:900;color:var(--gold)">₦' + (u.totalSpent||0).toLocaleString() + '</div>' +
-        '<div style="font-size:11px;color:rgba(245,237,216,.4);margin-top:2px;text-transform:uppercase;font-weight:700;letter-spacing:.06em">Total Spent</div>' +
+      '<div style="background:var(--ink3);border:1px solid rgba(255,255,255,.07);border-radius:4px;padding:16px;text-align:center">' +
+        '<div style="font-family:\'Cormorant Garamond\',Georgia,serif;font-size:30px;font-weight:400;color:#fff">₦' + (parseFloat(u.totalSpent)||0).toLocaleString() + '</div>' +
+        '<div style="font-size:10px;color:rgba(240,230,204,.35);margin-top:3px;text-transform:uppercase;letter-spacing:.1em">Total Spent</div>' +
       '</div>' +
     '</div>' +
-    '<div style="font-size:13px;font-weight:800;color:rgba(245,237,216,.4);letter-spacing:.08em;text-transform:uppercase;margin-bottom:12px">Order History</div>' +
-    ordersHtml +
-    '<div style="display:flex;gap:10px;margin-top:20px">' +
-      '<a href="https://wa.me/' + (u.phone||'').replace(/\D/g,'') + '?text=' + encodeURIComponent('Hi ' + (u.fname||'') + ', thank you for being a BookWarrior! 📚') + '" target="_blank" style="flex:1;background:linear-gradient(135deg,#25D366,#128C7E);color:#fff;border:none;border-radius:4px;padding:12px;font-family:\'DM Sans\',sans-serif;font-size:13px;font-weight:700;cursor:pointer;text-align:center;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:6px">📲 Message on WhatsApp</a>' +
-      '<button onclick="deleteCrmUser(\'' + u.id + '\')" style="background:rgba(239,68,68,.1);color:#EF4444;border:1px solid rgba(239,68,68,.2);border-radius:4px;padding:12px 16px;font-family:\'DM Sans\',sans-serif;font-size:13px;font-weight:700;cursor:pointer">🗑</button>' +
+
+    '<div style="display:flex;gap:8px;margin-top:4px">' +
+      '<a href="' + waLink + '" target="_blank" style="flex:1;background:#1a6b3c;color:#fff;border:none;border-radius:4px;padding:13px;font-family:\'Inter\',system-ui,sans-serif;font-size:13px;font-weight:500;cursor:pointer;text-align:center;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:8px;letter-spacing:.03em">Message on WhatsApp</a>' +
+      '<button onclick="deleteCrmUser(\'' + u.id + '\')" style="background:none;color:rgba(239,68,68,.6);border:1px solid rgba(239,68,68,.2);border-radius:4px;padding:13px 16px;font-family:\'Inter\',system-ui,sans-serif;font-size:12px;font-weight:500;cursor:pointer;letter-spacing:.04em">Remove</button>' +
     '</div>';
 
   document.getElementById('crmMemberDrawer').style.display = 'block';
@@ -5140,14 +5258,12 @@ function closeCrmDrawer() {
 }
 
 function deleteCrmUser(uid) {
-  if (!confirm('Remove this member? This cannot be undone.')) return;
-  var users = getUsers().filter(function(u){ return u.id !== uid; });
-  saveUsers(users);
-  _crmUsers = users.map(stripPassword);
+  if (!confirm('Remove this member from the CRM view? This only removes from the local list — the record stays in Google Sheets.')) return;
+  _crmUsers = _crmUsers.filter(function(u) { return u.id !== uid; });
   renderCrmStats();
   renderCrmTable();
   closeCrmDrawer();
-  showToast('Member removed.', 'info');
+  showToast('Member removed from view.', 'info');
 }
 
 // ──────────────────────────────────────────────────
