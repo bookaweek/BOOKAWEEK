@@ -4279,7 +4279,7 @@ window.onload = function() {
 // 🌐 GOOGLE APPS SCRIPT — Single Source of Truth (cross-device)
 // ════════════════════════════════════════════════════════════
 // ── PASTE YOUR NEW GAS URL HERE AFTER REDEPLOYING ──
-var GAS_URL = 'https://script.google.com/macros/s/AKfycbyMwetRBG6Wa1h_RGNlZZIcDh-ovhvYIbpoqgve_Yjo1VEIjEi6s0mSVvXeYUzZfQoz/exec';
+var GAS_URL = 'https://script.google.com/macros/s/AKfycbz7lw2yJ1O_XnKMjUxTIIL0NmZjaZfFkyILRaf_U2sTI8dKgB_2vUKyu5gqAw5jf8qm/exec';
 
 // Run this in browser console to test: testGASConnection()
 function testGASConnection() {
@@ -5054,71 +5054,6 @@ function setCrmFilter(filter, btn) {
   renderCrmTable();
 }
 
-function renderCrmTable() {
-  var search = (document.getElementById('crmSearch') || {}).value || '';
-  search = search.toLowerCase().trim();
-
-  var users = _crmUsers.filter(function(u) {
-    if (search) {
-      var hay = ((u.fname||'') + ' ' + (u.lname||'') + ' ' + (u.phone||'') + ' ' + (u.email||'') + ' ' + (u.city||'')).toLowerCase();
-      if (hay.indexOf(search) === -1) return false;
-    }
-    if (_crmFilter === 'active')  return u.status === 'active';
-    if (_crmFilter === 'vip')     return u.status === 'vip' || (u.orders||0) >= 2;
-    if (_crmFilter === 'pending') return u.status === 'pending';
-    if (_crmFilter === 'lagos')   return (u.city||'').toLowerCase().indexOf('lagos') !== -1;
-    return true;
-  });
-
-  var total = users.length;
-  var start = _crmPage * CRM_PER_PAGE;
-  var page  = users.slice(start, start + CRM_PER_PAGE);
-
-  var body = document.getElementById('crmTableBody');
-  if (!body) return;
-
-  if (page.length === 0) {
-    body.innerHTML = '<tr><td colspan="10" style="text-align:center;padding:40px;color:rgba(245,237,216,.2)">No members match this filter.</td></tr>';
-    document.getElementById('crmPagination').innerHTML = '';
-    return;
-  }
-
-  body.innerHTML = page.map(function(u, i) {
-    var name  = (u.fname||'') + ' ' + (u.lname||'');
-    var phone = u.phone || '—';
-    var email = u.email || '—';
-    var city  = u.city  || '—';
-    var orders = u.orders || 0;
-    var spent  = u.totalSpent || 0;
-    var status = u.status || 'active';
-    var joined = u.joinedAt ? new Date(u.joinedAt).toLocaleDateString('en-NG',{day:'numeric',month:'short',year:'2-digit'}) : '—';
-    var badgeCls = status === 'vip' ? 'vip' : status === 'pending' ? 'pending' : 'active';
-    var badgeLbl = status === 'vip' ? '⭐ VIP' : status === 'pending' ? '⏳ Pending' : '✅ Active';
-    return '<tr>' +
-      '<td style="color:rgba(245,237,216,.3);font-size:12px">' + (start + i + 1) + '</td>' +
-      '<td><div style="font-weight:700;color:#fff;white-space:nowrap">' + name + '</div></td>' +
-      '<td><a href="https://wa.me/' + phone.replace(/\D/g,'') + '" target="_blank" style="color:var(--gold);text-decoration:none;font-size:12px">' + phone + '</a></td>' +
-      '<td style="font-size:12px;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + email + '</td>' +
-      '<td style="font-size:12px">' + city + '</td>' +
-      '<td style="font-weight:700;color:#fff;text-align:center">' + orders + '</td>' +
-      '<td style="color:var(--gold);font-weight:700">₦' + spent.toLocaleString() + '</td>' +
-      '<td><span class="crm-badge ' + badgeCls + '">' + badgeLbl + '</span></td>' +
-      '<td style="font-size:12px;white-space:nowrap">' + joined + '</td>' +
-      '<td><button onclick="openCrmDrawer(\'' + u.id + '\')" style="background:rgba(255,255,255,.04);color:rgba(240,230,204,.6);border:1px solid rgba(255,255,255,.07);border-radius:8px;padding:5px 12px;font-family:\'Inter\',system-ui,sans-serif;font-size:11px;font-weight:700;cursor:pointer">View</button></td>' +
-    '</tr>';
-  }).join('');
-
-  // Pagination
-  var totalPages = Math.ceil(total / CRM_PER_PAGE);
-  var pg = document.getElementById('crmPagination');
-  if (totalPages <= 1) { pg.innerHTML = ''; return; }
-  var btns = '';
-  for (var p = 0; p < totalPages; p++) {
-    var isActive = p === _crmPage;
-    btns += '<button onclick="setCrmPage(' + p + ')" style="width:34px;height:34px;border-radius:50%;border:1px solid rgba(201,168,76,' + (isActive?'.5':'.15') + ');background:' + (isActive?'var(--gold)':'none') + ';color:' + (isActive?'var(--navy)':'rgba(255,255,255,.4)') + ';font-family:\'Inter\',system-ui,sans-serif;font-size:12px;font-weight:700;cursor:pointer">' + (p+1) + '</button>';
-  }
-  pg.innerHTML = btns;
-}
 
 function setCrmPage(p) {
   _crmPage = p;
@@ -5158,12 +5093,12 @@ function renderCrmTable() {
 
   body.innerHTML = page.map(function(u, i) {
     var name   = ((u.fname||'') + ' ' + (u.lname||'')).trim() || 'Unknown';
-    var phone  = u.phone  || '';
-    var email  = u.email  || '';
-    var city   = u.city   || '';
+    var phone  = String(u.phone  || '');
+    var email  = String(u.email  || '');
+    var city   = String(u.city   || '');
     var orders = parseInt(u.orders)    || 0;
     var spent  = parseFloat(u.totalSpent) || 0;
-    var status = u.status || 'active';
+    var status = String(u.status || 'active');
     var joined = u.joinedAt ? new Date(u.joinedAt).toLocaleDateString('en-NG', {day:'numeric', month:'short', year:'2-digit'}) : '';
     var badgeCls = status === 'vip' ? 'vip' : status === 'pending' ? 'pending' : 'active';
     var badgeLbl = status === 'vip' ? 'VIP' : status === 'pending' ? 'Pending' : 'Active';
@@ -5199,11 +5134,14 @@ function openCrmDrawer(uid) {
   if (!u) return;
   var name    = ((u.fname||'') + ' ' + (u.lname||'')).trim() || 'Unknown';
   var initials = (((u.fname||'')[0]||'') + ((u.lname||'')[0]||'')).toUpperCase() || '?';
+  var phone   = String(u.phone || '');
+  var email   = String(u.email || '');
+  var city    = String(u.city  || '');
   var joined  = u.joinedAt ? new Date(u.joinedAt).toLocaleDateString('en-NG', {day:'numeric', month:'long', year:'numeric'}) : 'Unknown';
-  var status  = u.status || 'active';
+  var status  = String(u.status || 'active');
   var badgeCls = status === 'vip' ? 'vip' : 'active';
   var badgeLbl = status === 'vip' ? 'VIP Member' : 'Active Member';
-  var waLink  = 'https://wa.me/' + (u.phone||'').replace(/\D/g,'') + '?text=' + encodeURIComponent('Hi ' + (u.fname||'') + ', thank you for being a BookWarrior! 📚');
+  var waLink  = 'https://wa.me/' + phone.replace(/\D/g,'') + '?text=' + encodeURIComponent('Hi ' + (u.fname||'') + ', thank you for being a BookWarrior! 📚');
 
   var content = document.getElementById('crmDrawerContent');
   if (!content) return;
@@ -5218,15 +5156,15 @@ function openCrmDrawer(uid) {
     '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:20px">' +
       '<div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:4px;padding:12px">' +
         '<div style="font-size:10px;color:rgba(240,230,204,.3);text-transform:uppercase;font-weight:500;letter-spacing:.1em;margin-bottom:5px">WhatsApp</div>' +
-        '<a href="https://wa.me/' + (u.phone||'').replace(/\D/g,'') + '" target="_blank" style="color:var(--brass2);font-size:13px;text-decoration:none">' + (u.phone||'—') + '</a>' +
+        '<a href="https://wa.me/' + phone.replace(/\D/g,'') + '" target="_blank" style="color:var(--brass2);font-size:13px;text-decoration:none">' + (phone||'—') + '</a>' +
       '</div>' +
       '<div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:4px;padding:12px">' +
         '<div style="font-size:10px;color:rgba(240,230,204,.3);text-transform:uppercase;font-weight:500;letter-spacing:.1em;margin-bottom:5px">Email</div>' +
-        '<div style="font-size:13px;color:rgba(240,230,204,.65);word-break:break-all">' + (u.email||'—') + '</div>' +
+        '<div style="font-size:13px;color:rgba(240,230,204,.65);word-break:break-all">' + (email||'—') + '</div>' +
       '</div>' +
       '<div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:4px;padding:12px">' +
         '<div style="font-size:10px;color:rgba(240,230,204,.3);text-transform:uppercase;font-weight:500;letter-spacing:.1em;margin-bottom:5px">City</div>' +
-        '<div style="font-size:13px;color:rgba(240,230,204,.65)">' + (u.city||'—') + '</div>' +
+        '<div style="font-size:13px;color:rgba(240,230,204,.65)">' + (city||'—') + '</div>' +
       '</div>' +
       '<div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:4px;padding:12px">' +
         '<div style="font-size:10px;color:rgba(240,230,204,.3);text-transform:uppercase;font-weight:500;letter-spacing:.1em;margin-bottom:5px">Joined</div>' +
