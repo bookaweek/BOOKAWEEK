@@ -3760,6 +3760,40 @@ function savePickAdmin() {
   pickShowMsg('Book of the Month updated successfully!', 'success');
 }
 
+function renderPickTextCover(el, d) {
+  el.style.cssText = 'background:linear-gradient(160deg,#1B2E1B 0%,#2D4A2D 40%,#1B2E1B 100%);min-height:300px;display:flex;flex-direction:column;position:relative;';
+  el.innerHTML = '';
+
+  var badge = document.createElement('div');
+  badge.className = 'pick-badge';
+  badge.textContent = "Bookmentor's Pick";
+
+  var inner = document.createElement('div');
+  inner.style.cssText = 'text-align:center;padding:20px 0 0;';
+
+  var authorEl = document.createElement('div');
+  authorEl.style.cssText = 'font-size:11px;letter-spacing:.2em;color:rgba(255,255,255,.4);text-transform:uppercase;margin-bottom:12px;';
+  authorEl.textContent = d.author || '';
+
+  var titleEl = document.createElement('div');
+  titleEl.style.cssText = "font-family:'Cormorant Garamond',Georgia,serif;font-size:18px;font-weight:900;color:#E8C56A;line-height:1.2;margin-bottom:8px;";
+  titleEl.textContent = d.title || '';
+
+  var line = document.createElement('div');
+  line.style.cssText = 'width:40px;height:2px;background:#E8C56A;margin:0 auto 12px;';
+
+  var sub = document.createElement('div');
+  sub.style.cssText = 'font-size:10px;color:rgba(255,255,255,.4);letter-spacing:.1em;';
+  sub.textContent = 'BOOKMENTOR PICK';
+
+  inner.appendChild(authorEl);
+  inner.appendChild(titleEl);
+  inner.appendChild(line);
+  inner.appendChild(sub);
+  el.appendChild(badge);
+  el.appendChild(inner);
+}
+
 function applyPickToPage(d) {
   var setText = function(id, val) { var el = document.getElementById(id); if(el) el.textContent = val; };
 
@@ -3777,39 +3811,25 @@ function applyPickToPage(d) {
   // ── Cover: image URL takes priority over text cover ──
   var coverEl = document.getElementById('pickBookCover');
   if (coverEl) {
+    coverEl.innerHTML = '';
     if (d.cover && d.cover.trim()) {
-      // Show real image — fills the spine like a book cover
-      coverEl.style.background = 'none';
-      coverEl.style.padding = '0';
-      coverEl.style.minHeight = '300px';
-      coverEl.style.display = 'block';
-      coverEl.style.overflow = 'hidden';
-      coverEl.style.position = 'relative';
-      coverEl.innerHTML =
-        '<img src="' + d.cover + '" ' +
-        'style="width:100%;height:100%;min-height:300px;object-fit:cover;display:block;" ' +
-        'onerror="this.parentNode.innerHTML=\'' +
-          '<div class=\\'pick-badge\\'>Bookmentor\\'s Pick</div>' +
-          '<div style=\\'text-align:center;padding:20px 0 0;\\'>' +
-            '<div style=\\'font-size:11px;letter-spacing:.2em;color:rgba(255,255,255,.4);text-transform:uppercase;margin-bottom:12px\\'>' + (d.author||'') + '</div>' +
-            '<div style=\\'font-family:Cormorant Garamond,Georgia,serif;font-size:18px;font-weight:900;color:#E8C56A;line-height:1.2;margin-bottom:8px\\'>' + (d.title||'') + '</div>' +
-          '</div>' +
-        '\';">' +
-        '<div class="pick-badge" style="position:absolute;top:16px;left:0">Bookmentor\'s Pick</div>';
+      // Image cover
+      coverEl.style.cssText = 'background:none;padding:0;min-height:300px;display:block;overflow:hidden;position:relative;';
+      var img = document.createElement('img');
+      img.src = d.cover;
+      img.style.cssText = 'width:100%;height:100%;min-height:300px;object-fit:cover;display:block;';
+      img.onerror = function() {
+        // Image failed — fall back to text cover
+        renderPickTextCover(coverEl, d);
+      };
+      var badge = document.createElement('div');
+      badge.className = 'pick-badge';
+      badge.style.cssText = 'position:absolute;top:16px;left:0;z-index:2;';
+      badge.textContent = "Bookmentor's Pick";
+      coverEl.appendChild(img);
+      coverEl.appendChild(badge);
     } else {
-      // No image — show styled text cover
-      coverEl.style.background = 'linear-gradient(160deg,#1B2E1B 0%,#2D4A2D 40%,#1B2E1B 100%)';
-      coverEl.style.minHeight = '300px';
-      coverEl.style.display = 'flex';
-      coverEl.style.flexDirection = 'column';
-      coverEl.innerHTML =
-        '<div class="pick-badge">Bookmentor\'s Pick</div>' +
-        '<div style="text-align:center;padding:20px 0 0;">' +
-          '<div style="font-size:11px;letter-spacing:.2em;color:rgba(255,255,255,.4);text-transform:uppercase;margin-bottom:12px">' + (d.author||'') + '</div>' +
-          '<div style="font-family:\'Cormorant Garamond\',Georgia,serif;font-size:18px;font-weight:900;color:#E8C56A;line-height:1.2;margin-bottom:8px">' + (d.title||'') + '</div>' +
-          '<div style="width:40px;height:2px;background:#E8C56A;margin:0 auto 12px"></div>' +
-          '<div style="font-size:10px;color:rgba(255,255,255,.4);letter-spacing:.1em">BOOKMENTOR PICK</div>' +
-        '</div>';
+      renderPickTextCover(coverEl, d);
     }
   }
 
