@@ -3572,40 +3572,52 @@ function placeOrderPaystack() {
   }
 }
 
-// ── CATALOG PERSISTENCE (localStorage) ──
-// Only saves CUSTOM books added/edited via admin — not the defaults.
-// This way, admin changes survive page refresh.
+// ── CATALOG PERSISTENCE — localStorage cache + GAS sync ──
 function saveCatalog() {
-  try {
-    // Save the full catalog state (including edits to default books)
-    var toSave = CATALOG.map(function(b) {
-      return {
-        id:b.id, title:b.title, author:b.author,
-        price:b.price, originalPrice:b.originalPrice,
-        category:b.category, badge:b.badge,
-        warriors:b.warriors, avgDays:b.avgDays, rating:b.rating,
-        insight:b.insight, color1:b.color1, color2:b.color2,
-        textColor:b.textColor, cover:b.cover||null,
-        pick:b.pick||false,
-        reviews: b.reviews||[]
-      };
-    });
-    localStorage.setItem('bm_catalog', JSON.stringify(toSave));
-  } catch(e) { /* localStorage unavailable - silent fail */ }
+  var toSave = CATALOG.map(function(b) {
+    return {
+      id:b.id, title:b.title, author:b.author,
+      price:b.price, originalPrice:b.originalPrice,
+      category:b.category, badge:b.badge,
+      warriors:b.warriors, avgDays:b.avgDays, rating:b.rating,
+      insight:b.insight, color1:b.color1, color2:b.color2,
+      textColor:b.textColor, cover:b.cover||null,
+      pick:b.pick||false, reviews:b.reviews||[]
+    };
+  });
+  // 1. Save locally immediately (fast, device cache)
+  try { localStorage.setItem('bm_catalog', JSON.stringify(toSave)); } catch(e) {}
+  // 2. Sync to GAS (cross-device)
+  gasRequest({ action:'save_catalog', catalog:toSave }, function() {
+    // silent success
+  }, function(err) {
+    console.warn('Catalog GAS sync failed:', err);
+    // localStorage already saved — not catastrophic
+  });
 }
 
 function loadCatalog() {
+  // Try localStorage first (instant load)
   try {
     var stored = localStorage.getItem('bm_catalog');
     if (stored) {
       var parsed = JSON.parse(stored);
       if (parsed && parsed.length > 0) {
         CATALOG = parsed;
-        return true;
+        renderBooks();
       }
     }
   } catch(e) {}
-  return false;
+  // Then fetch from GAS to get latest cross-device version
+  gasRequest({ action:'get_catalog' }, function(res) {
+    if (res && res.catalog && res.catalog.length > 0) {
+      CATALOG = res.catalog;
+      try { localStorage.setItem('bm_catalog', JSON.stringify(res.catalog)); } catch(e) {}
+      renderBooks();
+    }
+  }, function() {
+    // GAS unavailable — localStorage version already applied above
+  });
 }
 
 // ── ADMIN PANEL (password protected) ──
@@ -3664,17 +3676,26 @@ function getPickData() {
     if (saved) return JSON.parse(saved);
   } catch(e) {}
   return {
-    title: 'The Psychology of Money',
-    author: 'Morgan Housel',
-    price: 5500,
-    origPrice: 7000,
-    cover: '',
-    insight: 'Getting wealthy and staying wealthy are two different skills.',
-    warriors: 5,
-    days: 11,
-    rating: 4.8,
-    month: 'June 2026'
+    title:'The Psychology of Money', author:'Morgan Housel',
+    price:5500, origPrice:7000, cover:'',
+    insight:'Getting wealthy and staying wealthy are two different skills.',
+    warriors:5, days:11, rating:4.8, month:'June 2026'
   };
+}
+
+function loadPickFromGAS() {
+  // Apply local cache immediately
+  var local = getPickData();
+  applyPickToPage(local);
+  // Then fetch latest from GAS
+  gasRequest({ action:'get_pick' }, function(res) {
+    if (res && res.pick) {
+      try { localStorage.setItem(PICK_STORAGE_KEY, JSON.stringify(res.pick)); } catch(e) {}
+      applyPickToPage(res.pick);
+    }
+  }, function() {
+    // GAS unavailable — local version already applied
+  });
 }
 
 function loadPickAdmin() {
@@ -3733,9 +3754,9 @@ function updatePickPreview() {
 
 function savePickAdmin() {
   var g = function(id) { var el = document.getElementById(id); return el ? el.value.trim() : ''; };
-  var title = g('pick-input-title');
-  var author = g('pick-input-author');
-  var price = parseFloat(g('pick-input-price'));
+  var title   = g('pick-input-title');
+  var author  = g('pick-input-author');
+  var price   = parseFloat(g('pick-input-price'));
   var insight = g('pick-input-insight');
 
   if (!title || !author || !price || !insight) {
@@ -3749,15 +3770,23 @@ function savePickAdmin() {
     origPrice: parseFloat(g('pick-input-origprice')) || Math.round(price * 1.3),
     cover:    g('pick-input-cover'),
     insight:  insight,
-    warriors: parseInt(g('pick-input-warriors')) || 5,
-    days:     parseInt(g('pick-input-days')) || 11,
-    rating:   parseFloat(g('pick-input-rating')) || 4.8,
+    warriors: parseInt(g('pick-input-warriors'))  || 5,
+    days:     parseInt(g('pick-input-days'))       || 11,
+    rating:   parseFloat(g('pick-input-rating'))   || 4.8,
     month:    g('pick-input-month') || 'June 2026'
   };
 
-  localStorage.setItem(PICK_STORAGE_KEY, JSON.stringify(data));
+  // 1. Save locally + apply immediately
+  try { localStorage.setItem(PICK_STORAGE_KEY, JSON.stringify(data)); } catch(e) {}
   applyPickToPage(data);
-  pickShowMsg('Book of the Month updated successfully!', 'success');
+
+  // 2. Sync to GAS
+  pickShowMsg('Saving…', 'info');
+  gasRequest({ action:'save_pick', pick:data }, function() {
+    pickShowMsg('Book of the Month updated on all devices!', 'success');
+  }, function(err) {
+    pickShowMsg('Saved locally — GAS sync failed. Redeploy your script to sync across devices.', 'error');
+  });
 }
 
 function renderPickTextCover(el, d) {
@@ -3853,10 +3882,10 @@ function pickShowMsg(msg, type) {
   setTimeout(function(){ el.style.display = 'none'; }, 4000);
 }
 
-// Load pick on page startup
+// ── STARTUP — load latest data from GAS on every page load ──
 (function() {
-  var d = getPickData();
-  if (d) applyPickToPage(d);
+  loadPickFromGAS();
+  loadCatalog();
 })();
 
 function adminShowMsg(msg, type) {
@@ -5316,6 +5345,44 @@ function getOrCreateSheet(name, headers) {
 
 function handleAction(data) {
   var action = data.action;
+
+  if (action === "save_catalog") {
+    var sh = getOrCreateSheet("📚 CATALOG", ["Data"]);
+    sh.clearContents();
+    sh.appendRow(["Data"]);
+    sh.appendRow([JSON.stringify(data.catalog || [])]);
+    return {success:true};
+  }
+
+  if (action === "get_catalog") {
+    var sh = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("📚 CATALOG");
+    if (!sh) return {success:true, catalog:[]};
+    var rows = sh.getDataRange().getValues();
+    if (rows.length < 2 || !rows[1][0]) return {success:true, catalog:[]};
+    try {
+      var catalog = JSON.parse(rows[1][0]);
+      return {success:true, catalog:catalog};
+    } catch(e) { return {success:true, catalog:[]}; }
+  }
+
+  if (action === "save_pick") {
+    var sh = getOrCreateSheet("📌 PICK", ["Data"]);
+    sh.clearContents();
+    sh.appendRow(["Data"]);
+    sh.appendRow([JSON.stringify(data.pick || {})]);
+    return {success:true};
+  }
+
+  if (action === "get_pick") {
+    var sh = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("📌 PICK");
+    if (!sh) return {success:true, pick:null};
+    var rows = sh.getDataRange().getValues();
+    if (rows.length < 2 || !rows[1][0]) return {success:true, pick:null};
+    try {
+      var pick = JSON.parse(rows[1][0]);
+      return {success:true, pick:pick};
+    } catch(e) { return {success:true, pick:null}; }
+  }
 
   if (action === "register") {
     var sh = getOrCreateSheet("📋 USERS", ["ID","First Name","Last Name","WhatsApp","Email","City","Password","Status","Orders","Total Spent","Consent","Source","Joined"]);
