@@ -3597,26 +3597,27 @@ function saveCatalog() {
 }
 
 function loadCatalog() {
-  // Try localStorage first (instant load)
+  // Apply localStorage cache instantly (any visitor, any device)
   try {
     var stored = localStorage.getItem('bm_catalog');
     if (stored) {
       var parsed = JSON.parse(stored);
       if (parsed && parsed.length > 0) {
         CATALOG = parsed;
-        renderBooks();
+        if (typeof renderBooks === 'function') renderBooks();
       }
     }
   } catch(e) {}
-  // Then fetch from GAS to get latest cross-device version
+
+  // Then fetch latest from GAS — applies to ALL visitors
   gasRequest({ action:'get_catalog' }, function(res) {
     if (res && res.catalog && res.catalog.length > 0) {
       CATALOG = res.catalog;
       try { localStorage.setItem('bm_catalog', JSON.stringify(res.catalog)); } catch(e) {}
-      renderBooks();
+      if (typeof renderBooks === 'function') renderBooks();
     }
   }, function() {
-    // GAS unavailable — localStorage version already applied above
+    // GAS unavailable — localStorage version already applied, no action needed
   });
 }
 
@@ -3684,14 +3685,15 @@ function getPickData() {
 }
 
 function loadPickFromGAS() {
-  // Apply local cache immediately
+  // Apply local cache instantly (any visitor)
   var local = getPickData();
-  applyPickToPage(local);
-  // Then fetch latest from GAS
+  if (local && typeof applyPickToPage === 'function') applyPickToPage(local);
+
+  // Fetch latest from GAS — applies to ALL visitors
   gasRequest({ action:'get_pick' }, function(res) {
     if (res && res.pick) {
       try { localStorage.setItem(PICK_STORAGE_KEY, JSON.stringify(res.pick)); } catch(e) {}
-      applyPickToPage(res.pick);
+      if (typeof applyPickToPage === 'function') applyPickToPage(res.pick);
     }
   }, function() {
     // GAS unavailable — local version already applied
@@ -3882,11 +3884,8 @@ function pickShowMsg(msg, type) {
   setTimeout(function(){ el.style.display = 'none'; }, 4000);
 }
 
-// ── STARTUP — load latest data from GAS on every page load ──
-(function() {
-  loadPickFromGAS();
-  loadCatalog();
-})();
+// ── Startup runs in window.onload below ──
+
 
 function adminShowMsg(msg, type) {
   var el = document.getElementById("adminFormMsg");
@@ -4340,11 +4339,21 @@ function getReviewsFromEditor() {
   });
 })();
 
-// ── INIT ──
+// ── INIT — runs for every visitor, logged in or not ──
 window.onload = function() {
+  // 1. Render books from default catalog immediately (no flicker)
+  renderBooks('All');
+
+  // 2. Load catalog from GAS — updates ALL visitors with latest admin changes
   loadCatalog();
-  renderBooks("All");
+
+  // 3. Load BookMentor's Pick from GAS — updates ALL visitors
+  loadPickFromGAS();
+
+  // 4. Auth state (logged in / guest — doesn't affect catalog or pick)
   authInit();
+
+  // 5. First visit splash
   firstVisitCheck();
 };
 
@@ -4367,7 +4376,7 @@ window.onload = function() {
 // 🌐 GOOGLE APPS SCRIPT — Single Source of Truth (cross-device)
 // ════════════════════════════════════════════════════════════
 // ── PASTE YOUR NEW GAS URL HERE AFTER REDEPLOYING ──
-var GAS_URL = 'https://script.google.com/macros/s/AKfycbyCSnVXUA3sNSHqaazRfMlD1FPOeyLb6Ezd69eilMxKQ3Lrp0liUJPk1RdwZcRd8LeZ/exec';
+var GAS_URL = 'https://script.google.com/macros/s/AKfycbz7lw2yJ1O_XnKMjUxTIIL0NmZjaZfFkyILRaf_U2sTI8dKgB_2vUKyu5gqAw5jf8qm/exec';
 
 // Run this in browser console to test: testGASConnection()
 function testGASConnection() {
