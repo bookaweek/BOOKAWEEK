@@ -2189,31 +2189,31 @@ body::before{
     <h2 class="section-title">Shop by Who You're Becoming</h2>
     <p class="section-sub">Every BookWarrior reads with intention. Find the shelf that matches yours.</p>
     <div class="pathway-grid">
-      <div class="pathway-card pc-1" onclick="filterBooks('Leadership')">
+      <div class="pathway-card pc-1" onclick="filterBooks('Business')">
         <div class="pathway-arrow">↗</div>
-        <span class="pathway-icon">👑</span>
-        <div class="pathway-title">The Leader</div>
-        <div class="pathway-count">6 books · command rooms</div>
+        <span class="pathway-icon">🏛</span>
+        <div class="pathway-title">Business</div>
+        <div class="pathway-count">Leadership · Startups · Marketing · Operations · Biographies</div>
       </div>
       <div class="pathway-card pc-2" onclick="filterBooks('Finance')">
         <div class="pathway-arrow">↗</div>
         <span class="pathway-icon">💰</span>
-        <div class="pathway-title">The Wealthy</div>
-        <div class="pathway-count">5 books · build your empire</div>
+        <div class="pathway-title">Finance</div>
+        <div class="pathway-count">Budgeting · Investing · Assets · Macroeconomics</div>
       </div>
-      <div class="pathway-card pc-3" onclick="filterBooks('Psychology')">
+      <div class="pathway-card pc-3" onclick="filterBooks('Personal Development')">
+        <div class="pathway-arrow">↗</div>
+        <span class="pathway-icon">🎯</span>
+        <div class="pathway-title">Personal Development</div>
+        <div class="pathway-count">Productivity · Mindset · Relationships · Career</div>
+      </div>
+      <div class="pathway-card pc-4" onclick="filterBooks('Psychology')">
         <div class="pathway-arrow">↗</div>
         <span class="pathway-icon">🧠</span>
-        <div class="pathway-title">The Thinker</div>
-        <div class="pathway-count">5 books · rewire your mind</div>
+        <div class="pathway-title">Psychology</div>
+        <div class="pathway-count">Behaviour · Neuroscience · Sociology · Therapy</div>
       </div>
-      <div class="pathway-card pc-4" onclick="filterBooks('Execution')">
-        <div class="pathway-arrow">↗</div>
-        <span class="pathway-icon">⚡</span>
-        <div class="pathway-title">The Executor</div>
-        <div class="pathway-count">4 books · ship more, think less</div>
-      </div>
-      <div class="pathway-card" style="background:linear-gradient(135deg,#1A0D2E,#2E1A4A)" onclick="filterBooks('Spiritual')">
+      <div class="pathway-card" style="background:linear-gradient(135deg,#1A0D2E,#2E1A4A)" onclick="filterBooks('Spirituality')">
         <div class="pathway-arrow">↗</div>
         <span class="pathway-icon">🕊️</span>
         <div class="pathway-title">The Spirit</div>
@@ -2250,13 +2250,12 @@ body::before{
     <div class="search-results-count" id="resultsCount"></div>
 
     <div class="filter-bar" id="filterBar">
-      <button class="filter-btn active" onclick="filterBooks('All')">All Books</button>
+      <button class="filter-btn active" onclick="filterBooks('All')">All</button>
+      <button class="filter-btn" onclick="filterBooks('Business')">Business</button>
       <button class="filter-btn" onclick="filterBooks('Finance')">Finance</button>
-      <button class="filter-btn" onclick="filterBooks('Leadership')">Leadership</button>
+      <button class="filter-btn" onclick="filterBooks('Personal Development')">Personal Development</button>
       <button class="filter-btn" onclick="filterBooks('Psychology')">Psychology</button>
-      <button class="filter-btn" onclick="filterBooks('Execution')">Execution</button>
-      <button class="filter-btn" onclick="filterBooks('Biography')">Biography</button>
-      <button class="filter-btn" onclick="filterBooks('Spiritual')">Spiritual</button>
+      <button class="filter-btn" onclick="filterBooks('Spirituality')">Spirituality</button>
       <button onclick="openAdminPanel()" style="margin-left:auto;background:none;color:rgba(240,230,204,.4);border:1px solid rgba(255,255,255,.1);border-radius:4px;padding:7px 16px;font-family:'Inter',system-ui,sans-serif;font-size:11px;font-weight:500;cursor:pointer;letter-spacing:.08em;text-transform:uppercase;transition:all .15s" title="Bookmentor Admin Panel">Admin</button>
     </div>
     <div class="book-grid" id="bookGrid"></div>
@@ -2279,7 +2278,7 @@ body::before{
   author: 'Author Name',
   price: 4500,                   // price in Naira
   originalPrice: 6000,           // crossed-out original price
-  category: 'Finance',           // Finance|Leadership|Psychology|Execution|Biography|Spiritual
+  category: 'Finance',           // Business|Leadership|Startups|Marketing|Operations|Biographies|Finance|Budgeting|Investing|Assets|Macroeconomics|Personal Development|Productivity|Mindset|Relationships|Career|Psychology|Behaviour|Neuroscience|Sociology|Therapy|Spirituality|Mindfulness|Religion|Mysticism|Philosophy
   badge: 'new',                  // 'new' | 'bestseller' | 'pick' | null
   warriors: 3,                   // how many BookWarriors read it
   avgDays: 12,                   // average days to complete
@@ -2592,13 +2591,42 @@ body::before{
           <label style="font-size:11px;font-weight:500;color:rgba(240,230,204,.5);letter-spacing:.1em;text-transform:uppercase">Category *</label>
           <select id="af-cat" style="background:#0D1E3A;border:1px solid rgba(255,255,255,.07);border-radius:10px;padding:12px 14px;color:#fff;font-family:'Inter',system-ui,sans-serif;font-size:14px;outline:none;cursor:pointer">
             <option value="">Select category</option>
-            <option value="Finance">Finance</option>
-            <option value="Leadership">Leadership</option>
-            <option value="Psychology">Psychology</option>
-            <option value="Execution">Execution</option>
-            <option value="Biography">Biography</option>
-            <option value="Spiritual">Spiritual</option>
-          </select>
+              <optgroup label="── Business ──">
+                <option value="Business">Business (General)</option>
+                <option value="Leadership">Leadership</option>
+                <option value="Startups">Startups</option>
+                <option value="Marketing">Marketing</option>
+                <option value="Operations">Operations</option>
+                <option value="Biographies">Biographies</option>
+              </optgroup>
+              <optgroup label="── Finance ──">
+                <option value="Finance">Finance (General)</option>
+                <option value="Budgeting">Budgeting</option>
+                <option value="Investing">Investing</option>
+                <option value="Assets">Assets</option>
+                <option value="Macroeconomics">Macroeconomics</option>
+              </optgroup>
+              <optgroup label="── Personal Development ──">
+                <option value="Personal Development">Personal Development (General)</option>
+                <option value="Productivity">Productivity</option>
+                <option value="Mindset">Mindset</option>
+                <option value="Relationships">Relationships</option>
+                <option value="Career">Career</option>
+              </optgroup>
+              <optgroup label="── Psychology ──">
+                <option value="Psychology">Psychology (General)</option>
+                <option value="Behaviour">Behaviour</option>
+                <option value="Neuroscience">Neuroscience</option>
+                <option value="Sociology">Sociology</option>
+                <option value="Therapy">Therapy</option>
+              </optgroup>
+              <optgroup label="── Spirituality ──">
+                <option value="Spirituality">Spirituality (General)</option>
+                <option value="Mindfulness">Mindfulness</option>
+                <option value="Religion">Religion</option>
+                <option value="Mysticism">Mysticism</option>
+                <option value="Philosophy">Philosophy</option>
+              </optgroup></select>
         </div>
         <div style="display:flex;flex-direction:column;gap:6px">
           <label style="font-size:11px;font-weight:500;color:rgba(240,230,204,.5);letter-spacing:.1em;text-transform:uppercase">Badge</label>
@@ -3075,24 +3103,24 @@ body::before{
 var CATALOG = [
   {id:"psychology-of-money",title:"The Psychology of Money",author:"Morgan Housel",price:5500,originalPrice:7000,category:"Finance",badge:"bestseller",warriors:5,avgDays:11,rating:4.8,insight:"Doing well with money has little to do with how smart you are and everything to do with how you behave.",color1:"#1B2E1B",color2:"#2D4A2D",textColor:"#E8C56A",cover:"https://covers.openlibrary.org/b/isbn/9780857197689-L.jpg",pick:true,reviews:[{"warrior": "Jesulayomi", "text": "This changed how I think about every financial decision I make. Morgan Housel writes with a simplicity that hits deep. The chapter on Tails, You Win alone is worth the entire price.", "stars": 5, "date": "2024-03-15"}, {"warrior": "Dorcas", "text": "I never thought a finance book could make me emotional. This one did. The story of Ronald Read showed me that ordinary behaviour over long time beats extraordinary intelligence every time.", "stars": 5, "date": "2024-03-28"}, {"warrior": "EA", "text": "Every business owner needs this book. Not for investment tips but for the mindset shift around how wealth is built quietly, consistently, and without ego.", "stars": 5, "date": "2024-04-05"}]},
   {id:"rich-dad-poor-dad",title:"Rich Dad Poor Dad",author:"Robert T. Kiyosaki",price:4500,originalPrice:6000,category:"Finance",badge:"bestseller",warriors:6,avgDays:8,rating:4.6,insight:"The rich don't work for money. They make money work for them.",color1:"#2E1B1B",color2:"#4A2D2D",textColor:"#E8A56A",cover:"https://covers.openlibrary.org/b/isbn/9781612680194-L.jpg",reviews:[{"warrior": "Juliet", "text": "This was the book that moved me from employee thinking to owner thinking. Robert Kiyosaki does not sugarcoat anything. Read this at 23 and it rewired my brain completely.", "stars": 5, "date": "2024-01-10"}, {"warrior": "Motolani", "text": "I read this in 6 days. The concept of assets vs liabilities explained this simply should be taught in secondary school. Game-changing perspective.", "stars": 4, "date": "2024-01-20"}, {"warrior": "Haliyah", "text": "Some parts felt repetitive but the core lesson - make money work for you - is priceless. I have applied the lessons actively since finishing.", "stars": 4, "date": "2024-02-01"}]},
-  {id:"atomic-habits",title:"Atomic Habits",author:"James Clear",price:5000,originalPrice:6500,category:"Execution",badge:"new",warriors:4,avgDays:9,rating:4.9,insight:"You do not rise to the level of your goals. You fall to the level of your systems.",color1:"#1B1B2E",color2:"#2D2D4A",textColor:"#8AB4E8",cover:"https://covers.openlibrary.org/b/isbn/9780735211292-L.jpg",reviews:[{"warrior": "Jesulayomi", "text": "James Clear turned the BookWarriors reading challenge into reality with this book. The 1% better every day philosophy is our foundation. Mandatory reading for every human being alive.", "stars": 5, "date": "2024-02-12"}, {"warrior": "EA", "text": "I had read about habits before but never understood the mechanics this clearly. The habit loop, identity change, environment design - all incredibly practical. My most highlighted book ever.", "stars": 5, "date": "2024-02-25"}, {"warrior": "Motolani", "text": "Finished in 8 days. Started implementing on day 3. My morning routine has never been more consistent. This is not theory - it is an instruction manual for real change.", "stars": 5, "date": "2024-03-08"}]},
+  {id:"atomic-habits",title:"Atomic Habits",author:"James Clear",price:5000,originalPrice:6500,category:"Personal Development",badge:"new",warriors:4,avgDays:9,rating:4.9,insight:"You do not rise to the level of your goals. You fall to the level of your systems.",color1:"#1B1B2E",color2:"#2D2D4A",textColor:"#8AB4E8",cover:"https://covers.openlibrary.org/b/isbn/9780735211292-L.jpg",reviews:[{"warrior": "Jesulayomi", "text": "James Clear turned the BookWarriors reading challenge into reality with this book. The 1% better every day philosophy is our foundation. Mandatory reading for every human being alive.", "stars": 5, "date": "2024-02-12"}, {"warrior": "EA", "text": "I had read about habits before but never understood the mechanics this clearly. The habit loop, identity change, environment design - all incredibly practical. My most highlighted book ever.", "stars": 5, "date": "2024-02-25"}, {"warrior": "Motolani", "text": "Finished in 8 days. Started implementing on day 3. My morning routine has never been more consistent. This is not theory - it is an instruction manual for real change.", "stars": 5, "date": "2024-03-08"}]},
   {id:"think-grow-rich",title:"Think and Grow Rich",author:"Napoleon Hill",price:3800,originalPrice:5000,category:"Finance",badge:null,warriors:5,avgDays:14,rating:4.5,insight:"Whatever the mind can conceive and believe, it can achieve.",color1:"#2E2A1B",color2:"#4A432D",textColor:"#E8D56A",cover:"https://covers.openlibrary.org/b/isbn/9781585424337-L.jpg",reviews:[{"warrior": "Dorcas", "text": "Written in 1937 and still the most relevant book on the psychology of achievement I have ever read. The chapter on the Mastermind hit differently reading it inside BookWarriors.", "stars": 5, "date": "2024-01-05"}, {"warrior": "Juliet", "text": "Napoleon Hill spent decades studying the greatest achievers so we do not have to. The Desire chapter alone reshaped my relationship with my goals. A classic for good reason.", "stars": 4, "date": "2024-01-18"}]},
-  {id:"start-with-why",title:"Start With Why",author:"Simon Sinek",price:4800,originalPrice:6200,category:"Leadership",badge:"bestseller",warriors:4,avgDays:10,rating:4.7,insight:"People don't buy what you do; they buy why you do it.",color1:"#1B2A2E",color2:"#2D424A",textColor:"#6AE8D4",cover:"https://covers.openlibrary.org/b/isbn/9781591846444-L.jpg",reviews:[{"warrior": "EA", "text": "Simon Sinek's Golden Circle is the clearest framework for leadership I have ever encountered. Every brand, every leader, every movement that endures starts with WHY. Could not put it down.", "stars": 5, "date": "2024-03-01"}, {"warrior": "Jesulayomi", "text": "This book explained why BookAWeek exists. Not just to sell books but to build a generation of thinkers. I recommend this to every founder, every manager, every human with a goal.", "stars": 5, "date": "2024-03-14"}]},
-  {id:"48-laws",title:"The 48 Laws of Power",author:"Robert Greene",price:6500,originalPrice:8500,category:"Leadership",badge:null,warriors:3,avgDays:21,rating:4.4,insight:"Power is the ability to define reality and have others accept that definition.",color1:"#2E1B2A",color2:"#4A2D43",textColor:"#E868C8",cover:"https://covers.openlibrary.org/b/isbn/9780140280197-L.jpg",reviews:[{"warrior": "Motolani", "text": "Took me 19 days because I treated each law as a chapter to reflect on. Greene is uncomfortable but necessary. Understanding power dynamics is not optional in a competitive world.", "stars": 5, "date": "2024-04-10"}, {"warrior": "EA", "text": "Not a book you read to become manipulative. A book you read to understand the world as it truly operates. Law 4 - Always say less than necessary - I use daily.", "stars": 4, "date": "2024-04-30"}]},
-  {id:"deep-work",title:"Deep Work",author:"Cal Newport",price:4200,originalPrice:5500,category:"Execution",badge:"new",warriors:3,avgDays:12,rating:4.8,insight:"The ability to perform deep work is becoming increasingly rare and valuable in our economy.",color1:"#1B2E2A",color2:"#2D4A43",textColor:"#6AE8B4",cover:"https://covers.openlibrary.org/b/isbn/9781455586691-L.jpg",reviews:[{"warrior": "Jesulayomi", "text": "Cal Newport diagnosed exactly what is killing productivity in the modern age: distraction disguised as busyness. I deleted social media the day after finishing this book. Best decision of the year.", "stars": 5, "date": "2024-05-03"}, {"warrior": "Dorcas", "text": "This book made me restructure my entire work schedule. I now have 3 deep work blocks daily with zero notifications. My output has tripled. Not exaggerating.", "stars": 5, "date": "2024-05-18"}, {"warrior": "Juliet", "text": "Very dense but every chapter earns its place. The chapter on Embrace Boredom was the hardest and most important lesson. We are addicted to stimulation and it is costing us everything.", "stars": 4, "date": "2024-06-01"}]},
+  {id:"start-with-why",title:"Start With Why",author:"Simon Sinek",price:4800,originalPrice:6200,category:"Business",badge:"bestseller",warriors:4,avgDays:10,rating:4.7,insight:"People don't buy what you do; they buy why you do it.",color1:"#1B2A2E",color2:"#2D424A",textColor:"#6AE8D4",cover:"https://covers.openlibrary.org/b/isbn/9781591846444-L.jpg",reviews:[{"warrior": "EA", "text": "Simon Sinek's Golden Circle is the clearest framework for leadership I have ever encountered. Every brand, every leader, every movement that endures starts with WHY. Could not put it down.", "stars": 5, "date": "2024-03-01"}, {"warrior": "Jesulayomi", "text": "This book explained why BookAWeek exists. Not just to sell books but to build a generation of thinkers. I recommend this to every founder, every manager, every human with a goal.", "stars": 5, "date": "2024-03-14"}]},
+  {id:"48-laws",title:"The 48 Laws of Power",author:"Robert Greene",price:6500,originalPrice:8500,category:"Business",badge:null,warriors:3,avgDays:21,rating:4.4,insight:"Power is the ability to define reality and have others accept that definition.",color1:"#2E1B2A",color2:"#4A2D43",textColor:"#E868C8",cover:"https://covers.openlibrary.org/b/isbn/9780140280197-L.jpg",reviews:[{"warrior": "Motolani", "text": "Took me 19 days because I treated each law as a chapter to reflect on. Greene is uncomfortable but necessary. Understanding power dynamics is not optional in a competitive world.", "stars": 5, "date": "2024-04-10"}, {"warrior": "EA", "text": "Not a book you read to become manipulative. A book you read to understand the world as it truly operates. Law 4 - Always say less than necessary - I use daily.", "stars": 4, "date": "2024-04-30"}]},
+  {id:"deep-work",title:"Deep Work",author:"Cal Newport",price:4200,originalPrice:5500,category:"Personal Development",badge:"new",warriors:3,avgDays:12,rating:4.8,insight:"The ability to perform deep work is becoming increasingly rare and valuable in our economy.",color1:"#1B2E2A",color2:"#2D4A43",textColor:"#6AE8B4",cover:"https://covers.openlibrary.org/b/isbn/9781455586691-L.jpg",reviews:[{"warrior": "Jesulayomi", "text": "Cal Newport diagnosed exactly what is killing productivity in the modern age: distraction disguised as busyness. I deleted social media the day after finishing this book. Best decision of the year.", "stars": 5, "date": "2024-05-03"}, {"warrior": "Dorcas", "text": "This book made me restructure my entire work schedule. I now have 3 deep work blocks daily with zero notifications. My output has tripled. Not exaggerating.", "stars": 5, "date": "2024-05-18"}, {"warrior": "Juliet", "text": "Very dense but every chapter earns its place. The chapter on Embrace Boredom was the hardest and most important lesson. We are addicted to stimulation and it is costing us everything.", "stars": 4, "date": "2024-06-01"}]},
   {id:"mindset",title:"Mindset",author:"Carol S. Dweck",price:4000,originalPrice:5200,category:"Psychology",badge:null,warriors:4,avgDays:11,rating:4.6,insight:"In a growth mindset, challenges are exciting rather than threatening.",color1:"#1B1B2E",color2:"#2D2D4A",textColor:"#B46AE8",cover:"https://covers.openlibrary.org/b/isbn/9780345472328-L.jpg",reviews:[{"warrior": "Haliyah", "text": "Carol Dweck gave language to something I felt but could not explain. The growth mindset vs fixed mindset distinction applies to parenting, business, relationships - everything. Read it twice.", "stars": 5, "date": "2024-01-22"}, {"warrior": "Juliet", "text": "Psychologically this is one of the most important books of the century. It shows how the story we tell ourselves about our own abilities determines our entire ceiling. Essential.", "stars": 5, "date": "2024-02-07"}]},
   {id:"thinking-fast-slow",title:"Thinking, Fast and Slow",author:"Daniel Kahneman",price:5200,originalPrice:7000,category:"Psychology",badge:null,warriors:2,avgDays:18,rating:4.5,insight:"Nothing in life is as important as you think it is when you are thinking about it.",color1:"#2A2E1B",color2:"#434A2D",textColor:"#C8E86A",cover:"https://covers.openlibrary.org/b/isbn/9780374533557-L.jpg",reviews:[{"warrior": "Juliet", "text": "Kahneman breaks down two decades of research into the most readable psychology book I have ever encountered. System 1 and System 2 thinking changed how I make every decision.", "stars": 5, "date": "2024-03-20"}, {"warrior": "Dorcas", "text": "Dense and deep - took me 18 days but every page was worth it. I now catch my own cognitive biases in real time. That is priceless.", "stars": 4, "date": "2024-04-08"}]},
   {id:"outliers",title:"Outliers",author:"Malcolm Gladwell",price:4300,originalPrice:5800,category:"Psychology",badge:null,warriors:3,avgDays:9,rating:4.5,insight:"Practice is the thing that makes you good. 10,000 hours of it.",color1:"#2E1B1B",color2:"#4A3030",textColor:"#E88A6A",cover:"https://covers.openlibrary.org/b/isbn/9780316017930-L.jpg",reviews:[{"warrior": "EA", "text": "Gladwell dismantles the myth of the self-made genius. Success is preparation meeting opportunity meeting community. The 10,000 hours story of the Beatles and Bill Gates will stay with me forever.", "stars": 5, "date": "2024-02-14"}, {"warrior": "Motolani", "text": "Read in 9 days. The chapter on cultural legacy and plane crashes was something I never expected in a book about success. Gladwell is a master storyteller with deep research underneath.", "stars": 4, "date": "2024-02-28"}]},
-  {id:"shoe-dog",title:"Shoe Dog",author:"Phil Knight",price:5800,originalPrice:7500,category:"Biography",badge:null,warriors:2,avgDays:14,rating:4.9,insight:"The cowards never started and the weak died along the way. That leaves us.",color1:"#1B2020",color2:"#2D3535",textColor:"#6AE8E8",cover:"https://covers.openlibrary.org/b/isbn/9781501135910-L.jpg",reviews:[{"warrior": "Jesulayomi", "text": "The most honest memoir from a founder I have ever read. Phil Knight does not pretend he had it all figured out. He was terrified most of the time and kept going anyway. That is the lesson.", "stars": 5, "date": "2024-05-10"}, {"warrior": "EA", "text": "I finished this in 12 days and thought about it for another 12. Nike almost went bankrupt multiple times. What kept it alive was the belief of a handful of people in an idea. Inspiring beyond words.", "stars": 5, "date": "2024-05-25"}]},
-  {id:"lean-startup",title:"The Lean Startup",author:"Eric Ries",price:4600,originalPrice:6000,category:"Execution",badge:"new",warriors:2,avgDays:13,rating:4.4,insight:"The only way to win is to learn faster than anyone else.",color1:"#1B2E1B",color2:"#2D452D",textColor:"#80E87A",cover:"https://covers.openlibrary.org/b/isbn/9780307887894-L.jpg",reviews:[{"warrior": "Motolani", "text": "Eric Ries saved me from building the wrong product for months. The concept of validated learning and the MVP changed how I approach every new idea. Builders must read this.", "stars": 5, "date": "2024-04-15"}, {"warrior": "Jesulayomi", "text": "The Build-Measure-Learn loop sounds simple but most founders never actually practise it. This book shows you how to stop guessing and start testing. Completed it in 12 days.", "stars": 4, "date": "2024-05-02"}]},
-  {id:"purpose-driven-life",title:"The Purpose Driven Life",author:"Rick Warren",price:4200,originalPrice:5500,category:"Spiritual",badge:"bestseller",warriors:3,avgDays:14,rating:4.9,insight:"You were made by God and for God. Until you understand that, life will never make sense.",color1:"#1A0D2E",color2:"#2E1A4A",textColor:"#C8A8E8",cover:"https://covers.openlibrary.org/b/isbn/9780310335504-L.jpg",reviews:[{warrior:"Jesulayomi",text:"This book answered questions I didn't know I had. Read it in 10 days.",stars:5},{warrior:"Dorcas",text:"Changed how I see my daily work. Everything has meaning now.",stars:5}]},
-  {id:"battlefield-of-the-mind",title:"Battlefield of the Mind",author:"Joyce Meyer",price:3800,originalPrice:5000,category:"Spiritual",badge:null,warriors:2,avgDays:11,rating:4.8,insight:"The mind is the battlefield. What you allow in your thoughts determines the direction of your life.",color1:"#2E1A0D",color2:"#4A2E1A",textColor:"#E8C8A8",cover:"https://covers.openlibrary.org/b/isbn/9780446691093-L.jpg",reviews:[{warrior:"Juliet",text:"I underlined something on almost every page. Transformed how I handle anxiety.",stars:5}]},
-  {id:"redeeming-your-time",title:"Redeeming Your Time",author:"Jordan Raynor",price:4500,originalPrice:5800,category:"Spiritual",badge:"new",warriors:2,avgDays:10,rating:4.7,insight:"Jesus was the most productive person who ever lived. He left no task unfinished.",color1:"#0D1A2E",color2:"#1A2E4A",textColor:"#A8C8E8",cover:"https://covers.openlibrary.org/b/isbn/9780525652083-L.jpg",reviews:[{warrior:"Motolani",text:"A practical and spiritual guide to stewardship of time. Completely reframed how I plan my days.",stars:5}]},
-  {id:"praying-life",title:"The Power of a Praying Life",author:"Stormie Omartian",price:3500,originalPrice:4800,category:"Spiritual",badge:null,warriors:2,avgDays:13,rating:4.8,insight:"Prayer is not a last resort. It is the first resort of someone who knows where their power comes from.",color1:"#1A2E0D",color2:"#2E4A1A",textColor:"#A8E8C8",cover:"https://covers.openlibrary.org/b/isbn/9780736943345-L.jpg",reviews:[{warrior:"Haliyah",text:"Every chapter felt like it was written specifically for where I am in life. 5 stars.",stars:5}]},
-  {id:"good-to-great",title:"Good to Great",author:"Jim Collins",price:5200,originalPrice:7000,category:"Leadership",badge:null,warriors:3,avgDays:16,rating:4.7,insight:"Good is the enemy of great. Most companies settle for good and that is exactly why so few become great.",color1:"#1A1A2E",color2:"#2E2E4A",textColor:"#E8C56A",cover:"https://covers.openlibrary.org/b/isbn/9780066620992-L.jpg",reviews:[{"warrior": "EA", "text": "Jim Collins and his team studied over 1400 companies to find 11 that made the leap from good to great. The Level 5 Leadership and Hedgehog Concept chapters are worth 10x the book price.", "stars": 5, "date": "2024-03-05"}, {"warrior": "Dorcas", "text": "A research-based approach to leadership that removes all the noise and cuts to what actually drives greatness. Our team should read this together.", "stars": 5, "date": "2024-03-22"}]},
+  {id:"shoe-dog",title:"Shoe Dog",author:"Phil Knight",price:5800,originalPrice:7500,category:"Business",badge:null,warriors:2,avgDays:14,rating:4.9,insight:"The cowards never started and the weak died along the way. That leaves us.",color1:"#1B2020",color2:"#2D3535",textColor:"#6AE8E8",cover:"https://covers.openlibrary.org/b/isbn/9781501135910-L.jpg",reviews:[{"warrior": "Jesulayomi", "text": "The most honest memoir from a founder I have ever read. Phil Knight does not pretend he had it all figured out. He was terrified most of the time and kept going anyway. That is the lesson.", "stars": 5, "date": "2024-05-10"}, {"warrior": "EA", "text": "I finished this in 12 days and thought about it for another 12. Nike almost went bankrupt multiple times. What kept it alive was the belief of a handful of people in an idea. Inspiring beyond words.", "stars": 5, "date": "2024-05-25"}]},
+  {id:"lean-startup",title:"The Lean Startup",author:"Eric Ries",price:4600,originalPrice:6000,category:"Personal Development",badge:"new",warriors:2,avgDays:13,rating:4.4,insight:"The only way to win is to learn faster than anyone else.",color1:"#1B2E1B",color2:"#2D452D",textColor:"#80E87A",cover:"https://covers.openlibrary.org/b/isbn/9780307887894-L.jpg",reviews:[{"warrior": "Motolani", "text": "Eric Ries saved me from building the wrong product for months. The concept of validated learning and the MVP changed how I approach every new idea. Builders must read this.", "stars": 5, "date": "2024-04-15"}, {"warrior": "Jesulayomi", "text": "The Build-Measure-Learn loop sounds simple but most founders never actually practise it. This book shows you how to stop guessing and start testing. Completed it in 12 days.", "stars": 4, "date": "2024-05-02"}]},
+  {id:"purpose-driven-life",title:"The Purpose Driven Life",author:"Rick Warren",price:4200,originalPrice:5500,category:"Spirituality",badge:"bestseller",warriors:3,avgDays:14,rating:4.9,insight:"You were made by God and for God. Until you understand that, life will never make sense.",color1:"#1A0D2E",color2:"#2E1A4A",textColor:"#C8A8E8",cover:"https://covers.openlibrary.org/b/isbn/9780310335504-L.jpg",reviews:[{warrior:"Jesulayomi",text:"This book answered questions I didn't know I had. Read it in 10 days.",stars:5},{warrior:"Dorcas",text:"Changed how I see my daily work. Everything has meaning now.",stars:5}]},
+  {id:"battlefield-of-the-mind",title:"Battlefield of the Mind",author:"Joyce Meyer",price:3800,originalPrice:5000,category:"Spirituality",badge:null,warriors:2,avgDays:11,rating:4.8,insight:"The mind is the battlefield. What you allow in your thoughts determines the direction of your life.",color1:"#2E1A0D",color2:"#4A2E1A",textColor:"#E8C8A8",cover:"https://covers.openlibrary.org/b/isbn/9780446691093-L.jpg",reviews:[{warrior:"Juliet",text:"I underlined something on almost every page. Transformed how I handle anxiety.",stars:5}]},
+  {id:"redeeming-your-time",title:"Redeeming Your Time",author:"Jordan Raynor",price:4500,originalPrice:5800,category:"Spirituality",badge:"new",warriors:2,avgDays:10,rating:4.7,insight:"Jesus was the most productive person who ever lived. He left no task unfinished.",color1:"#0D1A2E",color2:"#1A2E4A",textColor:"#A8C8E8",cover:"https://covers.openlibrary.org/b/isbn/9780525652083-L.jpg",reviews:[{warrior:"Motolani",text:"A practical and spiritual guide to stewardship of time. Completely reframed how I plan my days.",stars:5}]},
+  {id:"praying-life",title:"The Power of a Praying Life",author:"Stormie Omartian",price:3500,originalPrice:4800,category:"Spirituality",badge:null,warriors:2,avgDays:13,rating:4.8,insight:"Prayer is not a last resort. It is the first resort of someone who knows where their power comes from.",color1:"#1A2E0D",color2:"#2E4A1A",textColor:"#A8E8C8",cover:"https://covers.openlibrary.org/b/isbn/9780736943345-L.jpg",reviews:[{warrior:"Haliyah",text:"Every chapter felt like it was written specifically for where I am in life. 5 stars.",stars:5}]},
+  {id:"good-to-great",title:"Good to Great",author:"Jim Collins",price:5200,originalPrice:7000,category:"Business",badge:null,warriors:3,avgDays:16,rating:4.7,insight:"Good is the enemy of great. Most companies settle for good and that is exactly why so few become great.",color1:"#1A1A2E",color2:"#2E2E4A",textColor:"#E8C56A",cover:"https://covers.openlibrary.org/b/isbn/9780066620992-L.jpg",reviews:[{"warrior": "EA", "text": "Jim Collins and his team studied over 1400 companies to find 11 that made the leap from good to great. The Level 5 Leadership and Hedgehog Concept chapters are worth 10x the book price.", "stars": 5, "date": "2024-03-05"}, {"warrior": "Dorcas", "text": "A research-based approach to leadership that removes all the noise and cuts to what actually drives greatness. Our team should read this together.", "stars": 5, "date": "2024-03-22"}]},
   {id:"millionaire-next-door",title:"The Millionaire Next Door",author:"Thomas J. Stanley",price:4100,originalPrice:5500,category:"Finance",badge:null,warriors:2,avgDays:11,rating:4.4,insight:"Wealth is not the same as income. Wealth is what you accumulate, not what you spend.",color1:"#2E2A1B",color2:"#4A3F2D",textColor:"#E8D080",cover:"https://covers.openlibrary.org/b/isbn/9781589795471-L.jpg",reviews:[{"warrior": "Dorcas", "text": "The data in this book destroyed every stereotype I had about wealth. Most millionaires live below their means, drive simple cars, and never show off. Frugality is the real secret.", "stars": 4, "date": "2024-04-20"}, {"warrior": "Haliyah", "text": "A grounding read. In a world of flexing and showing off, this book is the antidote. 11 days to finish and a permanent change in how I think about saving vs spending.", "stars": 4, "date": "2024-05-08"}]},
   {id:"mans-search-for-meaning",title:"Man's Search for Meaning",author:"Viktor E. Frankl",price:3600,originalPrice:5000,category:"Psychology",badge:"pick",warriors:3,avgDays:7,rating:4.9,insight:"Those who have a WHY to live can bear almost any HOW.",color1:"#1C1C1C",color2:"#2D2D2D",textColor:"#E8C56A",cover:"https://covers.openlibrary.org/b/isbn/9780807014271-L.jpg",reviews:[{"warrior": "Juliet", "text": "Viktor Frankl survived Nazi concentration camps and found meaning even there. I finished this in 7 days and cried twice. If he could find purpose in Auschwitz, I have no excuse for despair.", "stars": 5, "date": "2024-01-30"}, {"warrior": "Jesulayomi", "text": "The shortest book in our catalog and the one that hit me hardest. Logotherapy - finding meaning as the primary driver of human existence - is a concept I think about every single day now.", "stars": 5, "date": "2024-02-15"}, {"warrior": "Haliyah", "text": "I have recommended this book to 8 people since reading it. It answers the deepest question every human has: what is the point? And it answers it from a place of profound suffering. Required reading.", "stars": 5, "date": "2024-02-28"}]},
-  {id:"power-of-now",title:"The Power of Now",author:"Eckhart Tolle",price:4000,originalPrice:5500,category:"Spiritual",badge:null,warriors:2,avgDays:14,rating:4.6,insight:"Realize deeply that the present moment is all you ever have.",color1:"#1A2E2E",color2:"#0D3333",textColor:"#A8E8D8",cover:"https://covers.openlibrary.org/b/isbn/9781577314806-L.jpg"}
+  {id:"power-of-now",title:"The Power of Now",author:"Eckhart Tolle",price:4000,originalPrice:5500,category:"Spirituality",badge:null,warriors:2,avgDays:14,rating:4.6,insight:"Realize deeply that the present moment is all you ever have.",color1:"#1A2E2E",color2:"#0D3333",textColor:"#A8E8D8",cover:"https://covers.openlibrary.org/b/isbn/9781577314806-L.jpg"}
 ];
 
 var cart = [];
@@ -3227,115 +3255,96 @@ function toggleReviews(id) {
 }
 
 // ── RENDER BOOKS ──
-function renderBooks(filter) {
+function renderBooks(filter, preFiltered) {
+  var cat = filter || currentFilter || 'All';
+  var books = preFiltered || CATALOG.filter(function(b) {
+    if (cat === 'All') return true;
+    var parentMap = {
+      'Business':             ['Business','Leadership','Biographies','Biography','Startups','Marketing','Operations'],
+      'Finance':              ['Finance','Budgeting','Investing','Assets','Macroeconomics'],
+      'Personal Development': ['Personal Development','Execution','Productivity','Mindset','Relationships','Career'],
+      'Psychology':           ['Psychology','Behaviour','Behavior','Neuroscience','Sociology','Therapy'],
+      'Spirituality':         ['Spirituality','Spiritual','Mindfulness','Religion','Mysticism','Philosophy']
+    };
+    var allowed = parentMap[cat];
+    if (allowed) return allowed.indexOf(b.category) !== -1;
+    return b.category === cat;
+  });
+
   var grid = document.getElementById('bookGrid');
-  var countEl = document.getElementById('resultsCount');
   if (!grid) return;
-  grid.innerHTML = '';
-
-  var books = (filter === 'All' ? CATALOG : CATALOG.filter(function(b){ return b.category === filter; }))
-    .filter(matchesSearch);
-
-  if (countEl) {
-    countEl.textContent = _searchTerm
-      ? books.length + ' result' + (books.length !== 1 ? 's' : '') + ' for "' + _searchTerm + '"'
-      : '';
-  }
 
   if (books.length === 0) {
-    grid.innerHTML = '<div class="no-results" style="grid-column:1/-1"><span class="nr-icon">&#128269;</span><div class="nr-title">No books found</div><div class="nr-sub">Try a different search or <button class="btn-ghost" onclick="openRequestModal()" style="margin-top:16px;font-size:13px;padding:10px 20px;display:inline">Request a book</button></div></div>';
+    grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:60px 20px;color:rgba(240,230,204,.25);font-size:15px">No books in this category yet.</div>';
     return;
   }
 
-  books.forEach(function(book) {
-    var card = document.createElement('div');
-    card.className = 'book-card';
-    card.id = 'card-' + book.id;
-    card.setAttribute('data-cat', book.category);
-
-    var BADGE_LABELS = {bestseller:'Warrior Reviewed', new:'Warrior Reviewed', pick:'Warrior Reviewed', warrior:'Warrior Reviewed'};
-    var badgeLabel = BADGE_LABELS[book.badge] || book.badge;
-    var badgeHTML = book.badge
-      ? '<div class="book-card-badge badge-' + book.badge + '">' + badgeLabel + '</div>'
-      : '';
-
-    var reviewsHTML = '';
-    if (book.reviews && book.reviews.length > 0) {
-      var reviewItems = book.reviews.map(function(r) {
-        var init = r.warrior ? r.warrior[0].toUpperCase() : '?';
-        var stars = '';
-        for (var s = 0; s < (r.stars || 5); s++) stars += '&#9733;';
-        return '<div class="review-item"><div class="review-header"><div class="review-avatar">' + init + '</div><span class="review-warrior">' + r.warrior + '</span><span class="review-stars">' + stars + '</span></div><div class="review-text">&ldquo;' + r.text + '&rdquo;</div></div>';
-      }).join('');
-      reviewsHTML = '<button class="view-reviews-btn" data-count="' + book.reviews.length + '" onclick="toggleReviews(\'' + book.id + '\')" style="margin-top:10px">Read BookWarrior reviews (' + book.reviews.length + ')</button><div class="reviews-section" style="display:none">' + reviewItems + '</div>';
-    }
-
-    var coverInner = book.cover
-      ? '<img src="' + book.cover + '" alt="' + book.title.replace(/"/g,"'") + '" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s ease" loading="lazy" onerror="this.style.display=\'none\';this.nextSibling.style.display=\'flex\'">' +
-        '<div style="display:none;background:linear-gradient(160deg,' + book.color1 + ',' + book.color2 + ');height:240px;flex-direction:column;align-items:center;justify-content:flex-end;padding:16px 14px"><div style="font-size:9px;letter-spacing:.15em;color:rgba(255,255,255,.35);text-transform:uppercase;margin-bottom:8px">' + book.author + '</div><div style="font-family:Cormorant Garamond,Georgia,serif;font-size:14px;font-weight:900;color:' + book.textColor + ';text-align:center;line-height:1.2">' + book.title + '</div></div>'
-      : '<div style="background:linear-gradient(160deg,' + book.color1 + ',' + book.color2 + ');height:240px;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding:16px 14px"><div style="font-size:9px;letter-spacing:.15em;color:rgba(255,255,255,.35);text-transform:uppercase;margin-bottom:8px">' + book.author + '</div><div style="font-family:Cormorant Garamond,Georgia,serif;font-size:14px;font-weight:900;color:' + book.textColor + ';text-align:center;line-height:1.2">' + book.title + '</div></div>';
-
-    var coverHTML = '<div style="height:240px;overflow:hidden;position:relative;background:linear-gradient(160deg,' + book.color1 + ',' + book.color2 + ')">' + coverInner + '</div>';
-
-    // Review count badge for card
-    var rc = (book.reviews && book.reviews.length) ? book.reviews.length : 0;
-    var avgStars = book.rating || 4.5;
-    var starsFilled = Math.round(avgStars);
-    var starsHtml = [1,2,3,4,5].map(function(s){
-      return '<span style="font-size:11px;color:' + (s <= starsFilled ? 'var(--gold)' : 'rgba(255,255,255,.15)') + '">★</span>';
-    }).join('');
-    var reviewBadge = rc > 0
-      ? '<div style="display:flex;align-items:center;gap:5px;margin-top:10px;padding:6px 10px;background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.18);border-radius:8px;width:fit-content">' + starsHtml +
-        '<span style="font-size:11px;font-weight:700;color:rgba(245,237,216,.65);margin-left:4px">' + rc + ' BookWarrior review' + (rc !== 1 ? 's' : '') + '</span></div>'
-      : '';
-
-    card.innerHTML =
-      '<div class="book-card-cover" style="cursor:pointer;overflow:hidden;position:relative">' +
-        badgeHTML + coverHTML +
-        '<div class="book-card-click-hint">Tap to read reviews</div>' +
+  grid.innerHTML = books.map(function(book) {
+    var badgeHtml = book.badge ? '<div class="book-card-badge badge-' + book.badge + '">Warrior Reviewed</div>' : '';
+    var origPrice = book.originalPrice ? '<span class="book-price-old">\u20A6' + book.originalPrice.toLocaleString() + '</span>' : '';
+    var coverStyle = book.cover
+      ? 'background:linear-gradient(160deg,' + (book.color1||'#111') + ' 0%,' + (book.color2||'#222') + ' 100%)'
+      : 'background:linear-gradient(160deg,' + (book.color1||'#111') + ' 0%,' + (book.color2||'#222') + ' 100%)';
+    var bookImg = book.cover
+      ? '<img src="' + book.cover + '" style="width:130px;display:block;border-radius:2px 8px 8px 2px;box-shadow:-6px 0 0 rgba(0,0,0,.3),8px 12px 28px rgba(0,0,0,.6)" onerror="this.style.display='none'">'
+      : '<div style="width:130px;height:180px;background:' + coverStyle + ';border-radius:2px 8px 8px 2px;display:flex;align-items:center;justify-content:center;font-size:11px;color:rgba(255,255,255,.3);letter-spacing:.08em;text-align:center;padding:12px;box-shadow:-6px 0 0 rgba(0,0,0,.3),8px 12px 28px rgba(0,0,0,.6)">BOOK COVER</div>';
+    var catLabel = book.category || '';
+    return '<div class="book-card" onclick="openBookDetail('' + book.id + '')">' +
+      '<div class="book-card-cover" style="' + coverStyle + '">' +
+        badgeHtml +
+        '<div class="book-3d">' + bookImg + '</div>' +
+        '<div class="book-card-click-hint">View Details</div>' +
       '</div>' +
-      '<div class="book-card-body" style="cursor:default">' +
-        '<div class="book-card-cat">' + book.category + '</div>' +
-        '<div class="book-card-title" style="cursor:pointer">' + book.title + '</div>' +
+      '<div class="book-card-body">' +
+        '<div class="book-card-cat">' + catLabel + '</div>' +
+        '<div class="book-card-title">' + book.title + '</div>' +
         '<div class="book-card-author">' + book.author + '</div>' +
         '<div class="book-card-data">' +
-          '<div class="bcd-item"><div class="bcd-val">' + book.warriors + '</div><div class="bcd-lbl">Warriors</div></div>' +
-          '<div class="bcd-item"><div class="bcd-val">' + book.avgDays + 'd</div><div class="bcd-lbl">Avg Read</div></div>' +
-          '<div class="bcd-item"><div class="bcd-val">' + book.rating + '★</div><div class="bcd-lbl">Rating</div></div>' +
+          '<div class="bcd-item"><span class="bcd-val">' + (book.warriors||0) + '</span><span class="bcd-lbl">Warriors</span></div>' +
+          '<div class="bcd-item"><span class="bcd-val">' + (book.avgDays||0) + 'd</span><span class="bcd-lbl">Avg Read</span></div>' +
+          '<div class="bcd-item"><span class="bcd-val">' + (book.rating||0) + '★</span><span class="bcd-lbl">Rating</span></div>' +
         '</div>' +
-        '<div class="book-card-insight">&ldquo;' + book.insight + '&rdquo;</div>' +
-        reviewBadge +
-        '<div class="book-card-footer" style="margin-top:12px">' +
-          '<div><span class="book-price">₦' + book.price.toLocaleString() + '</span><span class="book-price-old"> ₦' + book.originalPrice.toLocaleString() + '</span></div>' +
-          '<button class="add-to-cart" id="btn-' + book.id + '">+ Add</button>' +
+        '<div class="book-card-insight">' + (book.insight||'') + '</div>' +
+        '<div class="book-card-footer">' +
+          '<div><span class="book-price">\u20A6' + (book.price||0).toLocaleString() + '</span>' + origPrice + '</div>' +
+          '<button class="add-to-cart" onclick="event.stopPropagation();addToCart('' + book.id + '','' + book.title.replace(/'/g,"\\'") + '','' + book.author.replace(/'/g,"\\'") + '',' + book.price + ','' + (book.color1||'#111') + '','' + (book.textColor||'#fff') + '')">Add to Cart</button>' +
         '</div>' +
-      '</div>';
-
-    // Bind events safely via closure
-    (function(b){
-      var btn = card.querySelector('.add-to-cart');
-      if (btn) btn.onclick = function(e){ e.stopPropagation(); addToCart(b.id, b.title, b.author, b.price, b.color1, b.textColor); };
-      var cover = card.querySelector('.book-card-cover');
-      if (cover) cover.onclick = function(){ openBookDetail(b.id); };
-      var titleEl = card.querySelector('.book-card-title');
-      if (titleEl) titleEl.onclick = function(){ openBookDetail(b.id); };
-    })(book);
-
-    grid.appendChild(card);
-  });
+      '</div>' +
+    '</div>';
+  }).join('');
 }
 
 
 // ── FILTER ──
 function filterBooks(cat) {
   currentFilter = cat;
-  document.querySelectorAll(".filter-btn").forEach(function(btn){
-    var txt = btn.textContent.trim();
-    btn.classList.toggle("active", txt === cat || (cat === "All" && txt === "All Books"));
+  // Update filter bar active state
+  document.querySelectorAll(".filter-btn").forEach(function(btn) {
+    btn.classList.remove("active");
+    if (btn.textContent.trim() === cat ||
+        (cat === 'All' && btn.textContent.trim() === 'All')) {
+      btn.classList.add("active");
+    }
   });
-  renderBooks(cat);
-  var storeEl = document.getElementById("store");
-  if (storeEl) storeEl.scrollIntoView({behavior:"smooth", block:"start"});
+
+  // Parent → sub-category mapping
+  var parentMap = {
+    'Business':             ['Business','Leadership','Biographies','Biography','Startups','Marketing','Operations'],
+    'Finance':              ['Finance','Budgeting','Investing','Assets','Macroeconomics'],
+    'Personal Development': ['Personal Development','Execution','Productivity','Mindset','Relationships','Career'],
+    'Psychology':           ['Psychology','Behaviour','Behavior','Neuroscience','Sociology','Therapy'],
+    'Spirituality':         ['Spirituality','Spiritual','Mindfulness','Religion','Mysticism','Philosophy']
+  };
+
+  var allowed = parentMap[cat] || null;
+
+  var filtered = CATALOG.filter(function(book) {
+    if (cat === 'All') return true;
+    if (allowed) return allowed.indexOf(book.category) !== -1;
+    return book.category === cat;
+  });
+
+  renderBooks(cat, filtered);
 }
 
 // ── CART ──
@@ -4376,7 +4385,7 @@ window.onload = function() {
 // 🌐 GOOGLE APPS SCRIPT — Single Source of Truth (cross-device)
 // ════════════════════════════════════════════════════════════
 // ── PASTE YOUR NEW GAS URL HERE AFTER REDEPLOYING ──
-var GAS_URL = 'https://script.google.com/macros/s/AKfycbyCSnVXUA3sNSHqaazRfMlD1FPOeyLb6Ezd69eilMxKQ3Lrp0liUJPk1RdwZcRd8LeZ/exec';
+var GAS_URL = 'https://script.google.com/macros/s/AKfycbz7lw2yJ1O_XnKMjUxTIIL0NmZjaZfFkyILRaf_U2sTI8dKgB_2vUKyu5gqAw5jf8qm/exec';
 
 // Run this in browser console to test: testGASConnection()
 function testGASConnection() {
