@@ -840,11 +840,19 @@ body::before{
 }
 .pathway-card{
   border-radius:6px;padding:24px 20px;
-  position:relative;overflow:hidden;cursor:pointer;
+  position:relative;overflow:hidden;
+  cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
   transition:transform .2s ease, box-shadow .2s ease;
   min-height:172px;
   display:flex;flex-direction:column;justify-content:flex-end;
+  user-select:none;
 }
+.pathway-card:hover{
+  transform:translateY(-5px);
+  box-shadow:0 16px 48px rgba(0,0,0,.5);
+}
+.pathway-card:active{transform:scale(.97)}
 .pathway-card:hover{
   transform:translateY(-5px);
   box-shadow:0 16px 48px rgba(0,0,0,.5);
@@ -2189,35 +2197,40 @@ body::before{
     <h2 class="section-title">Shop by Who You're Becoming</h2>
     <p class="section-sub">Every BookWarrior reads with intention. Find the shelf that matches yours.</p>
     <div class="pathway-grid">
-      <div class="pathway-card pc-1" onclick="filterBooks('Business')">
+      <div class="pathway-card pc-1" onclick="filterBooks('Business');document.getElementById('store').scrollIntoView({behavior:'smooth'})">
         <div class="pathway-arrow">↗</div>
         <span class="pathway-icon">🏛</span>
-        <div class="pathway-title">Business</div>
-        <div class="pathway-count">Leadership · Startups · Marketing · Operations · Biographies</div>
+        <div class="pathway-title">The Builder</div>
+        <div class="pathway-count">Build empires, lead people, grow companies</div>
+        <div style="margin-top:10px;font-size:10px;color:rgba(255,255,255,.3);letter-spacing:.08em;text-transform:uppercase">Leadership · Startups · Marketing · Operations · Biographies</div>
       </div>
-      <div class="pathway-card pc-2" onclick="filterBooks('Finance')">
+      <div class="pathway-card pc-2" onclick="filterBooks('Finance');document.getElementById('store').scrollIntoView({behavior:'smooth'})">
         <div class="pathway-arrow">↗</div>
         <span class="pathway-icon">💰</span>
-        <div class="pathway-title">Finance</div>
-        <div class="pathway-count">Budgeting · Investing · Assets · Macroeconomics</div>
+        <div class="pathway-title">The Wealthy</div>
+        <div class="pathway-count">Understand money, build assets, create wealth</div>
+        <div style="margin-top:10px;font-size:10px;color:rgba(255,255,255,.3);letter-spacing:.08em;text-transform:uppercase">Budgeting · Investing · Assets · Macroeconomics</div>
       </div>
-      <div class="pathway-card pc-3" onclick="filterBooks('Personal Development')">
+      <div class="pathway-card pc-3" onclick="filterBooks('Personal Development');document.getElementById('store').scrollIntoView({behavior:'smooth'})">
         <div class="pathway-arrow">↗</div>
-        <span class="pathway-icon">🎯</span>
-        <div class="pathway-title">Personal Development</div>
-        <div class="pathway-count">Productivity · Mindset · Relationships · Career</div>
+        <span class="pathway-icon">⚡</span>
+        <div class="pathway-title">The Best Version</div>
+        <div class="pathway-count">Perform at your peak, every single day</div>
+        <div style="margin-top:10px;font-size:10px;color:rgba(255,255,255,.3);letter-spacing:.08em;text-transform:uppercase">Productivity · Mindset · Relationships · Career</div>
       </div>
-      <div class="pathway-card pc-4" onclick="filterBooks('Psychology')">
+      <div class="pathway-card pc-4" onclick="filterBooks('Psychology');document.getElementById('store').scrollIntoView({behavior:'smooth'})">
         <div class="pathway-arrow">↗</div>
         <span class="pathway-icon">🧠</span>
-        <div class="pathway-title">Psychology</div>
-        <div class="pathway-count">Behaviour · Neuroscience · Sociology · Therapy</div>
+        <div class="pathway-title">The Deep Thinker</div>
+        <div class="pathway-count">Understand people, decisions and the human mind</div>
+        <div style="margin-top:10px;font-size:10px;color:rgba(255,255,255,.3);letter-spacing:.08em;text-transform:uppercase">Behaviour · Neuroscience · Sociology · Therapy</div>
       </div>
-      <div class="pathway-card" style="background:linear-gradient(135deg,#1A0D2E,#2E1A4A)" onclick="filterBooks('Spirituality')">
+      <div class="pathway-card" style="background:linear-gradient(145deg,#1A0D2E 0%,#2E1A4A 100%)" onclick="filterBooks('Spirituality');document.getElementById('store').scrollIntoView({behavior:'smooth'})">
         <div class="pathway-arrow">↗</div>
         <span class="pathway-icon">🕊️</span>
-        <div class="pathway-title">The Spirit</div>
-        <div class="pathway-count">4 books · purpose beyond profit</div>
+        <div class="pathway-title">The Awakened</div>
+        <div class="pathway-count">Find meaning, stillness and purpose beyond profit</div>
+        <div style="margin-top:10px;font-size:10px;color:rgba(255,255,255,.3);letter-spacing:.08em;text-transform:uppercase">Mindfulness · Religion · Mysticism · Philosophy</div>
       </div>
     </div>
   </div>
@@ -2564,6 +2577,7 @@ body::before{
     <div style="display:flex;border-bottom:1px solid rgba(255,255,255,.07)">
       <button id="atab-add" onclick="switchAdminTab('add')" style="flex:1;padding:15px;background:none;border:none;border-bottom:2px solid var(--brass);color:#fff;font-family:'Inter',system-ui,sans-serif;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:all .15s">Add Book</button>
       <button id="atab-manage" onclick="switchAdminTab('manage')" style="flex:1;padding:15px;background:none;border:none;border-bottom:2px solid transparent;color:rgba(255,255,255,.35);font-family:'Inter',system-ui,sans-serif;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:all .15s">Manage Books</button>
+      <button id="atab-ai" onclick="switchAdminTab('ai')" style="flex:1;padding:15px;background:none;border:none;border-bottom:2px solid transparent;color:rgba(255,255,255,.35);font-family:'Inter',system-ui,sans-serif;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:all .15s;position:relative">AI Tools <span style="background:var(--brass);color:#07101E;font-size:8px;padding:2px 5px;border-radius:2px;margin-left:4px;font-weight:700;letter-spacing:.06em">NEW</span></button>
       <button id="atab-pick" onclick="switchAdminTab('pick')" style="flex:1;padding:15px;background:none;border:none;border-bottom:2px solid transparent;color:rgba(255,255,255,.35);font-family:'Inter',system-ui,sans-serif;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:all .15s">Book of Month</button>
       <button id="atab-crm" onclick="switchAdminTab('crm')" style="flex:1;padding:15px;background:none;border:none;border-bottom:2px solid transparent;color:rgba(255,255,255,.35);font-family:'Inter',system-ui,sans-serif;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:all .15s">Members CRM</button>
     </div>
@@ -2656,7 +2670,107 @@ body::before{
       </div>
     </div>
     <!-- Manage Books -->
-    <div id="adminTabManage" style="display:none;padding:28px">
+    <!-- ══ AI TOOLS TAB ══ -->
+    <div id="adminTabAi" style="display:none;padding:28px">
+
+      <!-- Header -->
+      <div style="margin-bottom:28px;padding-bottom:20px;border-bottom:1px solid rgba(255,255,255,.06)">
+        <div style="font-family:'Cormorant Garamond',Georgia,serif;font-size:22px;font-weight:400;color:#fff;margin-bottom:6px">AI Book Tools</div>
+        <div style="font-size:13px;color:rgba(240,230,204,.38);line-height:1.6">Three tools powered by Claude. Add books instantly, generate Warrior reviews, or update any book's details — all with a single prompt.</div>
+      </div>
+
+      <!-- ── TOOL 1: AI Add Book ── -->
+      <div style="background:var(--ink3);border:1px solid rgba(255,255,255,.07);border-radius:6px;padding:24px;margin-bottom:16px">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:6px">
+          <div style="background:var(--brass);color:#07101E;font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:4px 8px;border-radius:2px">Tool 1</div>
+          <div style="font-family:'Cormorant Garamond',Georgia,serif;font-size:18px;font-weight:400;color:#fff">Add Book by Prompt</div>
+        </div>
+        <div style="font-size:12px;color:rgba(240,230,204,.35);margin-bottom:16px">Type a book title (and optionally author). AI finds the cover, writes the insight, assigns the category, sets the price and adds it to the store instantly.</div>
+        <div style="display:flex;gap:10px;margin-bottom:12px">
+          <input id="aiAddBookInput" type="text" placeholder='e.g. "Atomic Habits by James Clear" or just "The Alchemist"'
+            style="flex:1;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:4px;padding:12px 14px;color:#fff;font-family:'Inter',system-ui,sans-serif;font-size:14px;outline:none;transition:border-color .15s"
+            onfocus="this.style.borderColor='rgba(184,150,62,.5)'" onblur="this.style.borderColor='rgba(255,255,255,.1)'"
+            onkeydown="if(event.key==='Enter')aiAddBook()">
+          <button onclick="aiAddBook()" id="aiAddBookBtn"
+            style="background:var(--brass2);color:#07101E;border:none;border-radius:4px;padding:12px 20px;font-family:'Inter',system-ui,sans-serif;font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;white-space:nowrap;transition:background .15s"
+            onmouseover="this.style.background='var(--brass3)'" onmouseout="this.style.background='var(--brass2)'">Add Book</button>
+        </div>
+        <div id="aiAddBookPreview" style="display:none;background:var(--ink2);border:1px solid rgba(255,255,255,.08);border-radius:4px;padding:16px;margin-top:12px"></div>
+        <div id="aiAddBookMsg" style="display:none;padding:10px 14px;border-radius:4px;font-size:13px;margin-top:10px"></div>
+      </div>
+
+      <!-- ── TOOL 2: AI Warrior Review ── -->
+      <div style="background:var(--ink3);border:1px solid rgba(255,255,255,.07);border-radius:6px;padding:24px;margin-bottom:16px">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:6px">
+          <div style="background:var(--brass);color:#07101E;font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:4px 8px;border-radius:2px">Tool 2</div>
+          <div style="font-family:'Cormorant Garamond',Georgia,serif;font-size:18px;font-weight:400;color:#fff">Generate Warrior Review</div>
+        </div>
+        <div style="font-size:12px;color:rgba(240,230,204,.35);margin-bottom:16px">Select a book and a BookWarrior. AI generates an authentic review in their voice — matching their area of expertise — with a star rating. You can edit before saving.</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
+          <div>
+            <label style="font-size:10px;color:rgba(240,230,204,.4);letter-spacing:.1em;text-transform:uppercase;display:block;margin-bottom:6px">Book</label>
+            <select id="aiReviewBookSelect" style="width:100%;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:4px;padding:11px 12px;color:#fff;font-family:'Inter',system-ui,sans-serif;font-size:13px;outline:none">
+              <option value="">Select a book...</option>
+            </select>
+          </div>
+          <div>
+            <label style="font-size:10px;color:rgba(240,230,204,.4);letter-spacing:.1em;text-transform:uppercase;display:block;margin-bottom:6px">BookWarrior</label>
+            <select id="aiReviewWarriorSelect" style="width:100%;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:4px;padding:11px 12px;color:#fff;font-family:'Inter',system-ui,sans-serif;font-size:13px;outline:none">
+              <option value="">Select a warrior...</option>
+              <option value="Jesulayomi|Founder · BookAWeek|leadership, vision, community building">Jesulayomi — Founder</option>
+              <option value="Dorcas|BookWarrior · Finance|personal finance, budgeting, money psychology">Dorcas — Finance</option>
+              <option value="Haliyah|BookWarrior · Spiritual|faith, spirituality, inner peace">Haliyah — Spiritual</option>
+              <option value="Juliet|BookWarrior · Psychology|human behaviour, mindset, relationships">Juliet — Psychology</option>
+              <option value="Motolani|BookWarrior · Execution|productivity, habits, getting things done">Motolani — Execution</option>
+              <option value="EA|BookWarrior · Leadership|leadership, strategy, business growth">EA — Leadership</option>
+            </select>
+          </div>
+        </div>
+        <div style="margin-bottom:12px">
+          <label style="font-size:10px;color:rgba(240,230,204,.4);letter-spacing:.1em;text-transform:uppercase;display:block;margin-bottom:6px">Context (optional)</label>
+          <input id="aiReviewContext" type="text" placeholder='e.g. "Focus on the chapter about compounding" or "She read this during a career change"'
+            style="width:100%;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:4px;padding:11px 14px;color:#fff;font-family:'Inter',system-ui,sans-serif;font-size:13px;outline:none;box-sizing:border-box"
+            onfocus="this.style.borderColor='rgba(184,150,62,.5)'" onblur="this.style.borderColor='rgba(255,255,255,.1)'">
+        </div>
+        <button onclick="aiGenerateReview()" id="aiReviewBtn"
+          style="background:var(--brass2);color:#07101E;border:none;border-radius:4px;padding:12px 20px;font-family:'Inter',system-ui,sans-serif;font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;transition:background .15s"
+          onmouseover="this.style.background='var(--brass3)'" onmouseout="this.style.background='var(--brass2)'">Generate Review</button>
+        <div id="aiReviewResult" style="display:none;margin-top:16px"></div>
+        <div id="aiReviewMsg" style="display:none;padding:10px 14px;border-radius:4px;font-size:13px;margin-top:10px"></div>
+      </div>
+
+      <!-- ── TOOL 3: AI Update Book Details ── -->
+      <div style="background:var(--ink3);border:1px solid rgba(255,255,255,.07);border-radius:6px;padding:24px">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:6px">
+          <div style="background:var(--brass);color:#07101E;font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:4px 8px;border-radius:2px">Tool 3</div>
+          <div style="font-family:'Cormorant Garamond',Georgia,serif;font-size:18px;font-weight:400;color:#fff">Update Book with AI</div>
+        </div>
+        <div style="font-size:12px;color:rgba(240,230,204,.35);margin-bottom:16px">Select any book and describe what to change. AI updates the insight, ratings, price, category or any field — then shows a preview before you confirm.</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
+          <div>
+            <label style="font-size:10px;color:rgba(240,230,204,.4);letter-spacing:.1em;text-transform:uppercase;display:block;margin-bottom:6px">Book to Update</label>
+            <select id="aiUpdateBookSelect" style="width:100%;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:4px;padding:11px 12px;color:#fff;font-family:'Inter',system-ui,sans-serif;font-size:13px;outline:none">
+              <option value="">Select a book...</option>
+            </select>
+          </div>
+          <div>
+            <label style="font-size:10px;color:rgba(240,230,204,.4);letter-spacing:.1em;text-transform:uppercase;display:block;margin-bottom:6px">What to Update</label>
+            <input id="aiUpdatePrompt" type="text" placeholder='e.g. "rewrite the insight", "change price to 5500", "set rating to 4.9"'
+              style="width:100%;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:4px;padding:11px 14px;color:#fff;font-family:'Inter',system-ui,sans-serif;font-size:13px;outline:none;box-sizing:border-box"
+              onfocus="this.style.borderColor='rgba(184,150,62,.5)'" onblur="this.style.borderColor='rgba(255,255,255,.1)'"
+              onkeydown="if(event.key==='Enter')aiUpdateBook()">
+          </div>
+        </div>
+        <button onclick="aiUpdateBook()" id="aiUpdateBtn"
+          style="background:var(--brass2);color:#07101E;border:none;border-radius:4px;padding:12px 20px;font-family:'Inter',system-ui,sans-serif;font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;transition:background .15s"
+          onmouseover="this.style.background='var(--brass3)'" onmouseout="this.style.background='var(--brass2)'">Update with AI</button>
+        <div id="aiUpdateResult" style="display:none;margin-top:16px"></div>
+        <div id="aiUpdateMsg" style="display:none;padding:10px 14px;border-radius:4px;font-size:13px;margin-top:10px"></div>
+      </div>
+
+    </div>
+
+    <!-- ══ MANAGE TAB ══ -->
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
         <div style="font-size:13px;color:rgba(245,237,216,.4)" id="adminBookCount"></div>
         <button onclick="adminResetDefaults()" style="background:none;color:rgba(239,68,68,.6);border:1px solid rgba(239,68,68,.2);border-radius:4px;padding:7px 14px;font-family:'Inter',system-ui,sans-serif;font-size:11px;font-weight:500;letter-spacing:.06em;cursor:pointer">Reset to defaults</button>
@@ -3489,13 +3603,18 @@ function renderBooks(filter, preFiltered) {
 // ── FILTER ──
 function filterBooks(cat) {
   currentFilter = cat;
+
   // Update filter bar active state
-  document.querySelectorAll(".filter-btn").forEach(function(btn) {
-    btn.classList.remove("active");
-    if (btn.textContent.trim() === cat ||
-        (cat === 'All' && btn.textContent.trim() === 'All')) {
-      btn.classList.add("active");
-    }
+  document.querySelectorAll('.filter-btn').forEach(function(btn) {
+    btn.classList.remove('active');
+    var btnText = btn.textContent.trim();
+    if (cat === 'All' && btnText === 'All') btn.classList.add('active');
+    else if (btnText === cat) btn.classList.add('active');
+    else if (cat === 'Business' && btnText === 'Business') btn.classList.add('active');
+    else if (cat === 'Finance' && btnText === 'Finance') btn.classList.add('active');
+    else if (cat === 'Personal Development' && btnText === 'Personal Development') btn.classList.add('active');
+    else if (cat === 'Psychology' && btnText === 'Psychology') btn.classList.add('active');
+    else if (cat === 'Spirituality' && btnText === 'Spirituality') btn.classList.add('active');
   });
 
   // Parent → sub-category mapping
@@ -3516,6 +3635,10 @@ function filterBooks(cat) {
   });
 
   renderBooks(cat, filtered);
+
+  // Scroll to store section
+  var storeEl = document.getElementById('store');
+  if (storeEl) storeEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 // ── CART ──
@@ -3824,7 +3947,7 @@ function closeAdminPanel() {
 }
 
 function switchAdminTab(tab) {
-  var tabs = ['add','manage','pick','crm'];
+  var tabs = ['add','manage','ai','pick','crm'];
   tabs.forEach(function(t) {
     var btn = document.getElementById('atab-' + t);
     var panel = document.getElementById('adminTab' + t.charAt(0).toUpperCase() + t.slice(1));
@@ -3846,9 +3969,362 @@ function switchAdminTab(tab) {
   if (tab === 'manage') renderAdminBookList();
   if (tab === 'crm') loadCrmData();
   if (tab === 'pick') loadPickAdmin();
+  if (tab === 'ai') populateAiSelects();
 }
 
-// ── PICK ADMIN — save / load / preview ──
+// ════════════════════════════════════════════════════════════
+// 🤖 AI TOOLS ENGINE — powered by Claude API
+// ════════════════════════════════════════════════════════════
+
+// ── Populate book selects when AI tab opens ──
+function populateAiSelects() {
+  var books = CATALOG.map(function(b) {
+    return '<option value="' + b.id + '">' + b.title + ' — ' + b.author + '</option>';
+  }).join('');
+  var sel1 = document.getElementById('aiReviewBookSelect');
+  var sel2 = document.getElementById('aiUpdateBookSelect');
+  if (sel1) sel1.innerHTML = '<option value="">Select a book...</option>' + books;
+  if (sel2) sel2.innerHTML = '<option value="">Select a book...</option>' + books;
+}
+
+// ── AI state helpers ──
+function aiSetLoading(btnId, loading, label) {
+  var btn = document.getElementById(btnId);
+  if (!btn) return;
+  btn.disabled = loading;
+  btn.textContent = loading ? 'Working...' : label;
+  btn.style.opacity = loading ? '0.6' : '1';
+}
+
+function aiShowMsg(id, msg, type) {
+  var el = document.getElementById(id);
+  if (!el) return;
+  el.style.display = 'block';
+  el.style.background = type === 'success' ? 'rgba(26,107,60,.15)' : type === 'error' ? 'rgba(180,30,30,.15)' : 'rgba(184,150,62,.1)';
+  el.style.border = '1px solid ' + (type === 'success' ? 'rgba(26,107,60,.3)' : type === 'error' ? 'rgba(180,30,30,.3)' : 'rgba(184,150,62,.25)');
+  el.style.color = type === 'success' ? '#4ade80' : type === 'error' ? '#f87171' : 'var(--brass2)';
+  el.textContent = msg;
+  setTimeout(function() { el.style.display = 'none'; }, 5000);
+}
+
+// ── Call Claude API ──
+async function callClaude(systemPrompt, userPrompt) {
+  var response = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      model: 'claude-sonnet-4-6',
+      max_tokens: 1000,
+      system: systemPrompt,
+      messages: [{ role: 'user', content: userPrompt }]
+    })
+  });
+  if (!response.ok) throw new Error('API error: ' + response.status);
+  var data = await response.json();
+  return data.content[0].text;
+}
+
+// ── Find book cover via Open Library search ──
+async function findBookCover(title, author) {
+  try {
+    var query = encodeURIComponent(title + (author ? ' ' + author : ''));
+    var res = await fetch('https://openlibrary.org/search.json?q=' + query + '&limit=5&fields=key,title,author_name,isbn,cover_i');
+    var data = await res.json();
+    if (data.docs && data.docs.length > 0) {
+      for (var doc of data.docs) {
+        if (doc.cover_i) {
+          return 'https://covers.openlibrary.org/b/id/' + doc.cover_i + '-L.jpg';
+        }
+        if (doc.isbn && doc.isbn.length > 0) {
+          return 'https://covers.openlibrary.org/b/isbn/' + doc.isbn[0] + '-L.jpg';
+        }
+      }
+    }
+  } catch(e) {}
+  return null;
+}
+
+// ════════════════════════════════
+// TOOL 1 — AI Add Book
+// ════════════════════════════════
+async function aiAddBook() {
+  var input = (document.getElementById('aiAddBookInput').value || '').trim();
+  if (!input) { aiShowMsg('aiAddBookMsg', 'Enter a book title first.', 'error'); return; }
+
+  aiSetLoading('aiAddBookBtn', true, 'Add Book');
+  document.getElementById('aiAddBookMsg').style.display = 'none';
+  document.getElementById('aiAddBookPreview').style.display = 'none';
+
+  try {
+    // Step 1: Claude extracts metadata
+    var systemPrompt = 'You are a book cataloguing assistant for a Nigerian bookstore called BookAWeek. Return ONLY valid JSON, no markdown, no explanation.';
+    var userPrompt = 'Extract and generate catalog data for this book: "' + input + '".\n\nReturn this exact JSON structure:\n{\n  "title": "exact book title",\n  "author": "Author Name",\n  "category": "one of: Leadership|Startups|Marketing|Operations|Biographies|Budgeting|Investing|Assets|Macroeconomics|Productivity|Mindset|Relationships|Career|Behaviour|Neuroscience|Sociology|Therapy|Mindfulness|Religion|Mysticism|Philosophy",\n  "insight": "The single most powerful idea from this book in one sentence — vivid and specific, not generic",\n  "price": number between 3500 and 7500 in Nigerian Naira based on book type,\n  "originalPrice": number 1000-2000 higher than price,\n  "rating": number between 4.2 and 4.9,\n  "avgDays": typical days to read this book as integer,\n  "color1": "dark hex color matching book mood",\n  "color2": "slightly lighter hex color same palette",\n  "textColor": "readable accent hex color"\n}';
+
+    var raw = await callClaude(systemPrompt, userPrompt);
+    var clean = raw.replace(/```json|```/g, '').trim();
+    var meta = JSON.parse(clean);
+
+    // Step 2: Find cover image
+    var cover = await findBookCover(meta.title, meta.author);
+
+    // Step 3: Build book object
+    var id = meta.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '') + '-ai';
+    var book = {
+      id: id,
+      title: meta.title,
+      author: meta.author,
+      price: parseInt(meta.price) || 4500,
+      originalPrice: parseInt(meta.originalPrice) || 6000,
+      category: meta.category || 'Business',
+      badge: null,
+      warriors: 0,
+      avgDays: parseInt(meta.avgDays) || 12,
+      rating: parseFloat(meta.rating) || 4.5,
+      insight: meta.insight || '',
+      color1: meta.color1 || '#1A1A2E',
+      color2: meta.color2 || '#2D2D4A',
+      textColor: meta.textColor || '#E8C56A',
+      cover: cover || ''
+    };
+
+    // Show preview
+    var prev = document.getElementById('aiAddBookPreview');
+    prev.style.display = 'block';
+    prev.innerHTML =
+      '<div style="display:flex;gap:16px;align-items:flex-start">' +
+        (cover ? '<img src="' + cover + '" style="width:60px;border-radius:2px 6px 6px 2px;box-shadow:-3px 0 0 rgba(0,0,0,.3),4px 6px 16px rgba(0,0,0,.5);flex-shrink:0" onerror="this.style.display=\'none\'">' : '') +
+        '<div style="flex:1">' +
+          '<div style="font-family:Cormorant Garamond,Georgia,serif;font-size:17px;font-weight:500;color:#fff;margin-bottom:3px">' + book.title + '</div>' +
+          '<div style="font-size:12px;color:rgba(240,230,204,.4);margin-bottom:10px">' + book.author + ' · ' + book.category + '</div>' +
+          '<div style="font-size:12px;color:rgba(240,230,204,.55);font-style:italic;margin-bottom:10px">"' + book.insight + '"</div>' +
+          '<div style="display:flex;gap:16px;font-size:12px;color:rgba(240,230,204,.45)">' +
+            '<span>₦' + book.price.toLocaleString() + '</span>' +
+            '<span>' + book.rating + '★</span>' +
+            '<span>' + book.avgDays + ' days avg</span>' +
+            (cover ? '<span style="color:#4ade80">✓ Cover found</span>' : '<span style="color:rgba(240,230,204,.3)">No cover — text cover will show</span>') +
+          '</div>' +
+        '</div>' +
+      '</div>' +
+      '<div style="display:flex;gap:10px;margin-top:14px;padding-top:14px;border-top:1px solid rgba(255,255,255,.06)">' +
+        '<button onclick="aiConfirmAddBook(' + JSON.stringify(JSON.stringify(book)).slice(1,-1) + ')" ' +
+        'style="background:var(--brass2);color:#07101E;border:none;border-radius:4px;padding:10px 18px;font-family:Inter,system-ui,sans-serif;font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;cursor:pointer">Confirm & Add to Store</button>' +
+        '<button onclick="document.getElementById(\'aiAddBookPreview\').style.display=\'none\'" ' +
+        'style="background:none;color:rgba(240,230,204,.4);border:1px solid rgba(255,255,255,.1);border-radius:4px;padding:10px 16px;font-family:Inter,system-ui,sans-serif;font-size:12px;cursor:pointer">Discard</button>' +
+      '</div>';
+
+    // Store temporarily
+    window._aiPendingBook = book;
+
+  } catch(e) {
+    aiShowMsg('aiAddBookMsg', 'Error: ' + (e.message || 'Could not process book. Check the title and try again.'), 'error');
+  }
+  aiSetLoading('aiAddBookBtn', false, 'Add Book');
+}
+
+function aiConfirmAddBook() {
+  var book = window._aiPendingBook;
+  if (!book) return;
+  // Check for duplicate ID
+  if (CATALOG.find(function(b) { return b.id === book.id; })) {
+    book.id = book.id + '-' + Date.now();
+  }
+  CATALOG.push(book);
+  saveCatalog();
+  renderBooks();
+  document.getElementById('aiAddBookPreview').style.display = 'none';
+  document.getElementById('aiAddBookInput').value = '';
+  aiShowMsg('aiAddBookMsg', '"' + book.title + '" added to the store!', 'success');
+  window._aiPendingBook = null;
+  // Refresh manage tab list
+  if (typeof renderAdminBookList === 'function') renderAdminBookList();
+}
+
+// ════════════════════════════════
+// TOOL 2 — AI Generate Warrior Review
+// ════════════════════════════════
+async function aiGenerateReview() {
+  var bookId = (document.getElementById('aiReviewBookSelect').value || '').trim();
+  var warriorVal = (document.getElementById('aiReviewWarriorSelect').value || '').trim();
+  var context = (document.getElementById('aiReviewContext').value || '').trim();
+
+  if (!bookId) { aiShowMsg('aiReviewMsg', 'Select a book first.', 'error'); return; }
+  if (!warriorVal) { aiShowMsg('aiReviewMsg', 'Select a BookWarrior.', 'error'); return; }
+
+  var book = CATALOG.find(function(b) { return b.id === bookId; });
+  if (!book) { aiShowMsg('aiReviewMsg', 'Book not found.', 'error'); return; }
+
+  var parts = warriorVal.split('|');
+  var warriorName = parts[0];
+  var warriorRole = parts[1];
+  var warriorExpertise = parts[2];
+
+  aiSetLoading('aiReviewBtn', true, 'Generate Review');
+  document.getElementById('aiReviewResult').style.display = 'none';
+
+  try {
+    var systemPrompt = 'You are writing book reviews for BookAWeek, a Nigerian reading community. Reviews are personal, vivid and specific — they reveal something real about how the reader engaged with the book. Never use generic phrases like "life-changing" or "eye-opening". Write in first person from the warrior\'s perspective. Return ONLY valid JSON, no markdown.';
+
+    var userPrompt = 'Write a BookWarrior review for "' + book.title + '" by ' + book.author + '.\n\n' +
+      'Reviewer: ' + warriorName + ' (' + warriorRole + ')\n' +
+      'Their expertise: ' + warriorExpertise + '\n' +
+      (context ? 'Extra context: ' + context + '\n' : '') +
+      '\nThe review must:\n' +
+      '- Be written from ' + warriorName + '\'s perspective, informed by their expertise in ' + warriorExpertise + '\n' +
+      '- Reference a specific idea, chapter or concept from the actual book\n' +
+      '- Be 2-3 sentences. Personal, sharp and real.\n' +
+      '- Connect the book\'s ideas to their area of expertise\n\n' +
+      'Return this exact JSON:\n{\n  "text": "the review text",\n  "rating": number between 4.0 and 5.0,\n  "date": "' + new Date().toLocaleDateString('en-NG', {day:'numeric',month:'short',year:'numeric'}) + '"\n}';
+
+    var raw = await callClaude(systemPrompt, userPrompt);
+    var clean = raw.replace(/```json|```/g, '').trim();
+    var review = JSON.parse(clean);
+
+    // Show editable result
+    var result = document.getElementById('aiReviewResult');
+    result.style.display = 'block';
+    result.innerHTML =
+      '<div style="background:var(--ink2);border:1px solid rgba(255,255,255,.08);border-radius:4px;padding:16px">' +
+        '<div style="font-size:11px;color:var(--brass);letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px">Preview — Edit before saving</div>' +
+        '<div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">' +
+          '<div style="width:28px;height:28px;border-radius:50%;background:var(--brass);color:#07101E;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center">' + warriorName.charAt(0) + '</div>' +
+          '<div>' +
+            '<div style="font-size:13px;font-weight:500;color:#fff">' + warriorName + '</div>' +
+            '<div style="font-size:11px;color:rgba(240,230,204,.4)">' + warriorRole + '</div>' +
+          '</div>' +
+          '<div style="margin-left:auto">' +
+            '<div style="display:flex;gap:4px">' +
+              [1,2,3,4,5].map(function(s) { return '<span style="color:' + (s <= Math.round(review.rating) ? 'var(--brass2)' : 'rgba(255,255,255,.1)') + ';font-size:14px">★</span>'; }).join('') +
+            '</div>' +
+          '</div>' +
+        '</div>' +
+        '<textarea id="aiReviewEditText" style="width:100%;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:4px;padding:10px 12px;color:#fff;font-family:Cormorant Garamond,Georgia,serif;font-style:italic;font-size:14px;outline:none;resize:vertical;min-height:80px;box-sizing:border-box">' + review.text + '</textarea>' +
+        '<div style="display:flex;align-items:center;gap:10px;margin-top:12px">' +
+          '<label style="font-size:11px;color:rgba(240,230,204,.4)">Rating:</label>' +
+          '<input id="aiReviewEditRating" type="number" min="1" max="5" step="0.1" value="' + review.rating + '" style="width:70px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:4px;padding:7px 10px;color:#fff;font-size:13px;outline:none">' +
+          '<button onclick="aiSaveReview(\'' + bookId + '\',\'' + warriorName + '\',\'' + warriorRole + '\')" ' +
+          'style="background:var(--brass2);color:#07101E;border:none;border-radius:4px;padding:9px 16px;font-family:Inter,system-ui,sans-serif;font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;margin-left:auto">Save Review</button>' +
+          '<button onclick="document.getElementById(\'aiReviewResult\').style.display=\'none\'" ' +
+          'style="background:none;color:rgba(240,230,204,.4);border:1px solid rgba(255,255,255,.1);border-radius:4px;padding:9px 14px;font-family:Inter,system-ui,sans-serif;font-size:12px;cursor:pointer">Discard</button>' +
+        '</div>' +
+      '</div>';
+
+  } catch(e) {
+    aiShowMsg('aiReviewMsg', 'Error generating review: ' + (e.message || 'Try again.'), 'error');
+  }
+  aiSetLoading('aiReviewBtn', false, 'Generate Review');
+}
+
+function aiSaveReview(bookId, warriorName, warriorRole) {
+  var text = (document.getElementById('aiReviewEditText').value || '').trim();
+  var rating = parseFloat(document.getElementById('aiReviewEditRating').value) || 4.5;
+  if (!text) { aiShowMsg('aiReviewMsg', 'Review text cannot be empty.', 'error'); return; }
+
+  var book = CATALOG.find(function(b) { return b.id === bookId; });
+  if (!book) return;
+  if (!book.reviews) book.reviews = [];
+
+  // Remove existing review by same warrior
+  book.reviews = book.reviews.filter(function(r) { return r.warrior !== warriorName; });
+
+  book.reviews.push({
+    warrior: warriorName,
+    role: warriorRole,
+    rating: rating,
+    text: text,
+    date: new Date().toLocaleDateString('en-NG', {day:'numeric', month:'short', year:'numeric'})
+  });
+
+  // Update book aggregate rating
+  var allRatings = book.reviews.map(function(r) { return r.rating; });
+  book.rating = Math.round((allRatings.reduce(function(a,b){return a+b;},0) / allRatings.length) * 10) / 10;
+  book.warriors = book.reviews.length;
+  book.badge = book.reviews.length > 0 ? 'warrior' : book.badge;
+
+  saveCatalog();
+  renderBooks();
+  document.getElementById('aiReviewResult').style.display = 'none';
+  aiShowMsg('aiReviewMsg', 'Review by ' + warriorName + ' saved! Rating updated to ' + book.rating + '★', 'success');
+}
+
+// ════════════════════════════════
+// TOOL 3 — AI Update Book
+// ════════════════════════════════
+async function aiUpdateBook() {
+  var bookId = (document.getElementById('aiUpdateBookSelect').value || '').trim();
+  var prompt = (document.getElementById('aiUpdatePrompt').value || '').trim();
+
+  if (!bookId) { aiShowMsg('aiUpdateMsg', 'Select a book first.', 'error'); return; }
+  if (!prompt) { aiShowMsg('aiUpdateMsg', 'Describe what to update.', 'error'); return; }
+
+  var book = CATALOG.find(function(b) { return b.id === bookId; });
+  if (!book) return;
+
+  aiSetLoading('aiUpdateBtn', true, 'Update with AI');
+  document.getElementById('aiUpdateResult').style.display = 'none';
+
+  try {
+    var systemPrompt = 'You are a book catalog editor for BookAWeek, a Nigerian bookstore. Return ONLY valid JSON with ONLY the fields that should change. No explanation, no markdown.';
+    var userPrompt = 'Current book data:\n' + JSON.stringify({
+      title: book.title, author: book.author, price: book.price, originalPrice: book.originalPrice,
+      category: book.category, insight: book.insight, rating: book.rating, avgDays: book.avgDays,
+      warriors: book.warriors, color1: book.color1, color2: book.color2, textColor: book.textColor
+    }, null, 2) + '\n\nInstruction: "' + prompt + '"\n\nReturn ONLY the fields that should be changed as JSON. Valid categories: Leadership|Startups|Marketing|Operations|Biographies|Budgeting|Investing|Assets|Macroeconomics|Productivity|Mindset|Relationships|Career|Behaviour|Neuroscience|Sociology|Therapy|Mindfulness|Religion|Mysticism|Philosophy. Price must be in Naira (whole number).';
+
+    var raw = await callClaude(systemPrompt, userPrompt);
+    var clean = raw.replace(/```json|```/g, '').trim();
+    var changes = JSON.parse(clean);
+
+    // Show diff preview
+    var diffs = Object.keys(changes).map(function(key) {
+      var oldVal = book[key];
+      var newVal = changes[key];
+      if (String(oldVal) === String(newVal)) return null;
+      return '<div style="display:flex;gap:8px;align-items:flex-start;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.04)">' +
+        '<div style="font-size:11px;color:rgba(240,230,204,.4);text-transform:uppercase;letter-spacing:.08em;min-width:80px;padding-top:1px">' + key + '</div>' +
+        '<div style="flex:1">' +
+          '<div style="font-size:12px;color:rgba(240,100,100,.6);text-decoration:line-through">' + oldVal + '</div>' +
+          '<div style="font-size:12px;color:#4ade80">' + newVal + '</div>' +
+        '</div>' +
+      '</div>';
+    }).filter(Boolean).join('');
+
+    var result = document.getElementById('aiUpdateResult');
+    result.style.display = 'block';
+    result.innerHTML =
+      '<div style="background:var(--ink2);border:1px solid rgba(255,255,255,.08);border-radius:4px;padding:16px">' +
+        '<div style="font-size:11px;color:var(--brass);letter-spacing:.1em;text-transform:uppercase;margin-bottom:12px">Proposed Changes to "' + book.title + '"</div>' +
+        (diffs || '<div style="font-size:13px;color:rgba(240,230,204,.35)">No changes detected. Try a more specific instruction.</div>') +
+        '<div style="display:flex;gap:10px;margin-top:14px;padding-top:14px;border-top:1px solid rgba(255,255,255,.06)">' +
+          '<button onclick="aiConfirmUpdate(\'' + bookId + '\',' + JSON.stringify(JSON.stringify(changes)) + ')" ' +
+          'style="background:var(--brass2);color:#07101E;border:none;border-radius:4px;padding:10px 18px;font-family:Inter,system-ui,sans-serif;font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;cursor:pointer">Apply Changes</button>' +
+          '<button onclick="document.getElementById(\'aiUpdateResult\').style.display=\'none\'" ' +
+          'style="background:none;color:rgba(240,230,204,.4);border:1px solid rgba(255,255,255,.1);border-radius:4px;padding:10px 16px;font-family:Inter,system-ui,sans-serif;font-size:12px;cursor:pointer">Cancel</button>' +
+        '</div>' +
+      '</div>';
+
+    window._aiPendingChanges = { bookId: bookId, changes: changes };
+
+  } catch(e) {
+    aiShowMsg('aiUpdateMsg', 'Error: ' + (e.message || 'Try a clearer instruction.'), 'error');
+  }
+  aiSetLoading('aiUpdateBtn', false, 'Update with AI');
+}
+
+function aiConfirmUpdate(bookId, changesJson) {
+  var pending = window._aiPendingChanges;
+  if (!pending || pending.bookId !== bookId) return;
+  var book = CATALOG.find(function(b) { return b.id === bookId; });
+  if (!book) return;
+  Object.assign(book, pending.changes);
+  saveCatalog();
+  renderBooks();
+  document.getElementById('aiUpdateResult').style.display = 'none';
+  document.getElementById('aiUpdatePrompt').value = '';
+  aiShowMsg('aiUpdateMsg', '"' + book.title + '" updated successfully!', 'success');
+  window._aiPendingChanges = null;
+  if (typeof renderAdminBookList === 'function') renderAdminBookList();
+}
+
 var PICK_STORAGE_KEY = 'bm_pick_v1';
 
 function getPickData() {
