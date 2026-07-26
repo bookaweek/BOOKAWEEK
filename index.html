@@ -2709,21 +2709,50 @@ body::before{
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
           <div>
             <label style="font-size:10px;color:rgba(240,230,204,.4);letter-spacing:.1em;text-transform:uppercase;display:block;margin-bottom:6px">Book</label>
-            <select id="aiReviewBookSelect" style="width:100%;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:4px;padding:11px 12px;color:#fff;font-family:'Inter',system-ui,sans-serif;font-size:13px;outline:none">
-              <option value="">Select a book...</option>
-            </select>
+            <input id="aiReviewBookInput" type="text" placeholder="Type to search books..."
+              style="width:100%;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:4px;padding:11px 12px;color:#fff;font-family:'Inter',system-ui,sans-serif;font-size:13px;outline:none;box-sizing:border-box"
+              list="aiReviewBookList"
+              onfocus="this.style.borderColor='rgba(184,150,62,.5)'" onblur="this.style.borderColor='rgba(255,255,255,.1)'">
+            <datalist id="aiReviewBookList"></datalist>
+            <select id="aiReviewBookSelect" style="display:none"></select>
           </div>
           <div>
-            <label style="font-size:10px;color:rgba(240,230,204,.4);letter-spacing:.1em;text-transform:uppercase;display:block;margin-bottom:6px">BookWarrior</label>
-            <select id="aiReviewWarriorSelect" style="width:100%;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:4px;padding:11px 12px;color:#fff;font-family:'Inter',system-ui,sans-serif;font-size:13px;outline:none">
-              <option value="">Select a warrior...</option>
-              <option value="Jesulayomi|Founder · BookAWeek|leadership, vision, community building">Jesulayomi — Founder</option>
-              <option value="Dorcas|BookWarrior · Finance|personal finance, budgeting, money psychology">Dorcas — Finance</option>
-              <option value="Haliyah|BookWarrior · Spiritual|faith, spirituality, inner peace">Haliyah — Spiritual</option>
-              <option value="Juliet|BookWarrior · Psychology|human behaviour, mindset, relationships">Juliet — Psychology</option>
-              <option value="Motolani|BookWarrior · Execution|productivity, habits, getting things done">Motolani — Execution</option>
-              <option value="EA|BookWarrior · Leadership|leadership, strategy, business growth">EA — Leadership</option>
-            </select>
+            <label style="font-size:10px;color:rgba(240,230,204,.4);letter-spacing:.1em;text-transform:uppercase;display:block;margin-bottom:6px">BookWarrior Name</label>
+            <input id="aiReviewWarriorName" type="text" placeholder="e.g. Jesulayomi"
+              style="width:100%;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:4px;padding:11px 14px;color:#fff;font-family:'Inter',system-ui,sans-serif;font-size:13px;outline:none;box-sizing:border-box"
+              list="warriorNameSuggestions"
+              onfocus="this.style.borderColor='rgba(184,150,62,.5)'" onblur="this.style.borderColor='rgba(255,255,255,.1)'">
+            <datalist id="warriorNameSuggestions">
+              <option value="Jesulayomi">
+              <option value="Dorcas">
+              <option value="Haliyah">
+              <option value="Juliet">
+              <option value="Motolani">
+              <option value="EA">
+            </datalist>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
+          <div>
+            <label style="font-size:10px;color:rgba(240,230,204,.4);letter-spacing:.1em;text-transform:uppercase;display:block;margin-bottom:6px">Role / Title</label>
+            <input id="aiReviewWarriorRole" type="text" placeholder="e.g. BookWarrior · Finance"
+              style="width:100%;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:4px;padding:11px 14px;color:#fff;font-family:'Inter',system-ui,sans-serif;font-size:13px;outline:none;box-sizing:border-box"
+              list="warriorRoleSuggestions"
+              onfocus="this.style.borderColor='rgba(184,150,62,.5)'" onblur="this.style.borderColor='rgba(255,255,255,.1)'">
+            <datalist id="warriorRoleSuggestions">
+              <option value="Founder · BookAWeek">
+              <option value="BookWarrior · Finance">
+              <option value="BookWarrior · Spiritual">
+              <option value="BookWarrior · Psychology">
+              <option value="BookWarrior · Execution">
+              <option value="BookWarrior · Leadership">
+            </datalist>
+          </div>
+          <div>
+            <label style="font-size:10px;color:rgba(240,230,204,.4);letter-spacing:.1em;text-transform:uppercase;display:block;margin-bottom:6px">Area of Expertise</label>
+            <input id="aiReviewWarriorExpertise" type="text" placeholder="e.g. personal finance, budgeting"
+              style="width:100%;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:4px;padding:11px 14px;color:#fff;font-family:'Inter',system-ui,sans-serif;font-size:13px;outline:none;box-sizing:border-box"
+              onfocus="this.style.borderColor='rgba(184,150,62,.5)'" onblur="this.style.borderColor='rgba(255,255,255,.1)'">
           </div>
         </div>
         <div style="margin-bottom:12px">
@@ -2749,9 +2778,12 @@ body::before{
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
           <div>
             <label style="font-size:10px;color:rgba(240,230,204,.4);letter-spacing:.1em;text-transform:uppercase;display:block;margin-bottom:6px">Book to Update</label>
-            <select id="aiUpdateBookSelect" style="width:100%;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:4px;padding:11px 12px;color:#fff;font-family:'Inter',system-ui,sans-serif;font-size:13px;outline:none">
-              <option value="">Select a book...</option>
-            </select>
+            <input id="aiUpdateBookInput" type="text" placeholder="Type to search books..."
+              style="width:100%;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:4px;padding:11px 12px;color:#fff;font-family:'Inter',system-ui,sans-serif;font-size:13px;outline:none;box-sizing:border-box"
+              list="aiUpdateBookList"
+              onfocus="this.style.borderColor='rgba(184,150,62,.5)'" onblur="this.style.borderColor='rgba(255,255,255,.1)'">
+            <datalist id="aiUpdateBookList"></datalist>
+            <select id="aiUpdateBookSelect" style="display:none"></select>
           </div>
           <div>
             <label style="font-size:10px;color:rgba(240,230,204,.4);letter-spacing:.1em;text-transform:uppercase;display:block;margin-bottom:6px">What to Update</label>
@@ -3978,13 +4010,40 @@ function switchAdminTab(tab) {
 
 // ── Populate book selects when AI tab opens ──
 function populateAiSelects() {
-  var books = CATALOG.map(function(b) {
-    return '<option value="' + b.id + '">' + b.title + ' — ' + b.author + '</option>';
+  // Build datalist options for book search
+  var opts = CATALOG.map(function(b) {
+    return '<option value="' + b.title + ' — ' + b.author + '" data-id="' + b.id + '">';
   }).join('');
+
+  var dl1 = document.getElementById('aiReviewBookList');
+  var dl2 = document.getElementById('aiUpdateBookList');
+  if (dl1) dl1.innerHTML = opts;
+  if (dl2) dl2.innerHTML = opts;
+
+  // Also keep hidden selects in sync for fallback ID lookup
+  var selectOpts = '<option value="">Select a book...</option>' +
+    CATALOG.map(function(b) {
+      return '<option value="' + b.id + '">' + b.title + ' — ' + b.author + '</option>';
+    }).join('');
   var sel1 = document.getElementById('aiReviewBookSelect');
   var sel2 = document.getElementById('aiUpdateBookSelect');
-  if (sel1) sel1.innerHTML = '<option value="">Select a book...</option>' + books;
-  if (sel2) sel2.innerHTML = '<option value="">Select a book...</option>' + books;
+  if (sel1) sel1.innerHTML = selectOpts;
+  if (sel2) sel2.innerHTML = selectOpts;
+}
+
+// Resolve typed book title → book ID
+function resolveBookId(inputId) {
+  var inputEl = document.getElementById(inputId);
+  if (!inputEl) return null;
+  var val = inputEl.value.trim().toLowerCase();
+  if (!val) return null;
+  // Try matching title — author format or just title
+  var book = CATALOG.find(function(b) {
+    var full = (b.title + ' — ' + b.author).toLowerCase();
+    var title = b.title.toLowerCase();
+    return full === val || title === val || full.startsWith(val) || title.startsWith(val);
+  });
+  return book ? book.id : null;
 }
 
 // ── AI state helpers ──
@@ -4007,21 +4066,20 @@ function aiShowMsg(id, msg, type) {
   setTimeout(function() { el.style.display = 'none'; }, 5000);
 }
 
-// ── Call Claude API ──
+// ── Call Claude via GAS proxy (bypasses browser CORS) ──
 async function callClaude(systemPrompt, userPrompt) {
-  var response = await fetch('https://api.anthropic.com/v1/messages', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      model: 'claude-sonnet-4-6',
-      max_tokens: 1000,
+  return new Promise(function(resolve, reject) {
+    gasRequest({
+      action: 'claude_proxy',
       system: systemPrompt,
-      messages: [{ role: 'user', content: userPrompt }]
-    })
+      prompt: userPrompt
+    }, function(res) {
+      if (res && res.result) resolve(res.result);
+      else reject(new Error(res && res.error ? res.error : 'No response from AI'));
+    }, function(err) {
+      reject(new Error(err && err.error ? err.error : 'Could not reach AI service'));
+    });
   });
-  if (!response.ok) throw new Error('API error: ' + response.status);
-  var data = await response.json();
-  return data.content[0].text;
 }
 
 // ── Find book cover via Open Library search ──
@@ -4143,20 +4201,21 @@ function aiConfirmAddBook() {
 // TOOL 2 — AI Generate Warrior Review
 // ════════════════════════════════
 async function aiGenerateReview() {
-  var bookId = (document.getElementById('aiReviewBookSelect').value || '').trim();
-  var warriorVal = (document.getElementById('aiReviewWarriorSelect').value || '').trim();
+  var bookId = resolveBookId('aiReviewBookInput') || (document.getElementById('aiReviewBookSelect').value || '').trim();
+  var warriorName = (document.getElementById('aiReviewWarriorName').value || '').trim();
+  var warriorRole = (document.getElementById('aiReviewWarriorRole').value || '').trim();
+  var warriorExpertise = (document.getElementById('aiReviewWarriorExpertise').value || '').trim();
   var context = (document.getElementById('aiReviewContext').value || '').trim();
 
   if (!bookId) { aiShowMsg('aiReviewMsg', 'Select a book first.', 'error'); return; }
-  if (!warriorVal) { aiShowMsg('aiReviewMsg', 'Select a BookWarrior.', 'error'); return; }
+  if (!warriorName) { aiShowMsg('aiReviewMsg', 'Enter the BookWarrior\'s name.', 'error'); return; }
 
   var book = CATALOG.find(function(b) { return b.id === bookId; });
   if (!book) { aiShowMsg('aiReviewMsg', 'Book not found.', 'error'); return; }
 
-  var parts = warriorVal.split('|');
-  var warriorName = parts[0];
-  var warriorRole = parts[1];
-  var warriorExpertise = parts[2];
+  // Default role and expertise if not filled
+  if (!warriorRole) warriorRole = 'BookWarrior';
+  if (!warriorExpertise) warriorExpertise = 'reading and personal growth';
 
   aiSetLoading('aiReviewBtn', true, 'Generate Review');
   document.getElementById('aiReviewResult').style.display = 'none';
@@ -4250,7 +4309,7 @@ function aiSaveReview(bookId, warriorName, warriorRole) {
 // TOOL 3 — AI Update Book
 // ════════════════════════════════
 async function aiUpdateBook() {
-  var bookId = (document.getElementById('aiUpdateBookSelect').value || '').trim();
+  var bookId = resolveBookId('aiUpdateBookInput') || (document.getElementById('aiUpdateBookSelect').value || '').trim();
   var prompt = (document.getElementById('aiUpdatePrompt').value || '').trim();
 
   if (!bookId) { aiShowMsg('aiUpdateMsg', 'Select a book first.', 'error'); return; }
@@ -6010,6 +6069,36 @@ function getOrCreateSheet(name, headers) {
 
 function handleAction(data) {
   var action = data.action;
+
+  // ── CLAUDE PROXY — server-side AI call (bypasses browser CORS) ──
+  if (action === "claude_proxy") {
+    try {
+      var claudePayload = {
+        model: "claude-sonnet-4-6",
+        max_tokens: 1000,
+        system: data.system || "You are a helpful assistant. Return only valid JSON.",
+        messages: [{ role: "user", content: data.prompt || "" }]
+      };
+      var options = {
+        method: "post",
+        contentType: "application/json",
+        headers: {
+          "x-api-key": PropertiesService.getScriptProperties().getProperty("ANTHROPIC_API_KEY"),
+          "anthropic-version": "2023-06-01"
+        },
+        payload: JSON.stringify(claudePayload),
+        muteHttpExceptions: true
+      };
+      var resp = UrlFetchApp.fetch("https://api.anthropic.com/v1/messages", options);
+      var respData = JSON.parse(resp.getContentText());
+      if (respData.content && respData.content[0]) {
+        return { success: true, result: respData.content[0].text };
+      }
+      return { error: "No content in Claude response: " + resp.getContentText().substring(0, 200) };
+    } catch(e) {
+      return { error: "Claude proxy error: " + e.toString() };
+    }
+  }
 
   if (action === "save_catalog") {
     var sh = getOrCreateSheet("📚 CATALOG", ["Data"]);
