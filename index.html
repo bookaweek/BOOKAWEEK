@@ -2892,6 +2892,55 @@ body::before{
 
     <!-- ══ CRM TAB ══ -->
     <div id="adminTabCrm" style="display:none;padding:28px">
+
+      <!-- ══ WARRIOR READS AUTO-SYNC ══ -->
+      <div style="background:rgba(184,150,62,.06);border:1px solid rgba(184,150,62,.2);border-radius:6px;padding:20px;margin-bottom:24px">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:12px">
+          <div>
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">
+              <div style="background:var(--brass);color:#07101E;font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:4px 8px;border-radius:2px">Auto Sync</div>
+              <div style="font-family:'Cormorant Garamond',Georgia,serif;font-size:18px;font-weight:400;color:#fff">Warrior Reads Sync</div>
+            </div>
+            <div style="font-size:12px;color:rgba(240,230,204,.45);line-height:1.6;max-width:520px">
+              Warriors log completed books in the <strong style="color:rgba(240,230,204,.7)">📖 WARRIOR READS</strong> sheet. Click Sync to auto-add new books and reviews to the store. If a book already exists, only the review is added.
+            </div>
+          </div>
+          <div style="display:flex;gap:8px;align-items:center;flex-shrink:0">
+            <button onclick="syncWarriorReads()" id="warriorSyncBtn"
+              style="background:var(--brass2);color:#07101E;border:none;border-radius:4px;padding:11px 20px;font-family:'Inter',system-ui,sans-serif;font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:background .15s;white-space:nowrap"
+              onmouseover="this.style.background='var(--brass3)'" onmouseout="this.style.background='var(--brass2)'">
+              Sync Now
+            </button>
+            <button onclick="showWarriorSheetSetup()" title="How to set up the sheet"
+              style="background:none;color:rgba(240,230,204,.4);border:1px solid rgba(255,255,255,.1);border-radius:4px;padding:11px 14px;font-family:'Inter',system-ui,sans-serif;font-size:12px;cursor:pointer;white-space:nowrap">
+              Sheet Setup
+            </button>
+          </div>
+        </div>
+        <div id="warriorSyncLog" style="display:none;margin-top:16px;padding:14px;background:rgba(0,0,0,.2);border-radius:4px;font-size:12px;font-family:'DM Mono',monospace,sans-serif;color:rgba(240,230,204,.6);line-height:1.8;max-height:200px;overflow-y:auto"></div>
+      </div>
+
+      <!-- Sheet Setup Instructions (hidden by default) -->
+      <div id="warriorSheetSetup" style="display:none;background:var(--ink3);border:1px solid rgba(255,255,255,.07);border-radius:6px;padding:20px;margin-bottom:24px">
+        <div style="font-family:'Cormorant Garamond',Georgia,serif;font-size:16px;font-weight:400;color:#fff;margin-bottom:12px">How to Set Up the Warrior Reads Sheet</div>
+        <div style="font-size:12px;color:rgba(240,230,204,.5);line-height:1.9">
+          In your Google Sheet, create a tab named exactly <strong style="color:var(--brass2)">📖 WARRIOR READS</strong><br>
+          Give it these column headers in row 1:
+        </div>
+        <div style="margin:12px 0;display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:6px">
+          ${['Book Title','Author','Category','Price (₦)','Insight','Warrior Name','Warrior Role','Review Text','Rating','Cover URL','Status'].map(function(h){
+            return '<div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:3px;padding:6px 10px;font-size:11px;color:rgba(240,230,204,.7);font-family:DM Mono,monospace">'+h+'</div>';
+          }).join('')}
+        </div>
+        <div style="font-size:12px;color:rgba(240,230,204,.4);line-height:1.8;margin-top:8px">
+          • <strong style="color:rgba(240,230,204,.6)">Status</strong> column: leave blank or write <code style="background:rgba(255,255,255,.06);padding:1px 5px;border-radius:2px">pending</code> for new entries. After sync, it becomes <code style="background:rgba(255,255,255,.06);padding:1px 5px;border-radius:2px">synced</code> so the same row is never processed twice.<br>
+          • <strong style="color:rgba(240,230,204,.6)">Cover URL</strong> is optional — leave blank to use auto-styled text cover.<br>
+          • <strong style="color:rgba(240,230,204,.6)">Category</strong> must match one of: Leadership, Startups, Marketing, Operations, Biographies, Budgeting, Investing, Assets, Macroeconomics, Productivity, Mindset, Relationships, Career, Behaviour, Neuroscience, Sociology, Therapy, Mindfulness, Religion, Mysticism, Philosophy
+        </div>
+        <button onclick="document.getElementById('warriorSheetSetup').style.display='none'"
+          style="margin-top:14px;background:none;color:rgba(240,230,204,.35);border:1px solid rgba(255,255,255,.08);border-radius:4px;padding:7px 14px;font-size:12px;cursor:pointer">Close</button>
+      </div>
+
       <!-- Stats row -->
       <div class="crm-stats" id="crmStats">
         <div class="crm-stat"><div class="crm-stat-val" id="crmTotalUsers">0</div><div class="crm-stat-label">Total Members</div></div>
@@ -3920,19 +3969,43 @@ function saveCatalog() {
       pick:b.pick||false, reviews:b.reviews||[]
     };
   });
-  // 1. Save locally immediately (fast, device cache)
+
+  // 1. Save locally immediately
   try { localStorage.setItem('bm_catalog', JSON.stringify(toSave)); } catch(e) {}
-  // 2. Sync to GAS (cross-device)
-  gasRequest({ action:'save_catalog', catalog:toSave }, function() {
-    // silent success
-  }, function(err) {
-    console.warn('Catalog GAS sync failed:', err);
-    // localStorage already saved — not catastrophic
+
+  // 2. POST to GAS — use fetch with no-cors for large payload
+  // JSONP uses GET which has URL length limits — catalog is too large
+  var payload = JSON.stringify({ action: 'save_catalog', catalog: toSave });
+
+  // Primary: fetch POST (works cross-origin with GAS redirect:follow)
+  fetch(GAS_URL, {
+    method: 'POST',
+    redirect: 'follow',
+    headers: { 'Content-Type': 'text/plain' },
+    body: payload
+  }).then(function(r) {
+    return r.text();
+  }).then(function(text) {
+    try {
+      var res = JSON.parse(text.trim().replace(/^[^{[]*/, '').replace(/[^}\]]*$/, ''));
+      if (res && res.success) {
+        showToast('Prices updated across all devices.', 'success');
+      }
+    } catch(e) {}
+  }).catch(function() {
+    // Fallback: JSONP with chunked approach — save via gasRequest
+    gasRequest({ action:'save_catalog', catalog:toSave }, function() {
+      showToast('Prices updated across all devices.', 'success');
+    }, function(err) {
+      // Still saved locally — show warning
+      showToast('Saved locally. Check internet connection for cross-device sync.', 'info');
+      console.warn('Catalog GAS sync failed:', err);
+    });
   });
 }
 
 function loadCatalog() {
-  // Apply localStorage cache instantly (any visitor, any device)
+  // Show localStorage version instantly (zero flicker)
   try {
     var stored = localStorage.getItem('bm_catalog');
     if (stored) {
@@ -3944,7 +4017,8 @@ function loadCatalog() {
     }
   } catch(e) {}
 
-  // Then fetch latest from GAS — applies to ALL visitors
+  // ALWAYS fetch from GAS — this is the source of truth
+  // Ensures price changes, new books, reviews from ANY device show up
   gasRequest({ action:'get_catalog' }, function(res) {
     if (res && res.catalog && res.catalog.length > 0) {
       CATALOG = res.catalog;
@@ -3952,7 +4026,7 @@ function loadCatalog() {
       if (typeof renderBooks === 'function') renderBooks();
     }
   }, function() {
-    // GAS unavailable — localStorage version already applied, no action needed
+    // GAS unavailable — localStorage version already applied
   });
 }
 
@@ -4005,7 +4079,184 @@ function switchAdminTab(tab) {
 }
 
 // ════════════════════════════════════════════════════════════
-// 🤖 AI TOOLS ENGINE — powered by Claude API
+// 📖 WARRIOR READS AUTO-SYNC
+// Reads 📖 WARRIOR READS sheet → adds books + reviews to store
+// ════════════════════════════════════════════════════════════
+
+function showWarriorSheetSetup() {
+  var el = document.getElementById('warriorSheetSetup');
+  if (el) el.style.display = el.style.display === 'none' ? 'block' : 'none';
+}
+
+function warriorSyncLog(msg, type) {
+  var log = document.getElementById('warriorSyncLog');
+  if (!log) return;
+  log.style.display = 'block';
+  var colour = type === 'success' ? '#4ade80' : type === 'error' ? '#f87171' : type === 'warn' ? '#E8C56A' : 'rgba(240,230,204,.5)';
+  var prefix = type === 'success' ? '✅ ' : type === 'error' ? '❌ ' : type === 'warn' ? '⚠️ ' : '   ';
+  log.innerHTML += '<div style="color:' + colour + '">' + prefix + msg + '</div>';
+  log.scrollTop = log.scrollHeight;
+}
+
+function syncWarriorReads() {
+  var btn = document.getElementById('warriorSyncBtn');
+  var log = document.getElementById('warriorSyncLog');
+  if (btn) { btn.disabled = true; btn.textContent = 'Syncing...'; }
+  if (log) { log.style.display = 'block'; log.innerHTML = ''; }
+
+  warriorSyncLog('Fetching Warrior Reads sheet...');
+
+  gasRequest({ action: 'get_warrior_reads' }, function(res) {
+    if (!res || !res.success) {
+      warriorSyncLog((res && res.error) || 'Could not read sheet. Make sure the 📖 WARRIOR READS tab exists.', 'error');
+      if (btn) { btn.disabled = false; btn.textContent = 'Sync Now'; }
+      return;
+    }
+
+    var rows = res.rows || [];
+    if (rows.length === 0) {
+      warriorSyncLog('No pending entries found in the sheet.', 'warn');
+      if (btn) { btn.disabled = false; btn.textContent = 'Sync Now'; }
+      return;
+    }
+
+    warriorSyncLog('Found ' + rows.length + ' pending row' + (rows.length !== 1 ? 's' : '') + ' to process.');
+
+    var added = 0, reviewed = 0, skipped = 0, synced = [];
+
+    rows.forEach(function(row, idx) {
+      var title       = (row.title || '').trim();
+      var author      = (row.author || '').trim();
+      var category    = (row.category || 'Business').trim();
+      var price       = parseInt(row.price) || 4500;
+      var insight     = (row.insight || '').trim();
+      var warriorName = (row.warriorName || '').trim();
+      var warriorRole = (row.warriorRole || 'BookWarrior').trim();
+      var reviewText  = (row.reviewText || '').trim();
+      var rating      = parseFloat(row.rating) || 4.5;
+      var cover       = (row.cover || '').trim();
+      var rowIndex    = row._rowIndex;
+
+      if (!title) { warriorSyncLog('Row ' + (idx+1) + ': No title — skipped.', 'warn'); skipped++; return; }
+
+      // Check if book already exists
+      var existing = CATALOG.find(function(b) {
+        return b.title.toLowerCase() === title.toLowerCase() ||
+               (b.title.toLowerCase().includes(title.toLowerCase()) && title.length > 4);
+      });
+
+      if (!existing) {
+        // Add new book
+        var newId = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/-+/g,'-').replace(/^-|-$/g,'') + '-wr';
+        // Avoid duplicate IDs
+        if (CATALOG.find(function(b){ return b.id === newId; })) newId += '-' + Date.now();
+
+        var newBook = {
+          id: newId,
+          title: title,
+          author: author || 'Unknown',
+          price: price,
+          originalPrice: Math.round(price * 1.3),
+          category: category,
+          badge: reviewText ? 'warrior' : null,
+          warriors: reviewText ? 1 : 0,
+          avgDays: 12,
+          rating: rating,
+          insight: insight || 'A must-read for serious learners.',
+          color1: '#1A1A2E',
+          color2: '#2D2D4A',
+          textColor: '#E8C56A',
+          cover: cover || '',
+          reviews: []
+        };
+
+        if (reviewText && warriorName) {
+          newBook.reviews.push({
+            warrior: warriorName,
+            role: warriorRole,
+            rating: rating,
+            text: reviewText,
+            date: new Date().toLocaleDateString('en-NG', {day:'numeric',month:'short',year:'numeric'})
+          });
+        }
+
+        CATALOG.push(newBook);
+        added++;
+        warriorSyncLog('Added new book: "' + title + '"' + (reviewText ? ' with review by ' + warriorName : ''), 'success');
+        synced.push(rowIndex);
+
+      } else {
+        // Book exists — add review only
+        if (!reviewText || !warriorName) {
+          warriorSyncLog('"' + title + '" already in store. No review to add — skipped.', 'warn');
+          skipped++;
+          synced.push(rowIndex); // still mark as synced so it doesn't repeat
+          return;
+        }
+
+        if (!existing.reviews) existing.reviews = [];
+
+        // Skip if warrior already reviewed this book
+        var alreadyReviewed = existing.reviews.find(function(r) {
+          return r.warrior.toLowerCase() === warriorName.toLowerCase();
+        });
+        if (alreadyReviewed) {
+          warriorSyncLog('"' + title + '": ' + warriorName + ' already has a review — skipped.', 'warn');
+          skipped++;
+          synced.push(rowIndex);
+          return;
+        }
+
+        existing.reviews.push({
+          warrior: warriorName,
+          role: warriorRole,
+          rating: rating,
+          text: reviewText,
+          date: new Date().toLocaleDateString('en-NG', {day:'numeric',month:'short',year:'numeric'})
+        });
+
+        // Recalculate rating + warrior count
+        var allRatings = existing.reviews.map(function(r){ return r.rating; });
+        existing.rating = Math.round((allRatings.reduce(function(a,b){return a+b;},0) / allRatings.length) * 10) / 10;
+        existing.warriors = existing.reviews.length;
+        existing.badge = 'warrior';
+
+        reviewed++;
+        warriorSyncLog('Added ' + warriorName + "'s review to \"" + title + '" (rating now ' + existing.rating + '★)', 'success');
+        synced.push(rowIndex);
+      }
+    });
+
+    // Save catalog
+    saveCatalog();
+    renderBooks();
+
+    // Mark synced rows in sheet
+    if (synced.length > 0) {
+      gasRequest({ action: 'mark_warrior_reads_synced', rowIndexes: synced }, function() {
+        warriorSyncLog('Sheet updated — synced rows marked.', 'success');
+      }, function() {
+        warriorSyncLog('Could not mark rows as synced in sheet (but books were saved).', 'warn');
+      });
+    }
+
+    warriorSyncLog('─────────────────────────────');
+    warriorSyncLog('Done. Added: ' + added + ' books · ' + reviewed + ' reviews · ' + skipped + ' skipped.',
+      (added + reviewed) > 0 ? 'success' : 'warn');
+
+    // Force reload from GAS so all devices get the update
+    if ((added + reviewed) > 0) {
+      setTimeout(function() { loadCatalog(); }, 1000);
+    }
+
+    if (btn) { btn.disabled = false; btn.textContent = 'Sync Now'; }
+
+  }, function(err) {
+    warriorSyncLog((err && err.error) || 'Network error. Check GAS URL.', 'error');
+    if (btn) { btn.disabled = false; btn.textContent = 'Sync Now'; }
+  });
+}
+
 // ════════════════════════════════════════════════════════════
 
 // ── Populate book selects when AI tab opens ──
@@ -5091,7 +5342,7 @@ window.onload = function() {
 // 🌐 GOOGLE APPS SCRIPT — Single Source of Truth (cross-device)
 // ════════════════════════════════════════════════════════════
 // ── PASTE YOUR NEW GAS URL HERE AFTER REDEPLOYING ──
-var GAS_URL = 'https://script.google.com/macros/s/AKfycbxeiRZ_Z03c0ybnYOWIJFF1jeTavpb8B-A0ehpPPe31Oa_ELZKSppJjrfnh6eqkD6gg/exec';
+var GAS_URL = 'https://script.google.com/macros/s/AKfycbz7lw2yJ1O_XnKMjUxTIIL0NmZjaZfFkyILRaf_U2sTI8dKgB_2vUKyu5gqAw5jf8qm/exec';
 
 // Run this in browser console to test: testGASConnection()
 function testGASConnection() {
@@ -6069,6 +6320,68 @@ function getOrCreateSheet(name, headers) {
 
 function handleAction(data) {
   var action = data.action;
+
+  // ── GET WARRIOR READS (pending rows only) ──
+  if (action === "get_warrior_reads") {
+    try {
+      var sh = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("\uD83D\uDCD6 WARRIOR READS");
+      if (!sh) return { success: true, rows: [], error: "Sheet not found. Create a tab named exactly: \uD83D\uDCD6 WARRIOR READS" };
+      var values = sh.getDataRange().getValues();
+      if (values.length < 2) return { success: true, rows: [] };
+      var headers = values[0].map(function(h) { return h.toString().trim().toLowerCase(); });
+      var rows = [];
+      for (var i = 1; i < values.length; i++) {
+        var row = values[i];
+        var obj = {};
+        headers.forEach(function(h, idx) { obj[h] = row[idx] ? row[idx].toString().trim() : ''; });
+        var status = (obj['status'] || '').toLowerCase();
+        if (status === 'synced') continue;
+        var bookTitle = obj['book title'] || obj['title'] || obj['book_title'] || '';
+        if (!bookTitle) continue;
+        rows.push({
+          _rowIndex: i + 1,
+          title:       bookTitle,
+          author:      obj['author'] || '',
+          category:    obj['category'] || 'Business',
+          price:       parseInt(obj['price (\u20A6)'] || obj['price'] || 4500) || 4500,
+          insight:     obj['insight'] || '',
+          warriorName: obj['warrior name'] || obj['warrior_name'] || '',
+          warriorRole: obj['warrior role'] || obj['warrior_role'] || 'BookWarrior',
+          reviewText:  obj['review text'] || obj['review_text'] || obj['review'] || '',
+          rating:      parseFloat(obj['rating'] || 4.5) || 4.5,
+          cover:       obj['cover url'] || obj['cover_url'] || obj['cover'] || '',
+          status:      status
+        });
+      }
+      return { success: true, rows: rows };
+    } catch(e) {
+      return { error: "get_warrior_reads error: " + e.toString() };
+    }
+  }
+
+  // ── MARK WARRIOR READS ROWS AS SYNCED ──
+  if (action === "mark_warrior_reads_synced") {
+    try {
+      var sh = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("\uD83D\uDCD6 WARRIOR READS");
+      if (!sh) return { error: "Sheet not found." };
+      var headers = sh.getRange(1, 1, 1, sh.getLastColumn()).getValues()[0];
+      var statusCol = -1;
+      for (var i = 0; i < headers.length; i++) {
+        if (headers[i].toString().trim().toLowerCase() === 'status') { statusCol = i + 1; break; }
+      }
+      if (statusCol === -1) {
+        statusCol = sh.getLastColumn() + 1;
+        sh.getRange(1, statusCol).setValue('Status');
+      }
+      var indexes = data.rowIndexes || [];
+      indexes.forEach(function(rowNum) {
+        sh.getRange(rowNum, statusCol).setValue('synced');
+      });
+      return { success: true, updated: indexes.length };
+    } catch(e) {
+      return { error: "mark_warrior_reads_synced error: " + e.toString() };
+    }
+  }
 
   // ── CLAUDE PROXY — server-side AI call (bypasses browser CORS) ──
   if (action === "claude_proxy") {
