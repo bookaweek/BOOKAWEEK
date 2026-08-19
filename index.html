@@ -3259,9 +3259,107 @@ body::before{
         <span class="bd-price-now" id="bdPrice"></span>
         <span class="bd-price-old" id="bdOldPrice"></span>
       </div>
-      <button class="bd-add-btn" id="bdAddBtn" onclick="bdAddToCart()">+ Add to Cart</button>
+      <div style="display:flex;gap:8px;align-items:center">
+        <button class="bd-add-btn" id="bdAddBtn" onclick="bdAddToCart()">Add to Cart</button>
+        <button onclick="openSharePanel()" id="bdShareBtn"
+          style="height:48px;padding:0 16px;background:none;border:1px solid rgba(255,255,255,.15);border-radius:4px;color:rgba(240,230,204,.6);font-family:'Inter',system-ui,sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:all .15s;white-space:nowrap;display:flex;align-items:center;gap:7px"
+          onmouseover="this.style.borderColor='rgba(255,255,255,.35)';this.style.color='#fff'"
+          onmouseout="this.style.borderColor='rgba(255,255,255,.15)';this.style.color='rgba(240,230,204,.6)'">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+          Share
+        </button>
+      </div>
     </div>
 
+  </div>
+</div>
+
+<!-- ══ SHARE PANEL ══ -->
+<div id="shareOverlay" onclick="if(event.target===this)closeSharePanel()"
+  style="display:none;position:fixed;inset:0;background:rgba(4,10,20,.85);backdrop-filter:blur(12px);z-index:800;align-items:flex-end;justify-content:center">
+  <div id="shareSheet"
+    style="background:var(--ink2);border:1px solid rgba(255,255,255,.08);border-radius:12px 12px 0 0;width:100%;max-width:560px;padding:0 0 40px;animation:slideUp .28s cubic-bezier(.25,.1,.25,1)">
+
+    <!-- Handle -->
+    <div style="width:36px;height:3px;background:rgba(255,255,255,.15);border-radius:2px;margin:14px auto 0"></div>
+
+    <!-- Header -->
+    <div style="padding:20px 24px 16px;border-bottom:1px solid rgba(255,255,255,.06);display:flex;align-items:center;gap:14px">
+      <div id="shareBookThumb" style="width:44px;height:60px;border-radius:2px 6px 6px 2px;overflow:hidden;flex-shrink:0;box-shadow:-3px 0 0 rgba(0,0,0,.3),4px 6px 16px rgba(0,0,0,.5)">
+        <div style="width:100%;height:100%;background:var(--ink3);display:flex;align-items:center;justify-content:center;font-size:16px">📚</div>
+      </div>
+      <div style="flex:1;min-width:0">
+        <div id="shareBookTitle" style="font-family:'Cormorant Garamond',Georgia,serif;font-size:16px;font-weight:500;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis"></div>
+        <div id="shareBookAuthor" style="font-size:12px;color:rgba(240,230,204,.4);margin-top:2px"></div>
+      </div>
+      <button onclick="closeSharePanel()" style="background:none;border:1px solid rgba(255,255,255,.1);border-radius:4px;width:32px;height:32px;color:rgba(255,255,255,.4);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0">×</button>
+    </div>
+
+    <!-- Share buttons grid -->
+    <div style="padding:20px 24px 0">
+      <div style="font-size:10px;color:rgba(240,230,204,.3);letter-spacing:.12em;text-transform:uppercase;margin-bottom:14px">Share this book</div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px">
+
+        <!-- WhatsApp -->
+        <button onclick="shareToWhatsApp()" style="background:rgba(37,211,102,.1);border:1px solid rgba(37,211,102,.25);border-radius:6px;padding:14px 8px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:8px;transition:all .15s" onmouseover="this.style.background='rgba(37,211,102,.2)'" onmouseout="this.style.background='rgba(37,211,102,.1)'">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+          <span style="font-size:10px;color:rgba(240,230,204,.7);font-family:'Inter',system-ui,sans-serif;font-weight:500">WhatsApp</span>
+        </button>
+
+        <!-- Instagram -->
+        <button onclick="shareToInstagram()" style="background:rgba(225,48,108,.08);border:1px solid rgba(225,48,108,.2);border-radius:6px;padding:14px 8px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:8px;transition:all .15s" onmouseover="this.style.background='rgba(225,48,108,.18)'" onmouseout="this.style.background='rgba(225,48,108,.08)'">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="url(#ig)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <defs><linearGradient id="ig" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" stop-color="#f09433"/><stop offset="25%" stop-color="#e6683c"/><stop offset="50%" stop-color="#dc2743"/><stop offset="75%" stop-color="#cc2366"/><stop offset="100%" stop-color="#bc1888"/></linearGradient></defs>
+            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+          </svg>
+          <span style="font-size:10px;color:rgba(240,230,204,.7);font-family:'Inter',system-ui,sans-serif;font-weight:500">Instagram</span>
+        </button>
+
+        <!-- X / Twitter -->
+        <button onclick="shareToX()" style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:6px;padding:14px 8px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:8px;transition:all .15s" onmouseover="this.style.background='rgba(255,255,255,.1)'" onmouseout="this.style.background='rgba(255,255,255,.05)'">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="#fff"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          <span style="font-size:10px;color:rgba(240,230,204,.7);font-family:'Inter',system-ui,sans-serif;font-weight:500">X / Twitter</span>
+        </button>
+
+        <!-- Facebook -->
+        <button onclick="shareToFacebook()" style="background:rgba(24,119,242,.08);border:1px solid rgba(24,119,242,.2);border-radius:6px;padding:14px 8px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:8px;transition:all .15s" onmouseover="this.style.background='rgba(24,119,242,.18)'" onmouseout="this.style.background='rgba(24,119,242,.08)'">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="#1877F2"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+          <span style="font-size:10px;color:rgba(240,230,204,.7);font-family:'Inter',system-ui,sans-serif;font-weight:500">Facebook</span>
+        </button>
+
+        <!-- Telegram -->
+        <button onclick="shareToTelegram()" style="background:rgba(0,136,204,.08);border:1px solid rgba(0,136,204,.2);border-radius:6px;padding:14px 8px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:8px;transition:all .15s" onmouseover="this.style.background='rgba(0,136,204,.18)'" onmouseout="this.style.background='rgba(0,136,204,.08)'">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="#0088CC"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+          <span style="font-size:10px;color:rgba(240,230,204,.7);font-family:'Inter',system-ui,sans-serif;font-weight:500">Telegram</span>
+        </button>
+
+        <!-- LinkedIn -->
+        <button onclick="shareToLinkedIn()" style="background:rgba(0,119,181,.08);border:1px solid rgba(0,119,181,.2);border-radius:6px;padding:14px 8px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:8px;transition:all .15s" onmouseover="this.style.background='rgba(0,119,181,.18)'" onmouseout="this.style.background='rgba(0,119,181,.08)'">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="#0077B5"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          <span style="font-size:10px;color:rgba(240,230,204,.7);font-family:'Inter',system-ui,sans-serif;font-weight:500">LinkedIn</span>
+        </button>
+
+        <!-- TikTok -->
+        <button onclick="shareToTikTok()" style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:6px;padding:14px 8px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:8px;transition:all .15s" onmouseover="this.style.background='rgba(255,255,255,.1)'" onmouseout="this.style.background='rgba(255,255,255,.05)'">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="#fff"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.73a4.85 4.85 0 0 1-1.02-.04z"/></svg>
+          <span style="font-size:10px;color:rgba(240,230,204,.7);font-family:'Inter',system-ui,sans-serif;font-weight:500">TikTok</span>
+        </button>
+
+        <!-- Copy Link -->
+        <button onclick="copyBookLink()" id="copyLinkBtn" style="background:rgba(184,150,62,.08);border:1px solid rgba(184,150,62,.2);border-radius:6px;padding:14px 8px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:8px;transition:all .15s" onmouseover="this.style.background='rgba(184,150,62,.18)'" onmouseout="this.style.background='rgba(184,150,62,.08)'">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--brass2)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+          <span style="font-size:10px;color:rgba(240,230,204,.7);font-family:'Inter',system-ui,sans-serif;font-weight:500">Copy Link</span>
+        </button>
+
+      </div>
+
+      <!-- Share message preview -->
+      <div id="sharePreviewBox" style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:6px;padding:14px;margin-bottom:0">
+        <div style="font-size:10px;color:rgba(240,230,204,.3);letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px">Share message</div>
+        <div id="sharePreviewText" style="font-size:13px;color:rgba(240,230,204,.65);line-height:1.65"></div>
+      </div>
+
+    </div>
   </div>
 </div>
 
@@ -3973,35 +4071,36 @@ function saveCatalog() {
   // 1. Save locally immediately
   try { localStorage.setItem('bm_catalog', JSON.stringify(toSave)); } catch(e) {}
 
-  // 2. POST to GAS — use fetch with no-cors for large payload
-  // JSONP uses GET which has URL length limits — catalog is too large
-  var payload = JSON.stringify({ action: 'save_catalog', catalog: toSave });
+  // 2. Save to GAS in chunks of 20 books
+  // Full catalog is too large for a single JSONP GET request URL
+  var CHUNK = 20;
+  var total = Math.ceil(toSave.length / CHUNK);
 
-  // Primary: fetch POST (works cross-origin with GAS redirect:follow)
-  fetch(GAS_URL, {
-    method: 'POST',
-    redirect: 'follow',
-    headers: { 'Content-Type': 'text/plain' },
-    body: payload
-  }).then(function(r) {
-    return r.text();
-  }).then(function(text) {
-    try {
-      var res = JSON.parse(text.trim().replace(/^[^{[]*/, '').replace(/[^}\]]*$/, ''));
-      if (res && res.success) {
-        showToast('Prices updated across all devices.', 'success');
-      }
-    } catch(e) {}
-  }).catch(function() {
-    // Fallback: JSONP with chunked approach — save via gasRequest
-    gasRequest({ action:'save_catalog', catalog:toSave }, function() {
-      showToast('Prices updated across all devices.', 'success');
+  function saveChunk(idx) {
+    if (idx >= total) {
+      // All chunks sent — finalize (merge chunks into main CATALOG sheet)
+      gasRequest({ action: 'finalize_catalog', total: toSave.length }, function() {
+        showToast('Prices updated on all devices!', 'success');
+      }, function() {
+        showToast('Prices updated on all devices!', 'success');
+      });
+      return;
+    }
+    var chunk = toSave.slice(idx * CHUNK, (idx + 1) * CHUNK);
+    gasRequest({
+      action: 'save_catalog_chunk',
+      chunk: chunk,
+      idx: idx,
+      total: total
+    }, function() {
+      saveChunk(idx + 1);
     }, function(err) {
-      // Still saved locally — show warning
-      showToast('Saved locally. Check internet connection for cross-device sync.', 'info');
-      console.warn('Catalog GAS sync failed:', err);
+      console.warn('Chunk ' + idx + ' failed:', err);
+      saveChunk(idx + 1); // keep going
     });
-  });
+  }
+
+  saveChunk(0);
 }
 
 function loadCatalog() {
@@ -4635,6 +4734,190 @@ function aiConfirmUpdate(bookId, changesJson) {
   if (typeof renderAdminBookList === 'function') renderAdminBookList();
 }
 
+// ════════════════════════════════════════════════════════════
+// 🔗 SHARE ENGINE — World-class book sharing
+// ════════════════════════════════════════════════════════════
+
+var _shareBook = null;
+
+function openSharePanel() {
+  var sheet = document.getElementById('bookDetailSheet');
+  var bookId = sheet ? sheet.dataset.bookId : null;
+  if (!bookId) return;
+  var book = CATALOG.find(function(b){ return b.id === bookId; });
+  if (!book) return;
+  _shareBook = book;
+
+  document.getElementById('shareBookTitle').textContent = book.title;
+  document.getElementById('shareBookAuthor').textContent = book.author;
+
+  var thumb = document.getElementById('shareBookThumb');
+  if (book.cover && thumb) {
+    thumb.innerHTML = '<img src="' + book.cover + '" style="width:100%;height:100%;object-fit:cover;border-radius:2px 6px 6px 2px" onerror="this.parentNode.innerHTML=\'📚\'">';
+  }
+
+  document.getElementById('sharePreviewText').textContent = buildShareMessage(book);
+
+  var overlay = document.getElementById('shareOverlay');
+  overlay.style.display = 'flex';
+
+  try {
+    var url = new URL(window.location.href);
+    url.searchParams.set('book', book.id);
+    window.history.replaceState({}, '', url.toString());
+  } catch(e) {}
+}
+
+function closeSharePanel() {
+  var overlay = document.getElementById('shareOverlay');
+  if (overlay) overlay.style.display = 'none';
+  try {
+    var url = new URL(window.location.href);
+    url.searchParams.delete('book');
+    window.history.replaceState({}, '', url.toString());
+  } catch(e) {}
+}
+
+function buildShareMessage(book) {
+  var link = getBookShareUrl(book);
+  var msg = '📚 ' + book.title + ' — ' + book.author + '\n';
+  if (book.rating) msg += book.rating + '★  ';
+  if (book.warriors > 0) msg += book.warriors + ' BookWarrior' + (book.warriors > 1 ? 's' : '') + ' read it\n\n';
+  if (book.insight) msg += '"' + book.insight.substring(0, 120) + (book.insight.length > 120 ? '…' : '') + '"\n\n';
+  if (book.price) msg += 'Get it for ₦' + book.price.toLocaleString() + ' 👇\n';
+  msg += link + '\n\n#BookAWeek #BookWarriors #ReadMore';
+  return msg;
+}
+
+function buildInstagramCaption(book) {
+  var link = getBookShareUrl(book);
+  return '📖 ' + book.title + ' — ' + book.author + '\n\n' +
+    (book.insight ? '"' + book.insight.substring(0, 200) + '"\n\n' : '') +
+    (book.warriors > 0 ? book.warriors + ' BookWarriors have read and reviewed this.\n\n' : '') +
+    'Find it in the BookAWeek store 👇\n' + link + '\n\n' +
+    '#BookAWeek #BookWarriors #NigeriaReads #ReadingCommunity #' +
+    book.title.replace(/[^a-zA-Z]/g,'') + ' #' + (book.category||'Books').replace(/\s/g,'');
+}
+
+function getBookShareUrl(book) {
+  try {
+    var base = window.location.origin + window.location.pathname;
+    return base + '?book=' + encodeURIComponent(book.id);
+  } catch(e) {
+    return 'https://bookaweekchallenge.vercel.app/?book=' + encodeURIComponent(book.id);
+  }
+}
+
+function shareToWhatsApp() {
+  if (!_shareBook) return;
+  window.open('https://wa.me/?text=' + encodeURIComponent(buildShareMessage(_shareBook)), '_blank');
+  showToast('Opening WhatsApp…', 'success');
+}
+
+function shareToX() {
+  if (!_shareBook) return;
+  var text = '📚 "' + _shareBook.title + '" by ' + _shareBook.author +
+    '\n\n' + (_shareBook.insight ? '"' + _shareBook.insight.substring(0,100) + '…"\n\n' : '') +
+    '#BookAWeek #BookWarriors #NigeriaReads';
+  window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent(text) +
+    '&url=' + encodeURIComponent(getBookShareUrl(_shareBook)), '_blank', 'width=600,height=400');
+  showToast('Opening X…', 'success');
+}
+
+function shareToFacebook() {
+  if (!_shareBook) return;
+  window.open('https://www.facebook.com/sharer/sharer.php?u=' +
+    encodeURIComponent(getBookShareUrl(_shareBook)), '_blank', 'width=600,height=400');
+  showToast('Opening Facebook…', 'success');
+}
+
+function shareToTelegram() {
+  if (!_shareBook) return;
+  var msg = '📚 *' + _shareBook.title + '* — ' + _shareBook.author + '\n\n' +
+    (_shareBook.insight ? '"' + _shareBook.insight.substring(0,150) + '"\n\n' : '') +
+    'Get it on BookAWeek: ' + getBookShareUrl(_shareBook);
+  window.open('https://t.me/share/url?url=' + encodeURIComponent(getBookShareUrl(_shareBook)) +
+    '&text=' + encodeURIComponent(msg), '_blank');
+  showToast('Opening Telegram…', 'success');
+}
+
+function shareToLinkedIn() {
+  if (!_shareBook) return;
+  window.open('https://www.linkedin.com/sharing/share-offsite/?url=' +
+    encodeURIComponent(getBookShareUrl(_shareBook)), '_blank', 'width=600,height=500');
+  showToast('Opening LinkedIn…', 'success');
+}
+
+function shareToInstagram() {
+  if (!_shareBook) return;
+  var caption = buildInstagramCaption(_shareBook);
+  copyToClipboard(caption);
+  showToast('Caption copied! Open Instagram and paste it.', 'success');
+}
+
+function shareToTikTok() {
+  if (!_shareBook) return;
+  var caption = '📚 Reading "' + _shareBook.title + '" by ' + _shareBook.author + '\n\n' +
+    (_shareBook.insight ? '"' + _shareBook.insight.substring(0,150) + '"\n\n' : '') +
+    'Get it on BookAWeek 👇 Link in bio!\n\n' +
+    '#BookTok #BookAWeek #NigeriaReads #BookWarriors #' +
+    _shareBook.title.replace(/[^a-zA-Z]/g,'') + ' #ReadingTikTok #NigerianBooks';
+  copyToClipboard(caption);
+  showToast('TikTok caption copied! Paste when creating your video.', 'success');
+}
+
+function copyBookLink() {
+  if (!_shareBook) return;
+  var link = getBookShareUrl(_shareBook);
+  copyToClipboard(link);
+  var btn = document.getElementById('copyLinkBtn');
+  if (btn) {
+    var span = btn.querySelector('span');
+    if (span) {
+      var orig = span.textContent;
+      span.textContent = 'Copied!';
+      setTimeout(function(){ span.textContent = orig; }, 2000);
+    }
+  }
+  showToast('Link copied to clipboard!', 'success');
+}
+
+function copyToClipboard(text) {
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).catch(function() { fallbackCopy(text); });
+  } else {
+    fallbackCopy(text);
+  }
+}
+
+function fallbackCopy(text) {
+  var el = document.createElement('textarea');
+  el.value = text;
+  el.style.position = 'fixed';
+  el.style.opacity = '0';
+  document.body.appendChild(el);
+  el.select();
+  try { document.execCommand('copy'); } catch(e) {}
+  document.body.removeChild(el);
+}
+
+function checkBookDeepLink() {
+  try {
+    var params = new URLSearchParams(window.location.search);
+    var bookId = params.get('book');
+    if (!bookId) return;
+    var tries = 0;
+    var interval = setInterval(function() {
+      var book = CATALOG.find(function(b){ return b.id === bookId; });
+      if (book) {
+        clearInterval(interval);
+        setTimeout(function(){ openBookDetail(bookId); }, 600);
+      }
+      if (++tries > 30) clearInterval(interval);
+    }, 300);
+  } catch(e) {}
+}
+
 var PICK_STORAGE_KEY = 'bm_pick_v1';
 
 function getPickData() {
@@ -5046,6 +5329,10 @@ function openBookDetail(id) {
   if (!book) return;
   _currentDetailId = id;
 
+  // Store for share panel
+  var sheet = document.getElementById('bookDetailSheet');
+  if (sheet) sheet.dataset.bookId = id;
+
   // ── Hero ──
   var hero = document.getElementById('bdHero');
   if (hero) {
@@ -5321,6 +5608,9 @@ window.onload = function() {
 
   // 5. First visit splash
   firstVisitCheck();
+
+  // 6. Deep link — open book from URL ?book=id param
+  checkBookDeepLink();
 };
 
 // ════════════════════════════════════════════════════════════════
@@ -5342,7 +5632,7 @@ window.onload = function() {
 // 🌐 GOOGLE APPS SCRIPT — Single Source of Truth (cross-device)
 // ════════════════════════════════════════════════════════════
 // ── PASTE YOUR NEW GAS URL HERE AFTER REDEPLOYING ──
-var GAS_URL = 'https://script.google.com/macros/s/AKfycbxNGNxaL99cnIj5u6Q7mJXvkA-c3tuKWWEShRlqD5hAG6yBNwcs7AEO9gc-NLzI9LV6/exec';
+var GAS_URL = 'https://script.google.com/macros/s/AKfycbyPGsEdCnI67JqaZhYJU6waY6z8S4QGZJKjGCo9mJ4V4GNXqJ-TdpGLf0RiOtlPO3IHmA/exec';
 
 // Run this in browser console to test: testGASConnection()
 function testGASConnection() {
