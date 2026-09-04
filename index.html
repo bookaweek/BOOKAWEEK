@@ -1829,11 +1829,18 @@ body::before{
 /* CTA bar inside detail */
 .bd-cta{
   position:sticky;bottom:0;left:0;right:0;z-index:10;
-  background:linear-gradient(to top,rgba(11,31,59,1) 70%,rgba(11,31,59,0));
-  padding:20px 24px 28px;
-  display:flex;align-items:center;justify-content:space-between;gap:14px;
+  background:linear-gradient(to top,rgba(7,16,30,1) 70%,rgba(7,16,30,0));
+  padding:16px 20px 24px;
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  flex-wrap:wrap;
 }
-@media(min-width:700px){.bd-cta{padding:20px 32px 28px;border-radius:0 0 24px 24px}}
+@media(min-width:700px){.bd-cta{padding:20px 32px 28px;border-radius:0 0 8px 8px}}
+@media(max-width:480px){
+  .bd-cta{flex-direction:column;align-items:stretch;gap:10px;padding:14px 16px 28px}
+  .bd-cta > div:first-child{display:flex;align-items:baseline;gap:8px}
+  .bd-cta > div:last-child{display:flex;gap:8px}
+  .bd-cta > div:last-child button{flex:1}
+}
 .bd-price-wrap{}
 .bd-price-now{font-family:'Cormorant Garamond',Georgia,serif;font-size:22px;font-weight:900;color:var(--gold)}
 .bd-price-old{font-size:13px;color:rgba(245,237,216,.3);text-decoration:line-through;margin-left:6px}
@@ -3262,7 +3269,7 @@ body::before{
       <div style="display:flex;gap:8px;align-items:center">
         <button class="bd-add-btn" id="bdAddBtn" onclick="bdAddToCart()">Add to Cart</button>
         <button onclick="openSharePanel()" id="bdShareBtn"
-          style="height:48px;padding:0 16px;background:none;border:1px solid rgba(255,255,255,.15);border-radius:4px;color:rgba(240,230,204,.6);font-family:'Inter',system-ui,sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:all .15s;white-space:nowrap;display:flex;align-items:center;gap:7px"
+          style="height:48px;padding:0 16px;background:none;border:1px solid rgba(255,255,255,.15);border-radius:4px;color:rgba(240,230,204,.6);font-family:'Inter',system-ui,sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:all .15s;white-space:nowrap;display:flex;align-items:center;justify-content:center;gap:7px;-webkit-tap-highlight-color:transparent"
           onmouseover="this.style.borderColor='rgba(255,255,255,.35)';this.style.color='#fff'"
           onmouseout="this.style.borderColor='rgba(255,255,255,.15)';this.style.color='rgba(240,230,204,.6)'">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
@@ -3295,7 +3302,17 @@ body::before{
       <button onclick="closeSharePanel()" style="background:none;border:1px solid rgba(255,255,255,.1);border-radius:4px;width:32px;height:32px;color:rgba(255,255,255,.4);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0">×</button>
     </div>
 
-    <!-- Share buttons grid -->
+    <!-- Generated share image preview -->
+      <div style="margin-bottom:16px">
+        <div style="font-size:10px;color:rgba(240,230,204,.3);letter-spacing:.12em;text-transform:uppercase;margin-bottom:10px">Share image (1080×1080)</div>
+        <div style="position:relative;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:6px;overflow:hidden;max-height:200px;display:flex;align-items:center;justify-content:center;min-height:80px">
+          <img id="shareImgPreview" style="display:none;width:100%;object-fit:cover;border-radius:6px" alt="Share image">
+          <div id="shareImgLoading" style="font-size:12px;color:rgba(240,230,204,.3);text-align:center;padding:16px">🎨 Generating image…</div>
+        </div>
+        <button onclick="downloadShareImage()" style="width:100%;margin-top:8px;background:rgba(184,150,62,.1);border:1px solid rgba(184,150,62,.25);border-radius:4px;padding:10px;color:var(--brass2);font-family:'Inter',system-ui,sans-serif;font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;transition:all .15s" onmouseover="this.style.background='rgba(184,150,62,.2)'" onmouseout="this.style.background='rgba(184,150,62,.1)'">⬇ Download HD Image</button>
+      </div>
+
+      <!-- Share buttons grid -->
     <div style="padding:20px 24px 0">
       <div style="font-size:10px;color:rgba(240,230,204,.3);letter-spacing:.12em;text-transform:uppercase;margin-bottom:14px">Share this book</div>
       <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px">
@@ -4758,6 +4775,20 @@ function openSharePanel() {
 
   document.getElementById('sharePreviewText').textContent = buildShareMessage(book);
 
+  // Generate HD share image in background
+  var loadingEl = document.getElementById('shareImgLoading');
+  var previewEl = document.getElementById('shareImgPreview');
+  if (loadingEl) loadingEl.style.display = 'block';
+  if (previewEl) previewEl.style.display = 'none';
+
+  generateShareImage(book).then(function(dataUrl) {
+    _shareBook._shareImg = dataUrl;
+    if (previewEl) { previewEl.src = dataUrl; previewEl.style.display = 'block'; }
+    if (loadingEl) loadingEl.style.display = 'none';
+  }).catch(function() {
+    if (loadingEl) loadingEl.textContent = 'Image unavailable';
+  });
+
   var overlay = document.getElementById('shareOverlay');
   overlay.style.display = 'flex';
 
@@ -4766,6 +4797,185 @@ function openSharePanel() {
     url.searchParams.set('book', book.id);
     window.history.replaceState({}, '', url.toString());
   } catch(e) {}
+}
+
+// ── Generate 1080x1080 HD share image using Canvas ──
+function generateShareImage(book) {
+  return new Promise(function(resolve, reject) {
+    var W = 1080, H = 1080;
+    var canvas = document.createElement('canvas');
+    canvas.width = W; canvas.height = H;
+    var ctx = canvas.getContext('2d');
+
+    // Background gradient
+    var c1 = book.color1 || '#07101E';
+    var c2 = book.color2 || '#1A1A2E';
+    var grad = ctx.createLinearGradient(0, 0, W, H);
+    grad.addColorStop(0, c1);
+    grad.addColorStop(1, c2);
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, W, H);
+
+    // Subtle grain overlay via noise
+    ctx.fillStyle = 'rgba(255,255,255,0.015)';
+    for (var gx = 0; gx < W; gx += 4) {
+      for (var gy = 0; gy < H; gy += 4) {
+        if (Math.random() > 0.5) ctx.fillRect(gx, gy, 2, 2);
+      }
+    }
+
+    // Border frame
+    ctx.strokeStyle = 'rgba(255,255,255,0.08)';
+    ctx.lineWidth = 2;
+    ctx.strokeRect(32, 32, W-64, H-64);
+
+    // BookAWeek branding top
+    ctx.fillStyle = book.textColor || '#E8C56A';
+    ctx.font = '500 28px Inter, Arial, sans-serif';
+    ctx.letterSpacing = '4px';
+    ctx.textAlign = 'center';
+    ctx.fillText('BOOKAWEEK', W/2, 90);
+
+    // Thin gold rule
+    ctx.strokeStyle = book.textColor || '#E8C56A';
+    ctx.globalAlpha = 0.4;
+    ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(200, 108); ctx.lineTo(W-200, 108); ctx.stroke();
+    ctx.globalAlpha = 1;
+
+    function drawTextLayer() {
+      // Rating stars
+      var stars = Math.round(book.rating || 4);
+      var starStr = '';
+      for (var s = 0; s < 5; s++) starStr += s < stars ? '★' : '☆';
+      ctx.fillStyle = book.textColor || '#E8C56A';
+      ctx.font = '36px Arial';
+      ctx.textAlign = 'center';
+      ctx.fillText(starStr, W/2, 760);
+
+      // Category badge
+      ctx.fillStyle = 'rgba(255,255,255,0.12)';
+      var catW = 220, catH = 38;
+      roundRect(ctx, W/2 - catW/2, 784, catW, catH, 4);
+      ctx.fill();
+      ctx.fillStyle = 'rgba(255,255,255,0.55)';
+      ctx.font = '500 18px Inter, Arial, sans-serif';
+      ctx.fillText((book.category || 'Books').toUpperCase(), W/2, 808);
+
+      // Title
+      ctx.fillStyle = '#FFFFFF';
+      ctx.font = 'bold 62px Georgia, serif';
+      wrapText(ctx, book.title, W/2, 870, W-160, 72);
+
+      // Author
+      ctx.fillStyle = 'rgba(255,255,255,0.5)';
+      ctx.font = '32px Inter, Arial, sans-serif';
+      ctx.fillText(book.author || '', W/2, 980);
+
+      // Price
+      if (book.price) {
+        ctx.fillStyle = book.textColor || '#E8C56A';
+        ctx.font = 'bold 40px Georgia, serif';
+        ctx.fillText('\u20A6' + book.price.toLocaleString(), W/2, 1036);
+      }
+
+      // Warriors badge bottom
+      if (book.warriors > 0) {
+        ctx.fillStyle = 'rgba(255,255,255,0.08)';
+        roundRect(ctx, W/2-180, H-72, 360, 44, 4);
+        ctx.fill();
+        ctx.fillStyle = 'rgba(255,255,255,0.4)';
+        ctx.font = '22px Inter, Arial, sans-serif';
+        ctx.fillText(book.warriors + ' BookWarrior' + (book.warriors>1?'s':'') + ' read this', W/2, H-42);
+      }
+
+      resolve(canvas.toDataURL('image/jpeg', 0.95));
+    }
+
+    // Try to draw book cover image in top half
+    if (book.cover && !book.cover.startsWith('data:')) {
+      var img = new Image();
+      img.crossOrigin = 'anonymous';
+      img.onload = function() {
+        // Cover fills top portion with overlay
+        var coverH = 600;
+        ctx.save();
+        ctx.beginPath();
+        ctx.rect(0, 0, W, coverH);
+        ctx.clip();
+        // Center and cover
+        var scale = Math.max(W/img.width, coverH/img.height);
+        var dw = img.width * scale, dh = img.height * scale;
+        ctx.drawImage(img, (W-dw)/2, (coverH-dh)/2, dw, dh);
+        // Dark gradient overlay for readability
+        var overlay = ctx.createLinearGradient(0, 300, 0, coverH);
+        overlay.addColorStop(0, 'rgba(0,0,0,0)');
+        overlay.addColorStop(1, c2 + 'FF');
+        ctx.fillStyle = overlay;
+        ctx.fillRect(0, 0, W, coverH);
+        ctx.restore();
+        drawTextLayer();
+      };
+      img.onerror = function() { drawTextLayer(); };
+      img.src = book.cover;
+    } else {
+      // Text-only design — centered book info
+      ctx.fillStyle = book.textColor || '#E8C56A';
+      ctx.font = 'bold 28px Georgia, serif';
+      ctx.textAlign = 'center';
+      // Big book emoji placeholder
+      ctx.font = '160px Arial';
+      ctx.fillText('📚', W/2, 420);
+      drawTextLayer();
+    }
+  });
+}
+
+function roundRect(ctx, x, y, w, h, r) {
+  ctx.beginPath();
+  ctx.moveTo(x+r, y);
+  ctx.lineTo(x+w-r, y);
+  ctx.quadraticCurveTo(x+w, y, x+w, y+r);
+  ctx.lineTo(x+w, y+h-r);
+  ctx.quadraticCurveTo(x+w, y+h, x+w-r, y+h);
+  ctx.lineTo(x+r, y+h);
+  ctx.quadraticCurveTo(x, y+h, x, y+h-r);
+  ctx.lineTo(x, y+r);
+  ctx.quadraticCurveTo(x, y, x+r, y);
+  ctx.closePath();
+}
+
+function wrapText(ctx, text, x, y, maxW, lineH) {
+  var words = text.split(' ');
+  var line = '';
+  var lines = [];
+  for (var i = 0; i < words.length; i++) {
+    var test = line + words[i] + ' ';
+    if (ctx.measureText(test).width > maxW && i > 0) {
+      lines.push(line.trim());
+      line = words[i] + ' ';
+    } else {
+      line = test;
+    }
+  }
+  lines.push(line.trim());
+  var startY = y - ((lines.length - 1) * lineH) / 2;
+  lines.forEach(function(l, idx) {
+    ctx.fillText(l, x, startY + idx * lineH);
+  });
+}
+
+// ── Download share image ──
+function downloadShareImage() {
+  if (!_shareBook || !_shareBook._shareImg) {
+    showToast('Image still generating, try again in a second.', 'info');
+    return;
+  }
+  var a = document.createElement('a');
+  a.href = _shareBook._shareImg;
+  a.download = _shareBook.title.replace(/[^a-z0-9]/gi, '-') + '-BookAWeek.jpg';
+  a.click();
+  showToast('Image downloaded!', 'success');
 }
 
 function closeSharePanel() {
@@ -4810,7 +5020,28 @@ function getBookShareUrl(book) {
 
 function shareToWhatsApp() {
   if (!_shareBook) return;
-  window.open('https://wa.me/?text=' + encodeURIComponent(buildShareMessage(_shareBook)), '_blank');
+  // Try Web Share API with image first (mobile)
+  if (_shareBook._shareImg && navigator.share && navigator.canShare) {
+    fetch(_shareBook._shareImg)
+      .then(function(r){ return r.blob(); })
+      .then(function(blob) {
+        var file = new File([blob], _shareBook.title.replace(/[^a-z0-9]/gi,'-') + '.jpg', { type: 'image/jpeg' });
+        if (navigator.canShare({ files: [file] })) {
+          return navigator.share({
+            title: _shareBook.title + ' — BookAWeek',
+            text: buildShareMessage(_shareBook),
+            files: [file]
+          });
+        }
+        throw new Error('cannot share files');
+      })
+      .catch(function() {
+        // Fallback: WhatsApp URL with text only
+        window.open('https://wa.me/?text=' + encodeURIComponent(buildShareMessage(_shareBook)), '_blank');
+      });
+  } else {
+    window.open('https://wa.me/?text=' + encodeURIComponent(buildShareMessage(_shareBook)), '_blank');
+  }
   showToast('Opening WhatsApp…', 'success');
 }
 
@@ -4850,20 +5081,40 @@ function shareToLinkedIn() {
 
 function shareToInstagram() {
   if (!_shareBook) return;
-  var caption = buildInstagramCaption(_shareBook);
-  copyToClipboard(caption);
-  showToast('Caption copied! Open Instagram and paste it.', 'success');
+  // Download image then copy caption — user posts to Instagram manually
+  if (_shareBook._shareImg) {
+    // Download image automatically
+    var a = document.createElement('a');
+    a.href = _shareBook._shareImg;
+    a.download = _shareBook.title.replace(/[^a-z0-9]/gi,'-') + '-BookAWeek.jpg';
+    a.click();
+    // Copy caption
+    var caption = buildInstagramCaption(_shareBook);
+    copyToClipboard(caption);
+    showToast('Image downloaded + caption copied! Open Instagram to post.', 'success');
+  } else {
+    var caption = buildInstagramCaption(_shareBook);
+    copyToClipboard(caption);
+    showToast('Caption copied! Open Instagram and paste it.', 'success');
+  }
 }
 
 function shareToTikTok() {
   if (!_shareBook) return;
+  // Download image + copy caption
+  if (_shareBook._shareImg) {
+    var a = document.createElement('a');
+    a.href = _shareBook._shareImg;
+    a.download = _shareBook.title.replace(/[^a-z0-9]/gi,'-') + '-BookAWeek.jpg';
+    a.click();
+  }
   var caption = '📚 Reading "' + _shareBook.title + '" by ' + _shareBook.author + '\n\n' +
     (_shareBook.insight ? '"' + _shareBook.insight.substring(0,150) + '"\n\n' : '') +
     'Get it on BookAWeek 👇 Link in bio!\n\n' +
     '#BookTok #BookAWeek #NigeriaReads #BookWarriors #' +
     _shareBook.title.replace(/[^a-zA-Z]/g,'') + ' #ReadingTikTok #NigerianBooks';
   copyToClipboard(caption);
-  showToast('TikTok caption copied! Paste when creating your video.', 'success');
+  showToast('Image downloaded + caption copied! Use for your TikTok video.', 'success');
 }
 
 function copyBookLink() {
@@ -4874,9 +5125,8 @@ function copyBookLink() {
   if (btn) {
     var span = btn.querySelector('span');
     if (span) {
-      var orig = span.textContent;
       span.textContent = 'Copied!';
-      setTimeout(function(){ span.textContent = orig; }, 2000);
+      setTimeout(function(){ span.textContent = 'Copy Link'; }, 2000);
     }
   }
   showToast('Link copied to clipboard!', 'success');
@@ -5632,7 +5882,7 @@ window.onload = function() {
 // 🌐 GOOGLE APPS SCRIPT — Single Source of Truth (cross-device)
 // ════════════════════════════════════════════════════════════
 // ── PASTE YOUR NEW GAS URL HERE AFTER REDEPLOYING ──
-var GAS_URL = 'https://script.google.com/macros/s/AKfycbyPGsEdCnI67JqaZhYJU6waY6z8S4QGZJKjGCo9mJ4V4GNXqJ-TdpGLf0RiOtlPO3IHmA/exec';
+var GAS_URL = 'https://script.google.com/macros/s/AKfycbz7lw2yJ1O_XnKMjUxTIIL0NmZjaZfFkyILRaf_U2sTI8dKgB_2vUKyu5gqAw5jf8qm/exec';
 
 // Run this in browser console to test: testGASConnection()
 function testGASConnection() {
@@ -6916,3 +7166,5 @@ function doGet(e) {
 <!-- <script src="https://js.paystack.co/v1/inline.js"></script> -->
 </body>
 </html>
+
+  
