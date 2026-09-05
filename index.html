@@ -696,12 +696,16 @@ body::before{
   cursor:pointer;
   position:relative;
   will-change:transform;
+  display:flex;
+  flex-direction:column;
+  height:100%;
 }
 .book-card:hover{
   background:var(--ink3);
 }
 .book-card-cover{
   height:270px;
+  flex-shrink:0;
   display:flex;align-items:center;justify-content:center;
   position:relative;overflow:hidden;
   background:var(--ink3);
@@ -727,7 +731,7 @@ body::before{
 .badge-bestseller,.badge-new,.badge-pick,.badge-warrior{
   background:var(--brass);color:#07101E;
 }
-.book-card-body{padding:16px 18px 0}
+.book-card-body{padding:16px 18px 0;display:flex;flex-direction:column;flex:1;min-width:0}
 .book-card-cat{
   font-size:10px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;
   color:var(--brass);margin-bottom:7px;
@@ -771,11 +775,16 @@ body::before{
   display:flex;align-items:center;justify-content:space-between;
   gap:8px;padding:13px 0 16px;
   border-top:1px solid rgba(255,255,255,.06);
+  margin-top:auto;
+}
+.book-card-footer > div{
+  display:flex;align-items:baseline;flex-wrap:wrap;gap:4px;min-width:0;
 }
 .book-price{
   font-family:'Cormorant Garamond',Georgia,serif;
   font-size:21px;font-weight:500;color:#fff;
   letter-spacing:-.01em;
+  white-space:nowrap;
 }
 .book-price-old{
   font-size:13px;color:rgba(240,230,204,.3);
@@ -3755,14 +3764,17 @@ function renderBooks(filter, preFiltered) {
         '<div style="font-size:9px;color:rgba(255,255,255,.4);letter-spacing:.06em">' + book.author + '</div>' +
       '</div>';
 
-    // Image cover with onerror swap to text cover
+    // Image cover — swaps to the text cover on real errors AND on Open Library's
+    // "no cover available" placeholder (a tiny valid image that never fires onerror).
+    var escapedFallback = textCoverHtml.replace(/'/g, "\\'").replace(/\n/g,'');
     var bookImg = book.cover
-      ? '<div id="spine-' + book.id + '">' +
-          '<img src="' + book.cover + '" ' +
-          'style="width:130px;display:block;border-radius:2px 8px 8px 2px;' +
+      ? '<div id="spine-' + book.id + '" style="width:130px;min-height:190px">' +
+          '<img src="' + book.cover + '" alt="' + book.title.replace(/"/g,'&quot;') + '" ' +
+          'style="width:130px;height:190px;object-fit:cover;display:block;border-radius:2px 8px 8px 2px;' +
           'box-shadow:-6px 0 0 rgba(0,0,0,.35),8px 12px 32px rgba(0,0,0,.65)" ' +
-          'loading="lazy" ' +
-          'onerror="this.parentNode.innerHTML=\'' + textCoverHtml.replace(/'/g, "\\'").replace(/\n/g,'') + '\'">' +
+          'loading="lazy" decoding="async" ' +
+          'onerror="this.parentNode.innerHTML=\'' + escapedFallback + '\'" ' +
+          'onload="if(this.naturalWidth<=1||this.naturalHeight<=1){this.parentNode.innerHTML=\'' + escapedFallback + '\';}">' +
         '</div>'
       : textCoverHtml;
 
@@ -5020,6 +5032,7 @@ function getBookShareUrl(book) {
 
 function shareToWhatsApp() {
   if (!_shareBook) return;
+  var caption = buildShareMessage(_shareBook);
   // Try Web Share API with image first (mobile)
   if (_shareBook._shareImg && navigator.share && navigator.canShare) {
     fetch(_shareBook._shareImg)
@@ -5027,22 +5040,27 @@ function shareToWhatsApp() {
       .then(function(blob) {
         var file = new File([blob], _shareBook.title.replace(/[^a-z0-9]/gi,'-') + '.jpg', { type: 'image/jpeg' });
         if (navigator.canShare({ files: [file] })) {
+          // Many share targets (e.g. WhatsApp on Android) drop the "text" field
+          // when files are attached, so the link never makes it into the chat.
+          // Copy the caption + link to the clipboard as a safety net.
+          copyToClipboard(caption);
+          showToast('Image ready — caption + link copied. Paste it if WhatsApp doesn\u2019t add it automatically.', 'success');
           return navigator.share({
             title: _shareBook.title + ' — BookAWeek',
-            text: buildShareMessage(_shareBook),
+            text: caption,
             files: [file]
           });
         }
         throw new Error('cannot share files');
       })
       .catch(function() {
-        // Fallback: WhatsApp URL with text only
-        window.open('https://wa.me/?text=' + encodeURIComponent(buildShareMessage(_shareBook)), '_blank');
+        // Fallback: WhatsApp URL with text (includes the caption + link) only
+        window.open('https://wa.me/?text=' + encodeURIComponent(caption), '_blank');
       });
   } else {
-    window.open('https://wa.me/?text=' + encodeURIComponent(buildShareMessage(_shareBook)), '_blank');
+    window.open('https://wa.me/?text=' + encodeURIComponent(caption), '_blank');
+    showToast('Opening WhatsApp…', 'success');
   }
-  showToast('Opening WhatsApp…', 'success');
 }
 
 function shareToX() {
@@ -5590,22 +5608,31 @@ function openBookDetail(id) {
     hero.style.setProperty('--c2', book.color2 || '#142848');
     hero.style.background = 'linear-gradient(160deg,' + (book.color1||'#0B1F3B') + ',' + (book.color2||'#142848') + ')';
   }
+  function hideIfBroken(imgEl) {
+    if (!imgEl) return;
+    imgEl.onerror = function(){ imgEl.style.display = 'none'; };
+    imgEl.onload = function(){
+      if (imgEl.naturalWidth <= 1 || imgEl.naturalHeight <= 1) imgEl.style.display = 'none';
+      else imgEl.style.display = '';
+    };
+  }
   var heroImg = document.getElementById('bdHeroImg');
   if (heroImg) {
-    heroImg.src = book.cover || '';
+    hideIfBroken(heroImg);
     heroImg.alt = book.title;
     heroImg.style.display = book.cover ? '' : 'none';
+    heroImg.src = book.cover || '';
   }
   var coverImg = document.getElementById('bdCoverImg');
   var coverThumb = document.getElementById('bdCoverThumb');
   if (coverImg && coverThumb) {
+    coverThumb.style.background = 'linear-gradient(160deg,' + (book.color1||'#0B1F3B') + ',' + (book.color2||'#142848') + ')';
     if (book.cover) {
-      coverImg.src = book.cover;
+      hideIfBroken(coverImg);
       coverImg.style.display = '';
-      coverThumb.style.background = 'linear-gradient(160deg,' + (book.color1||'#0B1F3B') + ',' + (book.color2||'#142848') + ')';
+      coverImg.src = book.cover;
     } else {
       coverImg.style.display = 'none';
-      coverThumb.style.background = 'linear-gradient(160deg,' + (book.color1||'#0B1F3B') + ',' + (book.color2||'#142848') + ')';
     }
   }
 
@@ -7166,5 +7193,3 @@ function doGet(e) {
 <!-- <script src="https://js.paystack.co/v1/inline.js"></script> -->
 </body>
 </html>
-
-  
